@@ -16,7 +16,7 @@ body {
     width: 400px;
     height: 400px;
     position: absolute;
-    top: calc(50vh - 140px);
+    top: calc(50vh - 190px);
     left: calc(50vw - 200px);
     overflow: hidden; }
     .background-login .inner-container .box {
@@ -48,6 +48,14 @@ body {
         .background-login .inner-container .box input:active {
           outline: none; 
           font-size: 1.25rem;}
+        .background-login .inner-container .box .form-error{
+          display: block;
+          width: 300px;
+          margin: 0px auto 10px auto;
+          font-size: 1rem;
+          border: 0; 
+          color: red;
+        }
       .background-login .inner-container .box .sendArea {
         width: 100%;
         display: flex;

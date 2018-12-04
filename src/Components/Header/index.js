@@ -27,14 +27,14 @@ class Header extends Component {
     }
 
     render() {
-
+        console.log('el user en el Header', this.props.user)
         return (
 
             <div className="header">
 
                 <div className="header-left">
                     <div className="title">
-                     {this.props.user &&   <p>User: {this.props.user.name}</p>}
+                     {this.props.user &&   <p>{this.props.user.name}</p>}
                     </div>
                 </div>
 
