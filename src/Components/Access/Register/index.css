@@ -15,7 +15,7 @@ body {
     width: 400px;
     height: 400px;
     position: absolute;
-    top: calc(50vh - 140px);
+    top: calc(50vh - 180px);
     left: calc(50vw - 200px);
     overflow: hidden; }
     .background-register .inner-container .box {
@@ -25,7 +25,11 @@ body {
       font-family: Helvetica;
       color: #fff;
       background: rgba(0, 0, 0, 0.13);
-      padding: 30px 0px; }
+      padding: 30px 0px; 
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;}
       .background-register .inner-container .box h1 {
         text-align: center;
         margin: 30px 0;
@@ -39,34 +43,41 @@ body {
       .background-register .inner-container .box input {
         display: block;
         width: 300px;
-        margin: 20px auto;
+        margin: 7px auto;
         padding: 15px;
+        font-size: 1.25rem;
         background: rgba(0, 0, 0, 0.2);
         border: 0; }
         .background-register .inner-container .box input::placeholder {
-          color: rgba(255, 255, 255, 0.8); }
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 1.25rem; }
         .background-register .inner-container .box input:focus {
           outline: none; }
         .background-register .inner-container .box input:active {
-          outline: none; }
+          outline: none;
+          font-size: 1.25rem }
       .background-register .inner-container .box button {
-        background-color: rgb(0, 144, 248);;
+        background-color: #6EBDBD;;;
         border: 0;
         color: #fff;
         padding: 10px;
-        font-size: 20px;
+        font-size: 1.25rem;
         width: 330px;
         margin: 20px auto;
         display: block;
         cursor: pointer; }
         .background-register .inner-container .box button:focus {
-          outline: none; }
+          outline: none; 
+          font-size: 1.25rem;}
         .background-register .inner-container .box button:active {
           outline: none;
-          background-color: rgb(0, 144, 248);; }
+          font-size: 1.25rem;
+          background-color: #6EBDBD;;; }
       .background-register .inner-container .box p {
-        font-size: 14px;
+        font-size: 1.25rem;
         text-align: center; }
       .background-register .inner-container .box p span {
         cursor: pointer;
+        font-size: 1.25rem;
         color: #666; }
+      

@@ -26,9 +26,7 @@ export default class Register extends Component {
     this.database = firebase.database();
 
     this.register = this.register.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.onChangePasswordConfirm = this.onChangePasswordConfirm.bind(this);
+    this.onChangeState = this.onChangeState.bind(this);
   }
 
   onChangeState(field, value){
@@ -37,24 +35,6 @@ export default class Register extends Component {
     this.setState(userInfo)
 };
 
-  onChangeEmail(event){
-    this.setState({email: event.target.value})
-  }
-
-  onChangeName(event){
-    this.setState({name: event.target.value})
-  }
-
-  onChangePassword(event){
-    this.setState({password: event.target.value})
-  }
-  onChangePasswordConfirm(event){
-    this.setState({passwordConfirm: event.target.value})
-  }
-
-  onChangePasswordConfirm(event){
-    this.setState({passwordConfirm: event.target.value})
-  }
 
   register(e){
     e.preventDefault();
@@ -113,38 +93,34 @@ export default class Register extends Component {
                 type="name" 
                 placeholder="Nombre"
                 value={this.state.name} 
-                onChange={this.onChangeState}
-                // onChange={this.onChangeName}
+                onChange={(e)=>{this.onChangeState('name', e.target.value)}}
               />
 
               <input 
                 type="email" 
                 placeholder="Email"
                 value={this.state.email} 
-                onChange={this.onChangeState}
-                // onChange={this.onChangeEmail}
+                onChange={(e)=>{this.onChangeState('email', e.target.value)}}
               />
               {emailError && alert("Email is mandatory")}
 
               <input 
                 type="password" 
-                placeholder="Password"
+                placeholder="Contraseña"
                 value={this.state.password} 
-                onChange={this.onChangeState}
-                // onChange={this.onChangePassword}
+                onChange={(e)=>{this.onChangeState('password', e.target.value)}}
               />
 
               <input 
                 type="password" 
                 placeholder="Confirm Password"
                 value={this.state.passwordConfirm} 
-                onChange={this.onChangeState}
-                // onChange={this.onChangePasswordConfirm}
+                onChange={(e)=>{this.onChangeState('passwordConfirm', e.target.value)}}
               />
               {passwordError && alert("Passwords don't match!")}
 
               <div className="form-item">
-                <button type="submit">Register</button>
+                <button type="submit">Registrar</button>
               </div>
             </div>
 
