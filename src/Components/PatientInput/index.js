@@ -2,7 +2,6 @@ import React from 'react';
 
 // SERVICE API
 import DataService from '../services/DataService';
-import Calculations from '../services/Calculations';
 
 // MATERIAL-UI
 import PropTypes from 'prop-types';
@@ -52,13 +51,14 @@ const styles = theme => ({
 
 
 
-class NewPatient extends React.Component {
+class PatientInput extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
             adminId         : this.props.userID,
             userPatients    : [],
-            PatientName     : '',
+            patientName     : '',
+            patientSurname  : '',
             bornDate        : '',
         };
         this.onNewPatient             = this.onNewPatient.bind(this);
@@ -67,8 +67,9 @@ class NewPatient extends React.Component {
     componentDidMount(){ // Obtengo todos los Patients del user paera agregarle el nuevo
         DataService.getUserInfo(this.state.adminId)
         .then(res => {
+            console.log('el res recibido = ', res)
             let patients = res.userPatients;
-            this.state.userPatients = patients;
+            this.setState({userPatients : patients});
         })
     }
 
@@ -83,36 +84,42 @@ class NewPatient extends React.Component {
     onNewPatient(e){
         e.preventDefault();       
 
-       
-
         let newState = {
             adminId         : this.state.adminId,
             patientName     : this.state.patientName, 
-            patientSurnName : this.state.patientSurnName, 
+            patientSurnName : this.state.patientSurname, 
             bornDate        : this.state.bornDate,
         };
        
-        console.log('new state = ', newState)
-        DataService.createPatient(newState)
+        //console.log('new state = ', newState)
+        DataService.newPatient(newState)
+        //console.log('userPatients al crear newPatient', this.state.userPatients)
         .then((result)=>{
            
-            let NewPatient = {
+            let newPatient = {
                 patientId       : result.id,
                 patientName     : this.state.patientName,
-                patientSurName  : this.state.patientSurName,
+                patientSurname  : this.state.patientSurname,
                 admin           : true,
                 moderator       : true,
             }
+            console.log('userPatients luego de crear newPatient', this.state.userPatients);
+            let transPatient = this.state.userPatients;
 
-            let transPatient = this.state.userPatients
-            transPatient.push(NewPatient);
-
+            if(transPatient.length === 0){
+                transPatient[0] = newPatient;
+            } else {
+                transPatient.push(newPatient);
+            }
+            
+        
             this.setState({
                 userPatients : transPatient,
             })
         
             DataService.addPatientToUser(this.state.adminId, this.state.userPatients)  
-            this.props.NewPatient(result.id);
+            this.props.propsFn.push(`/patient/${newPatient.patientId}`);
+
         })
         .catch(function (error) {    
             console.log(error);
@@ -161,7 +168,7 @@ class NewPatient extends React.Component {
                             label="Nombre"
                             variant="outlined"
                             id="custom-css-outlined-input"
-                            onChange={(e)=>{this.onChangeState('PatientName', e.target.value)}}
+                            onChange={(e)=>{this.onChangeState('patientName', e.target.value)}}
                         />
 
                     </div>
@@ -185,7 +192,7 @@ class NewPatient extends React.Component {
                             label="Apellido"
                             variant="outlined"
                             id="custom-css-outlined-input"
-                            onChange={(e)=>{this.onChangeState('PatientSurName', e.target.value)}}
+                            onChange={(e)=>{this.onChangeState('patientSurname', e.target.value)}}
                         />
 
                     </div>
@@ -219,8 +226,8 @@ class NewPatient extends React.Component {
   }
 }
 
-NewPatient.propTypes = {
+PatientInput.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NewPatient);
+export default withStyles(styles)(PatientInput);

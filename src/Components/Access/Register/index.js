@@ -40,11 +40,11 @@ export default class Register extends Component {
     e.preventDefault();
     let error = false;
 
-    if(this.state.email == ''){
+    if(this.state.email === ''){
       this.setState({emailError: true});
       error = true;
     }
-    if(this.state.password == ''){
+    if(this.state.password === ''){
       this.setState({passwordError: true});
       error = true;
     }
@@ -62,8 +62,9 @@ export default class Register extends Component {
           this.setState({userId : userID})
 
           let userToRegister = {
-            name        : this.state.name,
-            email       : this.state.email, 
+            name          : this.state.name,
+            email         : this.state.email, 
+            userPatients  : [],
           }
 
           DataService.saveUserInfoInFirestore(result.user.uid, userToRegister)

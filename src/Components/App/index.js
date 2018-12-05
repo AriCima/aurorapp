@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
 // API SERVICES
@@ -11,8 +11,9 @@ import Register from '../Access/Register';
 import Header from '../Header';
 import Home from '../Home';
 import Patient from '../Patient';
-import AddPatient from '../AddPatient';
+import PatientInput from '../PatientInput';
 import NewReading from '../ReadingInput';
+import EventInput from '../EventInput';
 
 // CSS
 import './index.css';
@@ -36,7 +37,6 @@ firebase.initializeApp(config);
 class App extends Component {
   constructor(props){
     super(props);
-
     this.state = {
       user  : null,
     }
@@ -64,10 +64,9 @@ class App extends Component {
     
   }
 
-  
   render() {
     const { user } = this.state;
-    console.log(this.state.user);
+
     return (
       <div>
 
@@ -86,7 +85,8 @@ class App extends Component {
                 <Route path="/register" render = {(props) => {return <Register propsFn={props.history}/>}}/> 
 
                 <Route path="/home/:user" render = {(props) => { return <Home userID={props.match.params.user}/>}}/>
-                <Route path="/add_patient/:user" render = {(props) => { return <AddPatient propsFn={props.history} userID={props.match.params.user}/>}}/>
+                <Route path="/add_patient/:user" render = {(props) => { return <PatientInput propsFn={props.history} userID={props.match.params.user}/>}}/>
+                <Route path="/patient_new_event/:patientId" render = {(props) => { return <EventInput propsFn={props.history} userID={props.match.params.user} patientID={props.match.params.patientId}/>}}/>
 
                 <Route path="/patient/:patientId" render = {(props) => { return <Patient propsFn={props.history} patID={props.match.params.patientId} />}}/>
                 <Route path="/patient_new_reading/:patientId" render = {(props) => { return <NewReading propsFn={props.history} patID={props.match.params.patientId} />}}/>

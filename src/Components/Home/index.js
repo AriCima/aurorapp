@@ -19,7 +19,7 @@ export default class Home extends React.Component {
 
     this.state = {
       userId         : this.props.userID,
-      patients       : [],
+      userPatients   : [],
       currentMonth   : Calculations.getCurrentMonth()
     }
  
@@ -29,24 +29,19 @@ export default class Home extends React.Component {
   componentDidMount() {
     if (this.state.userId) {
     this._loadData(this.state.userId);
-    this.setState()
+   
     }
   };
 
   _loadData(userId){
 
-    DataService.getUserPatients(userId)
+    DataService.getUserInfo(userId)
     .then(ptts => {
-      const patients = [];
-      for (let j = 0; j < ptts.length; j++){
-        patients[j]={
-          patientName   : ptts[j].patientName,
-          id            : ptts[j].id,
-        };
-      };
-  
-      this.setState({ patients });
-      //console.log('patients luego de aptName e ID', this.state.patients)
+      console.log('el ptts recibido en home es: ', ptts)
+      this.setState({
+        userPatients : ptts.userPatients
+      });
+      
     }).catch(function (error) {   
       // handle error
       console.log(error);
@@ -54,15 +49,16 @@ export default class Home extends React.Component {
   };
 
   _renderPatients(){
-    return this.state.patients.map((patts,j) => {
+    return this.state.userPatients.map((patts,j) => {
+      console.log('el patts es = ', patts);
       return (
-        <div className="list-container">
-          <Link className="ptts-row" key={j} to={`/single_patient_overview/${patts.id}`}> 
+        <div className="patient-container">
+          <Link className="pat-box" key={j} to={`/patient/${patts.patientId}`}> 
             <div className="ptts-info-block">
-               <p>{patts.patientName}</p>
+               <p>{patts.patientName} </p>
             </div>
             <div className="ptts-info-block">
-                <p>{patts.bornDate}</p>
+               <p>{patts.patientSurname} </p>
             </div>
           </Link>
 
@@ -74,55 +70,33 @@ export default class Home extends React.Component {
 
   render() {
 
+    
+
     if (!this.props.userID) return <p>Loading  ...</p>;
 
     return (
 
+      <div className="home">
 
-      <div className="home-super-container">
-        
-        <div className="units-list">
-
-          <div className="page-title">
-            <h3>Listado de pacientes</h3>
-          </div>
-
-          <div className="units-list-header">
-            <ul>
-              <li>Nombre</li>
-              <li>Fecha de Nacimiento</li>
-            </ul>     
-          </div>
-
-          <div className="units-list-super-container">
-            {this.state.patients.length === 0? 
-              <div className="no-ptts-message">
-                <div className="line-centered">
-                  <p>No tienes ningún paciente listado !</p>
-                </div>
-                <div className="line-centered">
-                  <p>Haz Click en <span>Nuevo Paciente</span> para comenzar</p>
-                </div>
-              </div> 
-              : this._renderPatients() }     
-          </div>
-
-          <div className="add-button-left">
-            <div id="add-button">
-              <div>
-                <p>Nuevo Paciente</p>
-              </div>
-              <div>
-                <Link to={`/add_patient/${this.state.userId}`}><AddButton/></Link>
-              </div>
-
-          </div>
-
+        <div className="home-title">
+          <h3>Listado de pacientes</h3>
         </div>
 
+        <div className="patients-list">
+          <div className="renderFn">
+            {this._renderPatients()}  
+          </div>
+
+          <button className="patient-container">
+            <Link to={`/add_patient/${this.state.userId}`}>
+              <div className="ptts-info-block">
+                <h4>Nuevo Paciente</h4>
+              </div>
+            </Link>
+          </button>
+        </div>
       </div>
 
-      </div>
     )
 
   }

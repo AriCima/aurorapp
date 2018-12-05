@@ -1,351 +1,67 @@
 
-.page-title{
+.home-title{
     width: 80%;
 }
 
-.page-title h3{
+.home-title h3{
     font-size: 22px;
     color: rgb(0, 144, 248);
 }
 
-.home-super-container{
+.home{
+    width: 100%;
     margin-top: 70px;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
 }
 
-
-.e-figures{
-    width: 80%;
-    display: flex;
-    justify-content: flex-start;
-}
-
-.e-figures-left{
+.patients-list{
     width: 100%;
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: flex-start;
-}
-/* --> OVERVIEW  */
-.chart-title{
-    width: 30%;
-    padding: 3px 0;
-    margin-bottom: 2px;
-    background-color: rgba(242, 242, 242, 1);
-    border-radius: 10px;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.chart-title p{
-    font-weight: 500;
-}
-
-.chart-title p span{
-    font-weight: 700;
-}
-
-.user-overview{
-    width: 30%;
-    background-color: rgba(242, 242, 242, 0.3);
-    border-radius: 10px;
+.renderFn{
+    width: auto;
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-
-.overview-block{
-    width: 90%;
-    margin: 15px 0 15px 10px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.overview-block-underlined{
-    width: 90%;
-    margin: 15px 0 15px 10px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding-bottom: 5px;
-    border-bottom: 1px solid black;
-}
-
-.overview-block-feature{
-    width: 70%;
-    margin-left: 2%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-
-}
-.overview-block-value{
-    margin-left: 2%;
-    width: 30%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-
-}
-.overview-block-result span{
-    font-weight: 700;
-}
-
-.overview-block-result{
-    width: 90%;
-    margin: 5px 0 15px 10px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-/* --> UNITS LIST <-- */
-
-.units-list{
-    margin-top: 40px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+    margin-right: 30px;
 }
-.units-list-header{
+.patient-container{
+    width: 140px;
+    height: 210px;
+    margin: 15px;
     border-radius: 10px;
-    width: 80%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
     background-color: rgb(0, 144, 248);
-    margin-bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-.units-list-header ul{
+
+.patient-container:hover{
+    box-shadow: 5px 7px #888888;
+}
+
+
+.ptts-info-block{
     width: 100%;
-    margin: 0;
-    padding: 20px 0;
-    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ptts-info-block p{
     color: white;
-    font-weight: 550;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.units-list-header ul li{
-    margin: 4px 0px 4px 20px;
-    width: 25%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.units-list-header ul li:last-child{
-    margin: 4px 0px 4px 20px;
-    width: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-weight: 600;
 }
 
-/* --> LIST CONTAINER <-- */
-.units-list-super-container{
-    border-radius: 10px;
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.no-apts-message{
-    width: 100%;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.line-centered{
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.line-centered p span{
-    color: rgb(0, 144, 248);  
-    font-weight: 550; 
-}
-
-.list-container{
-    width: 100%; 
-}
-
-/* --> Apartments Rows <-- */
-.apts-row{
-    width: 100%;
-    border-radius: 10px;
-    margin: 4px 0px;
-    padding: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.apts-row:nth-child(even){
-    background-color: rgba(0, 144, 248, 0.05);
-}
-.apts-row:nth-child(odd){
-    background-color: rgba(0, 144, 248, 0.1);
-}
-.apts-row:nth-child(even):hover{
-    background-color: rgba(0, 144, 248, 0.2);
-}
-.apts-row:nth-child(odd):hover{
-    background-color: rgba(0, 144, 248, 0.4);
-}
-.apts-info-block{
-    margin: 4px 0px 4px 20px;
-    width: 25%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.apts-info-block-name{
-    margin: 4px 0px 4px 20px;
-    width: 25%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.apts-info-block-name p{
-    font-size: 16px;
-}
-.apts-info-block-name p span{
-    font-size: 14px;
-    font-weight: 550;
-    background-color: red;
+.ptts-info-block h4{
     color: white;
-    border-radius: 10px;
-    padding: 0 5px;
-}
-.apts-info-block-c{
-    margin: 4px 0px 4px 20px;
-    width: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-p{
-    font-family: helvetica;
-    font-size: 16px;
-    padding: 0;
-    margin: 0;
-    color: rgb(0, 144, 248);
-}
-.add-apartment{
-    margin-top: 30px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-.add-button-left{
-    width: 80%;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    
-}
-#add-button{
-    margin-top: 5px;
-    display: flex;
-    justify-content: flex-start;
-}
-
-/* ------------- ROOMS -------------- */
-
-.home-rooms-list{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: rgba(236, 236, 236, 0.05);
-}
-.rooms-home-row{
-    width: 100%;
-    margin: 0px;
-    padding: 0;
-    border-bottom: 1px solid RGB(236, 236, 236);
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.rooms-home-row:hover{
-    background-color: rgba(236, 236, 236, 0.2);
-}
-.rooms-home-block{
-    margin: 4px 0px 4px 20px;
-    width: 25%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-p{
-    font-family: helvetica;
-    font-size: 16px;
-    padding: 0;
-    margin: 0;
-    color: rgb(128, 128, 128);
-}
-.rooms-home-block-nr{
-    margin: 4px 0px 4px 20px;
-    width: 25%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.rooms-home-block-nr p{
-    font-family: helvetica;
-    font-size: 16px;
-    color: rgb(128, 128, 128);
-    margin-left: 40px;
-}
-.rooms-home-block-c{
-    margin: 4px 0px 4px 20px;
-    width: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.rooms-home-block-name {
-    margin: 4px 0px 4px 20px;
-    width: 25%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.rooms-home-block-name p{
-    font-size: 16px;
-    margin-left: 10px;
-}
-
-.rooms-home-block-name p span{
-    font-size: 14px;
-    font-weight: 550;
-    background-color: red;
-    color: white;
-    border-radius: 10px;
-    padding: 0 5px;
+    font-weight: 600;
+    font-size: 18px;
 }

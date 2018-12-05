@@ -19,18 +19,20 @@ export default class DataService {
             .catch((error) => {
                 var errorCode = error.code;
                 console.log('User NOT added: ', errorCode);
-                var errorMessage = error.message;
+               // var errorMessage = error.message;
                 
             })
             
         });
     };
     static getUserInfo(userId){
+        console.log('el userID recibido es = ', userId);
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('users').doc(userId).get()
 
             .then((result) => {
+                console.log('el result del getuser Info = ', result.data())
                 resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
             })
             .catch((error) => {
@@ -40,9 +42,9 @@ export default class DataService {
         });
     };
 
-    // CASES
+    // PATIENT
     static newPatient(patientInfo) {  
-
+            console.log('info del patient a guardar = ', patientInfo )
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('patients').add(patientInfo)
@@ -56,7 +58,7 @@ export default class DataService {
             .catch((error) => {
                 var errorCode = error.code;
                 console.log('patient could not be added: ', errorCode);
-                var errorMessage = error.message;
+               // var errorMessage = error.message;
                 
             })
             
@@ -87,7 +89,7 @@ export default class DataService {
             .catch((error) => {
                 var errorCode = error.code;
                 console.log('patient NOT joined: ', errorCode);
-                var errorMessage = error.message;
+             //   var errorMessage = error.message;
                 
             })
             
@@ -107,7 +109,7 @@ export default class DataService {
             .catch((error) => {
                 var errorCode = error.code;
                 console.log('Error al cargar la patientInfo: ', errorCode);
-                var errorMessage = error.message;
+             //   var errorMessage = error.message;
                 
             })
             
@@ -140,14 +142,14 @@ export default class DataService {
         return new Promise((resolve, reject) => {
             console.log('inputs en el dataservice ', userID, newpatient);
             firebase.firestore().collection('users').doc(userID).update({
-                userpatients : newpatient})
+                userPatients : newpatient})
             .then((result) => {
                 console.log("patient succesfully added to the User ")
                 resolve(result);
             })
 
             .catch((error) => {
-                var errorCode = error.code;
+              //  var errorCode = error.code;
                 console.log('ERROR patient NOT added to user: ', error);                
             })
             

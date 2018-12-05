@@ -3,9 +3,6 @@ import {Link} from 'react-router-dom';
 
 // SERVICES API
 import AuthService from '../../services/AuthService'
-import DataService from '../../services/DataService'
-
-
 
 import './index.css';
 
@@ -39,12 +36,12 @@ class Login extends Component {
         e.preventDefault();
         let error = false;
 
-        if(this.state.email == ''){
+        if(this.state.email === ''){
             this.setState({emailError: true});
             error = true;
         }
 
-        if(this.state.password == ''){
+        if(this.state.password === ''){
             this.setState({passwordError: true});
             error = true;
         }
@@ -56,7 +53,7 @@ class Login extends Component {
                 .then((result)=>{
                     // console.log('Result de Login', result)
                    //console.log('Result.user.uid de Login', result.user.uid)
-                   this.state.userId = result.user.uid;
+                   this.setState({userId : result.user.uid});
                    console.log('this.state.userId en el Login = ', this.state.userId);
                    this.props.propsFn.push(`/home/${this.state.userId}`) 
                 },(error)=>{
