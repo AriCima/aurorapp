@@ -88,11 +88,11 @@ class App extends Component {
                 <Route path="/register" render = {(props) => {return <Register propsFn={props.history}/>}}/> 
 
                 <Route path="/home/:user" render = {(props) => { return <Home userID={props.match.params.user}/>}}/>
-                <Route path="/add_patient/:user" render = {(props) => { return <PatientInput propsFn={props.history} userID={props.match.params.user}/>}}/>
-                <Route path="/patient_new_event/:patientId" render = {(props) => { return <EventInput propsFn={props.history} userID={props.match.params.user} patientID={props.match.params.patientId}/>}}/>
+                <Route path="/add_patient/:user" exact render = {(props) => { return <PatientInput propsFn={props.history} userID={props.match.params.user}/>}}/>
+                <Route path="/new_event_register/:patientId" exact render = {(props) => { return <EventInput propsFn={props.history} patID={props.match.params.patientId} userID={props.match.params.user}/>}}/>
 
-                <Route path="/patient/:patientId" render = {(props) => { return <Patient propsFn={props.history} patID={props.match.params.patientId} />}}/>
-                <Route path="/patient_new_reading/:patientId" render = {(props) => { return <NewReading propsFn={props.history} patID={props.match.params.patientId} />}}/>
+                <Route path="/patient/:patientId" exact render = {(props) => { return <Patient propsFn={props.history} patID={props.match.params.patientId} />}}/>
+                <Route path="/patient_new_reading/:patientId" exact render = {(props) => { return <NewReading propsFn={props.history} patID={props.match.params.patientId} />}}/>
               </Switch>
 
 

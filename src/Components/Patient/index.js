@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // MATERIAL UI
 import AddButton from '../Accessories/AddButton'
@@ -72,14 +72,18 @@ export default class Patient extends React.Component {
 
       <div className="standard-add-button">
         <div id="button-info">
-          <p>Agregar Evento</p>
-          <Link to={`/patient_new_event/${this.state.patientId}`}><AddButton/></Link>
+          <p>Registrar Evento</p>
+        </div>
+        <div>
+          <Link to={`/new_event_register/${this.state.patientId}`}><AddButton/></Link>
         </div>
       </div>
 
       <div className="standard-add-button">
         <div id="button-info">
-          <p>Agregar Medición</p>
+          <p>Registrar Medición</p>
+        </div>
+        <div>
           <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButton/></Link>
         </div>
       </div>

@@ -53,7 +53,7 @@ class EventInput extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
-            userId              : this.props.patientID,
+            patientId           : this.props.patID,
             eventDate           : '',
             startTime           : '',
             duration            : '',
@@ -80,8 +80,8 @@ class EventInput extends React.Component {
 
         let newState = this.state;
 
-        DataService.addNewEvent(newState);
-        this.props.propsFn.push(`/patient/${this.state.userId}`)
+        DataService.addNewEvent(this.state.patientId, newState);
+        this.props.propsFn.push(`/patient/${this.state.patientId}`)
         
     };
 
@@ -134,7 +134,7 @@ class EventInput extends React.Component {
                             margin="normal"
                             value={this.state.startTime}
                             InputProps={{
-                                startAdornment: <InputAdornment position="start">hr:min</InputAdornment>,
+                                startAdornment: <InputAdornment position="start">Hr:min</InputAdornment>,
                               }}
                             onChange={(e)=>{this.onChangeState('startTime', e.target.value)}}
                         />
@@ -146,6 +146,9 @@ class EventInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.duration}
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start">Mins</InputAdornment>,
+                              }}
                             onChange={(e)=>{this.onChangeState('duration', e.target.value)}}
 
                         />
@@ -157,6 +160,9 @@ class EventInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.minSaturation}
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start"> % </InputAdornment>,
+                              }}
                             onChange={(e)=>{this.onChangeState('minSaturation', e.target.value)}}
 
                         />
@@ -168,6 +174,9 @@ class EventInput extends React.Component {
                             className={classes.textField}
                             margin="normal"
                             value={this.state.fever}
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start"> ºC</InputAdornment>,
+                              }}
                             onChange={(e)=>{this.onChangeState('fever', e.target.value)}}
 
                         />
@@ -198,7 +207,7 @@ class EventInput extends React.Component {
                     <div id="input-fields">
                         <TextField
                             id="with-placeholder"
-                            label="Detonant"
+                            label="Detonante"
                             className={classes.textField}
                             margin="normal"
                             value={this.state.detonation}

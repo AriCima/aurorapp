@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
-// MATERIAL UI
-import AddButton from '../../Components/Accessories/AddButton';
-
 // DATA
 import DataService from '../services/DataService';
 import Calculations from '../services/Calculations';

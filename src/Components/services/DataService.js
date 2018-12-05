@@ -156,5 +156,27 @@ export default class DataService {
         });
     }
 
+    // EVENT
+    static addNewEvent(patId, stateInfo) {  
+        console.log('info del estado a guardar = ', stateInfo )
+    return new Promise((resolve, reject) => {
+
+        firebase.firestore().collection(patId).add(stateInfo)
+
+        .then((result) => {
+            
+            console.log(`${result.id} State succesfully added !`)
+            resolve(result);
+        })
+
+        .catch((error) => {
+            var errorCode = error.code;
+            console.log('patient could not be added: ', errorCode);
+           // var errorMessage = error.message;
+            
+        })
+        
+    });
+};
     
 }
