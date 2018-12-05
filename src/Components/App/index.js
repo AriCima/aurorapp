@@ -46,11 +46,14 @@ class App extends Component {
   componentDidMount(){
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-
+        console.log()
         DataService.getUserInfo(user.uid)
         .then(result => {
-          this.setState({user : result});
-          console.log('el user en App', this.state.user);
+          result.id = user.uid;
+          
+          this.setState({
+            user: result
+          });
         })
         .catch(function (error) {    
           console.log(error);
@@ -66,7 +69,7 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-
+    console.log('el user en APP', user)
     return (
       <div>
 
@@ -75,7 +78,7 @@ class App extends Component {
           <div className="app">
           
             <div className="app-header">
-              <Header user={user} />}
+              <Header user={user} />
             </div>
         
             <div className="app-body">

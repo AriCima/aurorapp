@@ -27,7 +27,7 @@ class Header extends Component {
     }
 
     render() {
-        // console.log('el user en el Header', this.props.user)
+        console.log('el user en el Header', this.props.user)
         return (
 
             <div className="header">
@@ -42,7 +42,7 @@ class Header extends Component {
 
                     <div className="nav-block">
                     {!this.props.user ? <p>AurorApp</p>
-                        :<Link to={`/home/${this.props.user.uid}`}>Home</Link>
+                        :<Link to={`/home/${this.props.user.id}`}>Home</Link>
                     } 
                     </div>
 

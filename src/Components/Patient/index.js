@@ -28,7 +28,7 @@ export default class Patient extends React.Component {
  
   componentDidMount(){
     
-    DataService.getPatientInfo(this.state.patient)
+    DataService.getPatientInfo(this.state.patientId)
     .then(res => {
       const pat = res;
       //console.log("Res: ", res)
