@@ -98,11 +98,11 @@ export default class DataService {
     static getPatientInfo(patientId) {  
 
         return new Promise((resolve, reject) => {
-            console.log('el ID con el que se pide la info de la patient = ', patientId)
+            //console.log('el ID con el que se pide la info de la patient = ', patientId)
             firebase.firestore().collection('patients').doc(patientId).get()
 
             .then((result) => {
-                console.log('el result del getpatientInfo', result);
+                //console.log('el result del getpatientInfo', result);
                 resolve(result.data());
             })
 
@@ -157,11 +157,11 @@ export default class DataService {
     }
 
     // EVENT
-    static addNewEvent(patId, stateInfo) {  
+    static addNewEvent(stateInfo) {  
         console.log('info del estado a guardar = ', stateInfo )
     return new Promise((resolve, reject) => {
 
-        firebase.firestore().collection(patId).add(stateInfo)
+        firebase.firestore().collection('events').add(stateInfo)
 
         .then((result) => {
             
@@ -177,6 +177,28 @@ export default class DataService {
         })
         
     });
-};
+    };
+
+    static addNewEventToPatient(patId, newStateInfo) {  
+    return new Promise((resolve, reject) => {
+
+        firebase.firestore().collection('patients').doc(patId).update({
+            patientEvents : newStateInfo})
+
+        .then((result) => {
+            
+            console.log(`${result.id} State succesfully added !`)
+            resolve(result);
+        })
+
+        .catch((error) => {
+            var errorCode = error.code;
+            console.log('patient could not be added: ', errorCode);
+           // var errorMessage = error.message;
+            
+        })
+        
+    });
+    };
     
 }

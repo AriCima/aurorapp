@@ -23,6 +23,7 @@ export default class Patient extends React.Component {
       patientSurname: '',
       bornDate      : '',
       weight        : '',
+      pateintEvents : []
     }
   }
  
@@ -72,7 +73,7 @@ export default class Patient extends React.Component {
 
       <div className="standard-add-button">
         <div id="button-info">
-          <p>Registrar Evento</p>
+          <p>Registrar<br/>Evento</p>
         </div>
         <div>
           <Link to={`/new_event_register/${this.state.patientId}`}><AddButton/></Link>
@@ -81,7 +82,16 @@ export default class Patient extends React.Component {
 
       <div className="standard-add-button">
         <div id="button-info">
-          <p>Registrar Medición</p>
+          <p>Registrar<br/>Peso/Fiebre</p>
+        </div>
+        <div>
+          <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButton/></Link>
+        </div>
+      </div>
+
+      <div className="standard-add-button">
+        <div id="button-info">
+          <p>Registrar<br/>Medicación</p>
         </div>
         <div>
           <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButton/></Link>

@@ -60,6 +60,7 @@ class PatientInput extends React.Component {
             patientName     : '',
             patientSurname  : '',
             bornDate        : '',
+            patientEvents   : [],
         };
         this.onNewPatient             = this.onNewPatient.bind(this);
     }
@@ -89,6 +90,7 @@ class PatientInput extends React.Component {
             patientName     : this.state.patientName, 
             patientSurnName : this.state.patientSurname, 
             bornDate        : this.state.bornDate,
+            patientEvents   : this.state.patientEvents
         };
        
         //console.log('new state = ', newState)

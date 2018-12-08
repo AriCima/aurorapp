@@ -2,6 +2,9 @@ import React from 'react';
 
 // SERVICE API
 import DataService from '../services/DataService';
+import Calculations from '../services/Calculations';
+import CustomDropZone from '../CustomDropZone';
+import DropzoneWithPreview from '../CustomDropWithPrev';
 
 // MATERIAL-UI
 import PropTypes from 'prop-types';
@@ -62,12 +65,30 @@ class EventInput extends React.Component {
             clinicObservation   : '',
             action              : '',
             detonation          : '',
+            patientEvents       : [],
         };
 
         this.onNewEvent             = this.onNewEvent.bind(this);
 
-    }
+        this.state.eventCode = Calculations.generateCode();
+        //console.log('el code en el state = ', this.state.eventCode)
 
+    }
+    componentDidMount(){
+    
+        DataService.getPatientInfo(this.state.patientId)
+        .then(res => {
+          const pat = res;
+         // console.log("Res del patientInfo: ", res)
+          this.setState({ 
+            patientEvents   : pat.patientEvents,        
+          });
+        })
+        .catch(function (error) {    
+          console.log(error);
+        })    
+    }
+   
 
     onChangeState(field, value){
         let eventInfo = this.state;
@@ -78,11 +99,58 @@ class EventInput extends React.Component {
     onNewEvent(e){
         e.preventDefault();       
 
-        let newState = this.state;
-
-        DataService.addNewEvent(this.state.patientId, newState);
-        this.props.propsFn.push(`/patient/${this.state.patientId}`)
+        //console.log('El estado del events al lanzar onNewEvent = ', this.state.patientEvents)
         
+        // let eCode = Calculations.generateCode();
+        // this.setState({
+        //     eventCode : eCode
+        // })
+
+        let newEvent = {
+            patientId           : this.props.patID,
+            eventDate           : this.state.eventDate,
+            startTime           : this.state.startTime,
+            duration            : this.state.duration,
+            minSaturation       : this.state.minSaturation,
+            fever               : this.state.fever,
+            clinicObservation   : this.state.clinicObservation,
+            action              : this.state.action,
+            detonation          : this.state.detonation,
+        }
+
+        DataService.addNewEvent(newEvent)
+        .then((result) => {
+            //console.log('el result recibido = ', result)
+            // let newEvent = {
+            //     eventId             : result.id,
+            //     eventDate           : this.state.eventDate,
+            //     startTime           : this.state.startTime,
+            //     duration            : this.state.duration,
+            //     minSaturation       : this.state.minSaturation,
+            //     fever               : this.state.fever,
+            //     clinicObservation   : this.state.clinicObservation,
+            //     action              : this.state.action,
+            //     detonation          : this.state.detonation,
+            // };
+
+            newEvent.eventId = result.id;
+            console.log('NewEvent = ', newEvent);
+
+            let eventsArray = this.state.patientEvents;
+
+            console.log('El estado dentro del addNewEvent = ', this.state.patientEvents);
+            eventsArray.push(newEvent);
+
+            this.setState({
+                patientEvents : eventsArray,
+            })
+
+            DataService.addNewEventToPatient(this.state.patientId, this.state.patientEvents);
+            this.props.propsFn.push(`/patient/${this.state.patientId}`)
+        })
+        .catch(function (error) {    
+            console.log(error);
+        })
     };
 
   
@@ -113,16 +181,6 @@ class EventInput extends React.Component {
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Event Name"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.EventName}
-                            onChange={(e)=>{this.onChangeState('EventName', e.target.value)}}
                         />
                     </div>
 
@@ -181,10 +239,10 @@ class EventInput extends React.Component {
 
                         />
                     </div>
-                    
+
                     <div id="input-fields">
                         <TextField
-                            id="with-placeholder"
+                            id="standard-multiline-flexible"
                             label="Observación clínica"
                             className={classes.textField}
                             margin="normal"
@@ -195,7 +253,7 @@ class EventInput extends React.Component {
                     </div>
                     <div id="input-fields">
                         <TextField
-                            id="with-placeholder"
+                            id="standard-multiline-flexible"
                             label="Acción"
                             className={classes.textField}
                             margin="normal"
@@ -206,7 +264,7 @@ class EventInput extends React.Component {
                     </div>
                     <div id="input-fields">
                         <TextField
-                            id="with-placeholder"
+                            id="standard-multiline-flexible"
                             label="Detonante"
                             className={classes.textField}
                             margin="normal"
@@ -216,6 +274,26 @@ class EventInput extends React.Component {
 
                         />
                     </div>
+
+                    <div id="input-field">
+                        <CustomDropZone 
+                            onFileUpload={(fileUrl)=>{this.onChangeState('eventPics', fileUrl)}}
+                            acceptedFiles="image/jpeg, image/png, video/mp4, video/mpeg"
+                            uploadFolder={`patientID:${this.state.patientId}/${this.state.eventCode}`}
+                            name="Imágenes / Videos"
+                            text="Arrastra tus archivos hasta aquí"
+                        />  
+                    </div>
+
+                    {/* <div id="input-field">
+                        <DropzoneWithPreview 
+                            onFileUpload={(fileUrl)=>{this.onChangeState('eventPics', fileUrl)}}
+                            acceptedFiles="image/jpeg, image/png, video/mp4, video/mpeg"
+                            uploadFolder={`events-files/${this.state.patientId}/${this.state.eventCode}`}
+                            name="Img / Vid"
+                            text="Arrastra tus archivos hasta aquí"
+                        />  
+                    </div> */}
                    
   
                 </div>

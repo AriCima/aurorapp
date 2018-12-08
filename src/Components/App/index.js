@@ -28,7 +28,7 @@ var config = {
   authDomain: "aurorapp-3a992.firebaseapp.com",
   databaseURL: "https://aurorapp-3a992.firebaseio.com",
   projectId: "aurorapp-3a992",
-  storageBucket: "",
+  storageBucket: "gs://aurorapp-3a992.appspot.com",
   messagingSenderId: "590608251480"
 };
 firebase.initializeApp(config);

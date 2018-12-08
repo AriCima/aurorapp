@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 
 export default class UploadService {
+    
     static uploadFile(file, uploadFolder){
 
         return new Promise((resolve, reject) => {
