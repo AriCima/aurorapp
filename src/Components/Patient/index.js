@@ -23,7 +23,7 @@ export default class Patient extends React.Component {
       patientSurname: '',
       bornDate      : '',
       weight        : '',
-      pateintEvents : []
+      patientEvents : []
     }
   }
  
@@ -36,7 +36,8 @@ export default class Patient extends React.Component {
       this.setState({ 
         patientName     : pat.patientName,
         patientSurname  : pat.patientSurname,
-        bornDate        : pat.bornDate,          
+        bornDate        : pat.bornDate, 
+        patientEvents   : res.patientEvents,         
       });
     })
     .catch(function (error) {    
@@ -46,58 +47,100 @@ export default class Patient extends React.Component {
 
   _renderPatientInfo(){
     return (
-      <div>
-        <div className="address">
+      <div className="patient-info"> 
+        <div className="patient-info-block">
           <h4>{this.state.patientName}</h4>
         </div>
-        <div className="address">
+        <div className="patient-info-block">
           <h4>{this.state.patientSurName}</h4>
         </div>
-        <div className="address">
+        <div className="patient-info-block">
           <h4>{this.state.bornDate}</h4>
         </div>
       </div>
     )
   };
 
+  _renderEventsInfo(){ 
+    return this.state.patientEvents.map((evts,j) => {
+      return (
+        <div className="list-container">
+          <Link className="apts-row" key={j} to={`/single_event_overview/${evts.id}`}> 
+          
+            <div className="apts-info-block">
+               <p>{evts.eventDate}</p>
+            </div>
+            <div className="apts-info-block">
+                <p>{evts.startTime}</p>
+            </div>
+            <div className="apts-info-block">
+                <p>{evts.duration}</p>
+            </div>
+            <div className="apts-info-block-c">
+                <p>{evts.minSaturation}</p>
+            </div>
+            <div className="apts-info-block-c">
+                <p>{evts.fever}</p>
+            </div>
+          </Link>
+        </div>
+      )
+    })
+  };
+  
+
   
   render() {
 
     return (
 
-      <div className="apt-overview">
+      <div className="overview">
 
-      {this.state.patientName === '' ? <p>LOADING !</p> :
-        this._renderPatientInfo()
-      }
+        <div className="upper-area">
 
-      <div className="standard-add-button">
-        <div id="button-info">
-          <p>Registrar<br/>Evento</p>
-        </div>
-        <div>
-          <Link to={`/new_event_register/${this.state.patientId}`}><AddButton/></Link>
-        </div>
-      </div>
+            {this.state.patientName === '' ? <p>LOADING !</p> :
+              this._renderPatientInfo()
+            }
 
-      <div className="standard-add-button">
-        <div id="button-info">
-          <p>Registrar<br/>Peso/Fiebre</p>
+            <div className="add-buttons-area">
+              <div className="standard-add-button">
+                <div id="button-info">
+                  <p>Registrar<br/>Evento</p>
+                </div>
+                <div>
+                  <Link to={`/new_event_register/${this.state.patientId}`}><AddButton/></Link>
+                </div>
+              </div>
+              <div className="standard-add-button">
+                <div id="button-info">
+                  <p>Registrar<br/>Peso/Fiebre</p>
+                </div>
+                <div>
+                  <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButton/></Link>
+                </div>
+              </div>
+              <div className="standard-add-button">
+              <div id="button-info">
+                <p>Registrar<br/>Medicación</p>
+              </div>
+              <div>
+                <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButton/></Link>
+              </div>
+            </div>
+            </div>
         </div>
-        <div>
-          <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButton/></Link>
-        </div>
-      </div>
 
-      <div className="standard-add-button">
-        <div id="button-info">
-          <p>Registrar<br/>Medicación</p>
+        <div className="lower-area">
+          <div className="standard-list-header">
+            <ul>
+              <li>Fecha</li>
+              <li>Inicio</li>
+              <li>Duración</li>
+              <li id="double-line">Sat. mín. <br/>%</li>
+              <li id="double-line">Temperatura <br/>ºC</li>
+            </ul>     
+          </div>
         </div>
-        <div>
-          <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButton/></Link>
-        </div>
-      </div>
-        
 
       </div>
 

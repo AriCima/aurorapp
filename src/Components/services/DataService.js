@@ -193,7 +193,7 @@ export default class DataService {
 
         .catch((error) => {
             var errorCode = error.code;
-            console.log('patient could not be added: ', errorCode);
+            console.log('EVENT could not be added to the patient: ', errorCode);
            // var errorMessage = error.message;
             
         })
