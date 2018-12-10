@@ -79,6 +79,8 @@
 }
 
 /* EVENTS LISTINGS */
+
+/* Header */
 .standard-list{
     width: 100%;
     margin-top: 0px;
@@ -120,38 +122,52 @@
     align-items: center;
 }
 .standard-list-header ul li{
-    margin: 0 2.5% 0px 2.5%;
+    margin: 0 1.5% 0px 3.5%;
     width: 15%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
-
 #double-line{
     text-align: center;
 }
 
 /* _render  */
 
+.lower-area{
+    width: 100%;
+}
+.list-container{
+    display: flex;
+    border-radius: 10px;
+    width: 80%;
+}
 .standard-list-row{
     border-radius: 10px;
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 4px 0px;
+    margin: 2px 0px;
     padding: 0;
+    border-bottom: 1px solid lightgray;
 }
 .standard-list-row:nth-child(even){
-    background-color: rgba(0, 144, 248, 0.05);
+    background-color: rgba(0, 144, 248, 0,1);
+}
+.standard-list-row:nth-child(odd){
+    background-color: rgba(0, 144, 200, 0,4);
 }
 .standard-list-row:nth-child(even):hover{
     background-color: rgba(0, 144, 248, 0.2);
 }
+.standard-list-row:nth-child(odd):hover{
+    background-color: rgba(0, 144, 248, 1);
+}
 .standard-list-info-block{
     width: 15%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     margin: 0 1.5% 0px 3.5%;
 }
@@ -159,13 +175,7 @@
     font-family: helvetica;
     font-size: 18px;
     padding: 0;
-    margin-left: 35%;
-}
-.standard-list-info-block-price{
-    width: 15%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 0 5% 0px 0;
+    margin-left: 0;
+    color: gray;
 }
 

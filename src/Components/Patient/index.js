@@ -39,11 +39,38 @@ export default class Patient extends React.Component {
     .then(res => {
       const pat = res;
       //console.log("Res: ", res)
+      var eventsCopy = [...pat.patientEvents];
+      console.log('events copy = ', eventsCopy)
+
+      function compare(a, b) {
+        
+        const dateA = a.eventDate;
+        const dateB = b.eventDate;
+      
+        let comparison = 0;
+        if (dateA > dateB) {
+          comparison = 1;
+        } else if (dateA < dateB) {
+          comparison = -1;
+        }
+        return comparison;
+      }
+      
+      eventsCopy.sort(compare);
+      
+     
+     
+      
+      console.log('events sorted = ', eventsCopy);
+      //const myData = [].concat(this.state.patientEvents).sort((a, b) => a.action > b.action)
+    
+
+
       this.setState({ 
         patientName     : pat.patientName,
         patientSurname  : pat.patientSurname,
         bornDate        : pat.bornDate, 
-        patientEvents   : res.patientEvents,         
+        patientEvents   : eventsCopy,         
       });
     })
     .catch(function (error) {    
@@ -65,24 +92,26 @@ export default class Patient extends React.Component {
   };
 
   _renderEventsInfo(){ 
+    
+    //console.log('render events triggered with: ', obj)
     return this.state.patientEvents.map((evts,j) => {
       return (
         <div className="list-container">
-          <Link className="apts-row" key={j} to={`/single_event_overview/${evts.id}`}> 
+          <Link className="standard-list-row" key={j} to={`/single_event_overview/${evts.id}`}> 
           
-            <div className="apts-info-block">
+            <div className="standard-list-info-block">
                <p>{evts.eventDate}</p>
             </div>
-            <div className="apts-info-block">
+            <div className="standard-list-info-block">
                 <p>{evts.startTime}</p>
             </div>
-            <div className="apts-info-block">
+            <div className="standard-list-info-block">
                 <p>{evts.duration}</p>
             </div>
-            <div className="apts-info-block-c">
+            <div className="standard-list-info-block">
                 <p>{evts.minSaturation}</p>
             </div>
-            <div className="apts-info-block-c">
+            <div className="standard-list-info-block">
                 <p>{evts.fever}</p>
             </div>
           </Link>
@@ -169,21 +198,21 @@ export default class Patient extends React.Component {
           />
         </div>
 
-
-
-
-
-
         <div className="lower-area">
           <div className="standard-list-header">
             <ul>
-              <li>Fecha</li>
-              <li>Inicio</li>
-              <li>Duración</li>
+              <li id="double-line">Fecha</li>
+              <li id="double-line">Hora Inicio<br/>hr:min</li>
+              <li id="double-line">Duración<br/>mins</li>
               <li id="double-line">Sat. mín. <br/>%</li>
               <li id="double-line">Temperatura <br/>ºC</li>
-            </ul>     
+            </ul>
           </div>
+          
+            {this.state.patientName === '' ? <p>LOADING !</p> :
+                this._renderEventsInfo()
+              }   
+         
         </div>
 
       </div>
