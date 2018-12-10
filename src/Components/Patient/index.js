@@ -189,7 +189,7 @@ export default class Patient extends React.Component {
             ]}
             options={{
               chart: {
-                title: 'Events in the current month',
+                title: 'Eventos registrados en el último mes',
                 subtitle: '',
               },
             }}
