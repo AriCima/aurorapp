@@ -88,7 +88,7 @@ class PatientInput extends React.Component {
         let newState = {
             adminId         : this.state.adminId,
             patientName     : this.state.patientName, 
-            patientSurnName : this.state.patientSurname, 
+            patientSurname  : this.state.patientSurname, 
             bornDate        : this.state.bornDate,
             patientEvents   : this.state.patientEvents
         };

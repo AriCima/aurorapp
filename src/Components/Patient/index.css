@@ -14,54 +14,59 @@
     align-content: center;
 }
 
-.patient-info{
-    width: 50%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
+    .patient-info{
+        width: 50%;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .patient-info-block{
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .patient-info-block p{
+        margin: 10px 0 0 20px;
+        font-size: 18px;
+        font-weight: 550;
+        color: gray;
+    }
+    .patient-info-block h4{
+        margin: 10px 0 0 20px;
+        font-size: 18px;
+        font-weight: 700;
+        color: rgb(0, 144, 248);
+    }
+    .add-buttons-area{
+        margin-top: 20px;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .standard-add-button{
+        width: 80%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    #button-info p{
+        margin: 5px 0 0 0;
+        font-size: 16px;
+        font-weight: 550;
+        color: gray;
+        display: block;
+        text-align: center;
+    }
 
-.patient-info-block{
-    display: flex;
-    justify-content: flex-start;
-    align-content: flex-start;
-}
 
-.add-buttons-area{
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-content: flex-start;
-}
-
-.standard-add-button{
-    width: 80%;
-    margin: 0px 0 40px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-#button-info p{
-    margin: 10px 0 0 0;
-    display: block;
-    text-align: center;
-}
-
-
-.patient-info-block{
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-
-}
-
-.patient-info-block h4{
-    margin: 10px 0 0 20px;
-    font-size: 16px;
-    font-weight: 550;
-    color: gray;
+.middle-area{
+    margin-top: 40px;
 }
 
 .lower-area{
