@@ -136,7 +136,22 @@
 
 .lower-area{
     width: 100%;
+    margin-bottom: 40px;
 }
+
+.list-title{
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.list-title h2{
+    font-size: 28px;
+    font-weight: 700;
+    color: rgb(0, 144, 248);
+}
+
 .list-container{
     display: flex;
     border-radius: 10px;
@@ -153,16 +168,16 @@
     border-bottom: 1px solid lightgray;
 }
 .standard-list-row:nth-child(even){
-    background-color: rgba(0, 144, 248, 0,1);
+    background-color: rgba(0, 144, 248, 0.05);
 }
 .standard-list-row:nth-child(odd){
-    background-color: rgba(0, 144, 200, 0,4);
+    background-color: rgba(0, 144, 248, 0.1);
 }
-.standard-list-row:nth-child(even):hover{
+/* .standard-list-row:nth-child(even):hover{
     background-color: rgba(0, 144, 248, 0.2);
-}
+} */
 .standard-list-row:nth-child(odd):hover{
-    background-color: rgba(0, 144, 248, 1);
+    background-color: rgba(0, 144, 248, 0.4);
 }
 .standard-list-info-block{
     width: 15%;

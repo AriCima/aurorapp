@@ -7,14 +7,14 @@ import AddIcon from '@material-ui/icons/Add';
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
-    background: 'rgb(0, 170, 255)',
+    background: 'rgb(153, 51, 51)',
   },
   extendedIcon: {
     marginRight: theme.spacing.unit,
   },
 });
 
-function AddButton(props) {
+function AddButtonGreen(props) {
   const { classes } = props;
   return (
     <div>
@@ -25,8 +25,8 @@ function AddButton(props) {
   );
 }
 
-AddButton.propTypes = {
+AddButtonGreen.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddButton);
+export default withStyles(styles)(AddButtonGreen);

@@ -9,6 +9,8 @@ import {Chart} from 'react-google-charts'
 
 // MATERIAL UI
 import AddButton from '../Accessories/AddButton'
+import AddButtonOrange from '../Accessories/AddButtonOrange'
+import AddButtonGreen from '../Accessories/AddButtonGreen'
 
 // SERVICE API
 import DataService from '../services/DataService';
@@ -38,9 +40,10 @@ export default class Patient extends React.Component {
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
       const pat = res;
-      //console.log("Res: ", res)
+
+      //  - - - - - - - SORT EVENTS FROM RECENT TO OLDER 
+
       var eventsCopy = [...pat.patientEvents];
-      console.log('events copy = ', eventsCopy)
 
       function compare(a, b) {
         
@@ -49,22 +52,17 @@ export default class Patient extends React.Component {
       
         let comparison = 0;
         if (dateA > dateB) {
-          comparison = 1;
-        } else if (dateA < dateB) {
           comparison = -1;
+        } else if (dateA < dateB) {
+          comparison = 1;
         }
         return comparison;
       }
       
       eventsCopy.sort(compare);
       
-     
-     
-      
-      console.log('events sorted = ', eventsCopy);
-      //const myData = [].concat(this.state.patientEvents).sort((a, b) => a.action > b.action)
-    
 
+     // - - - - - - - Sorting end 
 
       this.setState({ 
         patientName     : pat.patientName,
@@ -97,7 +95,7 @@ export default class Patient extends React.Component {
     return this.state.patientEvents.map((evts,j) => {
       return (
         <div className="list-container">
-          <Link className="standard-list-row" key={j} to={`/single_event_overview/${evts.id}`}> 
+          <Link className="standard-list-row" key={j} to={`/single_event_overview/${evts.eventId}`}> 
           
             <div className="standard-list-info-block">
                <p>{evts.eventDate}</p>
@@ -135,7 +133,7 @@ export default class Patient extends React.Component {
             <div className="add-buttons-area">
               <div className="standard-add-button">
                 <div>
-                  <Link to={`/new_event_register/${this.state.patientId}`}><AddButton/></Link>
+                  <Link to={`/new_event_register/${this.state.patientId}`}><AddButton color="red"/></Link>
                 </div>
                 <div id="button-info">
                   <p>Evento</p>
@@ -143,7 +141,7 @@ export default class Patient extends React.Component {
               </div>
               <div className="standard-add-button">
                 <div>
-                  <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButton/></Link>
+                  <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButtonOrange/></Link>
                 </div>
                 <div id="button-info">
                   <p>Peso/Fiebre</p>
@@ -151,7 +149,7 @@ export default class Patient extends React.Component {
               </div>
               <div className="standard-add-button">
               <div>
-                <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButton/></Link>
+                <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButtonGreen/></Link>
               </div>
               <div id="button-info">
                 <p>Medicación</p>
@@ -199,6 +197,9 @@ export default class Patient extends React.Component {
         </div>
 
         <div className="lower-area">
+            <div className="list-title">
+              <h2>Eventos registrados</h2>
+            </div>
           <div className="standard-list-header">
             <ul>
               <li id="double-line">Fecha</li>
