@@ -130,10 +130,12 @@ class MedicineInput extends React.Component {
 
         let dCode = Calculations.generateCode()
 
-        // Estructura del Obj = {Droga: droga, dailyDose : [0,0,0,0,15,0,0, . . . .] }
+        // Estructura del Obj = {Code, name, date, units, dailyDose : [0,0,0,0,15,0,0, . . . .] }
         let newMedicineObj = {
             drugCode    : dCode,
             drugName    : this.state.drugName, 
+            changeDate  : this.state.changeDate,
+            doseUnits   : this.state.doseUnits,
             dailyDose   : [
             this.state.dailyDose0, 
             this.state.dailyDose1, 
@@ -257,7 +259,7 @@ class MedicineInput extends React.Component {
 
                     <div id="ddose-input-area">
                         <div className="list-title">
-                            <h2>Dosis diaria del medicamento</h2>
+                            <h2>Dosis horaria del medicamento</h2>
                         </div>
                         <div className="days-list-header">
                             <ul>
