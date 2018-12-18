@@ -50,32 +50,47 @@ const styles = theme => ({
 
 const readingTypes = [
     {
-      value: 'Temperature',
-      label: 'Temperatura',
+      value: 'fever',
+      label: 'Temp [ºC]',
     },
     {
       value: 'weight',
-      label: 'Peso',
+      label: 'Peso [Kg]',
     },
 ];
   
 
-class ReadingInput extends React.Component {
+class MedicineInput extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
-            patientId       : this.props.patientID,
-            patientName     : '',
-            readingtype     : '',
-            readingtype     : '',
-            readingDate     : '',
-
+            patientId           : this.props.patID,
+            medicineName        : '',
+            medicineDrug        : '',
+            drugDose            : '',
+            dailyDose           : [],
         };
 
-        this.onNewReading             = this.onNewReading.bind(this);
+        this.onNewMedicine             = this.onNewMedicine.bind(this);
 
     }
 
+    componentDidMount(){
+    
+        DataService.getPatientInfo(this.state.patientId)
+        .then(res => {
+        
+            this.setState({ 
+                medicineName    : res.medicineName,
+                medicineDrug    : res.medicineDrug,
+                mdedicineDose   : res.mdedicineDose,
+            });
+
+        })
+        .catch(function (error) {    
+        console.log(error);
+        })    
+    }
 
     onChangeState(field, value){
         let aptInfo = this.state;
@@ -83,12 +98,36 @@ class ReadingInput extends React.Component {
         this.setState(aptInfo)
     };
 
-    onNewReading(e){
+    onNewMedicine(e){
         e.preventDefault();       
 
-        let newState = this.state;
+        let NewMedicine = {
+            patientId       : this.props.patID,
+            patientName     : this.state.patientName,
+            patientSurname  : this.state.patientSurname,
+            readingDate     : this.state.readingDate,
+            readingValue    : this.state.readingValue,
+        };
 
-        DataService.addNewReading(newState);
+        DataService.addNewMedicine(this.state.readingType, NewMedicine)
+        .then((result) => {
+
+            NewMedicine.medicineId = result.id;
+
+
+            let medicineArray = [...this.state.patientMedicine];
+            medicineArray.push(NewMedicine);
+            this.setState({
+                patientMedicine : medicineArray,
+            })
+            DataService.addNewMedicineToPatient(this.state.patientId, this.state.patientMedicine);
+            this.props.propsFn.push(`/patient/${this.state.patientId}`)
+
+        })
+        .catch(function (error) {    
+            console.log(error);
+        })
+
         this.props.propsFn.push(`/patient/${this.state.patientId}`)
         
     };
@@ -105,9 +144,26 @@ class ReadingInput extends React.Component {
                 <h4>Registrar una medición</h4>
             </div>
 
-            <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewReading}>
+            <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewMedicine}>
             
                 <div id="input-area">
+
+                    <div id="input-fields-select">
+                        <TextField
+                            select
+                            label="Tipo de medición"
+                            className={classNames(classes.margin, classes.textField)}
+                            value={this.state.readingType}
+                            onChange={(e)=>{this.onChangeState('readingType', e.target.value)}}
+
+                        >
+                            {readingTypes.map(option => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </div>
 
                     <div id="input-fields">
                         <TextField
@@ -135,24 +191,6 @@ class ReadingInput extends React.Component {
                         />
                     </div>
                    
-                    <div id="input-fields-select">
-                        <TextField
-                            select
-                            label="Tipo de medición"
-                            className={classNames(classes.margin, classes.textField)}
-                            value={this.state.roomsRental}
-                            //onChange={this.onChangeRentalType}
-                            onChange={(e)=>{this.onChangeState('readingType', e.target.value)}}
-
-                        >
-                            {readingTypes.map(option => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </div>
-
                 </div>
 
                 <div className="button-area">
@@ -168,8 +206,8 @@ class ReadingInput extends React.Component {
   }
 }
 
-ReadingInput.propTypes = {
+MedicineInput.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ReadingInput);
+export default withStyles(styles)(MedicineInput);

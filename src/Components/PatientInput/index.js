@@ -55,12 +55,16 @@ class PatientInput extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
-            adminId         : this.props.userID,
-            userPatients    : [],
-            patientName     : '',
-            patientSurname  : '',
-            bornDate        : '',
-            patientEvents   : [],
+            adminId             : this.props.userID,
+            userPatients        : [],
+            patientName         : '',
+            patientSurname      : '',
+            bornDate            : '',
+            patientsEvents      : [],
+            patientsWeights     : [],
+            patientsFever       : [],
+            patientsMedicines   : [],
+
         };
         this.onNewPatient             = this.onNewPatient.bind(this);
     }
@@ -84,13 +88,16 @@ class PatientInput extends React.Component {
 
     onNewPatient(e){
         e.preventDefault();       
-
+ 
         let newState = {
-            adminId         : this.state.adminId,
-            patientName     : this.state.patientName, 
-            patientSurname  : this.state.patientSurname, 
-            bornDate        : this.state.bornDate,
-            patientEvents   : this.state.patientEvents
+            adminId                : this.state.adminId,
+            patientName            : this.state.patientName, 
+            patientSurname         : this.state.patientSurname, 
+            bornDate               : this.state.bornDate,
+            patientsEvents         : this.state.patientsEvents,
+            patientsWeights        : this.state.patientsWeights,
+            patientsFever          : this.state.patientsFever,
+            patientsMedicines      : this.state.patientsMedicines
         };
        
         //console.log('new state = ', newState)

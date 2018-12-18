@@ -65,7 +65,7 @@ class EventInput extends React.Component {
             clinicObservation   : '',
             action              : '',
             detonation          : '',
-            patientEvents       : [],
+            patientsEvents      : [],
         };
 
         this.onNewEvent             = this.onNewEvent.bind(this);
@@ -81,7 +81,7 @@ class EventInput extends React.Component {
           const pat = res;
          // console.log("Res del patientInfo: ", res)
           this.setState({ 
-            patientEvents   : pat.patientEvents,        
+            patientsEvents   : pat.patientsEvents,        
           });
         })
         .catch(function (error) {    
@@ -99,12 +99,8 @@ class EventInput extends React.Component {
     onNewEvent(e){
         e.preventDefault();       
 
-        //console.log('El estado del events al lanzar onNewEvent = ', this.state.patientEvents)
+        //console.log('El estado del events al lanzar onNewEvent = ', this.state.patientsEvents)
         
-        // let eCode = Calculations.generateCode();
-        // this.setState({
-        //     eventCode : eCode
-        // })
 
         let newEvent = {
             patientId           : this.props.patID,
@@ -120,32 +116,20 @@ class EventInput extends React.Component {
 
         DataService.addNewEvent(newEvent)
         .then((result) => {
-            //console.log('el result recibido = ', result)
-            // let newEvent = {
-            //     eventId             : result.id,
-            //     eventDate           : this.state.eventDate,
-            //     startTime           : this.state.startTime,
-            //     duration            : this.state.duration,
-            //     minSaturation       : this.state.minSaturation,
-            //     fever               : this.state.fever,
-            //     clinicObservation   : this.state.clinicObservation,
-            //     action              : this.state.action,
-            //     detonation          : this.state.detonation,
-            // };
 
             newEvent.eventId = result.id;
             console.log('NewEvent = ', newEvent);
 
-            let eventsArray = this.state.patientEvents;
+            let eventsArray = this.state.patientsEvents;
 
-            console.log('El estado dentro del addNewEvent = ', this.state.patientEvents);
+            console.log('El estado dentro del addNewEvent = ', this.state.patientsEvents);
             eventsArray.push(newEvent);
 
             this.setState({
-                patientEvents : eventsArray,
+                patientsEvents : eventsArray,
             })
 
-            DataService.addNewEventToPatient(this.state.patientId, this.state.patientEvents);
+            DataService.addNewEventToPatient(this.state.patientId, this.state.patientsEvents);
             this.props.propsFn.push(`/patient/${this.state.patientId}`)
         })
         .catch(function (error) {    

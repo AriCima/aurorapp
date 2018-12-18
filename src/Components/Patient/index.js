@@ -42,6 +42,7 @@ export default class Patient extends React.Component {
       const pat = res;
 
       //  - - - - - - - SORT EVENTS FROM RECENT TO OLDER 
+      // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 
       var eventsCopy = [...pat.patientEvents];
 
@@ -80,7 +81,7 @@ export default class Patient extends React.Component {
     return (
       <div className="patient-info"> 
         <div className="patient-info-block">
-          <p>Nombre del paciente: </p><h4>{this.state.patientName} {this.state.patientSurname}</h4>
+          <p>Nombre completo: </p><h4>{this.state.patientName} {this.state.patientSurname}</h4>
         </div>
         <div className="patient-info-block">
           <p>Fecha de nacimiento: </p><h4>{this.state.bornDate}</h4>
@@ -149,7 +150,7 @@ export default class Patient extends React.Component {
               </div>
               <div className="standard-add-button">
               <div>
-                <Link to={`/patient_new_reading/${this.state.patientId}`}><AddButtonGreen/></Link>
+                <Link to={`/patient_new_medicine/${this.state.patientId}`}><AddButtonGreen/></Link>
               </div>
               <div id="button-info">
                 <p>Medicación</p>

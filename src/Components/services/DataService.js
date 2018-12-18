@@ -26,13 +26,13 @@ export default class DataService {
         });
     };
     static getUserInfo(userId){
-        console.log('el userID recibido es = ', userId);
+        //console.log('el userID recibido es = ', userId);
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('users').doc(userId).get()
 
             .then((result) => {
-                console.log('el result del getuser Info = ', result.data())
+                //console.log('el result del getuser Info = ', result.data())
                 resolve(result.data());   // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
             })
             .catch((error) => {
@@ -102,7 +102,7 @@ export default class DataService {
             firebase.firestore().collection('patients').doc(patientId).get()
 
             .then((result) => {
-                //console.log('el result del getpatientInfo', result);
+                //console.log('el result del getpatientInfo', result.data());
                 resolve(result.data());
             })
 
@@ -178,7 +178,6 @@ export default class DataService {
         
     });
     };
-
     static addNewEventToPatient(patId, newStateInfo) {  
     return new Promise((resolve, reject) => {
 
@@ -200,5 +199,128 @@ export default class DataService {
         
     });
     };
+    static getEventInfo(eventID) {  
+
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('events').doc(eventID).get()
+
+            .then((result) => {
+                resolve(result.data());
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('Error al cargar la patientInfo: ', errorCode);
+                
+            })
+            
+        });
+    };
+    static updateEventInfo(eventID) {  
+
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('events').doc(eventID).get()
+
+            .then((result) => {
+                resolve(result.data());
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('Error al cargar la patientInfo: ', errorCode);
+                
+            })
+            
+        });
+    };
     
+    // MEDICINES
+    static addNewMedicineToPatient(patId, newMedicine) {  
+        return new Promise((resolve, reject) => {
+    
+            console.log('add medicine launched con', patId, ' y ', newMedicine)
+            firebase.firestore().collection('patients').doc(patId).update({
+                patientsMedicines : newMedicine})
+    
+            .then((result) => {
+                
+                console.log(`new MEDICINE succesfully added !`)
+                resolve(result);
+            })
+    
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('New MEDICINE could not be added to the patient: ', error);
+               // var errorMessage = error.message;
+                
+            })
+            
+        });
+    };
+
+    // READINGS
+    static addNewReading(type, stateInfo) {  
+        //console.log('info del estado a guardar = ', stateInfo )
+        return new Promise((resolve, reject) => {
+
+        firebase.firestore().collection(type).add(stateInfo)
+
+        .then((result) => {
+            
+            console.log(`reading Nr: ${result.id}, succesfully added !`)
+            resolve(result);
+        })
+
+        .catch((error) => {
+            var errorCode = error.code;
+            console.log('patient could not be added: ', errorCode);
+           // var errorMessage = error.message;
+            
+        })
+        
+    });
+    };
+    static addNewFeverToPatient(patId, newStateInfo) {  
+        return new Promise((resolve, reject) => {
+    
+            firebase.firestore().collection('patients').doc(patId).update({
+                patientFever : newStateInfo})
+    
+            .then((result) => {
+                
+                console.log(`new FEVER reading State succesfully added !`)
+                resolve(result);
+            })
+    
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('EVENT could not be added to the patient: ', errorCode);
+               // var errorMessage = error.message;
+                
+            })
+            
+        });
+    };
+    static addNewWeightToPatient(patId, newStateInfo) {  
+    return new Promise((resolve, reject) => {
+
+        firebase.firestore().collection('patients').doc(patId).update({
+            patientWeight : newStateInfo})
+
+        .then((result) => {
+            
+            console.log(`new Weight reading State succesfully added !`)
+            resolve(result);
+        })
+
+        .catch((error) => {
+            var errorCode = error.code;
+            console.log('EVENT could not be added to the patient: ', errorCode);
+           // var errorMessage = error.message;
+            
+        })
+        
+    });
+    };
+
 }
