@@ -124,7 +124,7 @@ export default class Patient extends React.Component {
           <Link className="medicine-row" key={j} to={`/single_medicine_overview/${meds.dCode}`}> 
           
             <div id="drug-field">
-               <p>{meds.drugnName}</p>
+               <h4>{meds.drugName}</h4>
             </div>
 
             {this._renderMedicineDose(meds.dailyDose)}

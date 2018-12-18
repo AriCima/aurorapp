@@ -47,7 +47,17 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
 });
- 
+
+const units = [
+    {
+      value: 'mg',
+      label: 'mg',
+    },
+    {
+      value: 'ml',
+      label: 'ml',
+    },
+];
 
 class MedicineInput extends React.Component {
     constructor(props){
@@ -57,6 +67,8 @@ class MedicineInput extends React.Component {
             medicineName        : '',
             drugName            : '',
             drugDose            : '',
+            doseUnits           : '',
+            changeDate          : '',
             patientsMedicines   : [],
             dailyDose0          : null,
             dailyDose1          : null,
@@ -182,28 +194,32 @@ class MedicineInput extends React.Component {
         <div className="form-container">
 
             <div className="form-title">
-                <h4>Registrar una medición</h4>
+                <h4>Registrar una medicación</h4>
             </div>
 
             <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewMedicine}>
             
-                <div id="input-area">
+                <div id="input-dose-area">
 
                     <div id="input-fields-select">
                         <TextField
-                            id="standard-name"
-                            label="Nombre Comercial"
+                            id="date"
+                            label="Fecha de inicio o cambio de dosis"
+                            type="date"
+                            defaultValue="dd/mm/yyyy"
                             className={classes.textField}
-                            value={this.state.medicineName}
-                            onChange={(e)=>{this.onChangeState('medicineName', e.target.value)}}
-                            margin="normal"
+                            value={this.state.changeDate}
+                            onChange={(e)=>{this.onChangeState('changeDate', e.target.value)}}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
                     </div>
 
                     <div id="input-fields-select">
                         <TextField
                             id="standard-name"
-                            label="Droga"
+                            label="Nombre de la droga"
                             className={classes.textField}
                             value={this.state.drugName}
                             onChange={(e)=>{this.onChangeState('drugName', e.target.value)}}
@@ -213,8 +229,25 @@ class MedicineInput extends React.Component {
 
                     <div id="input-fields-select">
                         <TextField
+                            select
+                            label="Unidades"
+                            className={classNames(classes.margin, classes.textField)}
+                            value={this.state.doseUnits}
+                            onChange={(e)=>{this.onChangeState('doseUnits', e.target.value)}}
+
+                        >
+                            {units.map(option => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </div>
+
+                    <div id="input-fields-select">
+                        <TextField
                             id="standard-name"
-                            label="Dosis [mg]"
+                            label="Dosis"
                             className={classes.textField}
                             value={this.state.drugDose}
                             onChange={(e)=>{this.onChangeState('drugDose', e.target.value)}}
@@ -224,34 +257,34 @@ class MedicineInput extends React.Component {
 
                     <div id="ddose-input-area">
                         <div className="list-title">
-                            <h2>Dosis horaria del medicamento en <span>[mg]</span></h2>
-                            </div>
-                        <div className="standard-list-header">
+                            <h2>Dosis diaria del medicamento</h2>
+                        </div>
+                        <div className="days-list-header">
                             <ul>
-                                <li id="double-line">0</li>
-                                <li id="double-line">1</li>
-                                <li id="double-line">2</li>
-                                <li id="double-line">3</li>
-                                <li id="double-line">4</li>
-                                <li id="double-line">5</li>
-                                <li id="double-line">6</li>
-                                <li id="double-line">7</li>
-                                <li id="double-line">8</li>
-                                <li id="double-line">9</li>
-                                <li id="double-line">10</li>
-                                <li id="double-line">11</li>
-                                <li id="double-line">12</li>
-                                <li id="double-line">13</li>
-                                <li id="double-line">14</li>
-                                <li id="double-line">15</li>
-                                <li id="double-line">16</li>
-                                <li id="double-line">17</li>
-                                <li id="double-line">18</li>
-                                <li id="double-line">19</li>
-                                <li id="double-line">20</li>
-                                <li id="double-line">21</li>
-                                <li id="double-line">22</li>
-                                <li id="double-line">23</li>
+                                <li id="single-day">0</li>
+                                <li id="single-day">1</li>
+                                <li id="single-day">2</li>
+                                <li id="single-day">3</li>
+                                <li id="single-day">4</li>
+                                <li id="single-day">5</li>
+                                <li id="single-day">6</li>
+                                <li id="single-day">7</li>
+                                <li id="single-day">8</li>
+                                <li id="single-day">9</li>
+                                <li id="single-day">10</li>
+                                <li id="single-day">11</li>
+                                <li id="single-day">12</li>
+                                <li id="single-day">13</li>
+                                <li id="single-day">14</li>
+                                <li id="single-day">15</li>
+                                <li id="single-day">16</li>
+                                <li id="single-day">17</li>
+                                <li id="single-day">18</li>
+                                <li id="single-day">19</li>
+                                <li id="single-day">20</li>
+                                <li id="single-day">21</li>
+                                <li id="single-day">22</li>
+                                <li id="single-day">23</li>
                             </ul>
                         </div>
                         <div className="dose-inputs">

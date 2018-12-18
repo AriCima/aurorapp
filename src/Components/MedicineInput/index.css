@@ -27,9 +27,9 @@
   justify-content: flex-start;
   align-items: center;
 }
-#input-area{
+#input-dose-area{
   background-color: rgba(0, 144, 248, 0.2);
-  width: 80%;
+  width: 95%;
   margin: 0px 0px 10px 0px;
   display: flex;
   flex-direction: row;
@@ -37,15 +37,63 @@
   flex-wrap: wrap;
 }
 
-#input-fields{
-  margin: 10px 10px;
+
+#input-fields-select{
+  display: flex;
+  align-items: flex-end;
+  margin: 20px 10px;
+}
+
+#ddose-input-area{
+  width: 100%;
+
+}
+
+
+
+
+.days-list-header{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+ul{
+  width: 100%;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+#single-day{
+  width: 40px;
+  border: 2px solid lightgray;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 144, 248, 1);;
   color: white;
 }
 
-#input-fields-select{
-  margin: 26px 10px;
+
+.dose-inputs{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
 }
 
+input{
+  padding: 0;
+  margin: 0;
+  width: 40px;
+  height: 30px;
+  background-color: rgba(79, 81, 83, 0.068);
+  font-size: 16px;
+}
 .button-area{
   margin-left: 0px;
   display: flex;
@@ -53,20 +101,5 @@
   justify-content: flex-start;
   width: 80%;
 }
-
-#input-dose{
-  width: 30px;
-  background-color: black;
-  text-decoration: none;
-}
-
-input{
-  width: 40px;
-  height: 30px;
-  background-color: rgba(0, 144, 248, 0.2);
-
-  font-size: 16px;
-}
-
 
 
