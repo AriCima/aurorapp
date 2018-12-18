@@ -25,13 +25,14 @@ export default class Patient extends React.Component {
     super(props);
 
     this.state = {
-      user          : this.props.userID,
-      patientId     : this.props.patID,
-      patientName   : '',
-      patientSurname: '',
-      bornDate      : '',
-      weight        : '',
-      patientEvents : []
+      user              : this.props.userID,
+      patientId         : this.props.patID,
+      patientName       : '',
+      patientSurname    : '',
+      bornDate          : '',
+      weight            : '',
+      patientsEvents    : [],
+      patientsMedicines : [],
     }
   }
  
@@ -44,32 +45,56 @@ export default class Patient extends React.Component {
       //  - - - - - - - SORT EVENTS FROM RECENT TO OLDER 
       // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 
-      var eventsCopy = [...pat.patientEvents];
+      var eventsCopy = [...pat.patientsEvents];
 
       function compare(a, b) {
         
-        const dateA = a.eventDate;
-        const dateB = b.eventDate;
+        const drugA = a.eventDate;
+        const drugB = b.eventDate;
       
         let comparison = 0;
-        if (dateA > dateB) {
+        if (drugA > drugB) {
           comparison = -1;
-        } else if (dateA < dateB) {
+        } else if (drugA < drugB) {
           comparison = 1;
         }
         return comparison;
-      }
+      };
       
       eventsCopy.sort(compare);
       
 
      // - - - - - - - Sorting end 
 
+     //  - - - - - - - SORT MEDICINES ALPHABETICALLY
+      // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+
+      var medicinesCopy = [...pat.patientsMedicines];
+
+      function compare(a, b) {
+        
+        const drugA = a.drugName;
+        const drugB = b.drugName;
+      
+        let comparison = 0;
+        if (drugA > drugB) {
+          comparison = -1;
+        } else if (drugA < drugB) {
+          comparison = 1;
+        }
+        return comparison;
+      };
+      
+      medicinesCopy.sort(compare);
+
+     // - - - - - - - Sorting end 
+
       this.setState({ 
-        patientName     : pat.patientName,
-        patientSurname  : pat.patientSurname,
-        bornDate        : pat.bornDate, 
-        patientEvents   : eventsCopy,         
+        patientName      : pat.patientName,
+        patientSurname   : pat.patientSurname,
+        bornDate         : pat.bornDate, 
+        patientsEvents   : eventsCopy,   
+        patientsMedicines: medicinesCopy,      
       });
     })
     .catch(function (error) {    
@@ -90,10 +115,40 @@ export default class Patient extends React.Component {
     )
   };
 
+  _renderMedicinesInfo(){ 
+    
+    //console.log('render events triggered with: ', obj)
+    return this.state.patientsMedicines.map((meds,j) => {
+      return (
+        <div className="medicines-container">
+          <Link className="standard-list-row" key={j} to={`/single_medicine_overview/${meds.dCode}`}> 
+          
+            <div className="med-block-name">
+               <p>{meds.drugnName}</p>
+            </div>
+
+            {this._renderMedicineDose(meds.dailyDose)}
+            
+          </Link>
+        </div>
+      )
+    })
+  };
+
+  _renderMedicineDose(x){
+    return x.map((dose, j) => {
+      return (
+        <div className="med-block-dose">
+          <p>{dose}</p>
+        </div>
+      )
+    })
+  }
+
   _renderEventsInfo(){ 
     
     //console.log('render events triggered with: ', obj)
-    return this.state.patientEvents.map((evts,j) => {
+    return this.state.patientsEvents.map((evts,j) => {
       return (
         <div className="list-container">
           <Link className="standard-list-row" key={j} to={`/single_event_overview/${evts.eventId}`}> 
@@ -196,6 +251,48 @@ export default class Patient extends React.Component {
             }}
           />
         </div>
+
+        <div className="medicines-area">
+          
+          <div className="list-title">
+            <h2>Dosis díaria de medicamentos</h2>
+          </div>
+
+          <div className="drugs-list-header">
+              <ul id="days-list">
+                  <li id="drug-field">Droga</li>
+                  <li id="single-day">0</li>
+                  <li id="single-day">1</li>
+                  <li id="single-day">2</li>
+                  <li id="single-day">3</li>
+                  <li id="single-day">4</li>
+                  <li id="single-day">5</li>
+                  <li id="single-day">6</li>
+                  <li id="single-day">7</li>
+                  <li id="single-day">8</li>
+                  <li id="single-day">9</li>
+                  <li id="single-day">10</li>
+                  <li id="single-day">11</li>
+                  <li id="single-day">12</li>
+                  <li id="single-day">13</li>
+                  <li id="single-day">14</li>
+                  <li id="single-day">15</li>
+                  <li id="single-day">16</li>
+                  <li id="single-day">17</li>
+                  <li id="single-day">18</li>
+                  <li id="single-day">19</li>
+                  <li id="single-day">20</li>
+                  <li id="single-day">21</li>
+                  <li id="single-day">22</li>
+                  <li id="single-day">23</li>
+              </ul>
+          </div>
+
+          
+            {this._renderMedicinesInfo()}   
+         
+        </div>
+
 
         <div className="lower-area">
             <div className="list-title">

@@ -182,7 +182,7 @@ export default class DataService {
     return new Promise((resolve, reject) => {
 
         firebase.firestore().collection('patients').doc(patId).update({
-            patientEvents : newStateInfo})
+            patientsEvents : newStateInfo})
 
         .then((result) => {
             

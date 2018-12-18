@@ -2,6 +2,7 @@ import React from 'react';
 
 // SERVICE API
 import DataService from '../services/DataService';
+import Calculations from '../services/Calculations';
 
 // MATERIAL-UI
 import PropTypes from 'prop-types';
@@ -115,8 +116,11 @@ class MedicineInput extends React.Component {
     onNewMedicine(e){
         e.preventDefault();       
 
+        let dCode = Calculations.generateCode()
+
         // Estructura del Obj = {Droga: droga, dailyDose : [0,0,0,0,15,0,0, . . . .] }
         let newMedicineObj = {
+            drugCode    : dCode,
             drugName    : this.state.drugName, 
             dailyDose   : [
             this.state.dailyDose0, 

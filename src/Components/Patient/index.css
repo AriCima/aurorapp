@@ -14,55 +14,55 @@
     align-content: center;
 }
 
-    .patient-info{
-        width: 50%;
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    .patient-info-block{
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-    }
-    .patient-info-block p{
-        margin: 10px 0 0 20px;
-        font-size: 18px;
-        font-weight: 550;
-        color: gray;
-    }
-    .patient-info-block h4{
-        margin: 10px 0 0 20px;
-        font-size: 18px;
-        font-weight: 700;
-        color: rgb(0, 144, 248);
-    }
-    .add-buttons-area{
-        margin-top: 20px;
-        width: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .standard-add-button{
-        width: 80%;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-    }
-    #button-info p{
-        margin: 5px 0 0 0;
-        font-size: 16px;
-        font-weight: 550;
-        color: gray;
-        display: block;
-        text-align: center;
-    }
+.patient-info{
+    width: 50%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.patient-info-block{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.patient-info-block p{
+    margin: 10px 0 0 20px;
+    font-size: 18px;
+    font-weight: 550;
+    color: gray;
+}
+.patient-info-block h4{
+    margin: 10px 0 0 20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(0, 144, 248);
+}
+.add-buttons-area{
+    margin-top: 20px;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.standard-add-button{
+    width: 80%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+#button-info p{
+    margin: 5px 0 0 0;
+    font-size: 16px;
+    font-weight: 550;
+    color: gray;
+    display: block;
+    text-align: center;
+}
 
 
 .middle-area{
@@ -76,6 +76,61 @@
     align-items: center;
     justify-content: center;
 
+}
+
+/* MEDICINES LISTING */
+
+.medicines-area{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+
+}
+
+.medicines-area .list-title{
+    width: 100%;
+    display: flex;
+    justify-items: flex-start;
+    align-items: center;
+
+}
+
+.drugs-list-header{
+    width: 90%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(0, 144, 248);
+    border-radius: 10px;
+    color: white;
+}
+
+#days-list{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+}
+#drug-field{
+    width: 180px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+    align-items: center;
+
+}
+
+#single-day{
+    width: 4%;
+    margin: 0;
+    list-style-type: none;
+}
+
+.medicines-container{
+    display: flex;
+    flex-direction: row;
 }
 
 /* EVENTS LISTINGS */
