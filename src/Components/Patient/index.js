@@ -121,14 +121,18 @@ export default class Patient extends React.Component {
     return this.state.patientsMedicines.map((meds,j) => {
       return (
         <div className="medicines-container">
-          <Link className="standard-list-row" key={j} to={`/single_medicine_overview/${meds.dCode}`}> 
+          <Link className="medicine-row" key={j} to={`/single_medicine_overview/${meds.dCode}`}> 
           
-            <div className="med-block-name">
+            <div id="drug-field">
                <p>{meds.drugnName}</p>
             </div>
 
             {this._renderMedicineDose(meds.dailyDose)}
-            
+
+            <div id="ratio-field">
+               <p>{meds.drugnRatio}</p>
+            </div>
+
           </Link>
         </div>
       )
@@ -138,7 +142,7 @@ export default class Patient extends React.Component {
   _renderMedicineDose(x){
     return x.map((dose, j) => {
       return (
-        <div className="med-block-dose">
+        <div className="dose-fields">
           <p>{dose}</p>
         </div>
       )

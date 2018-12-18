@@ -98,6 +98,7 @@
 
 .drugs-list-header{
     width: 90%;
+    padding: 0;
     height: 40px;
     display: flex;
     flex-direction: row;
@@ -108,6 +109,7 @@
 }
 
 #days-list{
+    padding: 0;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -115,6 +117,7 @@
 }
 #drug-field{
     width: 180px;
+    margin: 0 0 0 10px;
     list-style-type: none;
     display: flex;
     flex-direction: row;
@@ -123,14 +126,13 @@
 }
 
 #ratio-field{
-    width: 180px;
+    width: 150px;
     list-style-type: none;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-
 #single-day{
     width: 4%;
     margin: 0;
@@ -144,7 +146,53 @@
 .medicines-container{
     display: flex;
     flex-direction: row;
+    width: 90%;
+    color: gray;
 }
+
+.medicine-row{
+    width: 100%;
+    background-color: rgba(0, 144, 248, 0.2);
+    border-radius: 10px;
+    margin: 2px 0 2px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: gray;
+}
+
+.medicine-row:first-child{
+    margin-top: 4px;
+}
+.medicine-row:hover{
+    background-color: rgba(0, 144, 248, 0.5);
+    color: white;
+    font-weight: 650;
+}
+
+.dose-fields{
+    width: 4%;
+    height: 100%;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 144, 248, 0.2);
+}
+
+.dose-fields:nth-child(odd){
+    background-color: rgba(0, 144, 248, 0.02);
+}
+.dose-fields:nth-child(even){
+    background-color: rgba(0, 144, 248, 0.2);
+}
+.dose-fields p{
+    margin: 0;
+}
+
+
 
 /* EVENTS LISTINGS */
 
