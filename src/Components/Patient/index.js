@@ -285,6 +285,7 @@ export default class Patient extends React.Component {
                   <li id="single-day">21</li>
                   <li id="single-day">22</li>
                   <li id="single-day">23</li>
+                  <li id="ratio-field">mg/kg</li>
               </ul>
           </div>
 

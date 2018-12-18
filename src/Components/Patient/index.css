@@ -85,15 +85,15 @@
     display: flex;
     flex-direction: column;
     justify-items: center;
+    align-items: center;
 
 }
 
 .medicines-area .list-title{
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-items: flex-start;
     align-items: center;
-
 }
 
 .drugs-list-header{
@@ -104,6 +104,7 @@
     background-color: rgb(0, 144, 248);
     border-radius: 10px;
     color: white;
+    font-weight: 550;
 }
 
 #days-list{
@@ -119,13 +120,25 @@
     flex-direction: row;
     justify-items: flex-start;
     align-items: center;
+}
 
+#ratio-field{
+    width: 180px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 #single-day{
     width: 4%;
     margin: 0;
     list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .medicines-container{
