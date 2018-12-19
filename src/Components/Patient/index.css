@@ -138,7 +138,7 @@
     justify-content: center;
     align-items: center;
 }
-#single-day{
+.single-day{
     width: 4%;
     margin: 0;
     list-style-type: none;
