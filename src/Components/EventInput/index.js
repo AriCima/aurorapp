@@ -118,11 +118,11 @@ class EventInput extends React.Component {
         .then((result) => {
 
             newEvent.eventId = result.id;
-            console.log('NewEvent = ', newEvent);
+            //console.log('NewEvent = ', newEvent);
 
             let eventsArray = this.state.patientsEvents;
 
-            console.log('El estado dentro del addNewEvent = ', this.state.patientsEvents);
+           // console.log('El estado dentro del addNewEvent = ', this.state.patientsEvents);
             eventsArray.push(newEvent);
 
             this.setState({

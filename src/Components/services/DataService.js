@@ -280,11 +280,11 @@ export default class DataService {
         
     });
     };
-    static addNewFeverToPatient(patId, newStateInfo) {  
+    static addNewFever(patId, feverArray) {  
         return new Promise((resolve, reject) => {
     
             firebase.firestore().collection('patients').doc(patId).update({
-                patientFever : newStateInfo})
+                patientsFever : feverArray})
     
             .then((result) => {
                 
@@ -301,11 +301,11 @@ export default class DataService {
             
         });
     };
-    static addNewWeightToPatient(patId, newStateInfo) {  
+    static addNewWeight(patId, weightArray) {  
     return new Promise((resolve, reject) => {
 
         firebase.firestore().collection('patients').doc(patId).update({
-            patientWeight : newStateInfo})
+            patientsWeight : weightArray})
 
         .then((result) => {
             
