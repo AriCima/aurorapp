@@ -14,6 +14,7 @@ import AddButtonGreen from '../Accessories/AddButtonGreen'
 
 // SERVICE API
 import DataService from '../services/DataService';
+import Calculations from '../services/Calculations';
 
 // Components
 
@@ -33,74 +34,81 @@ export default class Patient extends React.Component {
       weight            : '',
       patientsEvents    : [],
       patientsMedicines : [],
+      patMedTime        : [],
+      patientsReadings  : [],
+      timeLineDays      : 30,
     }
   }
  
   componentDidMount(){
-    
+
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
       const pat = res;
 
-      //  - - - - - - - SORT EVENTS FROM RECENT TO OLDER 
+      //  - - - - - - - SORT EVENTS / READINGS / MEDICINES FROM RECENT TO OLDER 
       // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 
-      var eventsCopy = [...pat.patientsEvents];
+      let eventsCopy     = [...pat.patientsEvents];
+      let medicinesCopy  = [...pat.patientsMedicines];
+      let feverCopy      = [...pat.patientsFever];
+      let weightsCopy    = [...pat.patientsWeights];
 
-      function compare(a, b) {
-        
-        const drugA = a.eventDate;
-        const drugB = b.eventDate;
-      
-        let comparison = 0;
-        if (drugA > drugB) {
-          comparison = -1;
-        } else if (drugA < drugB) {
-          comparison = 1;
-        }
-        return comparison;
-      };
-      
-      eventsCopy.sort(compare);
-      
 
-     // - - - - - - - Sorting end 
-
-     //  - - - - - - - SORT MEDICINES ALPHABETICALLY
-      // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-
-      var medicinesCopy = [...pat.patientsMedicines];
-
-      function compare(a, b) {
-        
-        const drugA = a.drugName;
-        const drugB = b.drugName;
-      
-        let comparison = 0;
-        if (drugA > drugB) {
-          comparison = -1;
-        } else if (drugA < drugB) {
-          comparison = 1;
-        }
-        return comparison;
-      };
-      
-      medicinesCopy.sort(compare);
+      let eventsSorted          = Calculations.sortByEventDate(eventsCopy);
+      let medicinesSortedDate   = Calculations.sortMedicinesDate(medicinesCopy);
+      let medicinesSortedAlpha  = Calculations.sortReadingsByDate(medicinesCopy);
+      let feverOrdered          = Calculations.sortReadingsByDate(feverCopy);
+      let weightsSorted         = Calculations.sortReadingsByDate(weightsCopy);
 
      // - - - - - - - Sorting end 
 
       this.setState({ 
-        patientName      : pat.patientName,
-        patientSurname   : pat.patientSurname,
-        bornDate         : pat.bornDate, 
-        patientsEvents   : eventsCopy,   
-        patientsMedicines: medicinesCopy,      
+        patientName       : pat.patientName,
+        patientSurname    : pat.patientSurname,
+        bornDate          : pat.bornDate, 
+        patientsEvents    : eventsSorted,   
+        patientsMedicines : medicinesSortedAlpha,      // med oredered alpahbetically for listing purposes
+        patMedTime        : medicinesSortedDate,       // med chronologically ordered for graphics purposes
+        patientsFever     : feverOrdered,
+        patientsWeights   : weightsSorted,
       });
     })
     .catch(function (error) {    
       console.log(error);
     })    
   }
+
+  _eventsGraphicData(x){
+
+    let pEvts = [...this.state.patientsEvents];
+    //let today = new Date();
+    let startDate = date.setDate(date.getDate() - this.state.timeLineDays);
+    
+    let eventsData = [];
+
+    for (let i = 0; i <= timeLineDays; i++ ){
+
+      let date = startDate.setDate(i.getDate() + i);
+      let events = 0;
+
+      for (let j = 0; j<pEvts.length; j++){
+        let dateToComare =  new Date(pEvts.eventDate);
+
+        if (date === dateToCompare){
+          events = events + 1;
+        }
+      }
+      
+      eventsData[i] = [date, events]
+
+
+
+    }
+
+  }
+
+
 
   _renderPatientInfo(){
     return (
@@ -220,39 +228,30 @@ export default class Patient extends React.Component {
           
         <div className="middle-area">
           <Chart
-            width={800}
-            height={400}
-            chartType="Line"
+            width={'500px'}
+            height={'300px'}
+            chartType="Bar"
             loader={<div>Loading Chart</div>}
             data={[
-              [
-                'Day',
-                'Var 1',
-                'Var 2',
-                'Var 3',
-                'Var 4',
-              ],
-              [1,   37.8, 80.8, 41.8, 12],
-              [2,   30.9, 69.5, 32.4, 12],
-              [3,   25.4, 57,   25.7, 12],
-              [4,   11.7, 18.8, 10.5, 12],
-              [5,   11.9, 17.6, 10.4, 12],
-              [6,    8.8, 13.6, 7.7, 12],
-              [7,    7.6, 12.3, 9.6, 12],
-              [8,   12.3, 29.2, 10.6, 12],
-              [9,   16.9, 42.9, 14.8, 12],
-              [10,  12.8, 30.9, 11.6, 12],
-              [11,   5.3, 7.9,  4.7, 12],
-              [12,   6.6, 8.4,  5.2, 12],
-              [13,   4.8, 6.3,  3.6, 12],
-              [14,   4.2, 6.2,  3.4, 12],
+              ['Días', 'Eventos'],
+              ['2014', 10],
+              ['2015', 11],
+              ['2016', 66],
+              ['2017', 10.3],
+              ['2018', 10],
+              ['2019', 11],
+              ['2020', 66],
+              ['2021', 10.3]
             ]}
             options={{
+              // Material design options
               chart: {
-                title: 'Eventos registrados en el último mes',
+                title: 'Aurora Morales: Eventos Registrados',
                 subtitle: '',
               },
             }}
+            // For tests
+            rootProps={{ 'data-testid': '2' }}
           />
         </div>
 

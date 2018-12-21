@@ -91,6 +91,7 @@ class App extends Component {
                 <Route path="/patient_new_reading/:patientId" exact render = {(props) => { return <HeaderReadingInput propsFn={props.history} patID={props.match.params.patientId} />}}/> */}
                 <Route path="/patient_new_medicine/:patientId" exact render = {(props) => { return <HeaderReadingInput propsFn={props.history} patID={props.match.params.patientId} />}}/> */}
 
+
                 {/* <Route path="/add_patient/:user" exact render = {(props) => { return <HeaderPatientInput propsFn={props.history} userID={props.match.params.user}/>}}/>
 
                 {/* <Header user={user} /> */}

@@ -11,6 +11,93 @@ export default class Calculations {
         return currentMonth
     }
 
+    static getDaysUntilToday(x){        
+        let now = new Date();
+        let inBetweenDays = [];
+
+        for (let i = new Date(x); i <= now; i.setDate(i.getDate() + 1)) {
+            inBetweenDays.push(new Date(i));
+        }
+       
+        return inBetweenDays
+    };
+
+    static completeMedicinesTimeline(x){  
+    };
+
+    // - - - - -SORTING FUNCTIONS 
+    // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+
+    static sortByEventDate(x){
+
+        function compare(a,b){
+            const drugA = a.eventDate;
+            const drugB = b.eventDate;
+        
+            let comparison = 0;
+            if (drugA > drugB) {
+            comparison = -1;
+            } else if (drugA < drugB) {
+            comparison = 1;
+            }
+            return comparison;
+        }
+
+        return x.sort(compare)
+    };
+    static sortMedicinesDate(x){
+        function orderMedicines(a, b) {
+        
+            const drugA = a.changeDate;
+            const drugB = b.changeDate;
+          
+            let comparison = 0;
+            if (drugA > drugB) {
+              comparison = -1;
+            } else if (drugA < drugB) {
+              comparison = 1;
+            }
+            return comparison;
+        };
+
+        return x.sort(orderMedicines)
+    };
+    static sortMedicinesAlpha(x){
+        function compareName(a, b) {
+        
+            const drugA = a.drugName;
+            const drugB = b.drugName;
+          
+            let comparison = 0;
+            if (drugA > drugB) {
+              comparison = -1;
+            } else if (drugA < drugB) {
+              comparison = 1;
+            }
+            return comparison;
+        };
+        return x.sort(compareName)
+    };
+    static sortReadingsByDate(x){
+        function orderReadings(a, b) {
+        
+            const drugA = a.readingDate;
+            const drugB = b.readingDate;
+          
+            let comparison = 0;
+            if (drugA > drugB) {
+              comparison = -1;
+            } else if (drugA < drugB) {
+              comparison = 1;
+            }
+            return comparison;
+        };
+        return x.sort(orderReadings)
+    };
+
+
+    // - - - - CODE GENERATION 
+
     static generateCode(){
      // GENERATE BOOKING CODE
      const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']

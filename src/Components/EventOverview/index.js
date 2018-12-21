@@ -66,7 +66,7 @@ class EventOverview extends React.Component {
 
         };
 
-        this.onNewReading             = this.onNewReading.bind(this);
+        // this.onNewReading             = this.onNewReading.bind(this);
 
     }
 

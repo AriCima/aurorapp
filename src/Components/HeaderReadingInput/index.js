@@ -66,7 +66,7 @@ class HeaderReadingInput extends Component {
                 <div className="header-mid">
 
                     <div className="nav-block">
-                        {this.state.patientName && <h2>Registro de Medicamentos, Peso o Fiebre</h2>}
+                        {this.state.patientName && <h2>Página de Registro</h2>}
                     </div>
 
                     
