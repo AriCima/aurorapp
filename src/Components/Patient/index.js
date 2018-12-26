@@ -79,32 +79,53 @@ export default class Patient extends React.Component {
     })    
   }
 
-  _eventsGraphicData(x){
+  _eventsGraphicData(){
 
     let pEvts = [...this.state.patientsEvents];
-    //let today = new Date();
-    let startDate = date.setDate(date.getDate() - this.state.timeLineDays);
+    //console.log('pEvts = ', pEvts);
     
-    let eventsData = [];
+    let today = new Date();
+    let startDate = today.setDate(today.getDate() - this.state.timeLineDays);
 
-    for (let i = 0; i <= timeLineDays; i++ ){
+    //let dateToConsole = Calculations.getFormatedDate(startDate);
+    //console.log('Fecha de Inicio = ', dateToConsole)
+    
+    let eventsData = [['Fecha', 'Nro de Eventos'], []];
+    let dyasBack = this.state.timeLineDays;
 
-      let date = startDate.setDate(i.getDate() + i);
+    for (let i = 0; i <= dyasBack; i++ ){
+
+      let dateForArray = new Date(startDate)
+      dateForArray.setDate(dateForArray.getDate() + i);
+      
+      //console.log('fecha a evaluar = ', startDate , ' / ', i);
+
+      let dateFormated = Calculations.getFormatedDate(dateForArray);
       let events = 0;
 
+      //console.log('longitud events = ', pEvts.length)
       for (let j = 0; j<pEvts.length; j++){
-        let dateToComare =  new Date(pEvts.eventDate);
-
-        if (date === dateToCompare){
+        
+        //console.log('evts(j)', pEvts[j])
+        let dateToCompare =  new Date(pEvts[j].eventDate);
+        //console.log('date to compare', dateToCompare)
+        let dateToCompareFormated = Calculations.getFormatedDatePlusOne(dateToCompare); // * * *  Tengo que sumar 1 al día si no me devuelde un día atrasado ? ? ? ?
+        
+        if (dateFormated.join('-') === dateToCompareFormated.join('-')){
           events = events + 1;
         }
+
+        console.log('date vs dateToCompare = ', dateFormated, ' / ', dateToCompareFormated)
+        console.log('events =' , events)
       }
       
-      eventsData[i] = [date, events]
-
-
-
+      let finalDate = dateFormated.join('-');
+      console.log('ArrayFormated con Join', )
+      
+      eventsData[i] = [finalDate, events]
     }
+    console.log('el eventsData = ', eventsData);
+    return eventsData
 
   }
 
@@ -122,7 +143,6 @@ export default class Patient extends React.Component {
       </div>
     )
   };
-
   _renderMedicinesInfo(){ 
     
     //console.log('render events triggered with: ', obj)
@@ -146,7 +166,6 @@ export default class Patient extends React.Component {
       )
     })
   };
-
   _renderMedicineDose(x){
     return x.map((dose, j) => {
       return (
@@ -156,7 +175,6 @@ export default class Patient extends React.Component {
       )
     })
   }
-
   _renderEventsInfo(){ 
     
     //console.log('render events triggered with: ', obj)
@@ -232,17 +250,7 @@ export default class Patient extends React.Component {
             height={'300px'}
             chartType="Bar"
             loader={<div>Loading Chart</div>}
-            data={[
-              ['Días', 'Eventos'],
-              ['2014', 10],
-              ['2015', 11],
-              ['2016', 66],
-              ['2017', 10.3],
-              ['2018', 10],
-              ['2019', 11],
-              ['2020', 66],
-              ['2021', 10.3]
-            ]}
+            data={this._eventsGraphicData()}
             options={{
               // Material design options
               chart: {

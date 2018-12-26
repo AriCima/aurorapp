@@ -11,6 +11,40 @@ export default class Calculations {
         return currentMonth
     }
 
+    static getFormatedDate(x){
+        let days = ['Sun','Mon', 'Tue','Wed', 'Thu', 'Fri', 'Sat'];
+        let months  =  ['Januay', 'February', 'March', 'April','May', 'June', 'July', 'August','September', 'October', 'November', 'December'];
+
+        const date = new Date(x);
+
+        let day = date.getDate(x);
+
+        let monthI = date.getMonth()
+        let month = months[monthI]
+
+        let year = date.getFullYear()
+
+        let formatedDate = [day, month, year]
+        
+        return formatedDate
+    }
+    static getFormatedDatePlusOne(x){
+        let days = ['Sun','Mon', 'Tue','Wed', 'Thu', 'Fri', 'Sat'];
+        let months  =  ['Januay', 'February', 'March', 'April','May', 'June', 'July', 'August','September', 'October', 'November', 'December'];
+
+        const date = new Date(x);
+
+        let day = date.getDate(x)+1;
+
+        let monthI = date.getMonth()
+        let month = months[monthI]
+
+        let year = date.getFullYear()
+
+        let formatedDate = [day, month, year]
+        
+        return formatedDate
+    }
     static getDaysUntilToday(x){        
         let now = new Date();
         let inBetweenDays = [];
