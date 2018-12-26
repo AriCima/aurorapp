@@ -90,7 +90,7 @@ export default class Patient extends React.Component {
     //let dateToConsole = Calculations.getFormatedDate(startDate);
     //console.log('Fecha de Inicio = ', dateToConsole)
     
-    let eventsData = [['Fecha', 'Nro de Eventos'], []];
+    let eventsData = [['Fecha', 'Nro de Eventos']];
     let dyasBack = this.state.timeLineDays;
 
     for (let i = 0; i <= dyasBack; i++ ){
@@ -122,7 +122,7 @@ export default class Patient extends React.Component {
       let finalDate = dateFormated.join('-');
       console.log('ArrayFormated con Join', )
       
-      eventsData[i] = [finalDate, events]
+      eventsData.push([finalDate, events])
     }
     console.log('el eventsData = ', eventsData);
     return eventsData
