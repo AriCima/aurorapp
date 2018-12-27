@@ -125,7 +125,6 @@ export default class Calculations {
         return x.sort(orderReadings)
     };
 
-
     // - - - - CODE GENERATION 
     static generateCode(){
      // GENERATE BOOKING CODE

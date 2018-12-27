@@ -82,15 +82,15 @@ class MedicineInput extends React.Component {
         DataService.getPatientInfo(this.state.patientId)
         .then(res => {
 
-            console.log('res = ', res)
+           // console.log('res = ', res)
 
         
             this.setState({ 
                 patientsFever   : res.patientsFever,
-                patientsWeights  : res.patientsWeights,
+                patientsWeight  : res.patientsWeight,
             });
 
-            console.log('this.stateFever / weight = ', this.state.patientsFever, ' / ', this.state.patientsWeights)
+           // console.log('this.stateFever / weight = ', this.state.patientsFever, ' / ', this.state.patientsWeight)
 
         })
         .catch(function (error) {    
@@ -142,6 +142,8 @@ class MedicineInput extends React.Component {
 
             let transWeight = [...this.state.patientsWeight];
             transWeight.push(newReading);
+
+
             this.setState({
                 patientsWeight : transWeight,
             })

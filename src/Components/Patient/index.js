@@ -30,11 +30,11 @@ export default class Patient extends React.Component {
       patientName       : '',
       patientSurname    : '',
       bornDate          : '',
-      weight            : '',
       patientsEvents    : [],
       patientsMedicines : [],
       patMedTime        : [],
-      patientsReadings  : [],
+      patientsWeights   : [],
+      patientsFever     : [],
       timeLineDays      : 30,
     }
   }
@@ -51,7 +51,7 @@ export default class Patient extends React.Component {
       let eventsCopy     = [...pat.patientsEvents];
       let medicinesCopy  = [...pat.patientsMedicines];
       let feverCopy      = [...pat.patientsFever];
-      let weightsCopy    = [...pat.patientsWeights];
+      let weightsCopy    = [...pat.patientsWeight];
 
 
       let eventsSorted          = Calculations.sortByEventDate(eventsCopy);
@@ -59,6 +59,9 @@ export default class Patient extends React.Component {
       let medicinesSortedAlpha  = Calculations.sortReadingsByDate(medicinesCopy);
       let feverOrdered          = Calculations.sortReadingsByDate(feverCopy);
       let weightsSorted         = Calculations.sortReadingsByDate(weightsCopy);
+
+      console.log('medicinesDate = ', medicinesSortedDate);
+      console.log('weightsSorted = ', weightsSorted);
 
      // - - - - - - - Sorting end 
 
@@ -248,7 +251,7 @@ export default class Patient extends React.Component {
             rootProps={{ 'data-testid': '2' }}
           />
 
-          <LinesChart patID={this.props.patID} tline={this.state.timeLineDays} med={this.state.patMedTime} readings={this.state.patientsWeights}/>
+          <LinesChart patID={this.props.patID} tline={this.state.timeLineDays} med={this.state.patMedTime} weight={this.state.patientsWeights}/>
 
         </div>
 

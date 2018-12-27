@@ -21,9 +21,10 @@ export default class LinesChart extends React.Component {
     this.state = {
       user              : this.props.userID,
       patMedTime        : this.props.med,
-      patientsReadings  : this.props.readings,
+      patientsReadings  : this.props.weight,
       timeLineDays      : this.props.tline,
     }
+    
   }
 
 
@@ -108,7 +109,7 @@ export default class LinesChart extends React.Component {
   };
   
   render() {
-
+    console.log('states del lines: ', this.state.patMedTime, this.state.patientsReadings, this.state.timeLineDays)
     return (
 
       <div className="overview">
