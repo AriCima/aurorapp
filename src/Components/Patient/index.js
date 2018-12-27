@@ -51,17 +51,10 @@ export default class Patient extends React.Component {
       let eventsCopy     = [...pat.patientsEvents];
       let medicinesCopy  = [...pat.patientsMedicines];
       let feverCopy      = [...pat.patientsFever];
-      let weightsCopy    = [...pat.patientsWeight];
-
 
       let eventsSorted          = Calculations.sortByEventDate(eventsCopy);
-      let medicinesSortedDate   = Calculations.sortMedicinesDate(medicinesCopy);
       let medicinesSortedAlpha  = Calculations.sortReadingsByDate(medicinesCopy);
       let feverOrdered          = Calculations.sortReadingsByDate(feverCopy);
-      let weightsSorted         = Calculations.sortReadingsByDate(weightsCopy);
-
-      console.log('medicinesDate = ', medicinesSortedDate);
-      console.log('weightsSorted = ', weightsSorted);
 
      // - - - - - - - Sorting end 
 
@@ -71,10 +64,9 @@ export default class Patient extends React.Component {
         bornDate          : pat.bornDate, 
         patientsEvents    : eventsSorted,   
         patientsMedicines : medicinesSortedAlpha,      // med oredered alpahbetically for listing purposes
-        patMedTime        : medicinesSortedDate,       // med chronologically ordered for graphics purposes
         patientsFever     : feverOrdered,
-        patientsWeights   : weightsSorted,
       });
+
     })
     .catch(function (error) {    
       console.log(error);
@@ -195,6 +187,7 @@ export default class Patient extends React.Component {
   
   render() {
 
+    //console.log('props med y weight', this.state.patMedTime, ' / ', this.state.patientsWeights)
     return (
 
       <div className="overview">

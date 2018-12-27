@@ -19,14 +19,50 @@ export default class LinesChart extends React.Component {
     super(props);
 
     this.state = {
-      user              : this.props.userID,
-      patMedTime        : this.props.med,
-      patientsReadings  : this.props.weight,
+      patientId         : this.props.patID,
+      patMedTime        : '',
+      patientsReadings  : '',
       timeLineDays      : this.props.tline,
     }
     
+    console.log('props recibidos  en lines = ', this.props.patID, ' / ', this.props.med, ' / ', this.props.weight)
+
   }
 
+  componentDidMount(){
+
+    DataService.getPatientInfo(this.state.patientId)
+    .then(res => {
+      const pat = res;
+
+      console.log('comp did mount del lines launched');
+      //  - - - - - - - SORT EVENTS / READINGS / MEDICINES FROM RECENT TO OLDER 
+      // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+
+      let medicinesCopy  = [...pat.patientsMedicines];
+      let weightsCopy    = [...pat.patientsWeight];
+
+      let medicinesSortedDate   = Calculations.sortMedicinesDate(medicinesCopy);
+      let weightsSorted         = Calculations.sortReadingsByDate(weightsCopy);
+
+     // console.log('medicinesDate = ', medicinesSortedDate);
+     // console.log('weightsSorted = ', weightsSorted);
+
+     // - - - - - - - Sorting end 
+
+      this.setState({  
+        patMedTime        : medicinesSortedDate,       // med chronologically ordered for graphics purposes
+        patientsWeights   : weightsSorted,
+      });
+
+      console.log('state.medicinesDate = ', this.state.patMedTime);
+      console.log('state.weights-Sorted = ', this.state.patientsWeights);
+
+    })
+    .catch(function (error) {    
+      console.log(error);
+    })    
+  }
 
   _eventsGraphicData(){
 
@@ -69,7 +105,6 @@ export default class LinesChart extends React.Component {
       }
       
       let finalDate = dateFormated.join('-');
-      console.log('ArrayFormated con Join', )
       
       eventsData.push([finalDate, events])
     }
@@ -109,7 +144,6 @@ export default class LinesChart extends React.Component {
   };
   
   render() {
-    console.log('states del lines: ', this.state.patMedTime, this.state.patientsReadings, this.state.timeLineDays)
     return (
 
       <div className="overview">
