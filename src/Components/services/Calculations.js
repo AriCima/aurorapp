@@ -9,8 +9,7 @@ export default class Calculations {
         let currentMonth = months[monthNr]
        
         return currentMonth
-    }
-
+    };
     static getFormatedDate(x){
         let days = ['Sun','Mon', 'Tue','Wed', 'Thu', 'Fri', 'Sat'];
         let months  =  ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
@@ -27,7 +26,7 @@ export default class Calculations {
         let formatedDate = [day, month, year]
         
         return formatedDate
-    }
+    };
     static getFormatedDatePlusOne(x){
         let days = ['Sun','Mon', 'Tue','Wed', 'Thu', 'Fri', 'Sat'];
         let months  =  ['Jan', 'Feb', 'Mar', 'Apr','May', 'Jun', 'Jul', 'Aug','Sep', 'Oct', 'Nov', 'Dec'];
@@ -44,8 +43,8 @@ export default class Calculations {
         let formatedDate = [day, month, year]
         
         return formatedDate
-    }
-    static getDaysUntilToday(x){        
+    };
+    static getDaysUntilToday(x){
         let now = new Date();
         let inBetweenDays = [];
 
@@ -56,10 +55,7 @@ export default class Calculations {
         return inBetweenDays
     };
 
-    static completeMedicinesTimeline(x){  
-    };
-
-    // - - - - -SORTING FUNCTIONS 
+    // - - - - - SORTING FUNCTIONS 
     // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 
     static sortByEventDate(x){
@@ -131,7 +127,6 @@ export default class Calculations {
 
 
     // - - - - CODE GENERATION 
-
     static generateCode(){
      // GENERATE BOOKING CODE
      const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']

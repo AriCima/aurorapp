@@ -3,9 +3,8 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // GOOGLE CHARTS --> https://react-google-charts.com/line-chart
 import {Chart} from 'react-google-charts'
+import LinesChart from './Cahrts/Lines';
 
-//CHARTKICK  --> https://chartkick.com/react
-// import { LineChart, PieChart } from 'react-chartkick';
 
 // MATERIAL UI
 import AddButton from '../Accessories/AddButton'
@@ -82,49 +81,36 @@ export default class Patient extends React.Component {
   _eventsGraphicData(){
 
     let pEvts = [...this.state.patientsEvents];
-    //console.log('pEvts = ', pEvts);
     
     let today = new Date();
     let startDate = today.setDate(today.getDate() - this.state.timeLineDays);
-
-    //let dateToConsole = Calculations.getFormatedDate(startDate);
-    //console.log('Fecha de Inicio = ', dateToConsole)
     
-    let eventsData = [['Fecha', 'Nro de Eventos']];
+    let eventsData = [['Fecha', 'Eventos']];
     let dyasBack = this.state.timeLineDays;
 
     for (let i = 0; i <= dyasBack; i++ ){
 
       let dateForArray = new Date(startDate)
       dateForArray.setDate(dateForArray.getDate() + i);
-      
-      //console.log('fecha a evaluar = ', startDate , ' / ', i);
 
       let dateFormated = Calculations.getFormatedDate(dateForArray);
       let events = 0;
 
-      //console.log('longitud events = ', pEvts.length)
       for (let j = 0; j<pEvts.length; j++){
         
-        //console.log('evts(j)', pEvts[j])
         let dateToCompare =  new Date(pEvts[j].eventDate);
-        //console.log('date to compare', dateToCompare)
         let dateToCompareFormated = Calculations.getFormatedDatePlusOne(dateToCompare); // * * *  Tengo que sumar 1 al día si no me devuelde un día atrasado ? ? ? ?
         
         if (dateFormated.join('-') === dateToCompareFormated.join('-')){
           events = events + 1;
         }
 
-        console.log('date vs dateToCompare = ', dateFormated, ' / ', dateToCompareFormated)
-        console.log('events =' , events)
       }
       
       let finalDate = dateFormated.join('-');
-      console.log('ArrayFormated con Join', )
       
       eventsData.push([finalDate, events])
     }
-    console.log('el eventsData = ', eventsData);
     return eventsData
 
   }
@@ -174,7 +160,7 @@ export default class Patient extends React.Component {
         </div>
       )
     })
-  }
+  };
   _renderEventsInfo(){ 
     
     //console.log('render events triggered with: ', obj)
@@ -246,7 +232,7 @@ export default class Patient extends React.Component {
           
         <div className="middle-area">
           <Chart
-            width={'500px'}
+            width={'900px'}
             height={'300px'}
             chartType="Bar"
             loader={<div>Loading Chart</div>}
@@ -254,13 +240,16 @@ export default class Patient extends React.Component {
             options={{
               // Material design options
               chart: {
-                title: 'Aurora Morales: Eventos Registrados',
+                title: 'Eventos Registrados',
                 subtitle: '',
               },
             }}
             // For tests
             rootProps={{ 'data-testid': '2' }}
           />
+
+          <LinesChart patID={this.props.patID} tline={this.state.timeLineDays} med={this.state.patMedTime} readings={this.state.patientsWeights}/>
+
         </div>
 
         <div className="medicines-area">
@@ -300,8 +289,7 @@ export default class Patient extends React.Component {
               </ul>
           </div>
 
-          
-            {this._renderMedicinesInfo()}   
+          {this._renderMedicinesInfo()}   
          
         </div>
 
@@ -321,8 +309,8 @@ export default class Patient extends React.Component {
           </div>
           
             {this.state.patientName === '' ? <p>LOADING !</p> :
-                this._renderEventsInfo()
-              }   
+              this._renderEventsInfo()
+            }   
          
         </div>
 
