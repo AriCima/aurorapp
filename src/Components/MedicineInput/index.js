@@ -138,6 +138,14 @@ class MedicineInput extends React.Component {
     };
 
     onNewMedicine(e){
+
+         // NUEVO PLANTEAMINETO:
+         //   armar un array de medicamentos por cada paciente con la siguiente estructura:
+         //  medArray = [ {drugName: name, dose:[{1},{2}, . .  .{n}] }]    
+         //  más específicamente:
+         //  medArray = [ {nombre: xxx, dosis: [{fecha: xx, dosisHoraria :[x,..,x], dosisDiaria: xx}, {fecha: jj, dosisHoraria :[j,..,j], dosisDiaria: jj} ] },
+         //              {nombre: yyy, dosis: [{fecha: yy, dosisHoraria :[y,..,y], dosisDiaria: yy}]}]
+
         e.preventDefault();       
         let names           = [...this.state.medNamesArray]
         let currentMed      = [...this.state.medArray];
@@ -174,21 +182,6 @@ class MedicineInput extends React.Component {
         Number(this.state.dailyDose9) + Number(this.state.dailyDose10) + Number(this.state.dailyDose11) + Number(this.state.dailyDose12) + Number(this.state.dailyDose13) + Number(this.state.dailyDose14) + Number(this.state.dailyDose15) + Number(this.state.dailyDose16) + Number(this.state.dailyDose17) + Number(this.state.dailyDose18) +
         Number(this.state.dailyDose20) + Number(this.state.dailyDose21) + Number(this.state.dailyDose22) + Number(this.state.dailyDose23);
 
-        // NUEVO PLANTEAMINETO:
-            //   armar un array de medicamentos por cada paciente con la siguiente estructura:
-            //  medArray = [ {nombre: xxx, dosis: [{fecha: xx, dosisHoraria :[x,..,x], dosisDiaria: xx}, {fecha: jj, dosisHoraria :[j,..,j], dosisDiaria: jj} ] },
-            //              {nombre: yyy, dosis: [{fecha: yy, dosisHoraria :[y,..,y], dosisDiaria: yy}]}]
-
-
-        // Estructura del Obj = {Code, name, date, units, dailyDose : [0,0,0,0,15,0,0, . . . .] }
-        // let newMedicineObj = {
-        //     drugCode    : dCode,
-        //     drugName    : this.state.drugName, 
-        //     changeDate  : newDate,
-        //     doseUnits   : this.state.doseUnits,
-        //     hourlyDose  : newHourlyDose,
-        //     dailyDose   : totalDayDose,
-        // };
 
         let newDose = {date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose};
         let newMedArr = [newDose];
@@ -204,24 +197,6 @@ class MedicineInput extends React.Component {
             console.log('El current med es: ', currentMed)
         }
        
-
-        // console.log('el newMedicineObj = ', newMedicineObj);
-
-        // let transMedicineArray = this.state.patientsMedicines;
-
-        // if(transMedicineArray.length === 0){
-        //     transMedicineArray[0] = newMedicineObj;
-        // } else {
-        //     transMedicineArray.push(newMedicineObj);
-        // }
-        
-        // transMedicineArray.push(newMedicineObj)
-
-        // this.setState({
-        //     patientsMedicines : transMedicineArray,
-        // });
-
-        // console.log('el patientsMedicines a agregar = ', this.state.patientsMedicines);
 
         DataService.newMedicineRegister(this.state.patientId, currentMed);
         

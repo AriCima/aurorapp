@@ -36,10 +36,10 @@ export default class LinesChart extends React.Component {
       //  - - - - - - - SORT EVENTS / READINGS / MEDICINES FROM RECENT TO OLDER 
       // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 
-      let medicinesCopy  = [...pat.patientsMedicines];
+      let medicinesCopy  = [...pat.medArray];
       let weightsCopy    = [...pat.patientsWeight];
 
-      let medicinesSortedDate   = Calculations.sortMedicinesDate(medicinesCopy);
+      // let medicinesSortedDate   = Calculations.sortMedicinesDate(medicinesCopy);
       let weightsSorted         = Calculations.sortReadingsByDate(weightsCopy);
 
      // console.log('medicinesDate = ', medicinesSortedDate);
@@ -48,7 +48,7 @@ export default class LinesChart extends React.Component {
      // - - - - - - - Sorting end 
 
       this.setState({  
-        patMedTime        : medicinesSortedDate,       // med chronologically ordered for graphics purposes
+        patMedicines      : medicinesCopy,       
         patientsWeights   : weightsSorted,
       });
 
@@ -63,8 +63,10 @@ export default class LinesChart extends React.Component {
 
   _medicinesGraphicData(){
 
-    let pMeds = [...this.state.patMedTime];
+    let pMeds = [...this.state.patMedicines];
     let weights = [...this.state.patientsWeights];
+
+    
 
     let today = new Date();
     let startDate = today.setDate(today.getDate() - this.state.timeLineDays);
@@ -76,9 +78,14 @@ export default class LinesChart extends React.Component {
 
     let dyasBack = this.state.timeLineDays;
 
+    // let medicinesForGraphic = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
+    // {drugName2: '', dose:[{date, dayDose},{date, dayDose},  . . . .]}  ];
+
+    
+
     for (let i = 0; i <= dyasBack; i++ ){
 
-      
+
 
       let dateForArray = new Date(startDate)
       dateForArray.setDate(dateForArray.getDate() + i);
