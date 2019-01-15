@@ -25,8 +25,6 @@ export default class LinesChart extends React.Component {
       timeLineDays      : this.props.tline,
     }
     
-    console.log('props recibidos  en lines = ', this.props.patID, ' / ', this.props.med, ' / ', this.props.weight)
-
   }
 
   componentDidMount(){
@@ -35,7 +33,6 @@ export default class LinesChart extends React.Component {
     .then(res => {
       const pat = res;
 
-      console.log('comp did mount del lines launched');
       //  - - - - - - - SORT EVENTS / READINGS / MEDICINES FROM RECENT TO OLDER 
       // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 
@@ -64,52 +61,50 @@ export default class LinesChart extends React.Component {
     })    
   }
 
-  _eventsGraphicData(){
+  _medicinesGraphicData(){
 
-    let pEvts = [...this.state.LinesChartsEvents];
-    //console.log('pEvts = ', pEvts);
-    
+    let pMeds = [...this.state.patMedTime];
+    let weights = [...this.state.patientsWeights];
+
     let today = new Date();
     let startDate = today.setDate(today.getDate() - this.state.timeLineDays);
 
     //let dateToConsole = Calculations.getFormatedDate(startDate);
     //console.log('Fecha de Inicio = ', dateToConsole)
     
-    let eventsData = [['Fecha', 'Eventos']];
+ //   let medsData = [{ type: 'date', label: 'Fechas' },'Peso', med1];
+
     let dyasBack = this.state.timeLineDays;
 
     for (let i = 0; i <= dyasBack; i++ ){
 
+      
+
       let dateForArray = new Date(startDate)
       dateForArray.setDate(dateForArray.getDate() + i);
-      
-      //console.log('fecha a evaluar = ', startDate , ' / ', i);
 
       let dateFormated = Calculations.getFormatedDate(dateForArray);
-      let events = 0;
+      let dose = 0;
 
+      
       //console.log('longitud events = ', pEvts.length)
-      for (let j = 0; j<pEvts.length; j++){
-        
-        //console.log('evts(j)', pEvts[j])
-        let dateToCompare =  new Date(pEvts[j].eventDate);
-        //console.log('date to compare', dateToCompare)
+      for (let j = 0; j<pMeds.length; j++){
+
+        let dateToCompare =  new Date(weights[j].eventDate);
         let dateToCompareFormated = Calculations.getFormatedDatePlusOne(dateToCompare); // * * *  Tengo que sumar 1 al día si no me devuelde un día atrasado ? ? ? ?
         
         if (dateFormated.join('-') === dateToCompareFormated.join('-')){
-          events = events + 1;
+          dose = pMeds[j].totalDailyDose;
+        } else {
+          dose = pMeds[j-1].totalDailyDose;
         }
-
-        console.log('date vs dateToCompare = ', dateFormated, ' / ', dateToCompareFormated)
-        console.log('events =' , events)
+       
       }
       
-      let finalDate = dateFormated.join('-');
-      
-      eventsData.push([finalDate, events])
+
     }
-    console.log('el eventsData = ', eventsData);
-    return eventsData
+    console.log('el  = ', );
+    return 
 
   }
 

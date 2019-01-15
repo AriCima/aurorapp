@@ -235,12 +235,12 @@ export default class DataService {
     };
     
     // MEDICINES
-    static addNewMedicineToPatient(patId, newMedicine) {  
+    static newMedicineRegister(patId, newMedicine) {  
         return new Promise((resolve, reject) => {
     
             console.log('add medicine launched con', patId, ' y ', newMedicine)
             firebase.firestore().collection('patients').doc(patId).update({
-                patientsMedicines : newMedicine})
+                medArray : newMedicine})
     
             .then((result) => {
                 
