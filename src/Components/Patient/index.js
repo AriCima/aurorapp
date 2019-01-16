@@ -51,7 +51,6 @@ export default class Patient extends React.Component {
       let eventsSorted          = Calculations.sortByEventDate(eventsCopy);
       let feverOrdered          = Calculations.sortReadingsByDate(feverCopy);
 
-      console.log('el meds = ', meds )
      // - - - - - - - Sorting end 
 
      // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
@@ -60,15 +59,13 @@ export default class Patient extends React.Component {
       for (let k = 0; k < meds.length; k++){ // --> iteración medicinas
         let dName = meds[k].drugName;
         let index = meds[k].dose.length;
-        console.log('index = ', index)
         let dDose = meds[k].dose[index-1].dailyDose;
         let hDose = meds[k].dose[index-1].hourlyDose
 
-        console.log('el dDose = ', dDose )
         medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose};
 
       }
-      console.log('el medsTable = ', medsTable)
+
       this.setState({ 
         patientName       : pat.patientName,
         patientSurname    : pat.patientSurname,
@@ -78,7 +75,7 @@ export default class Patient extends React.Component {
         medsTableInfo     : medsTable,
         patientsFever     : feverOrdered,
       });
-      console.log('medsTableInfo = ', this.state.medsTableInfo)
+
     })
     .catch(function (error) {    
       console.log(error);

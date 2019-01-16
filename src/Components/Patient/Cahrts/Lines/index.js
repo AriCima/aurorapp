@@ -35,14 +35,7 @@ export default class LinesChart extends React.Component {
 
       let medicinesCopy  = [...pat.medArray];
       let weightsCopy    = [...pat.patientsWeight];
-
-      // let medicinesSortedDate   = Calculations.sortMedicinesDate(medicinesCopy);
-      let weightsSorted         = Calculations.sortReadingsByDate(weightsCopy);
-
-     // console.log('medicinesDate = ', medicinesSortedDate);
-     // console.log('weightsSorted = ', weightsSorted);
-
-     // - - - - - - - Sorting end 
+      let weightsSorted  = Calculations.sortReadingsByDate(weightsCopy);
 
       this.setState({  
         medArray          : medicinesCopy,       
@@ -79,37 +72,46 @@ export default class LinesChart extends React.Component {
       let date = new Date(startDate); 
       let dateForArray = date.setDate(date.getDate() + i); // --> date para el graphics Array
       
-      // console.log('pMeds.length = ', pMeds.length)
       for (let j=0; j < pMeds.length; j++){  // --> iteración por medicinas
         
         let medName = pMeds[j].drugName;
         let doseLength = pMeds[j].dose.length;
-       
-        // console.log('doseLength = ', doseLength)
-        for(let d=0; d < doseLength; d++){  // --> iteración por dosis de una misma medicina
-          
-          if( date < pMeds[j].dose[0].date){
-            let medDose = 0;
-            dayDosis[j] = medDose;
+        let medDose = 0;
 
-          } else if ( date >= pMeds[j].dose[d].date && date < pMeds[j].dose[d+1].date) {
-            let medDose = pMeds[j].dose[d].dayDose;
-            dayDosis[j] = medDose;
+        for(let d=0; d < doseLength-1; d++){  // --> iteración por dosis de una misma medicina
+        
+          let date0 = new Date(pMeds[j].dose[0].date) // --> comienzo de toma 
+          let dateD = new Date(pMeds[j].dose[d].date)
+          let dateD1 = new Date(pMeds[j].dose[d+1].date)
+          let lastDate = new Date (pMeds[j].dose[doseLength-1].dailyDose)
 
-          } else if ( date > pMeds[j].dose[doseLength-1].date){
-            let  medDose = pMeds[j].dose[doseLength].dayDose
-            dayDosis[j] = medDose;
+          if( date < date0){
+            medDose = 0;
+
+          } else if ( date >= dateD && date < dateD1) {
+            medDose = pMeds[j].dose[d].dailyDose;
+            
+
+          } else if ( date > lastDate){
+            medDose = pMeds[j].dose[doseLength-1].dailyDose 
+           
           }
-          
-        }
 
+        //  console.log('medDose = ', medDose)
+
+        }
+        dayDosis.push(medDose)
+        
         graphicMeds.push(medName);
 
       }
+      
 
       graphicArray.push([new Date(dateForArray), dayDosis])
 
     }
+
+    
 
     console.log('El graphicsArray es = ', graphicArray)
 
@@ -152,8 +154,12 @@ export default class LinesChart extends React.Component {
   };
   
   render() {
+    let yel = this._medicinesGraphicData();
+  
+
     return (
 
+      
       <div className="overview">
 
         <div className="upper-area">
