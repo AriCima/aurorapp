@@ -20,9 +20,9 @@ export default class LinesChart extends React.Component {
 
     this.state = {
       patientId         : this.props.patID,
-      patMedTime        : '',
+      medArray          : '',
       patientsReadings  : '',
-      timeLineDays      : this.props.tline,
+      timeLineDays      : 30,
     }
     
   }
@@ -32,9 +32,6 @@ export default class LinesChart extends React.Component {
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
       const pat = res;
-
-      //  - - - - - - - SORT EVENTS / READINGS / MEDICINES FROM RECENT TO OLDER 
-      // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 
       let medicinesCopy  = [...pat.medArray];
       let weightsCopy    = [...pat.patientsWeight];
@@ -48,12 +45,9 @@ export default class LinesChart extends React.Component {
      // - - - - - - - Sorting end 
 
       this.setState({  
-        patMedicines      : medicinesCopy,       
+        medArray          : medicinesCopy,       
         patientsWeights   : weightsSorted,
       });
-
-      console.log('state.medicinesDate = ', this.state.patMedTime);
-      console.log('state.weights-Sorted = ', this.state.patientsWeights);
 
     })
     .catch(function (error) {    
@@ -63,57 +57,69 @@ export default class LinesChart extends React.Component {
 
   _medicinesGraphicData(){
 
-    let pMeds = [...this.state.patMedicines];
-    let weights = [...this.state.patientsWeights];
+    let pMeds     = [...this.state.medArray];
+    let daysBack  = this.state.timeLineDays;
+    let today     = new Date();
+    let startDate = today.setDate(today.getDate() - daysBack);
 
-    
 
-    let today = new Date();
-    let startDate = today.setDate(today.getDate() - this.state.timeLineDays);
-
-    //let dateToConsole = Calculations.getFormatedDate(startDate);
-    //console.log('Fecha de Inicio = ', dateToConsole)
-    
- //   let medsData = [{ type: 'date', label: 'Fechas' },'Peso', med1];
-
-    let dyasBack = this.state.timeLineDays;
-
-    // let medicinesForGraphic = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
+    // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
+    // [new Date(2014, 0), -0.5, 5.7],
     // {drugName2: '', dose:[{date, dayDose},{date, dayDose},  . . . .]}  ];
 
+
+    let graphicArray = [];
+    let graphicMeds  = [];
     
-
-    for (let i = 0; i <= dyasBack; i++ ){
-
+    // Iteración entre fechas --> https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
 
 
-      let dateForArray = new Date(startDate)
-      dateForArray.setDate(dateForArray.getDate() + i);
-
-      let dateFormated = Calculations.getFormatedDate(dateForArray);
-      let dose = 0;
-
+    for (let i = 0; i <= daysBack; i++ ){   // --> iteración desde fecha inicio hasta hoy
+      let dayDosis = [];
+      let date = new Date(startDate); 
+      let dateForArray = date.setDate(date.getDate() + i); // --> date para el graphics Array
       
-      //console.log('longitud events = ', pEvts.length)
-      for (let j = 0; j<pMeds.length; j++){
-
-        let dateToCompare =  new Date(weights[j].eventDate);
-        let dateToCompareFormated = Calculations.getFormatedDatePlusOne(dateToCompare); // * * *  Tengo que sumar 1 al día si no me devuelde un día atrasado ? ? ? ?
+      // console.log('pMeds.length = ', pMeds.length)
+      for (let j=0; j < pMeds.length; j++){  // --> iteración por medicinas
         
-        if (dateFormated.join('-') === dateToCompareFormated.join('-')){
-          dose = pMeds[j].totalDailyDose;
-        } else {
-          dose = pMeds[j-1].totalDailyDose;
-        }
+        let medName = pMeds[j].drugName;
+        let doseLength = pMeds[j].dose.length;
        
+        // console.log('doseLength = ', doseLength)
+        for(let d=0; d < doseLength; d++){  // --> iteración por dosis de una misma medicina
+          
+          if( date < pMeds[j].dose[0].date){
+            let medDose = 0;
+            dayDosis[j] = medDose;
+
+          } else if ( date >= pMeds[j].dose[d].date && date < pMeds[j].dose[d+1].date) {
+            let medDose = pMeds[j].dose[d].dayDose;
+            dayDosis[j] = medDose;
+
+          } else if ( date > pMeds[j].dose[doseLength-1].date){
+            let  medDose = pMeds[j].dose[doseLength].dayDose
+            dayDosis[j] = medDose;
+          }
+          
+        }
+
+        graphicMeds.push(medName);
+
       }
-      
+
+      graphicArray.push([new Date(dateForArray), dayDosis])
 
     }
-    console.log('el  = ', );
-    return 
 
-  }
+    console.log('El graphicsArray es = ', graphicArray)
+
+    return (
+      <div>
+        {this.graphicArray}
+      </div>
+    )
+
+  };
 
 
   _renderEventsInfo(){ 
@@ -151,6 +157,7 @@ export default class LinesChart extends React.Component {
       <div className="overview">
 
         <div className="upper-area">
+
         </div>
           
         <div className="middle-area">

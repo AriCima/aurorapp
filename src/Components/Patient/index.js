@@ -31,8 +31,8 @@ export default class Patient extends React.Component {
       patientSurname    : '',
       bornDate          : '',
       patientsEvents    : [],
-      patientsMedicines : [],
-      patMedTime        : [],
+      medArray          : [],
+      medsTableInfo     : [],
       patientsWeights   : [],
       patientsFever     : [],
       timeLineDays      : 30,
@@ -44,29 +44,41 @@ export default class Patient extends React.Component {
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
       const pat = res;
-
-      //  - - - - - - - SORT EVENTS / READINGS / MEDICINES FROM RECENT TO OLDER 
-      // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-
       let eventsCopy     = [...pat.patientsEvents];
-      let medicinesCopy  = [...pat.patientsMedicines];
       let feverCopy      = [...pat.patientsFever];
-
+      let meds           = [...pat.medArray];
+      // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
       let eventsSorted          = Calculations.sortByEventDate(eventsCopy);
-      let medicinesSortedAlpha  = Calculations.sortReadingsByDate(medicinesCopy);
       let feverOrdered          = Calculations.sortReadingsByDate(feverCopy);
 
+      console.log('el meds = ', meds )
      // - - - - - - - Sorting end 
 
+     // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
+      let medsTable = []
+
+      for (let k = 0; k < meds.length; k++){ // --> iteración medicinas
+        let dName = meds[k].drugName;
+        let index = meds[k].dose.length;
+        console.log('index = ', index)
+        let dDose = meds[k].dose[index-1].dailyDose;
+        let hDose = meds[k].dose[index-1].hourlyDose
+
+        console.log('el dDose = ', dDose )
+        medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose};
+
+      }
+      console.log('el medsTable = ', medsTable)
       this.setState({ 
         patientName       : pat.patientName,
         patientSurname    : pat.patientSurname,
         bornDate          : pat.bornDate, 
         patientsEvents    : eventsSorted,   
-        patientsMedicines : medicinesSortedAlpha,      // med oredered alpahbetically for listing purposes
+        medArray          : pat.medArray,      // med oredered alpahbetically for listing purposes
+        medsTableInfo     : medsTable,
         patientsFever     : feverOrdered,
       });
-
+      console.log('medsTableInfo = ', this.state.medsTableInfo)
     })
     .catch(function (error) {    
       console.log(error);
@@ -124,19 +136,22 @@ export default class Patient extends React.Component {
       </div>
     )
   };
+
   _renderMedicinesInfo(){ 
     
     //console.log('render events triggered with: ', obj)
-    return this.state.patientsMedicines.map((meds,j) => {
+    // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
+
+    return this.state.medsTableInfo.map((meds,j) => {
       return (
         <div className="medicines-container">
-          <Link className="medicine-row" key={j} to={`/single_medicine_overview/${meds.dCode}`}> 
+          <Link className="medicine-row" key={j} to={`/single_medicine_overview/${meds.drugName}`}> 
           
             <div id="drug-field">
                <h4>{meds.drugName}</h4>
             </div>
 
-            {this._renderMedicineDose(meds.dailyDose)}
+            {this._renderMedicineDose(meds.hourlyDose)}
 
             <div id="ratio-field">
                <p>{meds.drugnRatio}</p>
@@ -147,6 +162,7 @@ export default class Patient extends React.Component {
       )
     })
   };
+
   _renderMedicineDose(x){
     return x.map((dose, j) => {
       return (
@@ -244,7 +260,7 @@ export default class Patient extends React.Component {
             rootProps={{ 'data-testid': '2' }}
           />
 
-          <LinesChart patID={this.props.patID} tline={this.state.timeLineDays} med={this.state.patMedTime} weight={this.state.patientsWeights}/>
+          <LinesChart patID={this.props.patID} tline={this.state.timeLineDays} med={this.state.medArray} weight={this.state.patientsWeights}/>
 
         </div>
 
