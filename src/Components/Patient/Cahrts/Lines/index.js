@@ -58,18 +58,21 @@ export default class LinesChart extends React.Component {
     let today     = new Date();
     let startDate = today.setDate(today.getDate() - daysBack);
 
-  console.log('pWeight = ', pWeight)
+    let dataFirst = [ { type: 'date', label: 'Día' }, 'Peso']
+
+    for (let l = 0; l < pMeds.length; l++){
+      dataFirst.push(pMeds[l].drugName);
+      
+    };
+  
     // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
     // [new Date(2014, 0), -0.5, 5.7],
     // {drugName2: '', dose:[{date, dayDose},{date, dayDose},  . . . .]}  ];
-
 
     let graphicArray = [];
     let graphicMeds  = [];
     
     // Iteración entre fechas --> https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
-
-
 
     for (let i = 0; i <= daysBack; i++ ){   // --> iteración desde fecha inicio hasta hoy
       let dayDosis      = [];
@@ -141,9 +144,8 @@ export default class LinesChart extends React.Component {
 
         }
 
-        dayDosis.push(medDose)
+        // dayDosis.push(medDose)
         resultante.unshift(medDose.toString());
-
         
         graphicMeds.push(medName);
 
@@ -151,13 +153,15 @@ export default class LinesChart extends React.Component {
       
       resultante.unshift(new Date(dateForArray), weight);
 
-      graphicArray.push([new Date(dateForArray), weight, dayDosis])
+      graphicArray.push(resultante);
 
-      console.log('RESULTANTE = ', resultante)
+      //console.log('RESULTANTE = ', resultante)
     }
 
-    
+    let dataArray = [dataFirst, graphicArray];
 
+    console.log('EL BIG DATAARRAY = ', dataArray);
+    
     
 
     // let graphData = [ [ { type: 'date', label: 'Día' }, 'Peso','Med 1'],
