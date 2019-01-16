@@ -59,6 +59,7 @@ export default class LinesChart extends React.Component {
     let startDate = today.setDate(today.getDate() - daysBack);
 
     let dataFirst = [ { type: 'date', label: 'Día' }, 'Peso']
+    let dataArray = [[dataFirst]]
 
     for (let l = 0; l < pMeds.length; l++){
       dataFirst.push(pMeds[l].drugName);
@@ -69,9 +70,8 @@ export default class LinesChart extends React.Component {
     // [new Date(2014, 0), -0.5, 5.7],
     // {drugName2: '', dose:[{date, dayDose},{date, dayDose},  . . . .]}  ];
 
-    let graphicArray = [];
     let graphicMeds  = [];
-    
+
     // Iteración entre fechas --> https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
 
     for (let i = 0; i <= daysBack; i++ ){   // --> iteración desde fecha inicio hasta hoy
@@ -80,7 +80,11 @@ export default class LinesChart extends React.Component {
       let date          = new Date(startDate); 
       let dateForArray  = date.setDate(date.getDate() + i); // --> date para el graphics Array
       
+      let day = new Date(dateForArray).getDate().toString();
+      let month = (new Date(dateForArray).getMonth()+1).toString();
+      let year = new Date(dateForArray).getFullYear().toString();
 
+      let defDate = year +','+ month +','+ day;
 
       let wLength = pWeight.length;
       let weight = 0;
@@ -144,41 +148,30 @@ export default class LinesChart extends React.Component {
 
         }
 
-        // dayDosis.push(medDose)
-        resultante.unshift(medDose.toString());
-        
+        resultante.unshift(medDose);
+
         graphicMeds.push(medName);
 
       }
       
-      resultante.unshift(new Date(dateForArray), weight);
+      resultante.unshift(new Date(defDate), Number(weight));
+      
+      dataArray.push(resultante);
 
-      graphicArray.push(resultante);
-
-      //console.log('RESULTANTE = ', resultante)
     }
-
-    let dataArray = [dataFirst, graphicArray];
 
     console.log('EL BIG DATAARRAY = ', dataArray);
     
-    
+    //  let graphData = [ [ { type: 'date', label: 'Día' }, 'Peso','Med 1'],
+    //    [new Date(2014, 0), -0.5, 5.7],
+    //    [new Date(2014, 11), -0.2, 4.5],
+    //    ]
 
-    // let graphData = [ [ { type: 'date', label: 'Día' }, 'Peso','Med 1'],
-    //   [new Date(2014, 0), -0.5, 5.7],
-    //   [new Date(2014, 11), -0.2, 4.5],
-    //   ]
-
+    return dataArray
       
-    return (
-      <div>
-        {this.graphicArray}
-      </div>
-    )
-
   };
 
-
+ 
   _renderEventsInfo(){ 
     
     //console.log('render events triggered with: ', obj)
@@ -209,16 +202,14 @@ export default class LinesChart extends React.Component {
   };
   
   render() {
-    let yel = this._medicinesGraphicData();
-  
-
+    
     return (
 
       
       <div className="overview">
 
         <div className="upper-area">
-
+         
         </div>
           
         <div className="middle-area">
@@ -228,21 +219,22 @@ export default class LinesChart extends React.Component {
             height={'500'}
             chartType="Line"
             loader={<div>Loading Chart</div>}
-            data={[
-                [ { type: 'date', label: 'Day' }, 'Peso','Med 1'],
-                [new Date(2014, 0), -0.5, 5.7],
-                [new Date(2014, 1), 0.4, 8.7],
-                [new Date(2014, 2), 0.5, 12],
-                [new Date(2014, 3), 2.9, 15.3],
-                [new Date(2014, 4), 6.3, 18.6],
-                [new Date(2014, 5), 9, 20.9],
-                [new Date(2014, 6), 10.6, 19.8],
-                [new Date(2014, 7), 10.3, 16.6],
-                [new Date(2014, 8), 7.4, 13.3],
-                [new Date(2014, 9), 4.4, 9.9],
-                [new Date(2014, 10), 1.1, 6.6],
-                [new Date(2014, 11), -0.2, 4.5],
-            ]}
+            data={this._medicinesGraphicData()}
+              // data={[
+              //     [ { type: 'date', label: 'Day' }, 'Peso','Med 1'],
+              //     [new Date(2014, 0), -0.5, 5.7],
+              //     [new Date(2014, 1), 0.4, 8.7],
+              //     [new Date(2014, 2), 0.5, 12],
+              //     [new Date(2014, 3), 2.9, 15.3],
+              //     [new Date(2014, 4), 6.3, 18.6],
+              //     [new Date(2014, 5), 9, 20.9],
+              //     [new Date(2014, 6), 10.6, 19.8],
+              //     [new Date(2014, 7), 10.3, 16.6],
+              //     [new Date(2014, 8), 7.4, 13.3],
+              //     [new Date(2014, 9), 4.4, 9.9],
+              //     [new Date(2014, 10), 1.1, 6.6],
+              //     [new Date(2014, 11), -0.2, 4.5],
+              // ]}
             options={{
                 chart: {
                 title:
