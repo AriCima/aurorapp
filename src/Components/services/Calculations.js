@@ -116,9 +116,9 @@ export default class Calculations {
           
             let comparison = 0;
             if (drugA > drugB) {
-              comparison = -1;
-            } else if (drugA < drugB) {
               comparison = 1;
+            } else if (drugA < drugB) {
+              comparison = -1;
             }
             return comparison;
         };

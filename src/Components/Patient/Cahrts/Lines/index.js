@@ -21,7 +21,7 @@ export default class LinesChart extends React.Component {
     this.state = {
       patientId         : this.props.patID,
       medArray          : '',
-      patientsReadings  : '',
+      patientsWeights   : '',
       timeLineDays      : 30,
     }
     
@@ -37,9 +37,11 @@ export default class LinesChart extends React.Component {
       let weightsCopy    = [...pat.patientsWeight];
       let weightsSorted  = Calculations.sortReadingsByDate(weightsCopy);
 
+      console.log('weightsSorted =', weightsSorted)
+
       this.setState({  
         medArray          : medicinesCopy,       
-        patientsWeights   : weightsSorted,
+        patientsWeights   : weightsSorted,  // keys are --> readingDate y readingValue
       });
 
     })
@@ -51,11 +53,12 @@ export default class LinesChart extends React.Component {
   _medicinesGraphicData(){
 
     let pMeds     = [...this.state.medArray];
+    let pWeight   = [...this.state.patientsWeights];
     let daysBack  = this.state.timeLineDays;
     let today     = new Date();
     let startDate = today.setDate(today.getDate() - daysBack);
 
-
+  console.log('pWeight = ', pWeight)
     // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
     // [new Date(2014, 0), -0.5, 5.7],
     // {drugName2: '', dose:[{date, dayDose},{date, dayDose},  . . . .]}  ];
@@ -68,9 +71,10 @@ export default class LinesChart extends React.Component {
 
 
     for (let i = 0; i <= daysBack; i++ ){   // --> iteración desde fecha inicio hasta hoy
-      let dayDosis = [];
-      let date = new Date(startDate); 
-      let dateForArray = date.setDate(date.getDate() + i); // --> date para el graphics Array
+      let dayDosis      = [];
+      let weightArr     = [];
+      let date          = new Date(startDate); 
+      let dateForArray  = date.setDate(date.getDate() + i); // --> date para el graphics Array
       
       for (let j=0; j < pMeds.length; j++){  // --> iteración por medicinas
         
@@ -106,7 +110,39 @@ export default class LinesChart extends React.Component {
 
       }
       
+      let wLength = pWeight.length;
+      let weight = 0;
 
+      for (let w = 0; w < wLength-1; w++){
+
+        // console.log('pWeight = ', pWeight);
+
+        // console.log('pWeight.readingValue = ', pWeight[w].readingValue);
+
+        let date0 = new Date(pWeight[0].readingDate) // --> comienzo de toma 
+        let dateD = new Date(pWeight[w].readingDate)
+        let dateD1 = new Date(pWeight[w+1].readingDate)
+        let lastDate = new Date (pWeight[wLength-1].readingDate)
+
+       
+        if( date < date0){
+          weight = 0;
+
+        } else if ( date >= dateD && date < dateD1) {
+          weight = pWeight[w].readingValue;
+          
+
+        } else if ( date > lastDate){
+          weight = pWeight[wLength-1].readingValue; 
+        
+        }
+
+       //  console.log('medDose = ', medDose)
+        
+        
+      }
+      weightArr.push(weight);
+      console.log('weightArr = ', weightArr)
       graphicArray.push([new Date(dateForArray), dayDosis])
 
     }
@@ -115,6 +151,12 @@ export default class LinesChart extends React.Component {
 
     console.log('El graphicsArray es = ', graphicArray)
 
+    let graphData = [ [ { type: 'date', label: 'Día' }, 'Peso','Med 1'],
+      [new Date(2014, 0), -0.5, 5.7],
+      [new Date(2014, 11), -0.2, 4.5],
+  ]
+
+      
     return (
       <div>
         {this.graphicArray}
@@ -174,11 +216,7 @@ export default class LinesChart extends React.Component {
             chartType="Line"
             loader={<div>Loading Chart</div>}
             data={[
-                [
-                { type: 'date', label: 'Day' },
-                'Peso',
-                'Med 1',
-                ],
+                [ { type: 'date', label: 'Day' }, 'Peso','Med 1'],
                 [new Date(2014, 0), -0.5, 5.7],
                 [new Date(2014, 1), 0.4, 8.7],
                 [new Date(2014, 2), 0.5, 12],
