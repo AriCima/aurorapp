@@ -111,13 +111,13 @@ export default class Calculations {
     static sortReadingsByDate(x){
         function orderReadings(a, b) {
         
-            const drugA = a.readingDate;
-            const drugB = b.readingDate;
+            const readingA = a.readingDate;
+            const readingB = b.readingDate;
           
             let comparison = 0;
-            if (drugA > drugB) {
+            if (readingA > readingB) {
               comparison = 1;
-            } else if (drugA < drugB) {
+            } else if (readingA < readingB) {
               comparison = -1;
             }
             return comparison;

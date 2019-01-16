@@ -70,46 +70,15 @@ export default class LinesChart extends React.Component {
     // Iteración entre fechas --> https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
 
 
+
     for (let i = 0; i <= daysBack; i++ ){   // --> iteración desde fecha inicio hasta hoy
       let dayDosis      = [];
-      let weightArr     = [];
+      let resultante    = [];
       let date          = new Date(startDate); 
       let dateForArray  = date.setDate(date.getDate() + i); // --> date para el graphics Array
       
-      for (let j=0; j < pMeds.length; j++){  // --> iteración por medicinas
-        
-        let medName = pMeds[j].drugName;
-        let doseLength = pMeds[j].dose.length;
-        let medDose = 0;
 
-        for(let d=0; d < doseLength-1; d++){  // --> iteración por dosis de una misma medicina
-        
-          let date0 = new Date(pMeds[j].dose[0].date) // --> comienzo de toma 
-          let dateD = new Date(pMeds[j].dose[d].date)
-          let dateD1 = new Date(pMeds[j].dose[d+1].date)
-          let lastDate = new Date (pMeds[j].dose[doseLength-1].dailyDose)
 
-          if( date < date0){
-            medDose = 0;
-
-          } else if ( date >= dateD && date < dateD1) {
-            medDose = pMeds[j].dose[d].dailyDose;
-            
-
-          } else if ( date > lastDate){
-            medDose = pMeds[j].dose[doseLength-1].dailyDose 
-           
-          }
-
-        //  console.log('medDose = ', medDose)
-
-        }
-        dayDosis.push(medDose)
-        
-        graphicMeds.push(medName);
-
-      }
-      
       let wLength = pWeight.length;
       let weight = 0;
 
@@ -139,22 +108,62 @@ export default class LinesChart extends React.Component {
 
        //  console.log('medDose = ', medDose)
         
-        
       }
-      weightArr.push(weight);
-      console.log('weightArr = ', weightArr)
-      graphicArray.push([new Date(dateForArray), dayDosis])
 
+      
+
+      for (let j=0; j < pMeds.length; j++){  // --> iteración por medicinas
+        
+        let medName = pMeds[j].drugName;
+        let doseLength = pMeds[j].dose.length;
+        let medDose = 0;
+
+        for(let d=0; d < doseLength-1; d++){  // --> iteración por dosis de una misma medicina
+        
+          let date0 = new Date(pMeds[j].dose[0].date) // --> comienzo de toma 
+          let dateD = new Date(pMeds[j].dose[d].date)
+          let dateD1 = new Date(pMeds[j].dose[d+1].date)
+          let lastDate = new Date (pMeds[j].dose[doseLength-1].dailyDose)
+
+          if( date < date0){
+            medDose = 0;
+
+          } else if ( date >= dateD && date < dateD1) {
+            medDose = pMeds[j].dose[d].dailyDose;
+            
+
+          } else if ( date > lastDate){
+            medDose = pMeds[j].dose[doseLength-1].dailyDose 
+           
+          }
+
+        //  console.log('medDose = ', medDose)
+
+        }
+
+        dayDosis.push(medDose)
+        resultante.unshift(medDose.toString());
+
+        
+        graphicMeds.push(medName);
+
+      }
+      
+      resultante.unshift(new Date(dateForArray), weight);
+
+      graphicArray.push([new Date(dateForArray), weight, dayDosis])
+
+      console.log('RESULTANTE = ', resultante)
     }
 
     
 
-    console.log('El graphicsArray es = ', graphicArray)
+    
 
-    let graphData = [ [ { type: 'date', label: 'Día' }, 'Peso','Med 1'],
-      [new Date(2014, 0), -0.5, 5.7],
-      [new Date(2014, 11), -0.2, 4.5],
-  ]
+    // let graphData = [ [ { type: 'date', label: 'Día' }, 'Peso','Med 1'],
+    //   [new Date(2014, 0), -0.5, 5.7],
+    //   [new Date(2014, 11), -0.2, 4.5],
+    //   ]
 
       
     return (
