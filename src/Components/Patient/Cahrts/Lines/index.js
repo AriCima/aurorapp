@@ -59,12 +59,15 @@ export default class LinesChart extends React.Component {
     let startDate = today.setDate(today.getDate() - daysBack);
 
     let dataFirst = [ { type: 'date', label: 'Día' }, 'Peso']
-    let dataArray = [[dataFirst]]
+    let dataArray = []
 
     for (let l = 0; l < pMeds.length; l++){
       dataFirst.push(pMeds[l].drugName);
       
     };
+
+    dataArray[0] = dataFirst
+    console.log('dataFIRST = ', dataFirst)
   
     // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
     // [new Date(2014, 0), -0.5, 5.7],
@@ -160,7 +163,7 @@ export default class LinesChart extends React.Component {
 
     }
 
-    console.log('EL BIG DATAARRAY = ', dataArray);
+    console.log('EL BIG DATAFIRST = ', dataArray);
     return dataArray 
   };
 

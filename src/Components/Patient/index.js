@@ -35,7 +35,7 @@ export default class Patient extends React.Component {
       medsTableInfo     : [],
       patientsWeights   : [],
       patientsFever     : [],
-      timeLineDays      : 30,
+      timeLineDays      : 5,
     }
   }
  
