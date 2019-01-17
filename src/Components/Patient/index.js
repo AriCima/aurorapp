@@ -142,7 +142,7 @@ export default class Patient extends React.Component {
     return this.state.medsTableInfo.map((meds,j) => {
       return (
         <div className="medicines-container">
-          <Link className="medicine-row" key={j} to={`/single_medicine_overview/${meds.drugName}`}> 
+          <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
           
             <div id="drug-field">
                <h4>{meds.drugName}</h4>

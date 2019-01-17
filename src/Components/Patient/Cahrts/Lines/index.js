@@ -161,14 +161,7 @@ export default class LinesChart extends React.Component {
     }
 
     console.log('EL BIG DATAARRAY = ', dataArray);
-    
-    //  let graphData = [ [ { type: 'date', label: 'Día' }, 'Peso','Med 1'],
-    //    [new Date(2014, 0), -0.5, 5.7],
-    //    [new Date(2014, 11), -0.2, 4.5],
-    //    ]
-
-    return dataArray
-      
+    return dataArray 
   };
 
  

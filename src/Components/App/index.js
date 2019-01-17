@@ -20,6 +20,7 @@ import NewReading from '../ReadingInput';
 import EventInput from '../EventInput';
 import MedicineInput from '../MedicineInput';
 import EventOverview from '../EventOverview';
+import MedicineOverview from '../MedicineOverview';
 
 // CSS
 import './index.css';
@@ -112,6 +113,7 @@ class App extends Component {
                 <Route path="/patient/:patientId" exact render = {(props) => { return <Patient propsFn={props.history} patID={props.match.params.patientId} />}}/>
                 <Route path="/patient_new_reading/:patientId" exact render = {(props) => { return <NewReading propsFn={props.history} patID={props.match.params.patientId} />}}/>
                 <Route path="/patient_new_medicine/:patientId" exact render = {(props) => { return <MedicineInput propsFn={props.history} patID={props.match.params.patientId} />}}/>
+                <Route path="/single_medicine_overview/:patientId/:drugName" exact render = {(props) => { return <MedicineOverview propsFn={props.history} patID={props.match.params.patientId} dName={props.match.params.drugName} />}}/>
 
               </Switch>
 
