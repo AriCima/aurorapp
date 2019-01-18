@@ -14,7 +14,7 @@ import Calculations from '../../../services/Calculations';
 // CSS
 import './index.css';
 
-export default class LinesChart extends React.Component {
+export default class LinesChartSinlge extends React.Component {
   constructor(props){
     super(props);
 
@@ -22,7 +22,9 @@ export default class LinesChart extends React.Component {
       patientId         : this.props.patID,
       medArray          : '',
       patientsWeights   : '',
-      timeLineDays      : this.props.tLine,
+      timeLineDays      : 30,
+      drugName          : this.props.dName,
+      doseInfo          : [],
     }
     
   }
@@ -31,17 +33,23 @@ export default class LinesChart extends React.Component {
 
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
-      const pat = res;
+      
+      let loadedMed         = res.medArray;
+      let extractedDoseInfo = [];
+      let weightsCopy       = [...res.patientsWeight];
+      let weightsSorted     = Calculations.sortReadingsByDate(weightsCopy);
+      
+      for(let i=0; i < loadedMed.length; i++){
+        if(this.state.drugName.toUpperCase() === loadedMed[i].drugName.toUpperCase()){
+        
+          extractedDoseInfo = loadedMed[i].dose;
+        }
+      }
 
-      let medicinesCopy  = [...pat.medArray];
-      let weightsCopy    = [...pat.patientsWeight];
-      let weightsSorted  = Calculations.sortReadingsByDate(weightsCopy);
 
-      console.log('weightsSorted =', weightsSorted)
-
-      this.setState({  
-        medArray          : medicinesCopy,       
-        patientsWeights   : weightsSorted,  // keys are --> readingDate y readingValue
+      this.setState({ 
+        doseInfo        : extractedDoseInfo,
+        patientsWeights : weightsSorted,
       });
 
     })
@@ -52,7 +60,8 @@ export default class LinesChart extends React.Component {
 
   _medicinesGraphicData(){
 
-    let pMeds     = [...this.state.medArray];
+    let drugName  = this.state.drugName;
+    let doseInfo  = [...this.state.doseInfo];
     let pWeight   = [...this.state.patientsWeights];
     let daysBack  = this.state.timeLineDays;
     let today     = new Date();
@@ -60,18 +69,14 @@ export default class LinesChart extends React.Component {
 
     let dataFirst = [ { type: 'date', label: 'Día' }, 'Peso']
     let dataArray = []
+    
+    console.log('doseInfo en la función = ', doseInfo)
 
-    for (let l = 0; l < pMeds.length; l++){
-      dataFirst.push(pMeds[l].drugName);
+
+    
+    dataFirst.push(drugName); //--> [ { type: 'date', label: 'Día' }, 'Peso', drugName]
       
-    };
-
     dataArray[0] = dataFirst
-    console.log('dataFIRST = ', dataFirst)
-  
-    // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
-    // [new Date(2014, 0), -0.5, 5.7],
-    // {drugName2: '', dose:[{date, dayDose},{date, dayDose},  . . . .]}  ];
 
     let graphicMeds  = [];
 
@@ -121,43 +126,40 @@ export default class LinesChart extends React.Component {
       }
 
       
-
-      for (let j=0; j < pMeds.length; j++){  // --> iteración por medicinas
+      //console.log('doseInfo antes del for', doseInfo)
+      for (let j=0; j < doseInfo.length; j++){  // --> iteración por dosis
         
-        let medName = pMeds[j].drugName;
-        let doseLength = pMeds[j].dose.length;
+        //console.log('dose.length = ', doseInfo[j].dose.length)
         let medDose = 0;
 
+        let doseLength = doseInfo.length;
         for(let d=0; d < doseLength-1; d++){  // --> iteración por dosis de una misma medicina
         
-          let date0 = new Date(pMeds[j].dose[0].date) // --> comienzo de toma 
-          let dateD = new Date(pMeds[j].dose[d].date)
-          let dateD1 = new Date(pMeds[j].dose[d+1].date)
-          let lastDate = new Date (pMeds[j].dose[doseLength-1].dailyDose)
+          let date0 = new Date(doseInfo[0].date) // --> comienzo de toma 
+          let dateD = new Date(doseInfo[d].date)
+          let dateD1 = new Date(doseInfo[d+1].date)
+          let lastDate = new Date (doseInfo[doseLength-1].dailyDose)
 
           if( date < date0){
             medDose = 0;
 
           } else if ( date >= dateD && date < dateD1) {
-            medDose = pMeds[j].dose[d].dailyDose;
+            medDose = doseInfo[d].dailyDose;
             
 
           } else if ( date > lastDate){
-            medDose = pMeds[j].dose[doseLength-1].dailyDose 
+            medDose = doseInfo[doseLength-1].dailyDose 
            
           }
-
-        //  console.log('medDose = ', medDose)
 
         }
 
         resultante.unshift(medDose);
-
-        graphicMeds.push(medName);
-
+        console.log('el resultante = ', resultante)
       }
-      
+      resultante.pop();  // --> no sé por qué el medDose se incluye 2 veces en el resultante!!
       resultante.unshift(new Date(defDate), Number(weight));
+
       
       dataArray.push(resultante);
 

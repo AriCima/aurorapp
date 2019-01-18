@@ -35,7 +35,7 @@ export default class Patient extends React.Component {
       medsTableInfo     : [],
       patientsWeights   : [],
       patientsFever     : [],
-      timeLineDays      : 5,
+      timeLineDays      : 15,
     }
   }
  
@@ -257,7 +257,7 @@ export default class Patient extends React.Component {
             rootProps={{ 'data-testid': '2' }}
           />
 
-          <LinesChart patID={this.props.patID} tline={this.state.timeLineDays} med={this.state.medArray} weight={this.state.patientsWeights}/>
+          <LinesChart patID={this.props.patID} tLine={this.state.timeLineDays} />
 
         </div>
 

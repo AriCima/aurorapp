@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
+import LinesChartSingle from '../Patient/Cahrts/LinesSingle';
 
 import './index.css'; 
 
@@ -59,7 +60,7 @@ const units = [
     },
 ];
 
-class MedicineInput extends React.Component {
+class MedicineOverview extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
@@ -71,154 +72,34 @@ class MedicineInput extends React.Component {
         this.onEditDose = this.onEditDose.bind(this);
     }
 
-    componentDidMount(){
+    // componentDidMount(){
     
-        DataService.getPatientInfo(this.state.patientId)
-        .then(res => {
+    //     DataService.getPatientInfo(this.state.patientId)
+    //     .then(res => {
 
-            let loadedMed       = res.medArray;
-            let drugInfo        = [];
-            let weightsCopy     = [...res.patientsWeight];
-            let weightsSorted   = Calculations.sortReadingsByDate(weightsCopy);
+    //         // let loadedMed       = res.medArray;
+    //         // let drugInfo        = [];
+    //         // let weightsCopy     = [...res.patientsWeight];
+    //         // let weightsSorted   = Calculations.sortReadingsByDate(weightsCopy);
             
-            for(let i=0; i<loadedMed.length; i++){
-                if(this.state.drugName.toUpperCase() === loadedMed[i].drugName.toUpperCase())
-                drugInfo = [...loadedMed[i]];
-            }
+           
 
-            this.setState({ 
-                drugInfo        : drugInfo,
-                patientsWeights : weightsSorted,
-            });
+    //         this.setState({ 
+    //             drugInfo        : drugInfo,
+    //             patientsWeights : weightsSorted,
+    //         });
 
-        })
-        .catch(function (error) {    
-        console.log(error);
-        })    
-    }
+    //     })
+    //     .catch(function (error) {    
+    //     console.log(error);
+    //     })    
+    // }
 
     onChangeState(field, value){
         let aptInfo = this.state;
         aptInfo[field] = value;
         this.setState(aptInfo)
     };
-
-  _medicinesGraphicData(){
-
-    let pMeds     = [...this.state.medArray];
-    let pWeight   = [...this.state.patientsWeights];
-    let daysBack  = 60;
-    let today     = new Date();
-    let startDate = today.setDate(today.getDate() - daysBack);
-
-    let dataFirst = [ { type: 'date', label: 'Día' }, 'Peso']
-    let dataArray = [[dataFirst]]
-
-    // for (let l = 0; l < pMeds.length; l++){
-    //   dataFirst.push(pMeds[l].drugName);
-      
-    // };
-  
-    // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
-    // [new Date(2014, 0), -0.5, 5.7],
-    // {drugName2: '', dose:[{date, dayDose},{date, dayDose},  . . . .]}  ];
-
-    let graphicMeds  = [];
-
-    // Iteración entre fechas --> https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
-
-    for (let i = 0; i <= daysBack; i++ ){   // --> iteración desde fecha inicio hasta hoy
-      let dayDosis      = [];
-      let resultante    = [];
-      let date          = new Date(startDate); 
-      let dateForArray  = date.setDate(date.getDate() + i); // --> date para el graphics Array
-      
-      let day = new Date(dateForArray).getDate().toString();
-      let month = (new Date(dateForArray).getMonth()+1).toString();
-      let year = new Date(dateForArray).getFullYear().toString();
-
-      let defDate = year +','+ month +','+ day;
-
-      let wLength = pWeight.length;
-      let weight = 0;
-
-      for (let w = 0; w < wLength-1; w++){
-
-        // console.log('pWeight = ', pWeight);
-
-        // console.log('pWeight.readingValue = ', pWeight[w].readingValue);
-
-        let date0 = new Date(pWeight[0].readingDate) // --> comienzo de toma 
-        let dateD = new Date(pWeight[w].readingDate)
-        let dateD1 = new Date(pWeight[w+1].readingDate)
-        let lastDate = new Date (pWeight[wLength-1].readingDate)
-
-       
-        if( date < date0){
-          weight = 0;
-
-        } else if ( date >= dateD && date < dateD1) {
-          weight = pWeight[w].readingValue;
-          
-
-        } else if ( date > lastDate){
-          weight = pWeight[wLength-1].readingValue; 
-        
-        }
-
-       //  console.log('medDose = ', medDose)
-        
-      }
-
-      
-
-      for (let j=0; j < pMeds.length; j++){  // --> iteración por medicinas
-        
-        let medName = pMeds[j].drugName;
-        let doseLength = pMeds[j].dose.length;
-        let medDose = 0;
-
-        if(pMeds[j] === this.state.drugName){
-
-            for(let d=0; d < doseLength-1; d++){  // --> iteración por dosis de una misma medicina
-            
-            let date0 = new Date(pMeds[j].dose[0].date) // --> comienzo de toma 
-            let dateD = new Date(pMeds[j].dose[d].date)
-            let dateD1 = new Date(pMeds[j].dose[d+1].date)
-            let lastDate = new Date (pMeds[j].dose[doseLength-1].dailyDose)
-
-            if( date < date0){
-                medDose = 0;
-
-            } else if ( date >= dateD && date < dateD1) {
-                medDose = pMeds[j].dose[d].dailyDose;
-                
-
-            } else if ( date > lastDate){
-                medDose = pMeds[j].dose[doseLength-1].dailyDose 
-            
-            }
-
-            //  console.log('medDose = ', medDose)
-
-            }
-
-            resultante.unshift(medDose);
-
-            graphicMeds.push(medName);
-        }
-
-      }
-      
-      resultante.unshift(new Date(defDate), Number(weight));
-      
-      dataArray.push(resultante);
-
-    }
-
-    console.log('EL DATAARRAY de : ', this.state.drugName, ' = ', dataArray);
-    return dataArray 
-  };
 
 
     onEditDose(e){
@@ -297,10 +178,10 @@ class MedicineInput extends React.Component {
 
 
             <div>
-                <h1>Lines chart DOSIS vs PESO</h1>
+                <LinesChartSingle patID={this.props.patID} tLine={this.state.timeLineDays} dName={this.state.drugName}/>
             </div>
 
-
+{/* 
             <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onEditDose}>
             
                 <div id="input-dose-area">
@@ -552,13 +433,14 @@ class MedicineInput extends React.Component {
                     
                 </div>
             </form>
+        */}
         </div>
     );
   }
 }
 
-MedicineInput.propTypes = {
+MedicineOverview.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MedicineInput);
+export default withStyles(styles)(MedicineOverview);
