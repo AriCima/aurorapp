@@ -6,7 +6,8 @@ import {Chart} from 'react-google-charts'
 // REACTCHARTS --> http://recharts.org/en-US/examples/SimpleLineChart
 import LinesChart from './Cahrts/Lines';
 // ECHARTS
-import EChart from './Cahrts/ECHARTS';
+import EChart from './Cahrts/ECharts';
+import EChartBars from './Cahrts/EChartsBars';
 
 
 // MATERIAL UI
@@ -83,7 +84,10 @@ export default class Patient extends React.Component {
 
         let doseSorted = Calculations.sortMedicinesDate(meds[k].dose);
         let dL = doseSorted.length;
-        let cDose = doseSorted[dL-1];
+        let cDose = doseSorted[dL-1].dailyDose;
+
+        console.log('doseSorted = ', doseSorted);
+        console.log('cDose = ', doseSorted[dL-1]);
 
         if(cDose === 0){
           continue
@@ -92,6 +96,8 @@ export default class Patient extends React.Component {
         }
 
       }
+
+      console.log('el currentMeds = ', currentMeds)
 
       this.setState({ 
         patientName       : pat.patientName,
@@ -202,37 +208,22 @@ export default class Patient extends React.Component {
     
     return this.state.currentMedicines.map((meds,j) => {
       return (
-        <div className="medicines-container">
-          <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
-          
+        
+        <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.medName}`}> 
+        
           <div className="med-info-block">
-            <div className="medInfo-sbtitle">
-              <p>Droga: </p>
-            </div>
-            <div id="drug-info">
-               <h4>{meds.medName}</h4>
-            </div>
+            <p>{meds.medName}</p>
           </div>
 
           <div className="med-info-block">
-            <div className="medInfo-sbtitle">
-              <p>Dosis diaria: </p>
-            </div>
-            <div id="drug-info">
-               <p>{meds.medDose} [{meds.medUnit}]</p> 
-            </div>
+            <p>{meds.medCDose} [{meds.medUnit}]</p> 
           </div>
 
           <div className="med-info-block">
-            <div className="medInfo-sbtitle">
-              <p>Relación dosis/peso: </p>
-            </div>
-            <div id="drug-info">
-               <p>{Number(meds.medDose)} / {Number(this.state.currentWeight)}</p> 
-            </div>
+            <p>{Number.parseFloat((Number(meds.medCDose)/ Number(this.state.currentWeight))).toFixed(1)} [{meds.medUnit}/Kg]</p> 
           </div>
-          </Link>
-        </div>
+        </Link>
+      
       )
     })
   }  
@@ -244,8 +235,8 @@ export default class Patient extends React.Component {
 
     return this.state.medsTableInfo.map((meds,j) => {
       return (
-        <div className="medicines-container">
-          <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
+        <div className="medicines-container" key={j}>
+          <Link className="medicine-row"  to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
           
             <div id="drug-field">
                <h4>{meds.drugName}</h4>
@@ -266,7 +257,7 @@ export default class Patient extends React.Component {
   _renderMedicineDose(x){
     return x.map((dose, j) => {
       return (
-        <div className="dose-fields">
+        <div key={j} className="dose-fields">
           <p>{dose}</p>
         </div>
       )
@@ -366,9 +357,12 @@ export default class Patient extends React.Component {
                   <h2>Registro eventos</h2>
                 </div>
                 <div className="chartBox-info">
-                  {this.state.patientName === '' ? <p>LOADING !</p> :
-                    <EChart patID={this.props.patID} tLine={this.state.timeLineDays}/>
-                  }
+
+                  <div className="events-chart">
+                    {this.state.patientName === '' ? <p>LOADING !</p> :
+                      <EChartBars patID={this.props.patID} tLine={this.state.timeLineDays}/>
+                    }
+                  </div>
                 </div>
               </div>
 
@@ -377,11 +371,33 @@ export default class Patient extends React.Component {
             <div className="sq-line">
 
               <div className="chart-box">
+
                 <div className="chartBox-Title">
                   <h2>Medicación actual</h2>
                 </div>
+
                 <div className="chartBox-info">
-                 
+
+                  <div className="cMedicine-chart">
+
+                    <div className="cMedChart-header">
+  
+                      <div className="med-title-box">
+                        <p>Droga</p>
+                      </div>
+                      <div className="med-title-box">
+                        <p>Dósis diaria</p>
+                      </div>
+                      <div className="med-title-box">
+                        <p>Dósis / Peso</p>
+                      </div>
+
+                    </div>
+                    {this.state.patientName === '' ? <p>LOADING !</p> :
+                      this._renderMedicineCurrentDose()
+                    }
+                  </div>
+
                 </div>
                 
               </div>
