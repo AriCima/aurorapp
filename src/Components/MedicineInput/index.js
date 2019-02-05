@@ -141,7 +141,7 @@ class MedicineInput extends React.Component {
 
          // NUEVO PLANTEAMINETO:
          //   armar un array de medicamentos por cada paciente con la siguiente estructura:
-         //  medArray = [ {drugName: name, dose:[{1},{2}, . .  .{n}] }]    
+         //  medArray = [ {drugName: name, drugUnits: units, dose:[{1},{2}, . .  .{n}] }]    
          //  más específicamente:
          //  medArray = [ {nombre: xxx, dosis: [{fecha: xx, dosisHoraria :[x,..,x], dosisDiaria: xx}, {fecha: jj, dosisHoraria :[j,..,j], dosisDiaria: jj} ] },
          //              {nombre: yyy, dosis: [{fecha: yy, dosisHoraria :[y,..,y], dosisDiaria: yy}]}]
@@ -176,6 +176,7 @@ class MedicineInput extends React.Component {
             this.state.dailyDose21,
             this.state.dailyDose22,
             this.state.dailyDose23]
+        let units           = this.state.doseUnits;
         let dCode           = Calculations.generateCode()
 
         let totalDayDose = Number(this.state.dailyDose0) + Number(this.state.dailyDose1) + Number(this.state.dailyDose2) + Number(this.state.dailyDose3) + Number(this.state.dailyDose4) + Number(this.state.dailyDose5) + Number(this.state.dailyDose6) + Number(this.state.dailyDose7) + Number(this.state.dailyDose8) +
@@ -188,14 +189,14 @@ class MedicineInput extends React.Component {
 
         let index = names.indexOf(newDrugName.toUpperCase());
 
-        if(index < 0){
-            let newDrug = {drugName: newDrugName.toUpperCase(), dose: newMedArr};
+        if(index < 0){   // --> si el medicamento no lo tomaba, se agrgan todos los datos.
+            let newDrug = {drugName: newDrugName.toUpperCase(), drugUnits: units, dose: newMedArr};
             currentMed.push(newDrug);
-        } else {
+        } else {        // --> si el medicamento YA lo tomaba, solo se agrega la nueva dosis.
             console.log('EL MEDICAMENTO YA LO TOMA')
             currentMed[index].dose.push(newDose); 
             console.log('El current med es: ', currentMed)
-        }
+        };
        
 
         DataService.newMedicineRegister(this.state.patientId, currentMed);
@@ -467,6 +468,30 @@ class MedicineInput extends React.Component {
                     
                 </div>
             </form>
+{/*         
+            <div className="s6_input_area">
+
+                <form onSubmit={this.onSubmit}>
+                    <div className="input-box">
+                        <input size="50" type="text" name="Nombre" value="Nombre *"/>
+                    </div> 
+                    <div className="input-box">        
+                        <input size="50" type="email" name="Email" value="Email *"/>
+                    </div>    
+                    <div className="input-box">        
+                        <input size="50" type="text" name="Asunto" value="Asunto"/>
+                    </div>    
+                    <div className="input-box">        
+                        <textarea cols="50" rows="8" type="textarea" name="Mensaje" value="¿En qué podemos ayudarte?"/>
+                    </div>
+                    
+                    <div className="button">
+                        <button type="submit">ENVIAR</button>
+                    </div>
+                </form>
+
+            </div>
+         */}
         </div>
     );
   }

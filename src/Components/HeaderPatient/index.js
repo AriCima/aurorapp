@@ -34,7 +34,7 @@ class HeaderPatient extends Component {
         patientSurname  : res.patientSurname,        
     });
     
-        console.log('el patientName = ', this.state.patientName)
+        //console.log('el patientName = ', this.state.patientName)
     })
     .catch(function (error) {    
     console.log(error);
@@ -52,7 +52,7 @@ class HeaderPatient extends Component {
     }
 
     render() {
-        console.log('el user en el HeaderPatient', this.props.patID)
+        //console.log('el user en el HeaderPatient', this.props.patID)
         return (
 
             <div className="header">

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // GOOGLE CHARTS --> https://react-google-charts.com/line-chart
-//https://react-google-charts.com/line-chart
 import {Chart} from 'react-google-charts'
 
 
@@ -22,7 +21,7 @@ export default class LinesChart extends React.Component {
       patientId         : this.props.patID,
       medArray          : '',
       patientsWeights   : '',
-      timeLineDays      : this.props.tLine,
+      timeLineDays      : 60,
     }
     
   }
@@ -67,7 +66,7 @@ export default class LinesChart extends React.Component {
     };
 
     dataArray[0] = dataFirst
-    console.log('dataFIRST = ', dataFirst)
+    //console.log('dataFIRST = ', dataFirst)
   
     // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
     // [new Date(2014, 0), -0.5, 5.7],
@@ -75,10 +74,9 @@ export default class LinesChart extends React.Component {
 
     let graphicMeds  = [];
 
-    // Iteración entre fechas --> https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
-
-    for (let i = 0; i <= daysBack; i++ ){   // --> iteración desde fecha inicio hasta hoy
-      //let dayDosis      = [];
+    // ITERACION POR FECHAS --> https://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
+      for (let i = 0; i <= daysBack; i++ ){   // --> iteración desde fecha inicio hasta hoy
+      //let dayDosis    = [];
       let resultante    = [];
       let date          = new Date(startDate); 
       let dateForArray  = date.setDate(date.getDate() + i); // --> date para el graphics Array
@@ -92,6 +90,8 @@ export default class LinesChart extends React.Component {
       let wLength = pWeight.length;
       let weight = 0;
 
+
+      // ITERACION POR PESOS
       for (let w = 0; w < wLength-1; w++){
 
         // console.log('pWeight = ', pWeight);
@@ -103,7 +103,7 @@ export default class LinesChart extends React.Component {
         let dateD1 = new Date(pWeight[w+1].readingDate)
         let lastDate = new Date (pWeight[wLength-1].readingDate)
 
-       
+      
         if( date < date0){
           weight = 0;
 
@@ -116,56 +116,63 @@ export default class LinesChart extends React.Component {
         
         }
 
-       //  console.log('medDose = ', medDose)
         
       }
 
       
-
+      // ITERACION POR MEDICAMENTOS
       for (let j=0; j < pMeds.length; j++){  // --> iteración por medicinas
         
         let medName = pMeds[j].drugName;
         let doseLength = pMeds[j].dose.length;
+
+        //console.log('el Dose.length = ', doseLength)
         let medDose = 0;
 
-        for(let d=0; d < doseLength-1; d++){  // --> iteración por dosis de una misma medicina
-        
-          let date0 = new Date(pMeds[j].dose[0].date) // --> comienzo de toma 
-          let dateD = new Date(pMeds[j].dose[d].date)
-          let dateD1 = new Date(pMeds[j].dose[d+1].date)
-          let lastDate = new Date (pMeds[j].dose[doseLength-1].dailyDose)
+        //console.log('Meds[j].dose[doseLength].dailyDose', pMeds[j].dose[doseLength-2].dailyDose)
+
+
+        // ITERACION POR DOSIS DE MEDICAMENTO
+        for(let d=0; d < doseLength; d++){ 
+          let date0 = new Date(pMeds[j].dose[0].date); // --> comienzo de toma 
+          let dateD = new Date (pMeds[j].dose[d].date);
+          // let dateD1 = new Date (pMeds[j].dose[d+1].date);
+
+          let dateF = new Date (pMeds[j].dose[doseLength-1].date);
+          let dateAF = new Date (pMeds[j].dose[doseLength-2].date);
 
           if( date < date0){
             medDose = 0;
 
-          } else if ( date >= dateD && date < dateD1) {
-            medDose = pMeds[j].dose[d].dailyDose;
+          } else if ( date > dateF){
+            medDose = pMeds[j].dose[doseLength-1].dailyDose;
+          
+          } else {
+              
+            if( date >= dateD && date < pMeds[j].dose[d+1].date){
+              medDose = pMeds[j].dose[d].DailyDose;
+
+            } 
             
-
-          } else if ( date > lastDate){
-            medDose = pMeds[j].dose[doseLength-1].dailyDose 
-           
           }
-
-        //  console.log('medDose = ', medDose)
-
+          
         }
-
         resultante.unshift(medDose);
-
-        graphicMeds.push(medName);
-
+        graphicMeds.unshift(medName);
+        
       }
-      
+        
       resultante.unshift(new Date(defDate), Number(weight));
-      
+      // console.log('resultante = ', resultante);
       dataArray.push(resultante);
-
+      //console.log('dataArray = ', dataArray);
     }
-
-    console.log('EL BIG DATAFIRST = ', dataArray);
+    
+      
     return dataArray 
+
   };
+
 
  
   _renderEventsInfo(){ 
@@ -262,4 +269,31 @@ export default class LinesChart extends React.Component {
   };
 };
 
+
+// arr1 = [ {date: 1, value:1}, {date: 4, value:4}, {date: 6, value: 6}];
+
+// arr2 = [ {date:-1}, {date:0}, {date:1}, {date:2}, {date:3}, {date:4}, {date:5}, {date:6}, {date:7}, {date:8}];
+
+// long1 = arr1.length;
+
+// for(let j = 0; j < arr2.length; j++){
+//     for(let k=0; k<arr1.length; k++){
+
+//         if(arr2[j].date < arr1[0].date){
+//             arr2[j].value = null;
+
+//         } else  if(arr2[j].date >= arr1[long1-1].date){
+
+//             arr2[j].value = arr1[long1-1].value;
+
+//         } else {
+            
+//             if (arr2[j].date >= arr1[k].date && arr2[j].date < arr1[k+1].date) {
+//                 arr2[j].value = arr1[k].value;
+//             }
+//         }
+//     }
+// }
+
+// console.log('el resultante es = ', arr2);
 

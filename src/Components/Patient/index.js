@@ -3,7 +3,10 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // GOOGLE CHARTS --> https://react-google-charts.com/line-chart
 import {Chart} from 'react-google-charts'
+// REACTCHARTS --> http://recharts.org/en-US/examples/SimpleLineChart
 import LinesChart from './Cahrts/Lines';
+// ECHARTS
+import EChart from './Cahrts/ECHARTS';
 
 
 // MATERIAL UI
@@ -30,12 +33,18 @@ export default class Patient extends React.Component {
       patientName       : '',
       patientSurname    : '',
       bornDate          : '',
+
       patientsEvents    : [],
+      firstEventDate    : '',
+
       medArray          : [],
       medsTableInfo     : [],
+      currentMedicines  : [],
+
       patientsWeights   : [],
-      patientsFever     : [],
-      timeLineDays      : 15,
+      currentWeight     : null,
+
+      timeLineDays      : 60,
     }
   }
  
@@ -45,24 +54,42 @@ export default class Patient extends React.Component {
     .then(res => {
       const pat = res;
       let eventsCopy     = [...pat.patientsEvents];
-      let feverCopy      = [...pat.patientsFever];
+      let weightsCopy    = [...pat.patientsWeight];
       let meds           = [...pat.medArray];
-      // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-      let eventsSorted          = Calculations.sortByEventDate(eventsCopy);
-      let feverOrdered          = Calculations.sortReadingsByDate(feverCopy);
+
+      // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+      let eventsSorted  = Calculations.sortByEventDate(eventsCopy);
+      let weightsSorted = Calculations.sortByEventDate(weightsCopy);
 
      // - - - - - - - Sorting end 
 
+     let firstEvent = eventsSorted[0].eventDate;
+     let wL         = weightsSorted.length;
+     let cWeight    = weightsSorted[wL-1].readingValue;
+
      // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
-      let medsTable = []
+      let medsTable = []; 
+      let currentMeds = [];
 
       for (let k = 0; k < meds.length; k++){ // --> iteración medicinas
-        let dName = meds[k].drugName;
-        let index = meds[k].dose.length;
-        let dDose = meds[k].dose[index-1].dailyDose;
-        let hDose = meds[k].dose[index-1].hourlyDose
+        let dName   = meds[k].drugName;
+        let dunits  = meds[k].drugUnits;
+        let index   = meds[k].dose.length;
+        let dDose   = meds[k].dose[index-1].dailyDose;
+        let hDose   = meds[k].dose[index-1].hourlyDose
 
-        medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose};
+        // medsTable recoge toda la info para mostrarla en el cuadro de registro de medicamentos
+        medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose, drugDose: dDose};
+
+        let doseSorted = Calculations.sortMedicinesDate(meds[k].dose);
+        let dL = doseSorted.length;
+        let cDose = doseSorted[dL-1];
+
+        if(cDose === 0){
+          continue
+        } else {
+          currentMeds.push({medName: dName, medCDose: cDose, medUnit: dunits})
+        }
 
       }
 
@@ -70,11 +97,19 @@ export default class Patient extends React.Component {
         patientName       : pat.patientName,
         patientSurname    : pat.patientSurname,
         bornDate          : pat.bornDate, 
+
         patientsEvents    : eventsSorted,   
+        firstEventDate    : firstEvent,
+
+        currentWeight     : cWeight,
+
         medArray          : pat.medArray,      // med oredered alpahbetically for listing purposes
         medsTableInfo     : medsTable,
-        patientsFever     : feverOrdered,
+        currentMedicines  : currentMeds,
+
       });
+
+      console.log('firstEvent / currentWeight / currentMeds=', this.state.firstEventDate, ' / ', this.state.currentWeight, ' / ', this.state.currentMedicines)
 
     })
     .catch(function (error) {    
@@ -119,20 +154,88 @@ export default class Patient extends React.Component {
 
   }
 
-
-
   _renderPatientInfo(){
     return (
       <div className="patient-info"> 
+
         <div className="patient-info-block">
-          <p>Nombre completo: </p><h4>{this.state.patientName} {this.state.patientSurname}</h4>
+          <div className="patInfo-sbtitle">
+            <p>Nombre: </p>
+          </div>
+          <div className="patInfo-Info">
+            <h4>{this.state.patientName} {this.state.patientSurname}</h4>
+          </div>
         </div>
+
         <div className="patient-info-block">
-          <p>Fecha de nacimiento: </p><h4>{this.state.bornDate}</h4>
+          <div className="patInfo-sbtitle">
+            <p>Fecha de nacimiento: </p>
+          </div>
+          <div className="patInfo-Info">
+            <h4>{this.state.bornDate}</h4>
+          </div>
         </div>
+
+        <div className="patient-info-block">
+          <div className="patInfo-sbtitle">
+            <p>Peso actual: </p>
+          </div>
+          <div className="patInfo-Info">
+            <h4>{this.state.currentWeight} Kg</h4>
+          </div>
+        </div>
+
+        <div className="patient-info-block">
+          <div className="patInfo-sbtitle">
+            <p>Primer evento: </p>
+          </div>
+          <div className="patInfo-Info">
+            <h4>{this.state.firstEventDate}</h4>
+          </div>
+        </div>
+
       </div>
     )
   };
+
+  _renderMedicineCurrentDose(){
+    
+    return this.state.currentMedicines.map((meds,j) => {
+      return (
+        <div className="medicines-container">
+          <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
+          
+          <div className="med-info-block">
+            <div className="medInfo-sbtitle">
+              <p>Droga: </p>
+            </div>
+            <div id="drug-info">
+               <h4>{meds.medName}</h4>
+            </div>
+          </div>
+
+          <div className="med-info-block">
+            <div className="medInfo-sbtitle">
+              <p>Dosis diaria: </p>
+            </div>
+            <div id="drug-info">
+               <p>{meds.medDose} [{meds.medUnit}]</p> 
+            </div>
+          </div>
+
+          <div className="med-info-block">
+            <div className="medInfo-sbtitle">
+              <p>Relación dosis/peso: </p>
+            </div>
+            <div id="drug-info">
+               <p>{Number(meds.medDose)} / {Number(this.state.currentWeight)}</p> 
+            </div>
+          </div>
+          </Link>
+        </div>
+      )
+    })
+  }  
 
   _renderMedicinesInfo(){ 
     
@@ -151,7 +254,7 @@ export default class Patient extends React.Component {
             {this._renderMedicineDose(meds.hourlyDose)}
 
             <div id="ratio-field">
-               <p>{meds.drugnRatio}</p>
+               <p>{meds.drugRatio}</p>
             </div>
 
           </Link>
@@ -207,9 +310,9 @@ export default class Patient extends React.Component {
 
         <div className="upper-area">
 
-            {this.state.patientName === '' ? <p>LOADING !</p> :
+            {/* {this.state.patientName === '' ? <p>LOADING !</p> :
               this._renderPatientInfo()
-            }
+            } */}
 
             <div className="add-buttons-area">
               <div className="standard-add-button">
@@ -240,7 +343,69 @@ export default class Patient extends React.Component {
         </div>
           
         <div className="middle-area">
-          <Chart
+
+          <div className="square-chart">
+
+            <div className="sq-line">
+
+              <div className="chart-box">
+                <div className="chartBox-Title">
+                  <h2>Información del Paciente</h2>
+                </div>
+              
+                <div className="chartBox-info">
+                  {this.state.patientName === '' ? <p>LOADING !</p> :
+                    this._renderPatientInfo()
+                  }
+                </div>
+              </div>
+
+              <div className="chart-box">
+
+                <div className="chartBox-Title">
+                  <h2>Registro eventos</h2>
+                </div>
+                <div className="chartBox-info">
+                  {this.state.patientName === '' ? <p>LOADING !</p> :
+                    <EChart patID={this.props.patID} tLine={this.state.timeLineDays}/>
+                  }
+                </div>
+              </div>
+
+            </div>
+
+            <div className="sq-line">
+
+              <div className="chart-box">
+                <div className="chartBox-Title">
+                  <h2>Medicación actual</h2>
+                </div>
+                <div className="chartBox-info">
+                 
+                </div>
+                
+              </div>
+
+              <div className="chart-box">
+                <div className="chartBox-Title">
+                  <h2>Registro peso</h2>
+                </div>
+                <div className="chartBox-info">
+                  {this.state.patientName === '' ? <p>LOADING !</p> :
+                    <EChart patID={this.props.patID} tLine={this.state.timeLineDays}/>
+                  }
+                </div>
+              </div>
+
+            </div>
+
+          
+          </div>
+           
+
+          
+
+          {/* <Chart
             width={'900px'}
             height={'300px'}
             chartType="Bar"
@@ -257,7 +422,7 @@ export default class Patient extends React.Component {
             rootProps={{ 'data-testid': '2' }}
           />
 
-          <LinesChart patID={this.props.patID} tLine={this.state.timeLineDays} />
+          <LinesChart patID={this.props.patID} tLine={this.state.timeLineDays} /> */}
 
         </div>
 

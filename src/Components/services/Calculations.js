@@ -65,9 +65,9 @@ export default class Calculations {
             const drugB = b.eventDate;
         
             let comparison = 0;
-            if (drugA > drugB) {
+            if (drugA < drugB) {
             comparison = -1;
-            } else if (drugA < drugB) {
+            } else if (drugA > drugB) {
             comparison = 1;
             }
             return comparison;
@@ -78,13 +78,13 @@ export default class Calculations {
     static sortMedicinesDate(x){
         function orderMedicines(a, b) {
         
-            const drugA = a.changeDate;
-            const drugB = b.changeDate;
+            const drugA = a.date;
+            const drugB = b.date;
           
             let comparison = 0;
-            if (drugA > drugB) {
+            if (drugA < drugB) {
               comparison = -1;
-            } else if (drugA < drugB) {
+            } else if (drugA > drugB) {
               comparison = 1;
             }
             return comparison;
