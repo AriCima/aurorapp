@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
-// GOOGLE CHARTS --> https://react-google-charts.com/line-chart
-import {Chart} from 'react-google-charts'
-// REACTCHARTS --> http://recharts.org/en-US/examples/SimpleLineChart
-import LinesChart from './Cahrts/Lines';
 // ECHARTS
 import EChart from './Cahrts/ECharts';
 import EChartBars from './Cahrts/EChartsBars';
