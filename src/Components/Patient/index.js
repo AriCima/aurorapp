@@ -16,7 +16,8 @@ import DataService from '../services/DataService';
 import Calculations from '../services/Calculations';
 
 // Components
-
+import PatientInfo from './PatientInfo';
+import CurrentMed from './CurrentMed';
 // CSS
 import './index.css';
 
@@ -27,12 +28,9 @@ export default class Patient extends React.Component {
     this.state = {
       user              : this.props.userID,
       patientId         : this.props.patID,
-      patientName       : '',
-      patientSurname    : '',
-      bornDate          : '',
 
       patientsEvents    : [],
-      firstEventDate    : '',
+      // firstEventDate    : '',
 
       medArray          : [],
       medsTableInfo     : [],
@@ -156,73 +154,73 @@ export default class Patient extends React.Component {
 
   }
 
-  _renderPatientInfo(){
-    return (
-      <div className="patient-info"> 
+  // _renderPatientInfo(){
+  //   return (
+  //     <div className="patient-info"> 
 
-        <div className="patient-info-block">
-          <div className="patInfo-sbtitle">
-            <p>Nombre: </p>
-          </div>
-          <div className="patInfo-Info">
-            <h4>{this.state.patientName} {this.state.patientSurname}</h4>
-          </div>
-        </div>
+  //       <div className="patient-info-block">
+  //         <div className="patInfo-sbtitle">
+  //           <p>Nombre: </p>
+  //         </div>
+  //         <div className="patInfo-Info">
+  //           <h4>{this.state.patientName} {this.state.patientSurname}</h4>
+  //         </div>
+  //       </div>
 
-        <div className="patient-info-block">
-          <div className="patInfo-sbtitle">
-            <p>Fecha de nacimiento: </p>
-          </div>
-          <div className="patInfo-Info">
-            <h4>{this.state.bornDate}</h4>
-          </div>
-        </div>
+  //       <div className="patient-info-block">
+  //         <div className="patInfo-sbtitle">
+  //           <p>Fecha de nacimiento: </p>
+  //         </div>
+  //         <div className="patInfo-Info">
+  //           <h4>{this.state.bornDate}</h4>
+  //         </div>
+  //       </div>
 
-        <div className="patient-info-block">
-          <div className="patInfo-sbtitle">
-            <p>Peso actual: </p>
-          </div>
-          <div className="patInfo-Info">
-            <h4>{this.state.currentWeight} Kg</h4>
-          </div>
-        </div>
+  //       <div className="patient-info-block">
+  //         <div className="patInfo-sbtitle">
+  //           <p>Peso actual: </p>
+  //         </div>
+  //         <div className="patInfo-Info">
+  //           <h4>{this.state.currentWeight} Kg</h4>
+  //         </div>
+  //       </div>
 
-        <div className="patient-info-block">
-          <div className="patInfo-sbtitle">
-            <p>Primer evento: </p>
-          </div>
-          <div className="patInfo-Info">
-            <h4>{this.state.firstEventDate}</h4>
-          </div>
-        </div>
+  //       <div className="patient-info-block">
+  //         <div className="patInfo-sbtitle">
+  //           <p>Primer evento: </p>
+  //         </div>
+  //         <div className="patInfo-Info">
+  //           <h4>{this.state.firstEventDate}</h4>
+  //         </div>
+  //       </div>
 
-      </div>
-    )
-  };
+  //     </div>
+  //   )
+  // };
 
-  _renderMedicineCurrentDose(){
+  // _renderMedicineCurrentDose(){
     
-    return this.state.currentMedicines.map((meds,j) => {
-      return (
+  //   return this.state.currentMedicines.map((meds,j) => {
+  //     return (
         
-        <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.medName}`}> 
+  //       <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.medName}`}> 
         
-          <div className="med-info-block">
-            <p>{meds.medName}</p>
-          </div>
+  //         <div className="med-info-block">
+  //           <p>{meds.medName}</p>
+  //         </div>
 
-          <div className="med-info-block">
-            <p>{meds.medCDose} [{meds.medUnit}]</p> 
-          </div>
+  //         <div className="med-info-block">
+  //           <p>{meds.medCDose} [{meds.medUnit}]</p> 
+  //         </div>
 
-          <div className="med-info-block">
-            <p>{Number.parseFloat((Number(meds.medCDose)/ Number(this.state.currentWeight))).toFixed(1)} [{meds.medUnit}/Kg]</p> 
-          </div>
-        </Link>
+  //         <div className="med-info-block">
+  //           <p>{Number.parseFloat((Number(meds.medCDose)/ Number(this.state.currentWeight))).toFixed(1)} [{meds.medUnit}/Kg]</p> 
+  //         </div>
+  //       </Link>
       
-      )
-    })
-  }  
+  //     )
+  //   })
+  // }  
 
   _renderMedicinesInfo(){ 
     
@@ -333,21 +331,21 @@ export default class Patient extends React.Component {
 
           <div className="square-chart">
 
-            <div className="sq-line">
+            <div className="sq-line" id="upper-line">
 
-              <div className="chart-box">
+              <div className="chart-box" id="pat-Info">
                 <div className="chartBox-Title">
                   <h2>Información del Paciente</h2>
                 </div>
               
                 <div className="chartBox-info">
                   {this.state.patientName === '' ? <p>LOADING !</p> :
-                    this._renderPatientInfo()
+                    <PatientInfo patID={this.state.patientId} cWeight={this.state.currentWeight}/>
                   }
                 </div>
               </div>
 
-              <div className="chart-box">
+              <div className="chart-box" id="events">
 
                 <div className="chartBox-Title">
                   <h2>Registro eventos</h2>
@@ -364,36 +362,16 @@ export default class Patient extends React.Component {
 
             </div>
 
-            <div className="sq-line">
+            <div className="sq-line" id="lower-line">
 
-              <div className="chart-box">
+              <div className="chart-box" id="current-med"> 
 
                 <div className="chartBox-Title">
                   <h2>Medicación actual</h2>
                 </div>
 
                 <div className="chartBox-info">
-
-                  <div className="cMedicine-chart">
-
-                    <div className="cMedChart-header">
-  
-                      <div className="med-title-box">
-                        <p>Droga</p>
-                      </div>
-                      <div className="med-title-box">
-                        <p>Dósis diaria</p>
-                      </div>
-                      <div className="med-title-box">
-                        <p>Dósis / Peso</p>
-                      </div>
-
-                    </div>
-                    {this.state.patientName === '' ? <p>LOADING !</p> :
-                      this._renderMedicineCurrentDose()
-                    }
-                  </div>
-
+                  <CurrentMed patID={this.state.patientId} cWeight={this.state.currentWeight}/>
                 </div>
                 
               </div>

@@ -14,44 +14,7 @@
     align-content: center;
 }
 
-.patient-info{
-    width: 100%;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
-.patient-info-block{
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-
-.patient-info-block .patInfo-sbtitle{
-    width: 50%;
-
-}
-
-.patient-info-block .patInfo-Info{
-    width: 50%;
-}
-
-.patient-info-block p{
-    margin: 10px 0 0 20px;
-    font-size: 18px;
-    font-weight: 550;
-    color: gray;
-}
-.patient-info-block h4{
-    margin: 10px 0 0 20px;
-    font-size: 18px;
-    font-weight: 700;
-    color: rgb(0, 144, 248);
-}
 .add-buttons-area{
     margin-top: 20px;
     width: 50%;
@@ -151,49 +114,6 @@
     justify-content: center;
 }
 
-/* MEDICINES CHART */
-
-.cMedicine-chart{
-    width: 80%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: scroll;
-}
-
-.cMedicine-chart .cMedChart-header, .medicine-row {
-    width: 100%;
-    height: 20px;
-    background-color: rgb(0, 144, 248);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.medicine-row:nth-child(odd){
-    background-color: rgba(0, 144, 248, 0.02);
-}
-.medicine-row:nth-child(even){
-    background-color: rgba(0, 144, 248, 0.2);
-}
-.med-title-box, .med-info-block{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 32%;
-}
-
-.med-info-block p{
-    margin-left: 20px;
-}
-.med-title-box p{
-    margin-left: 20px;
-    color: white;
-    font-weight: 550;
-}
 
 /* MEDICINES LISTING */
 
