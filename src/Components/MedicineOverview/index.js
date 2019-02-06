@@ -11,7 +11,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
-import LinesChartSingle from '../Patient/Cahrts/LinesSingle';
 
 import './index.css'; 
 
@@ -178,7 +177,7 @@ class MedicineOverview extends React.Component {
 
 
             <div>
-                <LinesChartSingle patID={this.props.patID} tLine={this.state.timeLineDays} dName={this.state.drugName}/>
+                {/* <LinesChartSingle patID={this.props.patID} tLine={this.state.timeLineDays} dName={this.state.drugName}/> */}
             </div>
 
 {/* 

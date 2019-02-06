@@ -15,33 +15,19 @@ export default class EChartsBars extends React.Component {
       super(props);
   
       this.state = {
-        user            : this.props.userID,
-        patientId       : this.props.patID,
-        eventsPerMonth  : [],
-        timeLineDays    : 60,
+        xData   : ['01-2018', '02-2018', '03-2018', '04-2018', '05-2018', '06-2018', '07-2018'],
+        series  : [
+            {
+                name:'Eventos',
+                type:'bar',
+                barWidth: '60%',
+                data:[10, 7, 22, 12, 34, 33, 7]
+            }
+        ]
       }
     }
    
-    componentDidMount(){
-  
-      DataService.getPatientInfo(this.state.patientId)
-      .then(res => {
-
-        let evts        = [...res.patientsEvents];
-        let evtsSorted   = Calculations.sortByEventDate(evts);
-
-       // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
-        
-        this.setState({ 
-            eventsPerMonth :  evtsSorted
-        });
-        
-      })
-      .catch(function (error) {    
-        console.log(error);
-      })    
-    }
-
+   
   _getOption(){
 
     let option = {
@@ -53,15 +39,16 @@ export default class EChartsBars extends React.Component {
             }
         },
         grid: {
-            left: '3%',
-            right: '4%',
+            left: '0',
+            top: '3%',
+            right: '2%',
             bottom: '3%',
             containLabel: true
         },
         xAxis : [
             {
                 type : 'category',
-                data : ['01-2018', '02-2018', '03-2018', '04-2018', '05-2018', '06-2018', '07-2018'],
+                data : this.state.xData,
                 axisTick: {
                     alignWithLabel: true
                 }
@@ -72,14 +59,7 @@ export default class EChartsBars extends React.Component {
                 type : 'value'
             }
         ],
-        series : [
-            {
-                name:'Eventos',
-                type:'bar',
-                barWidth: '60%',
-                data:[10, 7, 22, 12, 34, 33, 7]
-            }
-        ]
+        series : this.state.series,
     };
 
     return option
