@@ -23,8 +23,6 @@ export default class CurrentMed extends React.Component {
 
       patientsWeights   : [],
       currentWeight     : this.props.cWeight,
-
-      timeLineDays      : 60,
     }
   }
  
@@ -52,8 +50,6 @@ export default class CurrentMed extends React.Component {
         let dL = doseSorted.length;
         let cDose = doseSorted[dL-1].dailyDose;
 
-        console.log('doseSorted = ', doseSorted);
-        console.log('cDose = ', doseSorted[dL-1]);
 
         if(cDose === 0){
           continue
@@ -107,42 +103,6 @@ export default class CurrentMed extends React.Component {
     })
   }  
 
-//   _renderMedicinesInfo(){ 
-    
-//     //console.log('render events triggered with: ', obj)
-//     // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
-
-//     return this.state.medsTableInfo.map((meds,j) => {
-//       return (
-//         <div className="medicines-container" key={j}>
-//           <Link className="medicine-row"  to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
-          
-//             <div id="drug-field">
-//                <h4>{meds.drugName}</h4>
-//             </div>
-
-//             {this._renderMedicineDose(meds.hourlyDose)}
-
-//             <div id="ratio-field">
-//                <p>{meds.drugRatio}</p>
-//             </div>
-
-//           </Link>
-//         </div>
-//       )
-//     })
-//   };
-
-//   _renderMedicineDose(x){
-//     return x.map((dose, j) => {
-//       return (
-//         <div key={j} className="dose-fields">
-//           <p>{dose}</p>
-//         </div>
-//       )
-//     })
-//   };
-  
   render() {
 
     return (

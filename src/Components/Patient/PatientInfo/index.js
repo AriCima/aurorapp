@@ -30,12 +30,7 @@ export default class Patient extends React.Component {
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
     let eventsCopy     = [...res.patientsEvents];
-    // let weightsCopy    = [...res.patientsWeight];
     let eventsSorted  = Calculations.sortByEventDate(eventsCopy);   // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-    // let weightsSorted = Calculations.sortByEventDate(weightsCopy);
-
-    // let wL         = weightsSorted.length;
-    // let cWeight    = weightsSorted[wL-1].readingValue;
     let firstEvent = eventsSorted[0].eventDate;
 
     this.setState({ 
@@ -44,7 +39,6 @@ export default class Patient extends React.Component {
         bornDate          : res.bornDate, 
         patientsEvents    : eventsSorted,   
         firstEventDate    : firstEvent,
-        // currentWeight     : cWeight,
     });
     })
     .catch(function (error) {    
@@ -55,7 +49,8 @@ export default class Patient extends React.Component {
   componentDidUpdate(prevProps){
     if (this.props.cWeight !== prevProps.cWeight) {
         this.setState({
-            currentWeight: this.props.cWeight});
+            currentWeight: this.props.cWeight}
+        );
     }
   }
 

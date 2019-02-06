@@ -100,12 +100,6 @@
     align-items: flex-start;
 }
 
-.events-chart{
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
 .lower-area{
     width: 100%;
     display: flex;

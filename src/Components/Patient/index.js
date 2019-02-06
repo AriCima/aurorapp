@@ -18,6 +18,7 @@ import Calculations from '../services/Calculations';
 // Components
 import PatientInfo from './PatientInfo';
 import CurrentMed from './CurrentMed';
+import EventsGraphic from './EventsGraphic';
 // CSS
 import './index.css';
 
@@ -30,7 +31,7 @@ export default class Patient extends React.Component {
       patientId         : this.props.patID,
 
       patientsEvents    : [],
-      // firstEventDate    : '',
+      firstEventDate    : '',
 
       medArray          : [],
       medsTableInfo     : [],
@@ -80,9 +81,6 @@ export default class Patient extends React.Component {
         let dL = doseSorted.length;
         let cDose = doseSorted[dL-1].dailyDose;
 
-        console.log('doseSorted = ', doseSorted);
-        console.log('cDose = ', doseSorted[dL-1]);
-
         if(cDose === 0){
           continue
         } else {
@@ -91,7 +89,7 @@ export default class Patient extends React.Component {
 
       }
 
-      console.log('el currentMeds = ', currentMeds)
+      // console.log('el currentMeds = ', currentMeds)
 
       this.setState({ 
         patientName       : pat.patientName,
@@ -109,7 +107,7 @@ export default class Patient extends React.Component {
 
       });
 
-      console.log('firstEvent / currentWeight / currentMeds=', this.state.firstEventDate, ' / ', this.state.currentWeight, ' / ', this.state.currentMedicines)
+      // console.log('firstEvent / currentWeight / currentMeds=', this.state.firstEventDate, ' / ', this.state.currentWeight, ' / ', this.state.currentMedicines)
 
     })
     .catch(function (error) {    
@@ -153,74 +151,6 @@ export default class Patient extends React.Component {
     return eventsData
 
   }
-
-  // _renderPatientInfo(){
-  //   return (
-  //     <div className="patient-info"> 
-
-  //       <div className="patient-info-block">
-  //         <div className="patInfo-sbtitle">
-  //           <p>Nombre: </p>
-  //         </div>
-  //         <div className="patInfo-Info">
-  //           <h4>{this.state.patientName} {this.state.patientSurname}</h4>
-  //         </div>
-  //       </div>
-
-  //       <div className="patient-info-block">
-  //         <div className="patInfo-sbtitle">
-  //           <p>Fecha de nacimiento: </p>
-  //         </div>
-  //         <div className="patInfo-Info">
-  //           <h4>{this.state.bornDate}</h4>
-  //         </div>
-  //       </div>
-
-  //       <div className="patient-info-block">
-  //         <div className="patInfo-sbtitle">
-  //           <p>Peso actual: </p>
-  //         </div>
-  //         <div className="patInfo-Info">
-  //           <h4>{this.state.currentWeight} Kg</h4>
-  //         </div>
-  //       </div>
-
-  //       <div className="patient-info-block">
-  //         <div className="patInfo-sbtitle">
-  //           <p>Primer evento: </p>
-  //         </div>
-  //         <div className="patInfo-Info">
-  //           <h4>{this.state.firstEventDate}</h4>
-  //         </div>
-  //       </div>
-
-  //     </div>
-  //   )
-  // };
-
-  // _renderMedicineCurrentDose(){
-    
-  //   return this.state.currentMedicines.map((meds,j) => {
-  //     return (
-        
-  //       <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.medName}`}> 
-        
-  //         <div className="med-info-block">
-  //           <p>{meds.medName}</p>
-  //         </div>
-
-  //         <div className="med-info-block">
-  //           <p>{meds.medCDose} [{meds.medUnit}]</p> 
-  //         </div>
-
-  //         <div className="med-info-block">
-  //           <p>{Number.parseFloat((Number(meds.medCDose)/ Number(this.state.currentWeight))).toFixed(1)} [{meds.medUnit}/Kg]</p> 
-  //         </div>
-  //       </Link>
-      
-  //     )
-  //   })
-  // }  
 
   _renderMedicinesInfo(){ 
     
@@ -354,7 +284,7 @@ export default class Patient extends React.Component {
 
                   <div className="events-chart">
                     {this.state.patientName === '' ? <p>LOADING !</p> :
-                      <EChartBars patID={this.props.patID} tLine={this.state.timeLineDays}/>
+                      <EventsGraphic patID={this.props.patID} tLine={this.state.timeLineDays} events={this.state.patientsEvents}/>
                     }
                   </div>
                 </div>
@@ -391,28 +321,6 @@ export default class Patient extends React.Component {
 
           
           </div>
-           
-
-          
-
-          {/* <Chart
-            width={'900px'}
-            height={'300px'}
-            chartType="Bar"
-            loader={<div>Loading Chart</div>}
-            data={this._eventsGraphicData()}
-            options={{
-              // Material design options
-              chart: {
-                title: 'Eventos Registrados',
-                subtitle: '',
-              },
-            }}
-            // For tests
-            rootProps={{ 'data-testid': '2' }}
-          />
-
-          <LinesChart patID={this.props.patID} tLine={this.state.timeLineDays} /> */}
 
         </div>
 
