@@ -1,7 +1,11 @@
 import React from 'react';
 
+// AUX COMP
+import moment from 'moment';
+
 // SERVICE API
 import DataService from '../services/DataService';
+import Calculations from '../services/Calculations';
 
 // MATERIAL-UI
 import PropTypes from 'prop-types';
@@ -60,16 +64,16 @@ class PatientInput extends React.Component {
             patientName         : '',
             patientSurname      : '',
             bornDate            : '',
+            cWeight             : '',
             patientsEvents      : [],
             patientsWeights     : [],
-            patientsFever       : [],
             patientsMedicines   : [],
 
         };
         this.onNewPatient             = this.onNewPatient.bind(this);
     }
 
-    componentDidMount(){ // Obtengo todos los Patients del user paera agregarle el nuevo
+    componentDidMount(){ // Obtengo todos los Patients del user para agregarle el nuevo
         DataService.getUserInfo(this.state.adminId)
         .then(res => {
             console.log('el res recibido = ', res)
@@ -84,33 +88,44 @@ class PatientInput extends React.Component {
         this.setState(patientInfo)
     };
 
-
-
     onNewPatient(e){
-        e.preventDefault();       
- 
+        e.preventDefault(); 
+        
+        let today = moment(new Date()).format('DD-MMM-YYYY');
+        let rCode = Calculations.generateCode();
+        let noCommas = this.state.cWeight.replace(",", ".");
+
+        let newReading = {
+            readingCode     : rCode,
+            date            : today,
+            weight          : noCommas,
+        };
+
+        let transWeights = [];
+        transWeights.push(newReading);
+        console.log('transWeights = ', transWeights)
+
         let newState = {
             adminId                : this.state.adminId,
             patientName            : this.state.patientName, 
             patientSurname         : this.state.patientSurname, 
-            bornDate               : this.state.bornDate,
+            bornDate               : moment(this.state.bornDate).format('DD-MMM-YYYY'),
             patientsEvents         : this.state.patientsEvents,
-            patientsWeights        : this.state.patientsWeights,
-            patientsFever          : this.state.patientsFever,
-            patientsMedicines      : this.state.patientsMedicines
+            patientsWeights        : transWeights,
+            patientsMedicines      : this.state.patientsMedicines,
         };
        
-        //console.log('new state = ', newState)
+        console.log('new state = ', newState)
         DataService.newPatient(newState)
         //console.log('userPatients al crear newPatient', this.state.userPatients)
         .then((result)=>{
            
             let newPatient = {
-                patientId       : result.id,
-                patientName     : this.state.patientName,
-                patientSurname  : this.state.patientSurname,
-                admin           : true,
-                moderator       : true,
+                patientId           : result.id,
+                patientName         : this.state.patientName,
+                patientSurname      : this.state.patientSurname,
+                admin               : true,
+                moderator           : true,
             }
             console.log('userPatients luego de crear newPatient', this.state.userPatients);
             let transPatient = this.state.userPatients;
@@ -125,9 +140,9 @@ class PatientInput extends React.Component {
             this.setState({
                 userPatients : transPatient,
             })
-        
+            console.log('this.state.adminId, this.state.userPatients', this.state.adminId, ' / ', this.state.userPatients)
             DataService.addPatientToUser(this.state.adminId, this.state.userPatients)  
-            this.props.propsFn.push(`/patient/${newPatient.patientId}`);
+            this.props.propsFn.push(`/first-event/${newPatient.patientId}`);
 
         })
         .catch(function (error) {    
@@ -219,6 +234,13 @@ class PatientInput extends React.Component {
                                 shrink: true,
                             }}
                         />
+                    </div>
+                    <div id="input-fields">
+                        <input size="50" type="text" name="Peso"
+                            label="Peso actual"
+                            value={this.state.cWeight}
+                            onChange={(e)=>{this.onChangeState('cWeight', e.target.value)}}
+                        />  Kg
                     </div>
                 
                 </div>

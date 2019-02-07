@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
+// AUX COMP
+import Moment from 'react-moment'; // --> https://momentjs.com/
+import moment from 'moment';
+
 // SERVICE API
 import DataService from '../../services/DataService';
 import Calculations from '../../services/Calculations';
@@ -21,25 +25,36 @@ export default class Patient extends React.Component {
       patientsEvents    : [],
       firstEventDate    : '',
 
-      currentWeight     : this.props.cWeight,
+      currentWeight     : '',
     }
+
   }
  
   componentDidMount(){
 
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
-    let eventsCopy     = [...res.patientsEvents];
-    let eventsSorted  = Calculations.sortByEventDate(eventsCopy);   // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-    let firstEvent = eventsSorted[0].eventDate;
+        let name            = res.patientName;
+        let surname         = res.patientSurname;
+        let born            = res.bornDate
 
-    this.setState({ 
-        patientName       : res.patientName,
-        patientSurname    : res.patientSurname,
-        bornDate          : res.bornDate, 
-        patientsEvents    : eventsSorted,   
-        firstEventDate    : firstEvent,
-    });
+        let eventsCopy      = [...res.patientsEvents];
+        let eventsSorted    = Calculations.sortByEventDate(eventsCopy);   // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+        let firstEvent      = eventsSorted[0].date;
+
+        let weightsCopy     = [...res.patientsWeights];
+        let weightsSorted   = Calculations.sortByEventDate(weightsCopy);
+        let wL              = weightsSorted.length;
+        let cWeight         = weightsSorted[wL-1].weight;
+
+        this.setState({ 
+            patientName       : name,
+            patientSurname    : surname,
+            bornDate          : born, 
+            patientsEvents    : eventsSorted,   
+            firstEventDate    : moment(firstEvent).format('DD-MMM-YYYY'),
+            currentWeight     : cWeight,
+        });
     })
     .catch(function (error) {    
     console.log(error);

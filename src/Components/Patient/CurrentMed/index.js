@@ -22,26 +22,34 @@ export default class CurrentMed extends React.Component {
       currentMedicines  : [],
 
       patientsWeights   : [],
-      currentWeight     : this.props.cWeight,
+      currentWeight     : '',
     }
   }
  
   componentDidMount(){
-
+    console.log('component launched');
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
-      let meds = [...res.medArray];
+
+      let meds = [...res.patientsMedicines];
+      console.log('res recibido', res.patientsMedicines);
+      let weightsCopy     = [...res.patientsWeights];
+      let weightsSorted   = Calculations.sortByEventDate(weightsCopy);
+      let wL              = weightsSorted.length;
+      let cWeight         = weightsSorted[wL-1].weight;
 
      // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
       let medsTable = []; 
       let currentMeds = [];
 
+  
       for (let k = 0; k < meds.length; k++){ // --> iteración medicinas
+
         let dName   = meds[k].drugName;
         let dunits  = meds[k].drugUnits;
-        let index   = meds[k].dose.length;
+        let index   = meds[k].dose.length; 
         let dDose   = meds[k].dose[index-1].dailyDose;
-        let hDose   = meds[k].dose[index-1].hourlyDose
+        let hDose   = meds[k].dose[index-1].hourlyDose;
 
         // medsTable recoge toda la info para mostrarla en el cuadro de registro de medicamentos
         medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose, drugDose: dDose};
@@ -59,11 +67,10 @@ export default class CurrentMed extends React.Component {
 
       }
 
-      this.setState({ 
-        medArray          : res.medArray,      // med oredered alpahbetically for listing purposes
+      this.setState({      // med oredered alpahbetically for listing purposes
         medsTableInfo     : medsTable,
         currentMedicines  : currentMeds,
-
+        currentWeight     : cWeight,
       });
 
     })
@@ -122,7 +129,8 @@ export default class CurrentMed extends React.Component {
 
             </div>
             {this.state.patientName === '' ? <p>LOADING !</p> :
-            this._renderMedicineCurrentDose()
+           
+              this._renderMedicineCurrentDose()
             }
 
         </div>

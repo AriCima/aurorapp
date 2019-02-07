@@ -57,7 +57,23 @@ export default class Calculations {
 
     // - - - - - SORTING FUNCTIONS 
     // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+    static sortByDateAsc(x){
 
+        function compare(a,b){
+            const drugA = a.date;
+            const drugB = b.date;
+        
+            let comparison = 0;
+            if (drugA < drugB) {
+            comparison = -1;
+            } else if (drugA > drugB) {
+            comparison = 1;
+            }
+            return comparison;
+        }
+
+        return x.sort(compare)
+    };
     static sortByEventDate(x){
 
         function compare(a,b){

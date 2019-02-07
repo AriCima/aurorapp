@@ -240,7 +240,7 @@ export default class DataService {
     
             console.log('add medicine launched con', patId, ' y ', newMedicine)
             firebase.firestore().collection('patients').doc(patId).update({
-                medArray : newMedicine})
+                patientsMedicines : newMedicine})
     
             .then((result) => {
                 

@@ -68,7 +68,7 @@ class MedicineInput extends React.Component {
             drugName            : '',
             drugDose            : '',
             doseUnits           : '',
-            changeDate          : '',
+            date                : '',
             patientsMedicines   : [],
             medNamesArray       : [],    // --> array con solo los nombres para usar en "select"
             medArray            : [],    // --> array con todo el registro completo de los medicamentos, fechas de cambio y dosis
@@ -107,23 +107,20 @@ class MedicineInput extends React.Component {
         DataService.getPatientInfo(this.state.patientId)
         .then(res => {
 
-            //console.log('el res.patientsMedicines es = ', res.patientsMedicines)
             let medicines = res.patientsMedicines;
-            console.log('medicines = ', medicines);
-            let loadedMed = res.medArray;
+            // let loadedMed = res.medArray;
 
             let medNames = [];
-            for(let i=0; i<loadedMed.length; i++){
-                medNames[i] = loadedMed[i].drugName;
+            for(let i=0; i<medicines.length; i++){
+                medNames[i] = medicines[i].drugName;
             }
 
             this.setState({ 
                 patientsMedicines   : medicines,
-                medArray            : loadedMed,
-                medNamesArray       : medNames,
+                // medArray            : loadedMed,
+                medNamesArray   : medNames,
             });
 
-            //console.log('el medArray es', this.state.medArray, ' / ', this.state.medArray.length);
 
         })
         .catch(function (error) {    
@@ -141,16 +138,16 @@ class MedicineInput extends React.Component {
 
          // NUEVO PLANTEAMINETO:
          //   armar un array de medicamentos por cada paciente con la siguiente estructura:
-         //  medArray = [ {drugName: name, drugUnits: units, dose:[{1},{2}, . .  .{n}] }]    
+         //  patientsMedicines = [ [{drugName: name, drugUnits: units, dose:[{1},{2}, . .  .{n}] }]    
          //  más específicamente:
-         //  medArray = [ {nombre: xxx, dosis: [{fecha: xx, dosisHoraria :[x,..,x], dosisDiaria: xx}, {fecha: jj, dosisHoraria :[j,..,j], dosisDiaria: jj} ] },
-         //              {nombre: yyy, dosis: [{fecha: yy, dosisHoraria :[y,..,y], dosisDiaria: yy}]}]
+         //  patientsMedicines = [ [{nombre: xxx, dosis: [{fecha: xx, dosisHoraria :[x,..,x], dosisDiaria: xx}, {fecha: jj, dosisHoraria :[j,..,j], dosisDiaria: jj} ] }],
+         //              [{nombre: yyy, dosis: [{fecha: yy, dosisHoraria :[y,..,y], dosisDiaria: yy}]}]
 
         e.preventDefault();       
         let names           = [...this.state.medNamesArray]
-        let currentMed      = [...this.state.medArray];
+        let currentMed      = [...this.state.patientsMedicines];
         let newDrugName     = this.state.drugName;
-        let newDate         = this.state.changeDate;
+        let newDate         = this.state.date      ;
         let newHourlyDose   = [
             this.state.dailyDose0, 
             this.state.dailyDose1, 
@@ -185,12 +182,13 @@ class MedicineInput extends React.Component {
 
 
         let newDose = {date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose};
-        let newMedArr = [newDose];
+        let dosis = [];
+        dosis.push(newDose);
 
         let index = names.indexOf(newDrugName.toUpperCase());
 
         if(index < 0){   // --> si el medicamento no lo tomaba, se agrgan todos los datos.
-            let newDrug = {drugName: newDrugName.toUpperCase(), drugUnits: units, dose: newMedArr};
+            let newDrug = {drugName: newDrugName.toUpperCase(), drugUnits: units, dose: dosis};
             currentMed.push(newDrug);
         } else {        // --> si el medicamento YA lo tomaba, solo se agrega la nueva dosis.
             console.log('EL MEDICAMENTO YA LO TOMA')
@@ -228,8 +226,8 @@ class MedicineInput extends React.Component {
                             type="date"
                             defaultValue="dd/mm/yyyy"
                             className={classes.textField}
-                            value={this.state.changeDate}
-                            onChange={(e)=>{this.onChangeState('changeDate', e.target.value)}}
+                            value={this.state.date}
+                            onChange={(e)=>{this.onChangeState('date', e.target.value)}}
                             InputLabelProps={{
                                 shrink: true,
                             }}

@@ -104,7 +104,7 @@ class EventInput extends React.Component {
 
         let newEvent = {
             patientId           : this.props.patID,
-            eventDate           : this.state.eventDate,
+            date                : this.state.eventDate,
             startTime           : this.state.startTime,
             duration            : this.state.duration,
             minSaturation       : this.state.minSaturation,

@@ -24,145 +24,94 @@ export default class EventsGraphic extends React.Component {
       patientId         : this.props.patID,
 
       patientsEvents    : this.props.events,
-      firstEventDate    : this.props.firstEvent,
+      eventsSorted      : [],
+      firstEventDate    : '',
 
       timeLineDays      : 60,
+
+      xData             : [],
     }
   }
  
-  componentDidMount(){
-
-    DataService.getPatientInfo(this.state.patientId)
-    .then(res => {
-      const pat = res;
-      let eventsCopy     = [...pat.patientsEvents];
-      let weightsCopy    = [...pat.patientsWeight];
-      let meds           = [...pat.medArray];
-
-      // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-      let eventsSorted  = Calculations.sortByEventDate(eventsCopy);
-      let weightsSorted = Calculations.sortByEventDate(weightsCopy);
-
-     // - - - - - - - Sorting end 
-
-     let firstEvent = eventsSorted[0].eventDate;
-     let wL         = weightsSorted.length;
-     let cWeight    = weightsSorted[wL-1].readingValue;
-
-     // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
-      let medsTable = []; 
-      let currentMeds = [];
-
-      for (let k = 0; k < meds.length; k++){ // --> iteración medicinas
-        let dName   = meds[k].drugName;
-        let dunits  = meds[k].drugUnits;
-        let index   = meds[k].dose.length;
-        let dDose   = meds[k].dose[index-1].dailyDose;
-        let hDose   = meds[k].dose[index-1].hourlyDose
-
-        // medsTable recoge toda la info para mostrarla en el cuadro de registro de medicamentos
-        medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose, drugDose: dDose};
-
-        let doseSorted = Calculations.sortMedicinesDate(meds[k].dose);
-        let dL = doseSorted.length;
-        let cDose = doseSorted[dL-1].dailyDose;
+  // componentDidUpdate(prevProps){
+  //   if(!this.props.events === prevProps.events){
+  //   let eventsCopy    = [...this.props.events];
+  //   console.log('eventsCopy = ', eventsCopy)
+  //   let eventsSorted  = Calculations.sortByEventDate(eventsCopy); // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+  //   console.log('eventsSorted = ', eventsSorted)
+  //   //let firstEvent    = eventsSorted[0].eventDate;
 
 
-        if(cDose === 0){
-          continue
-        } else {
-          currentMeds.push({medName: dName, medCDose: cDose, medUnit: dunits})
-        }
+  //   this.setState({ 
+  //   eventsSorted    : eventsSorted,   
+  //   //   // firstEventDate    : firstEvent,
+  //   });
+  //   }
+  // }
 
-      }
-
-      this.setState({ 
-        patientName       : pat.patientName,
-        patientSurname    : pat.patientSurname,
-        bornDate          : pat.bornDate, 
-
-        patientsEvents    : eventsSorted,   
-        firstEventDate    : firstEvent,
-
-        currentWeight     : cWeight,
-
-        medArray          : pat.medArray,      // med oredered alpahbetically for listing purposes
-        medsTableInfo     : medsTable,
-        currentMedicines  : currentMeds,
-
-      });
-
-    })
-    .catch(function (error) {    
-      console.log(error);
-    })    
-  }
-
-  componentDidUpdate(prevProps){
-    if (this.props.events !== prevProps.events) {
-      this.setState({
-        patientEvents: this.props.events}
-      );
-    }
-  }
   _eventsGraphicData(){
 
-    let pEvts = [...this.state.patientsEvents];
-    
+
+    let pEvts = [this.props.events]
+
+
+    let eventsSorted  = Calculations.sortByEventDate(pEvts); // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+    // console.log('typeOf pEvts =', typeof (pEvts));
+    // console.log('eventsSorted =', typeof (eventsSorted));
+
     let today = new Date();
     let startDate = today.setDate(today.getDate() - this.state.timeLineDays);
 
-    console.log('startDate = ', startDate);
+    // console.log('startDate = ', startDate);
 
-    let a = moment(startDate).format('D MMM YYYY');
-    let b = moment(startDate).format('MMM YYYY');
-    let c = moment(startDate).add(1, 'M').format('MMM YYYY');
-   
-    console.log('a = ', a)
-    console.log('b = ', b)
-    console.log('c = ', c)
-    
     let daysBack = this.state.timeLineDays;
+    let monthsBack = Number(daysBack)/30;
+
+    let currentMonth = moment(new Date()).format('M YYYY');
+    let startMonth  = moment(new Date()).subtract(monthsBack, 'M').format('M YYYY');
+
+    // let b = moment(startDate).format('M YYYY');
+    // let c = moment(startDate).add(1, 'M').format('MMM YYYY');
+   
+    // console.log('current = ', currentMonth)
+    // console.log('startMonth = ', startMonth)
     
- 
+    
+    let eventsMonthArray = []
+    
+
+    for (let j = 0; j <= monthsBack; j++){
+      eventsMonthArray[j] =  moment(startDate).add(j, 'M').format('MMM-YYYY');
+    }
+
+    let mIndex = eventsMonthArray.length;
+
+    // for (let k = 0; k < mIndex; k++){
+
+    //   let eventDate = pEvts[k].eventDate;
+    //   let evDateFormat = moment(new Date(eventDate)).format('MMM-YYYY');
+
+    //   console.log('evDate = ', evDateFormat);
+    // }
+
+    // this.setState({
+    //   xData : eventsMonthArray,
+    // })
+
+    // console.log('el xData = ', this.state.XData);
+   
+
 
     
 
     let eventsData = 12 //[{seriesName: 'Eventos', xData:[], value:[]}];
-
-    // let daysBack = this.state.timeLineDays;
-
-    // for (let i = 0; i <= daysBack; i++ ){
-
-    //   let dateForArray = new Date(startDate)
-    //   dateForArray.setDate(dateForArray.getDate() + i);
-
-    //   let dateFormated = Calculations.getFormatedDate(dateForArray);
-    //   let events = 0;
-
-    //   for (let j = 0; j<pEvts.length; j++){
-        
-    //     let dateToCompare =  new Date(pEvts[j].eventDate);
-    //     let dateToCompareFormated = Calculations.getFormatedDatePlusOne(dateToCompare); // * * *  Tengo que sumar 1 al día si no me devuelde un día atrasado ? ? ? ?
-        
-    //     if (dateFormated.join('-') === dateToCompareFormated.join('-')){
-    //       events = events + 1;
-    //     }
-
-    //   }
-      
-    //   let finalDate = dateFormated.join('-');
-      
-    //   eventsData.push([finalDate, events])
-    // }
 
     return eventsData
 
   }
   
   render() {
-   
-    //console.log('props med y weight', this.state.patMedTime, ' / ', this.state.patientsWeights)
+
     return (
 
     

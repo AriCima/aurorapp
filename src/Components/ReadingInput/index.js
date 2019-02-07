@@ -66,11 +66,9 @@ class MedicineInput extends React.Component {
         super(props);
         this.state = { 
             patientId       : this.props.patID,
-            patientsFever   : [],
             patientsWeight  : [],
-            readingType     : '',
-            readingDate     : '',
-            readingValue    : null,
+            weightDate      : '',
+            weight          : null,
         };
 
         this.onNewReading   = this.onNewReading.bind(this);
@@ -82,11 +80,10 @@ class MedicineInput extends React.Component {
         DataService.getPatientInfo(this.state.patientId)
         .then(res => {
 
-           // console.log('res = ', res)
+           console.log('res.patientsWeight = ', res.patientsWeight)
 
         
             this.setState({ 
-                patientsFever   : res.patientsFever,
                 patientsWeight  : res.patientsWeight,
             });
 
@@ -107,60 +104,36 @@ class MedicineInput extends React.Component {
     onNewReading(e){
         e.preventDefault();       
 
-        let rCode = Calculations.generateCode()
+        let rCode = Calculations.generateCode();
 
-        let newReading = {
+        let noCommas = this.state.weight.replace(",", ".");
+
+        let newReading = [{
             patientId       : this.props.patID,
             readingCode     : rCode,
-            readingType     : this.state.readingType,
-            readingDate     : this.state.readingDate,
-            readingValue    : this.state.readingValue,
-        };
+            weightDate      : this.state.weightDate,
+            weight          : noCommas,
+        }];
 
-        if (newReading.readingType === 'Fever'){
-
-            let transFever = [...this.state.patientsFever];
-            transFever.push(newReading);
-            
-            this.setState({
-                patientsFever : transFever,
-            })
-
-            DataService.addNewFever(this.props.patID, transFever)
-            .then((result) => {
-    
-                //console.log('new Fever succesfully registered');
-                this.props.propsFn.push(`/patient/${this.props.patID}`)
-    
-            })
-            .catch(function (error) {    
-                console.log(error);
-            })
-            this.props.propsFn.push(`/patient/${this.state.patientId}`)
-
-        } else {
-
-            let transWeight = [...this.state.patientsWeight];
-            transWeight.push(newReading);
+        let transWeights = this.state.patientsWeight;
+        transWeights.push(newReading);
 
 
-            this.setState({
-                patientsWeight : transWeight,
-            })
+        this.setState({
+            patientsWeight : transWeights,
+        })
 
-            DataService.addNewWeight(this.props.patID, transWeight)
-            .then((result) => {
-    
-                console.log('new Weight succesfully registered');
-                this.props.propsFn.push(`/patient/${this.props.patID}`)
-    
-            })
-            .catch(function (error) {    
-                console.log(error);
-            })
-    
-        }
-        
+        DataService.addNewWeight(this.props.patID, transWeights)
+        .then((result) => {
+
+            console.log('new Weight succesfully registered');
+            this.props.propsFn.push(`/patient/${this.props.patID}`)
+
+        })
+        .catch(function (error) {    
+            console.log(error);
+        })
+     
         
     };
 
@@ -173,7 +146,7 @@ class MedicineInput extends React.Component {
         <div className="form-container">
 
             <div className="form-title">
-                <h4>Registrar una medición</h4>
+                <h4>Registro del peso</h4>
             </div>
 
             <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewReading}>
@@ -182,30 +155,13 @@ class MedicineInput extends React.Component {
 
                     <div id="input-fields-select">
                         <TextField
-                            select
-                            label="Tipo de registro"
-                            className={classNames(classes.margin, classes.textField)}
-                            value={this.state.readingType}
-                            onChange={(e)=>{this.onChangeState('readingType', e.target.value)}}
-
-                        >
-                            {readingTypes.map(option => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </div>
-
-                    <div id="input-fields-select">
-                        <TextField
                             id="date"
                             label="Fecha"
                             type="date"
                             defaultValue="dd/mm/yyyy"
                             className={classes.textField}
-                            value={this.state.readingDate}
-                            onChange={(e)=>{this.onChangeState('readingDate', e.target.value)}}
+                            value={this.state.weightDate }
+                            onChange={(e)=>{this.onChangeState('weightDate ', e.target.value)}}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -218,8 +174,8 @@ class MedicineInput extends React.Component {
                             label="Valor"
                             className={classes.textField}
                             margin="normal"
-                            value={this.state.readingValue}
-                            onChange={(e)=>{this.onChangeState('readingValue', e.target.value)}}
+                            value={this.state.weight        }
+                            onChange={(e)=>{this.onChangeState('weight', e.target.value)}}
                         />
                     </div>
  
