@@ -64,11 +64,8 @@ export default class EventsGraphic extends React.Component {
 
     //Cálculo de la fecha inicial
     let today = new Date();
-    let startDate = moment(today).subtract(daysBack, 'days');
 
     let monthsBack = Number(daysBack)/30;
-    // let currentMonth = moment(new Date()).format('M YYYY');
-    // let startMonth  = moment(new Date()).subtract(monthsBack, 'M').format('M YYYY');
 
     let xData = [];
     let eL = pEvts.length;

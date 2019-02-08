@@ -19,6 +19,7 @@ import Calculations from '../services/Calculations';
 import PatientInfo from './PatientInfo';
 import CurrentMed from './CurrentMed';
 import EventsGraphic from './EventsGraphic';
+import MedWeightGraphic from './MedWeightGraphic';
 // CSS
 import './index.css';
 
@@ -125,7 +126,7 @@ export default class Patient extends React.Component {
                 </div>
                 <div className="chartBox-info">
                   {this.state.patientName === '' ? <p>LOADING !</p> :
-                    <EChart patID={this.props.patID} tLine={this.state.timeLineDays}/>
+                    <MedWeightGraphic patID={this.props.patID} tLine={this.state.timeLineDays}/>
                   }
                 </div>
               </div>
