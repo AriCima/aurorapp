@@ -27,12 +27,10 @@ export default class CurrentMed extends React.Component {
   }
  
   componentDidMount(){
-    console.log('component launched');
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
 
       let meds = [...res.patientsMedicines];
-      console.log('res recibido', res.patientsMedicines);
       let weightsCopy     = [...res.patientsWeights];
       let weightsSorted   = Calculations.sortByEventDate(weightsCopy);
       let wL              = weightsSorted.length;

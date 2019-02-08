@@ -20,106 +20,93 @@ export default class EventsGraphic extends React.Component {
     super(props);
 
     this.state = {
-      user              : this.props.userID,
       patientId         : this.props.patID,
 
-      patientsEvents    : this.props.events,
+      patientsEvents    : [],
       eventsSorted      : [],
       firstEventDate    : '',
 
-      timeLineDays      : 60,
+      timeLineDays      : 120,
 
       xData             : [],
     }
   }
- 
-  // componentDidUpdate(prevProps){
-  //   if(!this.props.events === prevProps.events){
-  //   let eventsCopy    = [...this.props.events];
-  //   console.log('eventsCopy = ', eventsCopy)
-  //   let eventsSorted  = Calculations.sortByEventDate(eventsCopy); // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-  //   console.log('eventsSorted = ', eventsSorted)
-  //   //let firstEvent    = eventsSorted[0].eventDate;
+
+  componentDidMount(){
+
+    DataService.getPatientInfo(this.state.patientId)
+    .then(res => {
+      const pat = res;
+
+      let eventsCopy     = [...pat.patientsEvents];
+      // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+      let eSorted  = Calculations.sortByEventDate(eventsCopy);
+
+     // - - - - - - - Sorting end 
 
 
-  //   this.setState({ 
-  //   eventsSorted    : eventsSorted,   
-  //   //   // firstEventDate    : firstEvent,
-  //   });
-  //   }
-  // }
+      this.setState({ 
+        eventsSorted : eSorted,
+      });
+
+    })
+    .catch(function (error) {    
+      console.log(error);
+    })    
+  }
+
 
   _eventsGraphicData(){
 
-
-    let pEvts = [this.props.events]
-
-
-    let eventsSorted  = Calculations.sortByEventDate(pEvts); // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-    // console.log('typeOf pEvts =', typeof (pEvts));
-    // console.log('eventsSorted =', typeof (eventsSorted));
-
-    let today = new Date();
-    let startDate = today.setDate(today.getDate() - this.state.timeLineDays);
-
-    // console.log('startDate = ', startDate);
-
+    let chartInfo = [];
+    let pEvts = this.state.eventsSorted;
     let daysBack = this.state.timeLineDays;
+
+    //Cálculo de la fecha inicial
+    let today = new Date();
+    let startDate = moment(today).subtract(daysBack, 'days');
+
     let monthsBack = Number(daysBack)/30;
+    // let currentMonth = moment(new Date()).format('M YYYY');
+    // let startMonth  = moment(new Date()).subtract(monthsBack, 'M').format('M YYYY');
 
-    let currentMonth = moment(new Date()).format('M YYYY');
-    let startMonth  = moment(new Date()).subtract(monthsBack, 'M').format('M YYYY');
+    let xData = [];
+    let eL = pEvts.length;
+    let serieData = [];
 
-    // let b = moment(startDate).format('M YYYY');
-    // let c = moment(startDate).add(1, 'M').format('MMM YYYY');
-   
-    // console.log('current = ', currentMonth)
-    // console.log('startMonth = ', startMonth)
-    
-    
-    let eventsMonthArray = []
-    
+    for(let j = 0; j <= monthsBack; j++){
+      // GENERAMOS ARRAYS DE MESES FROMATEADOS
+      let monthToAdd = moment(today).subtract(monthsBack-j, 'M').format('MMM-YYYY');
+      xData[j] = monthToAdd;
+      serieData[j] = 0;
 
-    for (let j = 0; j <= monthsBack; j++){
-      eventsMonthArray[j] =  moment(startDate).add(j, 'M').format('MMM-YYYY');
-    }
+      // VERIFICAMOS SI LA FECHA DEL EVENTO FORMATEADA === MES FORMATEADO
+      for (let k = 0; k < eL; k++){
+        let eventDate = moment(new Date(pEvts[k].date)).format('MMM-YYYY');
+        if ( xData[j] === eventDate){
+          serieData[j] = serieData[j]+1;
+        }
+      }
+    };
 
-    let mIndex = eventsMonthArray.length;
+    chartInfo = [xData, serieData]
 
-    // for (let k = 0; k < mIndex; k++){
-
-    //   let eventDate = pEvts[k].eventDate;
-    //   let evDateFormat = moment(new Date(eventDate)).format('MMM-YYYY');
-
-    //   console.log('evDate = ', evDateFormat);
-    // }
-
-    // this.setState({
-    //   xData : eventsMonthArray,
-    // })
-
-    // console.log('el xData = ', this.state.XData);
-   
-
-
-    
-
-    let eventsData = 12 //[{seriesName: 'Eventos', xData:[], value:[]}];
-
-    return eventsData
+    return chartInfo
 
   }
   
   render() {
 
+    let xD = this._eventsGraphicData()[0];
+    let sD = this._eventsGraphicData()[1];
     return (
 
     
       <div className="events-chart">
 
         {this.state.patientName === '' ? <p>LOADING !</p> : <div>
-          {this._eventsGraphicData()}
-          <EChartBars patID={this.props.patID} tLine={this.state.timeLineDays}/>
+         
+          <EChartBars patID={this.props.patID} xData={xD} sData={sD}/>
           </div>
         }
 

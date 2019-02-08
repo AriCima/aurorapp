@@ -96,13 +96,12 @@ export default class DataService {
         });
     };
     static getPatientInfo(patientId) {  
+        
 
         return new Promise((resolve, reject) => {
-            //console.log('el ID con el que se pide la info de la patient = ', patientId)
             firebase.firestore().collection('patients').doc(patientId).get()
 
             .then((result) => {
-                //console.log('el result del getpatientInfo', result.data());
                 resolve(result.data());
             })
 
@@ -258,54 +257,13 @@ export default class DataService {
         });
     };
 
-    // READINGS
-    static addNewReading(type, stateInfo) {  
-        //console.log('info del estado a guardar = ', stateInfo )
-        return new Promise((resolve, reject) => {
+    // WEIGHT
 
-        firebase.firestore().collection(type).add(stateInfo)
-
-        .then((result) => {
-            
-            console.log(`reading Nr: ${result.id}, succesfully added !`)
-            resolve(result);
-        })
-
-        .catch((error) => {
-            var errorCode = error.code;
-            console.log('patient could not be added: ', errorCode);
-           // var errorMessage = error.message;
-            
-        })
-        
-    });
-    };
-    static addNewFever(patId, feverArray) {  
-        return new Promise((resolve, reject) => {
-    
-            firebase.firestore().collection('patients').doc(patId).update({
-                patientsFever : feverArray})
-    
-            .then((result) => {
-                
-                console.log(`new FEVER reading State succesfully added !`)
-                resolve(result);
-            })
-    
-            .catch((error) => {
-                var errorCode = error.code;
-                console.log('EVENT could not be added to the patient: ', errorCode);
-               // var errorMessage = error.message;
-                
-            })
-            
-        });
-    };
     static addNewWeight(patId, weightArray) {  
     return new Promise((resolve, reject) => {
 
         firebase.firestore().collection('patients').doc(patId).update({
-            patientsWeight : weightArray})
+            patientsWeights : weightArray})
 
         .then((result) => {
             

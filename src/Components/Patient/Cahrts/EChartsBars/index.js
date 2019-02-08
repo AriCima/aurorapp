@@ -15,21 +15,17 @@ export default class EChartsBars extends React.Component {
       super(props);
   
       this.state = {
-        xData   : ['01-2018', '02-2018', '03-2018', '04-2018', '05-2018', '06-2018', '07-2018'],
-        series  : [
-            {
-                name:'Eventos',
-                type:'bar',
-                barWidth: '60%',
-                data:[10, 7, 22, 12, 34, 33, 7]
-            }
-        ]
+        xData   : this.props.xData,
+        seriesData : this.props.sData,
+        
       }
     }
    
+
    
   _getOption(){
 
+    console.log('props.data = ', this.props.sData)
     let option = {
         color: ['#3398DB'],
         tooltip : {
@@ -59,7 +55,14 @@ export default class EChartsBars extends React.Component {
                 type : 'value'
             }
         ],
-        series : this.state.series,
+        series  : [
+            {
+                name:'Eventos',
+                type:'bar',
+                barWidth: '60%',
+                data: this.props.sData,
+            }
+        ]
     };
 
     return option

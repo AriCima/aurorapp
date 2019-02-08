@@ -61,12 +61,12 @@ const readingTypes = [
 ];
   
 
-class MedicineInput extends React.Component {
+class WeightInput extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
             patientId       : this.props.patID,
-            patientsWeight  : [],
+            patientsWeights : [],
             weightDate      : '',
             weight          : null,
         };
@@ -79,15 +79,12 @@ class MedicineInput extends React.Component {
     
         DataService.getPatientInfo(this.state.patientId)
         .then(res => {
+           console.log('res  = ', res);
 
-           console.log('res.patientsWeight = ', res.patientsWeight)
-
-        
             this.setState({ 
-                patientsWeight  : res.patientsWeight,
+                patientsWeights  : res.patientsWeights,
+                
             });
-
-           // console.log('this.stateFever / weight = ', this.state.patientsFever, ' / ', this.state.patientsWeight)
 
         })
         .catch(function (error) {    
@@ -105,22 +102,24 @@ class MedicineInput extends React.Component {
         e.preventDefault();       
 
         let rCode = Calculations.generateCode();
-
         let noCommas = this.state.weight.replace(",", ".");
 
-        let newReading = [{
-            patientId       : this.props.patID,
-            readingCode     : rCode,
-            weightDate      : this.state.weightDate,
-            weight          : noCommas,
-        }];
+        console.log('weightDate ?', this.state.weightDate)
 
-        let transWeights = this.state.patientsWeight;
-        transWeights.push(newReading);
+        let newWeight = {
+            readingCode : rCode,
+            date        : this.state.weightDate,
+            weight      : noCommas,
+        };
+
+        console.log('newWeight / state.weights = ', newWeight, ' / ', this.state.patientsWeights)
+
+        let transWeights = this.state.patientsWeights;
+        transWeights.push(newWeight);
 
 
         this.setState({
-            patientsWeight : transWeights,
+          patientsWeights : transWeights,
         })
 
         DataService.addNewWeight(this.props.patID, transWeights)
@@ -153,7 +152,17 @@ class MedicineInput extends React.Component {
             
                 <div id="input-area">
 
-                    <div id="input-fields-select">
+
+                    <label>
+                        Fecha
+                        <input id="input-date"
+                            size="150"
+                            type="date"
+                            value={this.state.weightDate}
+                            onChange={(e)=>{this.onChangeState('weightDate', e.target.value)}}
+                        /> 
+                    </label>
+                    {/* <div id="input-fields-select">
                         <TextField
                             id="date"
                             label="Fecha"
@@ -166,7 +175,7 @@ class MedicineInput extends React.Component {
                                 shrink: true,
                             }}
                         />
-                    </div>
+                    </div> */}
 
                     <div id="input-fields">
                         <TextField
@@ -174,7 +183,7 @@ class MedicineInput extends React.Component {
                             label="Valor"
                             className={classes.textField}
                             margin="normal"
-                            value={this.state.weight        }
+                            value={this.state.weight}
                             onChange={(e)=>{this.onChangeState('weight', e.target.value)}}
                         />
                     </div>
@@ -194,8 +203,8 @@ class MedicineInput extends React.Component {
   }
 }
 
-MedicineInput.propTypes = {
+WeightInput.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MedicineInput);
+export default withStyles(styles)(WeightInput);

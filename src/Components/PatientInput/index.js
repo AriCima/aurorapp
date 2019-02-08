@@ -95,14 +95,14 @@ class PatientInput extends React.Component {
         let rCode = Calculations.generateCode();
         let noCommas = this.state.cWeight.replace(",", ".");
 
-        let newReading = {
+        let newWeight = {
             readingCode     : rCode,
             date            : today,
             weight          : noCommas,
         };
 
         let transWeights = [];
-        transWeights.push(newReading);
+        transWeights.push(newWeight);
         console.log('transWeights = ', transWeights)
 
         let newState = {

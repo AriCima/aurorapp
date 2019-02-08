@@ -17,7 +17,7 @@ import Patient from '../Patient';
 import PatientInput from '../PatientInput';
 import FirstEvent from '../EventFirst';
 import EventFirstHeader from '../EventFirstHeader';
-import NewReading from '../ReadingInput';
+import WeightInput from '../WeightInput';
 import EventInput from '../EventInput';
 import MedicineInput from '../MedicineInput';
 import EventOverview from '../EventOverview';
@@ -114,7 +114,7 @@ class App extends Component {
                 <Route path="/single_event_overview/:eventId" exact render = {(props) => { return <EventOverview propsFn={props.history} eventID={props.match.params.eventtId} userID={props.match.params.user}/>}}/>
 
                 <Route path="/patient/:patientId" exact render = {(props) => { return <Patient propsFn={props.history} patID={props.match.params.patientId} />}}/>
-                <Route path="/patient_new_reading/:patientId" exact render = {(props) => { return <NewReading propsFn={props.history} patID={props.match.params.patientId} />}}/>
+                <Route path="/patient_new_reading/:patientId" exact render = {(props) => { return <WeightInput propsFn={props.history} patID={props.match.params.patientId} />}}/>
                 <Route path="/patient_new_medicine/:patientId" exact render = {(props) => { return <MedicineInput propsFn={props.history} patID={props.match.params.patientId} />}}/>
                 <Route path="/single_medicine_overview/:patientId/:drugName" exact render = {(props) => { return <MedicineOverview propsFn={props.history} patID={props.match.params.patientId} dName={props.match.params.drugName} />}}/>
 

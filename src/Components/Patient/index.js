@@ -29,194 +29,20 @@ export default class Patient extends React.Component {
     this.state = {
       user              : this.props.userID,
       patientId         : this.props.patID,
-
-      // patientsEvents    : [],
-      // firstEventDate    : '',
-
-      // medArray          : [],
-       //medsTableInfo     : [],
-      // currentMedicines  : [],
-
-      // patientsWeights   : [],
-      // currentWeight     : null,
-
       timeLineDays      : 60,
     }
   }
   
-  componentDidMount(){
 
-    DataService.getPatientInfo(this.state.patientId)
-    .then(res => {
-      const pat = res;
-      // console.log(' el pat es = ', pat)
-
-      let eventsCopy     = [...pat.patientsEvents];
-      // let meds           = [...pat.patientMedicines];
-
-      // console.log('pat.patientsEvents / pat.patientsWeights = ' ,pat.patientsEvents, ' / ', pat.patientsWeights )
-
-      // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-      let eventsSorted  = Calculations.sortByEventDate(eventsCopy);
-
-     // - - - - - - - Sorting end 
-
-     // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
-      // let medsTable = []; 
-      // let currentMeds = [];
-
-      // for (let k = 0; k < meds.length; k++){ // --> iteración medicinas
-      //   let dName   = meds[k].drugName;
-      //   let dunits  = meds[k].drugUnits;
-      //   let index   = meds[k].dose.length;
-      //   let dDose   = meds[k].dose[index-1].dailyDose;
-      //   let hDose   = meds[k].dose[index-1].hourlyDose
-
-      //   // medsTable recoge toda la info para mostrarla en el cuadro de registro de medicamentos
-      //   medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose, drugDose: dDose};
-
-      //   let doseSorted = Calculations.sortMedicinesDate(meds[k].dose);
-      //   let dL = doseSorted.length;
-      //   let cDose = doseSorted[dL-1].dailyDose;
-
-      //   if(cDose === 0){
-      //     continue
-      //   } else {
-      //     currentMeds.push({medName: dName, medCDose: cDose, medUnit: dunits})
-      //   }
-
-      // }
-
-      // console.log('el currentMeds = ', currentMeds)
-
-      this.setState({ 
-        // patientMedicines  : pat.patientMedicines,      // med oredered alpahbetically for listing purposes
-        //medsTableInfo     : medsTable,
-        // currentMedicines  : currentMeds,
-
-      });
-
-    })
-    .catch(function (error) {    
-      console.log(error);
-    })    
-  }
-  
-  // _eventsGraphicData(){
-
-  //   let pEvts = [...this.state.patientsEvents];
-    
-  //   let today = new Date();
-  //   let startDate = today.setDate(today.getDate() - this.state.timeLineDays);
-    
-  //   let eventsData = [['Fecha', 'Eventos']];
-  //   let dyasBack = this.state.timeLineDays;
-
-  //   for (let i = 0; i <= dyasBack; i++ ){
-
-  //     let dateForArray = new Date(startDate)
-  //     dateForArray.setDate(dateForArray.getDate() + i);
-
-  //     let dateFormated = Calculations.getFormatedDate(dateForArray);
-  //     let events = 0;
-
-  //     for (let j = 0; j<pEvts.length; j++){
-        
-  //       let dateToCompare =  new Date(pEvts[j].eventDate);
-  //       let dateToCompareFormated = Calculations.getFormatedDatePlusOne(dateToCompare); // * * *  Tengo que sumar 1 al día si no me devuelde un día atrasado ? ? ? ?
-        
-  //       if (dateFormated.join('-') === dateToCompareFormated.join('-')){
-  //         events = events + 1;
-  //       }
-
-  //     }
-      
-  //     let finalDate = dateFormated.join('-');
-      
-  //     eventsData.push([finalDate, events])
-  //   }
-  //   return eventsData
-
-  // }
-
-  // _renderMedicinesInfo(){ 
-    
-  //   //console.log('render events triggered with: ', obj)
-  //   // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
-
-  //   return this.state.medsTableInfo.map((meds,j) => {
-  //     return (
-  //       <div className="medicines-container" key={j}>
-  //         <Link className="medicine-row"  to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
-          
-  //           <div id="drug-field">
-  //              <h4>{meds.drugName}</h4>
-  //           </div>
-
-  //           {this._renderMedicineDose(meds.hourlyDose)}
-
-  //           <div id="ratio-field">
-  //              <p>{meds.drugRatio}</p>
-  //           </div>
-
-  //         </Link>
-  //       </div>
-  //     )
-  //   })
-  // };
-
-  // _renderMedicineDose(x){
-  //   return x.map((dose, j) => {
-  //     return (
-  //       <div key={j} className="dose-fields">
-  //         <p>{dose}</p>
-  //       </div>
-  //     )
-  //   })
-  // };
-  // _renderEventsInfo(){ 
-    
-  //   //console.log('render events triggered with: ', obj)
-  //   return this.state.patientsEvents.map((evts,j) => {
-  //     return (
-  //       <div className="list-container">
-  //         <Link className="standard-list-row" key={j} to={`/single_event_overview/${evts.eventId}`}> 
-          
-  //           <div className="standard-list-info-block">
-  //              <p>{evts.eventDate}</p>
-  //           </div>
-  //           <div className="standard-list-info-block">
-  //               <p>{evts.startTime}</p>
-  //           </div>
-  //           <div className="standard-list-info-block">
-  //               <p>{evts.duration}</p>
-  //           </div>
-  //           <div className="standard-list-info-block">
-  //               <p>{evts.minSaturation}</p>
-  //           </div>
-  //           <div className="standard-list-info-block">
-  //               <p>{evts.fever}</p>
-  //           </div>
-  //         </Link>
-  //       </div>
-  //     )
-  //   })
-  // };
   
   render() {
 
-    //console.log('props med y weight', this.state.patMedTime, ' / ', this.state.patientsWeights)
     return (
 
       <div className="overview">
 
         <div className="upper-area">
-
-            {/* {this.state.patientName === '' ? <p>LOADING !</p> :
-              this._renderPatientInfo()
-            } */}
-
-            <div className="add-buttons-area">
+          <div className="add-buttons-area">
               <div className="standard-add-button">
                 <div>
                   <Link to={`/new_event_register/${this.state.patientId}`}><AddButton color="red"/></Link>
@@ -306,7 +132,6 @@ export default class Patient extends React.Component {
 
             </div>
 
-          
           </div>
 
         </div>
