@@ -110,13 +110,14 @@ export default class Patient extends React.Component {
 
               <div className="chart-box" id="current-med"> 
 
-                <div className="chartBox-Title">
-                  <h2>Medicación actual</h2>
-                </div>
 
-                <div className="chartBox-info">
+                <Link className="chartBox-Title" to={`/medicine_overview/${this.state.patientId}`}>
+                  <h2>Medicación actual</h2>
+                </Link>
+
+                <Link className="chartBox-info" to={`/medicine_overview/${this.state.patientId}`}>
                   <CurrentMed patID={this.state.patientId} />
-                </div>
+                </Link>
                 
               </div>
 
@@ -137,49 +138,10 @@ export default class Patient extends React.Component {
 
         </div>
 
-        {/* <div className="medicines-area">
-          
-          <div className="list-title">
-            <h2>Dosis díaria de medicamentos</h2>
-          </div>
-
-          <div className="drugs-list-header">
-              <ul id="days-list">
-                  <li id="drug-field">Droga</li>
-                  <li className="single-day">0</li>
-                  <li className="single-day">1</li>
-                  <li className="single-day">2</li>
-                  <li className="single-day">3</li>
-                  <li className="single-day">4</li>
-                  <li className="single-day">5</li>
-                  <li className="single-day">6</li>
-                  <li className="single-day">7</li>
-                  <li className="single-day">8</li>
-                  <li className="single-day">9</li>
-                  <li className="single-day">10</li>
-                  <li className="single-day">11</li>
-                  <li className="single-day">12</li>
-                  <li className="single-day">13</li>
-                  <li className="single-day">14</li>
-                  <li className="single-day">15</li>
-                  <li className="single-day">16</li>
-                  <li className="single-day">17</li>
-                  <li className="single-day">18</li>
-                  <li className="single-day">19</li>
-                  <li className="single-day">20</li>
-                  <li className="single-day">21</li>
-                  <li className="single-day">22</li>
-                  <li className="single-day">23</li>
-                  <li id="ratio-field">mg/kg</li>
-              </ul>
-          </div> */}
-
-          {/* {this._renderMedicinesInfo()}    */}
-         
-        {/* </div>
 
 
-        <div className="lower-area">
+
+        {/* <div className="lower-area">
             <div className="list-title">
               <h2>Eventos registrados</h2>
             </div>

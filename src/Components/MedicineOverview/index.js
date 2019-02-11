@@ -1,4 +1,6 @@
 import React from 'react';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
 
 // SERVICE API
 import DataService from '../services/DataService';
@@ -63,36 +65,63 @@ class MedicineOverview extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
-            patientId  : this.props.patID,
-            drugName   : this.props.dName,
-            drugInfo   : []
+            patientId         : this.props.patID,
+            drugName          : this.props.dName,
+            medsTableInfo     : [],
+            patientMedicines  : [],	
+            currentMedicines  : [],
         };
 
         this.onEditDose = this.onEditDose.bind(this);
     }
 
-    // componentDidMount(){
+    componentDidMount(){	
+
+        DataService.getPatientInfo(this.state.patientId)	
+       .then(res => {	
+            let meds =  [...res.patientsMedicines];	
     
-    //     DataService.getPatientInfo(this.state.patientId)
-    //     .then(res => {
-
-    //         // let loadedMed       = res.medArray;
-    //         // let drugInfo        = [];
-    //         // let weightsCopy     = [...res.patientsWeight];
-    //         // let weightsSorted   = Calculations.sortReadingsByDate(weightsCopy);
-            
-           
-
-    //         this.setState({ 
-    //             drugInfo        : drugInfo,
-    //             patientsWeights : weightsSorted,
-    //         });
-
-    //     })
-    //     .catch(function (error) {    
-    //     console.log(error);
-    //     })    
-    // }
+            // console.log('pat.patientsEvents / pat.patientsWeights = ' ,pat.patientsEvents, ' / ', pat.patientsWeights )	
+            // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/	
+        
+            //estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},	
+            let medsTable = []; 	
+            let currentMeds = [];	
+            for (let k = 0; k < meds.length; k++){ // --> iteración medicinas	
+                let dName   = meds[k].drugName;	
+                let dunits  = meds[k].drugUnits;	
+                let index   = meds[k].dose.length;	
+                let dDose   = meds[k].dose[index-1].dailyDose;	
+                let hDose   = meds[k].dose[index-1].hourlyDose	        
+                // medsTable recoge toda la info para mostrarla en el cuadro de registro de medicamentos	
+                medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose, drugDose: dDose};	        
+                let doseSorted = Calculations.sortMedicinesDate(meds[k].dose);	
+                let dL = doseSorted.length;	
+                let cDose = doseSorted[dL-1].dailyDose;	
+    
+    
+                if(cDose === 0){	
+                    continue	
+                } else {	
+                    currentMeds.push({medName: dName, medCDose: cDose, medUnit: dunits})	
+                }	
+    
+            }	
+   
+          // console.log('el currentMeds = ', currentMeds)	
+   
+          this.setState({ 	
+           patientMedicines  : res.patientMedicines,      // med oredered alpahbetically for listing purposes	
+           medsTableInfo     : medsTable,	
+           currentMedicines  : currentMeds,	
+   
+          });	
+          console.log('medicineTable = ', medsTable)
+        })	
+       .catch(function (error) {    	
+         console.log(error);	
+       })    	
+     }
 
     onChangeState(field, value){
         let aptInfo = this.state;
@@ -100,6 +129,39 @@ class MedicineOverview extends React.Component {
         this.setState(aptInfo)
     };
 
+    _renderMedicinesInfo(){ 	
+
+       //estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},	
+       return this.state.medsTableInfo.map((meds,j) => {	
+            return (	
+                <div className="medicines-container" key={j}>	
+                    <Link className="medicine-row"  to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 	
+                    
+                        <div id="drug-field">	
+                            <h4>{meds.drugName}</h4>	
+                        </div>	
+
+                        {this._renderMedicineDose(meds.hourlyDose)}	
+
+                        <div id="ratio-field">	
+                            <p>{meds.drugRatio}</p>	
+                        </div>	
+
+                    </Link>	
+                </div>	
+            )	
+        })	
+    };	
+
+    _renderMedicineDose(x){	
+        return x.map((dose, j) => {	
+        return (	
+            <div key={j} className="dose-fields">	
+            <p>{dose}</p>	
+            </div>	
+        )	
+        })	
+    };
 
     onEditDose(e){
 
@@ -172,13 +234,50 @@ class MedicineOverview extends React.Component {
 
             <div className="form-title">
                 <h4>{this.state.drugName}</h4>
-                <p>Dosis y suministros</p>
+                <p>MEDICACION</p>
             </div>
 
+            <div className="medicines-area">
+          
+          <div className="list-title">
+            <h2>Dosis díaria de medicamentos</h2>
+          </div>
 
-            <div>
-                {/* <LinesChartSingle patID={this.props.patID} tLine={this.state.timeLineDays} dName={this.state.drugName}/> */}
-            </div>
+          <div className="drugs-list-header">
+              <ul id="days-list">
+                  <li id="drug-field">Droga</li>
+                  <li className="single-day">0</li>
+                  <li className="single-day">1</li>
+                  <li className="single-day">2</li>
+                  <li className="single-day">3</li>
+                  <li className="single-day">4</li>
+                  <li className="single-day">5</li>
+                  <li className="single-day">6</li>
+                  <li className="single-day">7</li>
+                  <li className="single-day">8</li>
+                  <li className="single-day">9</li>
+                  <li className="single-day">10</li>
+                  <li className="single-day">11</li>
+                  <li className="single-day">12</li>
+                  <li className="single-day">13</li>
+                  <li className="single-day">14</li>
+                  <li className="single-day">15</li>
+                  <li className="single-day">16</li>
+                  <li className="single-day">17</li>
+                  <li className="single-day">18</li>
+                  <li className="single-day">19</li>
+                  <li className="single-day">20</li>
+                  <li className="single-day">21</li>
+                  <li className="single-day">22</li>
+                  <li className="single-day">23</li>
+                  <li id="ratio-field">mg/kg</li>
+              </ul>
+          </div> 
+
+          {this._renderMedicinesInfo()}    
+         
+        </div>
+
 
 {/* 
             <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onEditDose}>

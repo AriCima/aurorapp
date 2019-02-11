@@ -83,50 +83,75 @@ export default class MedWeightGraphic extends React.Component {
         let dosis = 0;
         arrOfDates.push({date: dayToAdd, dose: dosis});
       };
-      seriesData.push([arrOfDates]);   // CREO ARRAY DE FECHAS Y DOSIS [ {date: ' ', dose: ' '} , . . . , {date: ' ', dose: ' '}];
-
+      seriesData.push(arrOfDates);   // CREO ARRAY DE FECHAS Y DOSIS [ {date: ' ', dose: ' '} , . . . , {date: ' ', dose: ' '}];
     };
 
-    console.log('seriesData = ', seriesData)
+    // console.log('seriesData = ', seriesData)
 
-    // CREO ARRAY SOLO DOSIS  LAS DOSIS DE LAS MEDS EN EL ARRAY DE SERIES
-    let medDosis  =[];
+    // REEMPLAZO DOSIS COMPARANDO FECHAS DE seriesData y meds.dose.date
+   
+    let seriesDosis =  [];
+    let sdL         = seriesData.length;
 
-    for (let s = 0; s<mL; s++){   // itero series
-     
+    for (let s = 0; s<sdL; s++){   // itero series
       let dL = meds[s].dose.length;
       
-      for (let d = 0; d <= daysBack; d++){   // itero dosis de cada med
+      for (let d = 0; d <= daysBack; d++){   // itero días  
+       
+        // Fecha en el Array seriesData
         
-        for (let r = 0; r < dL; r++){  // itero días 
+        let dataDate = seriesData[s][d].date;
+
+        for (let r = 0; r < dL; r++){        // itero dosis de cada med
           let doseDate = moment(meds[s].dose[r].date).format('DD-MMM-YYYY');
+          let defDose = meds[s].dose[r].dailyDose;
+
+          if (doseDate === dataDate){
+            seriesData[s][d].dose = defDose // --> array de objs con dosis nulls salvo fechas iguales al meds.dose.date
+          } 
           
-          if (doseDate === seriesData[d].date){
-            seriesData[d].dose = meds[s].dose[r].dailyDose;  // --> array de objs con dosis nulls salvo fechas iguales al meds.dose.date
-            medDosis.push(meds[s].dose[r].dailyDose);
-            medDosis[s].push(meds[s].dose[r].dailyDose);      // --> array con solo dosis
-          } else {
-            medDosis[s].push(null);
-          }
         }
 
       }
+
+      console.log('seriesDosis = ', seriesDosis);
     }
 
-    for (let s = 0; s<mL; s++){             // itero series
-      for (let d = 1; d < daysBack-1; d++){  // itero días 
-        
-        let prevDose  = medDosis[s][d-1];
-        let cDose     = medDosis[s][d];
-        let nextDose  = medDosis[s][d+1]
-        
-        if ( cDose === null && nextDose === null){
-          cDose = prevDose;
-        }
+    let singleMedDosis = [];
+    let defMedDosis = [];
 
-      }
-    } 
+    // for (let s = 0; s<mL; s++){ // itero series
+    //   singleMedDosis[s][0] = seriesData[s][0].dose
 
+    //   for (let d = 1; d < daysBack; d++){  // itero días 
+    //     let cDose = seriesData[s][d].dose;
+
+    //     let prevDose  = seriesData[s][d-1].dose;
+    //     let nextDose  = seriesData[s][d+1].dose;
+
+    //     if ( cDose === 0 && nextDose === 0){
+    //       let x = 0;
+    //       x = prevDose;
+    //       singleMedDosis[d]=x;
+    //     } else{
+    //       singleMedDosis[d]=cDose;
+    //     }
+        
+        
+    //       let y = seriesData[s][d].dose;
+    //       singleMedDosis[d] = y
+    //     }
+
+    //     defMedDosis[s] = singleMedDosis;
+
+    //   }
+      
+    // } 
+
+
+
+
+    // PESOS
     for (let d = 1; d < daysBack-1; d++){  // itero días 
       // ITERAMOS SOBRE CADA PESO
       for(let w = 0; w < wL; w++){
@@ -140,7 +165,7 @@ export default class MedWeightGraphic extends React.Component {
       }
     };
 
-    seriesData.push(weightsData)
+    // seriesData.push(weightsData)
 
     chartInfo = [xData, seriesData]
 
