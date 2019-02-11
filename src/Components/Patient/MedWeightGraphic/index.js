@@ -66,7 +66,6 @@ export default class MedWeightGraphic extends React.Component {
     let weightsData = [];
     let seriesTitle = [];   // --> [ ['name', 'unit'] ]
     let seriesData = []; //[{date, dose},  . . . . , {date, dose}], [ . . ], ];
-    let dailyDose = [];
 
     // GENERO DATOS EJE X
     for(let d = 0; d <= daysBack; d++){     // itero días  (d)
@@ -77,39 +76,37 @@ export default class MedWeightGraphic extends React.Component {
     // ARRAYS DE MEDS NAMES Y DATES/DOSIS
     for (let s = 0; s<mL; s++){   //itero medicinas (series)
       seriesTitle[s] = [meds[s].drugName, meds[s].drugUnits];   // --> GENERO ARRAY DE [SERIES] --> [name, Units] 
+      let arrOfDates = [];
       for (let d = 0; d <= daysBack; d++){  // itero días
         let rest = daysBack-d;
-
         let dayToAdd = moment(today).subtract(rest, 'd').format('DD-MMM-YYYY');
-
         let dosis = 0;
-        seriesData.push([{date: dayToAdd, dose: dosis}]);   // CREO ARRAY DE FECHAS Y DOSIS [ {date: ' ', dose: ' '} , . . . , {date: ' ', dose: ' '}];
+        arrOfDates.push({date: dayToAdd, dose: dosis});
       };
-      
+      seriesData.push([arrOfDates]);   // CREO ARRAY DE FECHAS Y DOSIS [ {date: ' ', dose: ' '} , . . . , {date: ' ', dose: ' '}];
+
     };
 
-    console.log('seriesData = ', seriesData);
+    console.log('seriesData = ', seriesData)
 
     // CREO ARRAY SOLO DOSIS  LAS DOSIS DE LAS MEDS EN EL ARRAY DE SERIES
-    let medDosis  =[[]];
+    let medDosis  =[];
 
     for (let s = 0; s<mL; s++){   // itero series
-      console.log('s = ', s)
+     
       let dL = meds[s].dose.length;
-      console.log('dL = ', dL)
+      
       for (let d = 0; d <= daysBack; d++){   // itero dosis de cada med
-        console.log('day = ', d)
+        
         for (let r = 0; r < dL; r++){  // itero días 
           let doseDate = moment(meds[s].dose[r].date).format('DD-MMM-YYYY');
-          console.log('dosis = ', r)
-          console.log('doseDate = ', doseDate)
-          console.log('seriesData', seriesData);
-
+          
           if (doseDate === seriesData[d].date){
             seriesData[d].dose = meds[s].dose[r].dailyDose;  // --> array de objs con dosis nulls salvo fechas iguales al meds.dose.date
-            medDosis[s][d] = meds[s].dose[r].dailyDose;      // --> array con solo dosis
+            medDosis.push(meds[s].dose[r].dailyDose);
+            medDosis[s].push(meds[s].dose[r].dailyDose);      // --> array con solo dosis
           } else {
-            medDosis[s][d] = null;
+            medDosis[s].push(null);
           }
         }
 
