@@ -70,6 +70,7 @@ class MedicineOverview extends React.Component {
             medsTableInfo     : [],
             patientMedicines  : [],	
             currentMedicines  : [],
+            currentWeight     : '',
         };
 
         this.onEditDose = this.onEditDose.bind(this);
@@ -80,6 +81,11 @@ class MedicineOverview extends React.Component {
         DataService.getPatientInfo(this.state.patientId)	
        .then(res => {	
             let meds =  [...res.patientsMedicines];	
+            let weightsCopy     = [...res.patientsWeights];
+            let weightsSorted   = Calculations.sortByEventDate(weightsCopy);
+            let wL              = weightsSorted.length;
+            let cWeight         = weightsSorted[wL-1].weight;
+    
     
             // console.log('pat.patientsEvents / pat.patientsWeights = ' ,pat.patientsEvents, ' / ', pat.patientsWeights )	
             // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/	
@@ -92,9 +98,11 @@ class MedicineOverview extends React.Component {
                 let dunits  = meds[k].drugUnits;	
                 let index   = meds[k].dose.length;	
                 let dDose   = meds[k].dose[index-1].dailyDose;	
-                let hDose   = meds[k].dose[index-1].hourlyDose	        
+                let hDose   = meds[k].dose[index-1].hourlyDose;
+                let ratio   = Number.parseFloat((Number(dDose)/ Number(cWeight))).toFixed(1);
+
                 // medsTable recoge toda la info para mostrarla en el cuadro de registro de medicamentos	
-                medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose, drugDose: dDose};	        
+                medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose, drugDose: dDose, drugUnit: dunits, drugRatio: ratio};	        
                 let doseSorted = Calculations.sortMedicinesDate(meds[k].dose);	
                 let dL = doseSorted.length;	
                 let cDose = doseSorted[dL-1].dailyDose;	
@@ -103,7 +111,7 @@ class MedicineOverview extends React.Component {
                 if(cDose === 0){	
                     continue	
                 } else {	
-                    currentMeds.push({medName: dName, medCDose: cDose, medUnit: dunits})	
+                    currentMeds.push({medName: dName, medCDose: cDose, medUnit: dunits, drugRatio: ratio})	
                 }	
     
             }	
@@ -111,9 +119,10 @@ class MedicineOverview extends React.Component {
           // console.log('el currentMeds = ', currentMeds)	
    
           this.setState({ 	
-           patientMedicines  : res.patientMedicines,      // med oredered alpahbetically for listing purposes	
-           medsTableInfo     : medsTable,	
-           currentMedicines  : currentMeds,	
+            patientMedicines  : res.patientMedicines,      // med oredered alpahbetically for listing purposes	
+            medsTableInfo     : medsTable,	
+            currentMedicines  : currentMeds,	
+            currentWeight     : cWeight,
    
           });	
           console.log('medicineTable = ', medsTable)
@@ -144,7 +153,7 @@ class MedicineOverview extends React.Component {
                         {this._renderMedicineDose(meds.hourlyDose)}	
 
                         <div id="ratio-field">	
-                            <p>{meds.drugRatio}</p>	
+                            <p>{meds.drugRatio} {meds.drugUnit}/Kg</p>	
                         </div>	
 
                     </Link>	
@@ -270,7 +279,7 @@ class MedicineOverview extends React.Component {
                   <li className="single-day">21</li>
                   <li className="single-day">22</li>
                   <li className="single-day">23</li>
-                  <li id="ratio-field">mg/kg</li>
+                  <li id="ratio-field">Ratio</li>
               </ul>
           </div> 
 
