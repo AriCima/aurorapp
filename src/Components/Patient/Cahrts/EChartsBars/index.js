@@ -25,7 +25,6 @@ export default class EChartsBars extends React.Component {
    
   _getOption(){
 
-    console.log('props.data = ', this.props.sData)
     let option = {
         color: ['#3398DB'],
         tooltip : {
