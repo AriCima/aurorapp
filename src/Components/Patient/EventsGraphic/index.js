@@ -99,7 +99,7 @@ export default class EventsGraphic extends React.Component {
     return (
 
     
-      <div className="events-chart">
+      <div className="events-chart" to={`/events-overview/${this.state.patientId}`}>
 
         {this.state.patientName === '' ? <p>LOADING !</p> : <div>
          

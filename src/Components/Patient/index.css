@@ -114,56 +114,6 @@
 /* EVENTS LISTINGS */
 
 /* Header */
-.standard-list{
-    width: 100%;
-    margin-top: 0px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.standard-list-title{
-    width: 55%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin-bottom: 10px;
-}
-.standard-list-title p{
-    margin: 10px 0 0 0px;
-    font-size: 20px;
-    padding: 0;
-    color: rgb(145, 155, 155);
-}
-.standard-list-header{
-    margin-top: 15px;
-    border-radius: 10px;
-    width: 80%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: rgb(0, 144, 248);
-}
-.standard-list-header ul{
-    width: 100%;
-    margin: 0;
-    padding: 10px 0;;
-    list-style-type: none;
-    color: white;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.standard-list-header ul li{
-    margin: 0 1.5% 0px 3.5%;
-    width: 15%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#double-line{
-    text-align: center;
-}
 
 /* _render  */
 

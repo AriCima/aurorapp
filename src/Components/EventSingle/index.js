@@ -49,7 +49,7 @@ const styles = theme => ({
   },
 });
 
-class EventOverview extends React.Component {
+class SingleEvent extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
@@ -272,8 +272,8 @@ class EventOverview extends React.Component {
       }
 }
 
-EventOverview.propTypes = {
+SingleEvent.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EventOverview);
+export default withStyles(styles)(SingleEvent);

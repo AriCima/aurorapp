@@ -9,6 +9,7 @@ import Calculations from '../services/Calculations';
 // MATERIAL-UI
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import AddButtonCool from '../Accessories/AddButtonCool';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
@@ -239,17 +240,19 @@ class MedicineOverview extends React.Component {
 
     return (
 
-        <div className="form-container">
 
-            <div className="form-title">
-                <h4>{this.state.drugName}</h4>
-                <p>MEDICACION</p>
-            </div>
+        <div className="medicines-area">
 
-            <div className="medicines-area">
           
-          <div className="list-title">
-            <h2>Dosis díaria de medicamentos</h2>
+          <div className="upper">
+            <div className="list-title">
+                <h2>Dosis díaria de medicamentos</h2>
+            </div>
+            <div className="med-add-button">
+                <div>
+                    <Link to={`/patient_new_medicine/${this.state.patientId}`}><AddButtonCool text={'Nuevo Medicamento'}/></Link>
+                </div>
+            </div>
           </div>
 
           <div className="drugs-list-header">
@@ -285,10 +288,8 @@ class MedicineOverview extends React.Component {
 
           {this._renderMedicinesInfo()}    
          
-        </div>
-
-
-{/* 
+           {/* 
+            <div className="form-container">
             <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onEditDose}>
             
                 <div id="input-dose-area">
@@ -541,7 +542,11 @@ class MedicineOverview extends React.Component {
                 </div>
             </form>
         */}
+        
         </div>
+
+
+      
     );
   }
 }

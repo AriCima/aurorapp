@@ -89,20 +89,20 @@ export default class Patient extends React.Component {
                 </div>
               </div>
 
-              <div className="chart-box" id="events">
+              <Link to={`/events-overview/${this.state.patientId}`} className="chart-box" id="events">
 
                 <div className="chartBox-Title">
                   <h2>Registro eventos</h2>
                 </div>
                 <div className="chartBox-info">
 
-                  <div className="events-chart">
+                <div className="events-chart">
                     {this.state.patientName === '' ? <p>LOADING !</p> :
                       <EventsGraphic patID={this.props.patID} tLine={this.state.timeLineDays} events={JSON.stringify(this.state.patientsEvents)}/>
                     }
-                  </div>
                 </div>
-              </div>
+                </div>
+              </Link>
 
             </div>
 
@@ -137,29 +137,6 @@ export default class Patient extends React.Component {
           </div>
 
         </div>
-
-
-
-
-        {/* <div className="lower-area">
-            <div className="list-title">
-              <h2>Eventos registrados</h2>
-            </div>
-          <div className="standard-list-header">
-            <ul>
-              <li id="double-line">Fecha</li>
-              <li id="double-line">Hora Inicio<br/>hr:min</li>
-              <li id="double-line">Duración<br/>mins</li>
-              <li id="double-line">Sat. mín. <br/>%</li>
-              <li id="double-line">Temperatura <br/>ºC</li>
-            </ul>
-          </div>
-          
-            {this.state.patientName === '' ? <p>LOADING !</p> :
-              this._renderEventsInfo()
-            }   
-         
-        </div> */}
 
       </div>
 
