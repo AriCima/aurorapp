@@ -54,6 +54,7 @@ class SingleEvent extends React.Component {
         super(props);
         this.state = { 
             eventId             : this.props.eventID,
+            patientId           : this.props.patID,
             eventDate           : '',
             startTime           : '',
             duration            : '',
@@ -71,12 +72,13 @@ class SingleEvent extends React.Component {
     }
 
     componentDidMount(){
+        console.log('this.props.eventID', this.props.eventID)
 
         DataService.getEventInfo(this.state.eventId)
         .then(res => {
         
             this.setState({ 
-                eventDate           : res.eventDate,
+                eventDate           : res.date,
                 startTime           : res.startTime,
                 duration            : res.duration,
                 minSaturation       : res.minSaturation,
@@ -86,6 +88,7 @@ class SingleEvent extends React.Component {
                 detonation          : res.detonation,
             });
 
+            console.log('this.state.date', this.state.date )
         })
         .catch(function (error) {    
         console.log(error);

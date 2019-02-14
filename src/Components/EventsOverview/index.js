@@ -95,7 +95,7 @@ class EventsOverview extends React.Component {
     return this.state.patientsEvents.map((evts,j) => {
       return (
         <div className="list-container">
-          <Link className="standard-list-row" key={j} to={`/single_event_overview/${evts.eventId}`}> 
+          <Link className="standard-list-row" key={j} to={`/single_event_overview/${this.state.patientId}/${evts.eventId}`}> 
           
             <div className="standard-list-info-block">
                <p>{evts.date}</p>
