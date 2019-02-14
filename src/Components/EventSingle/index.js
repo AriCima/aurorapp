@@ -136,125 +136,113 @@ class SingleEvent extends React.Component {
     
         return (
     
-            <div className="form-container">
-    
-                <div className="form-title">
-                    <h4>Event Overview</h4>
-                </div>
-    
-                <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onUpdateEvent}>
+            <div className="sev-container">
+
+                <form  id="sev-form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onUpdateEvent}>
                 
-                    <div id="input-area">
+                    <div className="sev-form-title">
+                        <h4>Información del evento</h4>
+                    </div>
+
+                    <div id="sev-input-area">
     
-                        <div id="input-fields-select">
-                            <TextField
-                                id="date"
-                                label="Fecha"
-                                type="date"
-                                defaultValue="dd/mm/yyyy"
-                                className={classes.textField}
-                                value={this.state.eventDate}
-                                onChange={(e)=>{this.onChangeState('eventDate', e.target.value)}}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </div>
-    
-                        <div id="input-fields">
-                            <TextField
-                                id="with-placeholder"
-                                label="Comienzo"
-                                className={classes.textField}
-                                margin="normal"
+                        <label className="sev-label">
+                            <div className="input-div">
+                                <p>Fecha del evento</p>
+                            </div>
+                            <input id="sev-input"
+                                size="15"
+                                type="value"
+                                value={this.state.date}
+                                onChange={(e)=>{this.onChangeState('date', e.target.value)}}
+                            /> 
+                        </label>
+
+                        <label className="sev-label-short">
+                            <div className="input-div">
+                                <p>Comienzo (hr:min)</p>
+                            </div>
+                            <input id="sev-input"
+                                size="150"
+                                type="value"
                                 value={this.state.startTime}
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start">Hr:min</InputAdornment>,
-                                  }}
                                 onChange={(e)=>{this.onChangeState('startTime', e.target.value)}}
-                            />
-                        </div>
-                        
-                        <div id="input-fields">
-                            <TextField
-                                id="with-placeholder"
-                                label="Duración"
-                                className={classes.textField}
-                                margin="normal"
+                            /> 
+                        </label>
+
+                        <label className="sev-label-short">
+                            <div className="input-div">
+                                <p>Duración (mins)</p>
+                            </div>
+                            <input id="sev-input"
+                                size="150"
+                                type="value"
                                 value={this.state.duration}
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start">Mins</InputAdornment>,
-                                  }}
                                 onChange={(e)=>{this.onChangeState('duration', e.target.value)}}
-    
-                            />
-                        </div>
-
-                        <div id="input-fields">
-                            <TextField
-                                id="with-placeholder"
-                                label="Saturación mínima"
-                                className={classes.textField}
-                                margin="normal"
+                            /> 
+                        </label>
+                        
+                        <label className="sev-label-short">
+                            <div className="input-div">
+                                <p>Saturación min (%)</p>
+                            </div>
+                            <input id="sev-input"
+                                size="150"
+                                type="value"
                                 value={this.state.minSaturation}
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start"> % </InputAdornment>,
-                                  }}
                                 onChange={(e)=>{this.onChangeState('minSaturation', e.target.value)}}
-    
-                            />
-                        </div>
+                            /> 
+                        </label>
 
-                        <div id="input-fields">
-                            <TextField
-                                id="with-placeholder"
-                                label="Fiebre"
-                                className={classes.textField}
-                                margin="normal"
+                        <label className="sev-label-short">
+                            <div className="input-div">
+                                <p>Fiebre (ºC)</p>
+                            </div>
+                            <input id="sev-input"
+                                size="150"
+                                type="value"
                                 value={this.state.fever}
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start"> ºC</InputAdornment>,
-                                  }}
                                 onChange={(e)=>{this.onChangeState('fever', e.target.value)}}
-    
-                            />
-                        </div>
-    
-                        <div id="input-fields">
-                            <TextField
-                                id="standard-multiline-flexible"
-                                label="Observación clínica"
-                                className={classes.textField}
-                                margin="normal"
-                                value={this.state.clinicObservation}
-                                onChange={(e)=>{this.onChangeState('clinicObservation', e.target.value)}}
-    
-                            />
-                        </div>
+                            /> 
+                        </label>
 
-                        <div id="input-fields">
-                            <TextField
-                                id="standard-multiline-flexible"
-                                label="Acción"
-                                className={classes.textField}
-                                margin="normal"
-                                value={this.state.action}
-                                onChange={(e)=>{this.onChangeState('action', e.target.value)}}
-    
-                            />
-                        </div>
-
-                        <div id="input-fields">
-                            <TextField
-                                id="standard-multiline-flexible"
-                                label="Detonante"
-                                className={classes.textField}
-                                margin="normal"
+                        <label className="sev-label-text">
+                            <div className="input-div">
+                                <p>Detonante:</p>
+                            </div>
+                            <textarea id="sev-input-text"
+                                size="150"
+                                type="value"
                                 value={this.state.detonation}
                                 onChange={(e)=>{this.onChangeState('detonation', e.target.value)}}
+                            /> 
+                        </label>
+
+                        <label className="sev-label-text">
+                            <div className="input-div">
+                                <p>Observación Clínica:</p>
+                            </div>
+                            <textarea id="sev-input-text"
+                                size="150"
+                                type="value"
+
+                                value={this.state.clinicObservation}
+                                onChange={(e)=>{this.onChangeState('clinicObservation', e.target.value)}}
+                            /> 
+                        </label>
     
-                            />
-                        </div>
+                        <label className="sev-label-text">
+                            <div className="input-div">
+                                <p>Acciones:</p>
+                            </div>
+                            <textarea id="sev-input-text"
+                                size="150"
+                                type="value"
+                                value={this.state.action}
+                                onChange={(e)=>{this.onChangeState('action', e.target.value)}}
+                            /> 
+                        </label>
+
     
                         <div id="input-field">
                            <h2>IMAGES AND VIDEO AREA</h2>
