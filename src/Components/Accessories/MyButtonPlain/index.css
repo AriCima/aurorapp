@@ -1,0 +1,14 @@
+#plain{
+    padding: 8px 20px;
+    background-color:white;
+    border: solid 1px rgb(0, 187, 150);
+    font-size: 12px;
+    font-weight: 550;
+    color: rgb(0, 187, 150);
+}
+
+#plain:hover{
+    background-color:rgba(0, 187, 150, 1);
+    color: white;
+    font-weight: 700;
+}

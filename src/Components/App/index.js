@@ -84,7 +84,7 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-    //console.log('el user en APP', user)
+
     return (
       <div>
 
@@ -93,6 +93,7 @@ class App extends Component {
           <div className="app">
           
             <div className="app-header">
+            
               <Switch>
                 <Route path="/home/:user"  render = {(props) => { return  <Header user={user} />}}/>
                 <Route path="/patient/:patientId" exact render = {(props) => { return <HeaderPatient propsFn={props.history} patID={props.match.params.patientId}/>}}/>

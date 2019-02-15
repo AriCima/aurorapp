@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
+// COMPONENTS
+import AddButtonCool from '../Accessories/AddButtonCool';
+
+
 // DATA
 import DataService from '../services/DataService';
 import Calculations from '../services/Calculations';
@@ -52,11 +56,11 @@ export default class Home extends React.Component {
         <div className="patient-container">
           <Link className="pat-box" key={j} to={`/patient/${patts.patientId}`}> 
             <div className="ptts-info-block">
-               <p>{patts.patientName} </p>
+               <p>{patts.patientName}  {patts.patientSurname} </p>
             </div>
-            <div className="ptts-info-block">
-               <p>{patts.patientSurname} </p>
-            </div>
+            {/* <div className="ptts-info-block">
+               <p></p>
+            </div> */}
           </Link>
 
         </div>
@@ -75,22 +79,25 @@ export default class Home extends React.Component {
 
       <div className="home">
 
-        <div className="home-title">
-          <h3>Listado de pacientes</h3>
+        <div className="home-upper">
+
+          <div className="home-add-button">
+              <div>
+                  <Link to={`/add_patient/${this.state.userId}`}><AddButtonCool text={'Nuevo Paciente'}/></Link>
+              </div>
+          </div>
+
+          <div className="home-title">
+            <h3>Listado de pacientes</h3>
+          </div>
+
+          
         </div>
 
         <div className="patients-list">
           <div className="renderFn">
             {this._renderPatients()}  
           </div>
-
-          <button className="patient-container">
-            <Link to={`/add_patient/${this.state.userId}`}>
-              <div className="ptts-info-block">
-                <h4>Nuevo Paciente</h4>
-              </div>
-            </Link>
-          </button>
         </div>
       </div>
 

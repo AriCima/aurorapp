@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import { withStyles, MuiThemeProvider, createMuiTheme, withTheme } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
+
+// CSS
+import './index.css';
 
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
     background: 'rgb(0, 187, 150)',
+    padding: '5px',
+    boxShadow: 'none',
     
   },
   cssRoot: {
@@ -21,6 +24,7 @@ const styles = theme => ({
     fontWeight: '550',
     display: 'flex',
     alignItems: 'center',
+    boxShadow: 'none',
     '&:hover': {
       backgroundColor: 'rgba(0, 187, 150,0.5)',
       color: 'white',
@@ -28,6 +32,7 @@ const styles = theme => ({
   },
   extendedIcon: {
     marginRight: theme.spacing.unit,
+    boxShadow: 'none',
   },
 });
 
@@ -43,6 +48,7 @@ class AddButtonCool extends React.Component {
         <Button
           variant="contained"
           color="primary"
+          box-shadow="none"
           className={classNames(classes.margin, classes.cssRoot)}
         >
         {this.props.text}
@@ -52,8 +58,8 @@ class AddButtonCool extends React.Component {
   }
 }
 
-AddButtonCool.propTypes = {
+AddButtonPlain.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddButtonCool);
+export default withStyles(styles)(AddButtonPlain);

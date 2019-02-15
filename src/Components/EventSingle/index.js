@@ -148,7 +148,7 @@ class SingleEvent extends React.Component {
     
                         <label className="sev-label">
                             <div className="input-div">
-                                <p>Fecha del evento</p>
+                                <p id="event-p">Fecha del evento</p>
                             </div>
                             <input id="sev-input"
                                 size="15"
@@ -160,7 +160,7 @@ class SingleEvent extends React.Component {
 
                         <label className="sev-label-short">
                             <div className="input-div">
-                                <p>Comienzo (hr:min)</p>
+                                <p id="event-p">Comienzo (hr:min)</p>
                             </div>
                             <input id="sev-input"
                                 size="150"
@@ -172,7 +172,7 @@ class SingleEvent extends React.Component {
 
                         <label className="sev-label-short">
                             <div className="input-div">
-                                <p>Duración (mins)</p>
+                                <p id="event-p">Duración (mins)</p>
                             </div>
                             <input id="sev-input"
                                 size="150"
@@ -184,7 +184,7 @@ class SingleEvent extends React.Component {
                         
                         <label className="sev-label-short">
                             <div className="input-div">
-                                <p>Saturación min (%)</p>
+                                <p id="event-p">Saturación min (%)</p>
                             </div>
                             <input id="sev-input"
                                 size="150"
@@ -196,7 +196,7 @@ class SingleEvent extends React.Component {
 
                         <label className="sev-label-short">
                             <div className="input-div">
-                                <p>Fiebre (ºC)</p>
+                                <p id="event-p">Fiebre (ºC)</p>
                             </div>
                             <input id="sev-input"
                                 size="150"
@@ -208,7 +208,7 @@ class SingleEvent extends React.Component {
 
                         <label className="sev-label-text">
                             <div className="input-div">
-                                <p>Detonante:</p>
+                                <p id="event-p">Detonante:</p>
                             </div>
                             <textarea id="sev-input-text"
                                 size="150"
@@ -220,7 +220,7 @@ class SingleEvent extends React.Component {
 
                         <label className="sev-label-text">
                             <div className="input-div">
-                                <p>Observación Clínica:</p>
+                                <p id="event-p">Observación Clínica:</p>
                             </div>
                             <textarea id="sev-input-text"
                                 size="150"
@@ -233,7 +233,7 @@ class SingleEvent extends React.Component {
     
                         <label className="sev-label-text">
                             <div className="input-div">
-                                <p>Acciones:</p>
+                                <p id="event-p">Acciones:</p>
                             </div>
                             <textarea id="sev-input-text"
                                 size="150"

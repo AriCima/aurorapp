@@ -79,14 +79,16 @@ export default class CurrentMed extends React.Component {
 
   componentDidUpdate(prevProps){
     if (this.props.cWeight !== prevProps.cWeight) {
-        this.setState({
-            currentWeight: this.props.cWeight});
+      this.setState({
+        currentWeight: this.props.cWeight
+      });
     }
   }
 
   _renderMedicineCurrentDose(){
     
     return this.state.currentMedicines.map((meds,j) => {
+      console.log('medicines = ',this.state.currentMedicines )
       return (
         
         <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.medName}`}> 
@@ -103,7 +105,6 @@ export default class CurrentMed extends React.Component {
             <p>{Number.parseFloat((Number(meds.medCDose)/ Number(this.state.currentWeight))).toFixed(1)} [{meds.medUnit}/Kg]</p> 
           </div>
         </Link>
-      
       )
     })
   }  
@@ -116,21 +117,22 @@ export default class CurrentMed extends React.Component {
             <div className="cMedChart-header">
 
             <div className="med-title-box">
-                <p>Droga</p>
+                <p id="p-med">Droga</p>
             </div>
             <div className="med-title-box">
-                <p>Dósis diaria</p>
+                <p id="p-med">Dósis diaria</p>
             </div>
             <div className="med-title-box">
-                <p>Dósis / Peso</p>
+                <p id="p-med">Dósis / Peso</p>
             </div>
 
             </div>
-            {this.state.patientName === '' ? <p>LOADING !</p> :
-           
-              this._renderMedicineCurrentDose()
-            }
-
+            <div className="medicine-render">
+              {this.state.patientName === '' ? <p>LOADING !</p> :
+            
+                this._renderMedicineCurrentDose()
+              }
+            </div>
         </div>
 
     );

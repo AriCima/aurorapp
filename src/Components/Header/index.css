@@ -9,10 +9,9 @@
     display: flex;
     justify-content: flex-start;
     align-content: center;
-    background-color: #6EBDBD;  /* #D36582; */
+    background-color: rgb(0, 187, 150); 
     color: white;
     box-shadow: 0 4px 2px -2px gray;
-
 }
 
 a{
