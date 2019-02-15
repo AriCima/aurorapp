@@ -9,14 +9,15 @@
     display: flex;
     justify-content: flex-start;
     align-content: center;
-    background-color: #6EBDBD;  /* #D36582; */
+    background-color: white; ;  /* #D36582; */
+    border: solid 1px rgb(0, 187, 150); 
     color: white;
-    box-shadow: 0 4px 2px -2px gray;
+    box-shadow: 0 4px 2px -2px rgba(0, 187, 150, 0.3);
 
 }
 
 a{
-    color: white;
+    color:  rgb(0, 187, 150);
     text-decoration: none;
 }
 
@@ -33,7 +34,7 @@ a{
 }
 
 .header-left .title p{
-    color: white;
+    color:  rgb(0, 187, 150);
     font-weight: 700;
     font-size: 1.25rem;
 }
@@ -53,7 +54,7 @@ a{
 }
 
 .nav-block p{
-   color: white;
+   color:  rgb(0, 187, 150);
    font-weight: 600;
    font-size: 25px;
 }
