@@ -12,10 +12,12 @@ import HeaderEventOver from '../HeaderEventsOverview';
 import HeaderEventSingle from '../HeaderEventSingle';
 import HeaderReadingInput from '../HeaderReadingInput';
 import HeaderMedOver from '../HeaderMedOverview';
+import HeaderLanding from '../HeaderLanding';
 
 import Login from '../Access/Login';
 import Register from '../Access/Register';
 import Home from '../Home';
+import Landing from '../A-Landing';
 
 import Patient from '../Patient';
 import PatientInput from '../PatientInput';
@@ -95,6 +97,7 @@ class App extends Component {
             <div className="app-header">
             
               <Switch>
+                <Route path="/landing"  render = {() => { return  <HeaderLanding />}}/>
                 <Route path="/home/:user"  render = {(props) => { return  <Header user={user} />}}/>
                 <Route path="/patient/:patientId" exact render = {(props) => { return <HeaderPatient propsFn={props.history} patID={props.match.params.patientId}/>}}/>
 
@@ -115,6 +118,7 @@ class App extends Component {
             <div className="app-body">
 
               <Switch>
+                <Route path="/landing" exact render = {() => {return <Landing/>}}/>
                 <Route path="/" exact render = {(props) => {return <Login propsFn={props.history}/>}}/>
                 <Route path="/register" render = {(props) => {return <Register propsFn={props.history}/>}}/> 
 
