@@ -8,7 +8,7 @@ import DataService from '../services/DataService';
 
 import './index.css';
 
-class HeaderMedOver extends Component {
+class HeaderPatient extends Component {
    constructor(props){
     super(props);
 
@@ -58,24 +58,34 @@ class HeaderMedOver extends Component {
             <div className="header">
 
                 <div className="header-left">
-                    <div className="nav-block">
-                    <Link to={`/home/${this.state.userId}`}><h2> Home</h2></Link>
-                    </div>
+
+                <div className="nav-block">
+                    <Link to={`/home/${this.state.userId}`}><p>{this.state.patientName}</p></Link>
+                </div>
+
                 </div>
 
                 <div className="header-mid">
 
-                    <div className="nav-block">
-                        {this.state.patientName && <h2>{this.state.patientName}</h2>}
-                    </div>
+                <div className="nav-block">
+                    <Link to={`medicine_overview/${this.state.patientId}`}><p>Medicación</p></Link>
+                </div>
 
-                    
+                <div className="nav-block">
+                    <Link to={`/events-overview/${this.state.patientId}`}><p>Eventos</p></Link>
+                </div>
+
+                <div className="nav-block">
+                    <Link to={`/patient_new_reading/${this.state.patientId}`}><p>Peso</p></Link>
+                </div>
+
+
                 </div>
 
                 <div className="header-right">
 
                     <div className="nav-block">
-                        {<span onClick={this.signOut}><Link to="/login">Sign-out</Link></span>}
+                        {<span onClick={this.signOut}><Link to="/login"><p>Sign-out</p></Link></span>}
                     </div>
 
                 </div>
@@ -86,4 +96,4 @@ class HeaderMedOver extends Component {
         );
     }
 }
-export default HeaderMedOver;
+export default HeaderPatient;

@@ -10,9 +10,9 @@
     justify-content: flex-start;
     align-content: center;
     background-color: white; 
-    background-color: rgba(125, 125, 125, 0.05); 
-    /* border: solid 1px  rgb(0, 187, 150); */
-    box-shadow: 0 4px 2px -2px rgba(0, 187, 150), 0.5;
+    border: solid 1px  rgb(0, 187, 150);
+    color:  rgb(0, 187, 150);
+    box-shadow: 0 4px 2px -2px rgba(0, 187, 150, 0.5);
 
 }
 

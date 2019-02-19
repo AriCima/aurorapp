@@ -8,7 +8,7 @@ import DataService from '../services/DataService';
 
 import './index.css';
 
-class HeaderEventOver extends Component {
+class HeaderReadingInput extends Component {
    constructor(props){
     super(props);
 
@@ -33,7 +33,8 @@ class HeaderEventOver extends Component {
         patientName     : res.patientName,
         patientSurname  : res.patientSurname,        
     });
-
+    
+        console.log('el patientName = ', this.state.patientName)
     })
     .catch(function (error) {    
     console.log(error);
@@ -51,32 +52,37 @@ class HeaderEventOver extends Component {
     }
 
     render() {
-       
+        console.log('el user en el HeaderReadingInput', this.props.patID)
         return (
 
             <div className="header">
 
                 <div className="header-left">
                     <div className="nav-block">
-                    <Link to={`/home/${this.state.userId}`}><h2> Home</h2></Link>
+                        <Link to={`/patient/${this.props.patID}`}><p>{this.state.patientId}</p></Link>
                     </div>
                 </div>
 
                 <div className="header-mid">
 
                     <div className="nav-block">
-                        {this.state.patientName && <Link to={`/patient/${this.state.patientId}`}><h2>{this.state.patientName}</h2></Link> }
+                        <Link to={`medicine_overview/${this.state.patientId}`}><p>Medicación</p></Link>
                     </div>
 
-                    
+                    <div className="nav-block">
+                        <Link to={`/events-overview/${this.state.patientId}`}><p>Eventos</p></Link>
+                    </div>
+
+                    <div className="nav-block">
+                        <Link to={`/patient_new_reading/${this.state.patientId}`}><p>Peso</p></Link>
+                    </div>
                 </div>
 
                 <div className="header-right">
 
                     <div className="nav-block">
-                        {<span onClick={this.signOut}><Link to="/login">Sign-out</Link></span>}
+                        {<span onClick={this.signOut}><Link to="/login"><p>Sign-out</p></Link></span>}
                     </div>
-
                 </div>
 
             </div>
@@ -85,4 +91,4 @@ class HeaderEventOver extends Component {
         );
     }
 }
-export default HeaderEventOver;
+export default HeaderReadingInput;

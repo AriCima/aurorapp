@@ -33,17 +33,15 @@ class Header extends Component {
             <div className="header">
 
                 <div className="header-left">
-                    <div className="title">
-                     {this.props.user &&   <p>{this.props.user.name}</p>}
+                    <div className="nav-block">
+                        <Link to={`/home/${this.state.user.id}`}><p>{this.props.user.name}</p></Link>
                     </div>
                 </div>
 
                 <div className="header-mid">
 
                     <div className="nav-block">
-                    {!this.props.user ? <p>AurorApp</p>
-                        :<Link to={`/home/${this.props.user.id}`}>Home</Link>
-                    } 
+                        <p>AurorApp</p>
                     </div>
 
                     
@@ -53,9 +51,9 @@ class Header extends Component {
 
                     <div className="nav-block">
                         {this.props.user ? 
-                            <span onClick={this.signOut}><Link to="/login">Sign-out</Link></span>
+                            <span onClick={this.signOut}><Link to="/login"><p>Sign-out</p></Link></span>
                             :
-                            <Link to="/login">Sign-In</Link>}
+                            <Link to="/login"><p>Sign-in</p></Link>}
                     </div>
 
                 </div>

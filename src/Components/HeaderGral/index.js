@@ -6,9 +6,9 @@ import * as firebase from 'firebase';
 import DataService from '../services/DataService';
 
 
-import './index.css';
+import '../HeaderGral/index.css';
 
-class EventFirstHeader extends Component {
+class HeaderGral extends Component {
    constructor(props){
     super(props);
 
@@ -33,8 +33,7 @@ class EventFirstHeader extends Component {
         patientName     : res.patientName,
         patientSurname  : res.patientSurname,        
     });
-    
-        console.log('el patientName = ', this.state.patientName)
+
     })
     .catch(function (error) {    
     console.log(error);
@@ -52,38 +51,47 @@ class EventFirstHeader extends Component {
     }
 
     render() {
-        console.log('el user en el HeaderEventInput', this.props.patID)
+       
         return (
 
             <div className="header">
 
-                <div className="header-left">
-                    <div className="nav-block">
-                    <Link to={`/home/${this.props.patID}`}><h2> Back</h2></Link>
-                    </div>
-                </div>
+            <div className="header-left">
 
-                <div className="header-mid">
-
-                    <div className="nav-block">
-                        {this.state.patientName && <h2>Primer evento</h2>}
-                    </div>
-
-                    
-                </div>
-
-                <div className="header-right">
-
-                    <div className="nav-block">
-                        {<span onClick={this.signOut}><Link to="/login">Sign-out</Link></span>}
-                    </div>
-
+                <div className="nav-block">
+                    <Link to={`/home/${this.state.userId}`}><p>{this.state.patientName}</p></Link>
                 </div>
 
             </div>
+
+            <div className="header-mid">
+
+                <div className="nav-block">
+                    <Link to={`medicine_overview/${this.state.patientId}`}><p>Medicación</p></Link>
+                </div>
+
+                <div className="nav-block">
+                    <Link to={`/events-overview/${this.state.patientId}`}><p>Eventos</p></Link>
+                </div>
+
+                <div className="nav-block">
+                    <Link to={`/patient_new_reading/${this.state.patientId}`}><p>Peso</p></Link>
+                </div>
+
+            </div>
+
+            <div className="header-right">
+
+                <div className="nav-block">
+                    {<span onClick={this.signOut}><Link to="/login"><p>Sign-out</p></Link></span>}
+                </div>
+
+            </div>
+
+        </div>
                             
 
         );
     }
 }
-export default EventFirstHeader;
+export default HeaderGral;

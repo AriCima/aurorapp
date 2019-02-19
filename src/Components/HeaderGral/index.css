@@ -1,6 +1,6 @@
 .header{
     top: 0px;
-    height: 60px;
+    height: 40px;
     width: 100%;
     margin-top: 0px;
     position: fixed;
@@ -9,58 +9,54 @@
     display: flex;
     justify-content: flex-start;
     align-content: center;
-    background-color: white; ;  /* #D36582; */
-    border: solid 1px rgb(0, 187, 150); 
-    color: white;
-    box-shadow: 0 4px 2px -2px rgba(0, 187, 150, 0.3);
-
+    background-color: rgba(125, 125, 125, 0.05); 
+    /* border: solid 1px  rgb(0, 187, 150); */
+    box-shadow: 0 4px 2px -2px rgba(0, 187, 150), 0.5;
 }
 
 a{
-    color:  rgb(0, 187, 150);
+    color: rgb(125, 125, 125);
     text-decoration: none;
 }
 
 .header-left{
-    width: 33%;
+    width: 40%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
 
-.header-left .title{
-
-    margin-left: 20px;
-}
-
-.header-left .title p{
-    color:  rgb(0, 187, 150);
-    font-weight: 700;
-    font-size: 1.25rem;
-}
-
 .header-mid{
-    width: 33%;
+    width: 40%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-content: center;
 }
 
 .nav-block{
+    width: 90px;
     margin-left: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.nav-block p{
-   color:  rgb(0, 187, 150);
-   font-weight: 600;
-   font-size: 25px;
+.nav-block:hover{
+    border-bottom: 2px solid rgba(0, 187, 150, 1);
+    color: rgba(0, 187, 150, 1);
 }
 
+
+.nav-block p{
+    font-size: 14px;
+    color: rgb(125, 125, 125);
+    padding: 0;
+    margin: 0;
+}
+
+
 .header-right{
-    width: 33%;
+    width: 20%;
     display: flex;
     justify-content: flex-end;
     align-content: center;

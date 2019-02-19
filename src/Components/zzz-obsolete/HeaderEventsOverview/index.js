@@ -8,7 +8,7 @@ import DataService from '../services/DataService';
 
 import './index.css';
 
-class HeaderReadingInput extends Component {
+class HeaderEventOver extends Component {
    constructor(props){
     super(props);
 
@@ -33,8 +33,7 @@ class HeaderReadingInput extends Component {
         patientName     : res.patientName,
         patientSurname  : res.patientSurname,        
     });
-    
-        console.log('el patientName = ', this.state.patientName)
+
     })
     .catch(function (error) {    
     console.log(error);
@@ -52,38 +51,48 @@ class HeaderReadingInput extends Component {
     }
 
     render() {
-        console.log('el user en el HeaderReadingInput', this.props.patID)
+       
         return (
 
             <div className="header">
 
-                <div className="header-left">
-                    <div className="nav-block">
-                    <Link to={`/patient/${this.props.patID}`}><h2>Back</h2></Link>
-                    </div>
-                </div>
+            <div className="header-left">
 
-                <div className="header-mid">
+            <div className="nav-block">
+                <Link to={`/home/${this.state.userId}`}><p>{this.state.patientName}</p></Link>
+            </div>
 
-                    <div className="nav-block">
-                        {this.state.patientName && <h2>Página de Registro</h2>}
-                    </div>
+            </div>
 
-                    
-                </div>
+            <div className="header-mid">
 
-                <div className="header-right">
+            <div className="nav-block">
+                <Link to={`medicine_overview/${this.state.patientId}`}><p>Medicación</p></Link>
+            </div>
 
-                    <div className="nav-block">
-                        {<span onClick={this.signOut}><Link to="/login">Sign-out</Link></span>}
-                    </div>
+            <div className="nav-block">
+                <Link to={`/events-overview/${this.state.patientId}`}><p>Eventos</p></Link>
+            </div>
 
+            <div className="nav-block">
+                <Link to={`/patient_new_reading/${this.state.patientId}`}><p>Peso</p></Link>
+            </div>
+
+
+            </div>
+
+            <div className="header-right">
+
+                <div className="nav-block">
+                    {<span onClick={this.signOut}><Link to="/login"><p>Sign-out</p></Link></span>}
                 </div>
 
             </div>
+
+        </div>
                             
 
         );
     }
 }
-export default HeaderReadingInput;
+export default HeaderEventOver;

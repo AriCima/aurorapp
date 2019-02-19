@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 
-import './index.css';
+import '../HeaderGral/index.css';
 
 class HeaderLanding extends Component {
   
@@ -9,37 +9,45 @@ class HeaderLanding extends Component {
     render() {
         return (
 
-            <div className="landing-header">
+            <div className="header">
 
-                <div className="lheader-left">
+                <div className="header-left">
 
-                    <div className="lnav-block">
+                    <div className="nav-block">
                     <Link to="/href"> AurorApp</Link>
                     </div>
 
                 </div>
 
-                <div className="lheader-right">
+                <div className="header-right">
 
-                    <div className="lnav-block">
+                    <div className="nav-block">
                         <Link to="/href">La App</Link>
                     </div>
 
-                    <div className="lnav-block">
+                    <div className="nav-block">
                         <Link to="/href">Nosotros</Link>
                     </div>
 
-                    <div className="lnav-block">
+                    <div className="nav-block">
                         <Link to="/href">Contacto</Link>
                     </div>
 
                     
-                    <div className="lnav-block">
+                    <div className="nav-block">
                         <Link to="/register">Sign-up</Link>
                     </div>
 
-                    <div className="lnav-block">
+                    <div className="nav-block">
                         <Link to="/login">Log-In</Link>
+                    </div>
+
+                    <div className="header-right">
+
+                        <div className="nav-block">
+                            <Link to="/login">Log-In</Link>
+                        </div>
+
                     </div>
 
                 </div>
