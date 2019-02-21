@@ -173,14 +173,17 @@ class MedicineInput extends React.Component {
             this.state.dailyDose22,
             this.state.dailyDose23]
         let units           = this.state.doseUnits;
-        let dCode           = Calculations.generateCode()
+        let dCode           = Calculations.generateCode();
+
+        console.log('drugUnits = ', this.state.doseUnits);
+        console.log('newDate = ', newDate);
 
         let totalDayDose = Number(this.state.dailyDose0) + Number(this.state.dailyDose1) + Number(this.state.dailyDose2) + Number(this.state.dailyDose3) + Number(this.state.dailyDose4) + Number(this.state.dailyDose5) + Number(this.state.dailyDose6) + Number(this.state.dailyDose7) + Number(this.state.dailyDose8) +
         Number(this.state.dailyDose9) + Number(this.state.dailyDose10) + Number(this.state.dailyDose11) + Number(this.state.dailyDose12) + Number(this.state.dailyDose13) + Number(this.state.dailyDose14) + Number(this.state.dailyDose15) + Number(this.state.dailyDose16) + Number(this.state.dailyDose17) + Number(this.state.dailyDose18) + Number(this.state.dailyDose19) +
         Number(this.state.dailyDose20) + Number(this.state.dailyDose21) + Number(this.state.dailyDose22) + Number(this.state.dailyDose23);
 
 
-        let newDose = {date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose};
+        let newDose = {date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose, drugUnits: units};
         let dosis = [];
         dosis.push(newDose);
 
@@ -230,7 +233,6 @@ class MedicineInput extends React.Component {
                             /> 
                         </label>
 
-
                         <label>
                             <p>Nombre</p>
                             <input id="med-input"
@@ -244,12 +246,13 @@ class MedicineInput extends React.Component {
 
                         <label>
                             <p>Unidades [mg / ml]</p>
-                            <select id="select-input">
-                                <option value="mg">mg</option>
+                            <select id="select-input" 
+                                value={this.state.doseUnits} 
+                                onChange={(e)=>{this.onChangeState('doseUnits', e.target.value)}}>
+                                <option selected value="mg">mg</option>
                                 <option value="ml">ml</option>
                             </select>
                         </label>
-
 
                         <label>
                             <p>Dosis</p>

@@ -85,7 +85,7 @@
 }
 
 .chart-box:hover .chartBox-Title h2{
-    color: rgba(0, 187, 150, 1)
+    color: rgb(0, 194, 216);
 }
 .chart-box-right{
     margin-left: 5px;

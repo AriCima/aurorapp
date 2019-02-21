@@ -61,7 +61,7 @@ class HeaderEventFirst extends Component {
             <div className="header-left">
 
             <div className="nav-block">
-                <Link to={`/home/${this.state.userId}`}><p>{this.state.patientName}</p></Link>
+                <Link to={`/home/${this.state.userId}`}><p className="header-texts">{this.state.patientName}</p></Link>
             </div>
 
             </div>
@@ -69,15 +69,15 @@ class HeaderEventFirst extends Component {
             <div className="header-mid">
 
             <div className="nav-block">
-                <Link to={`medicine_overview/${this.state.patientId}`}><p>Medicación</p></Link>
+                <Link to={`medicine_overview/${this.state.patientId}`}><p className="header-texts">Medicación</p></Link>
             </div>
 
             <div className="nav-block">
-                <Link to={`/events-overview/${this.state.patientId}`}><p>Eventos</p></Link>
+                <Link to={`/events-overview/${this.state.patientId}`}><p className="header-texts">Eventos</p></Link>
             </div>
 
             <div className="nav-block">
-                <Link to={`/patient_new_reading/${this.state.patientId}`}><p>Peso</p></Link>
+                <Link to={`/patient_new_reading/${this.state.patientId}`}><p className="header-texts">Peso</p></Link>
             </div>
 
 
@@ -86,7 +86,7 @@ class HeaderEventFirst extends Component {
             <div className="header-right">
 
                 <div className="nav-block">
-                    {<span onClick={this.signOut}><Link to="/login"><p>Sign-out</p></Link></span>}
+                    {<span onClick={this.signOut}><Link to="/login"><p className="header-texts">Sign-out</p></Link></span>}
                 </div>
 
             </div>

@@ -44,7 +44,7 @@ export default class CurrentMed extends React.Component {
       for (let k = 0; k < meds.length; k++){ // --> iteración medicinas
 
         let dName   = meds[k].drugName;
-        let dunits  = meds[k].drugUnits;
+        let dunits  = meds[k].doseUnits;
         let index   = meds[k].dose.length; 
         let dDose   = meds[k].dose[index-1].dailyDose;
         let hDose   = meds[k].dose[index-1].hourlyDose;

@@ -25,7 +25,7 @@
 
 .home-title h3{
     font-size: 22px;
-    color: rgb(0, 144, 248);
+    color: rgb(0, 194, 216);
 }
 
 .home-add-button{
@@ -37,9 +37,10 @@
 
 
 .patients-list{
-    width: 100%;
+    width: 90%;
+    margin-top: 30px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -55,7 +56,7 @@
     height: 140px;
     margin: 15px;
     border-radius: 10px;
-    border: solid 2px rgb(0, 144, 248);
+    border: solid 2px rgb(0, 194, 216);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,7 +67,7 @@
     box-shadow: 5px 5px rgb(187, 184, 184);
 }
 
-.new-pat-container{
+/* .new-pat-container{
     width: 210px;
     height: 140px;
     margin: 15px;
@@ -77,7 +78,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
+} */
 
 .ptts-info-block{
     width: 100%;
@@ -88,7 +89,7 @@
 }
 
 .ptts-info-block p{
-    color: rgb(0, 144, 248);
+    color: rgb(0, 187, 150);
     font-weight: 600;
 }
 

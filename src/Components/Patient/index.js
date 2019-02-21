@@ -49,7 +49,7 @@ export default class Patient extends React.Component {
 
             <div className="sq-line" id="upper-line">
 
-              <Link to={`/events-overview/${this.state.patientId}`} className="chart-box" id="pat-Info">
+              <Link to={`/single-patient-overview/${this.state.patientId}`} className="chart-box" id="pat-Info">
                 
                 <div className="chart-upper">
                   <div className="chartBox-Title">
@@ -58,7 +58,7 @@ export default class Patient extends React.Component {
                   
                   <div className="chart-add-button">
                     <div>
-                        <Link to={`/add_patient/${this.state.userId}`}><MyButtonPlain text={'EDITAR'}/></Link>
+                        <Link to={`/single-patient-overview/${this.state.patientId}`}><MyButtonPlain text={'EDITAR'}/></Link>
                     </div>
                   </div>
                 </div>

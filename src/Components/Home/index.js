@@ -28,30 +28,44 @@ export default class Home extends React.Component {
 
 
   componentDidMount() {
+
     if (this.state.userId) {
-    this._loadData(this.state.userId);
+
+      DataService.getUserPatients(this.state.userId)
+      .then(patients => {
+
+        this.setState({
+          userPatients : patients
+        });
+        
+      }).catch(function (error) {   
+        // handle error
+        console.log(error);
+      })
    
     }
   };
 
-  _loadData(userId){
+  // _loadData(userId){
 
-    DataService.getUserInfo(userId)
-    .then(ptts => {
-      console.log('el ptts recibido en home es: ', ptts)
-      this.setState({
-        userPatients : ptts.userPatients
-      });
+
+
+  // DataService.getUserPatients(userId)
+  //   .then(ptts => {
+  //     console.log('el ptts recibido en home es: ', ptts)
+  //     this.setState({
+  //       userPatients : ptts.userPatients
+  //     });
       
-    }).catch(function (error) {   
-      // handle error
-      console.log(error);
-    })
-  };
+  //   }).catch(function (error) {   
+  //     // handle error
+  //     console.log(error);
+  //   })
+  // };
 
   _renderPatients(){
     return this.state.userPatients.map((patts,j) => {
-      console.log('el patts es = ', patts);
+      
       return (
         <div className="patient-container">
           <Link className="pat-box" key={j} to={`/patient/${patts.patientId}`}> 

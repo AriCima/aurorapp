@@ -41,10 +41,38 @@ export default class DataService {
             
         });
     };
+    
+    static getUserPatients(userId){
+
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('patients').where(`adminId`, `==` , userId).get()
+
+            .then((result) => {
+            
+                let pats=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    pats.push(j);
+                })
+                
+                resolve(pats);  
+            })
+            // .then((result) => {
+            //     //console.log('el result del getuser Info = ', result.data())
+            //     resolve(result.data());  
+            //     console.log('result.data() en el get user patients', result.data()) // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
+            // })
+            .catch((error) => {
+                reject('Usuario no existe');
+            })
+            
+        });
+    };
 
     // PATIENT
     static newPatient(patientInfo) {  
-            console.log('info del patient a guardar = ', patientInfo )
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('patients').add(patientInfo)
@@ -64,6 +92,37 @@ export default class DataService {
             
         });
     };
+
+    static editPatient(patID, patientInfo) {
+        return new Promise((resolve, reject) => {
+
+            console.log('patientInfo.adminId', patientInfo.adminId)
+
+            firebase.firestore().collection('patients').doc(patID).update({
+                patient             : patientInfo.adminId,
+                patientName         : patientInfo.name,     
+                patientSurname      : patientInfo.surname,  
+                bornDate            : patientInfo.born,   
+                patientsEvents      : patientInfo.events, 
+                patientsWeights     : patientInfo.weights,  
+                patientsMedicines   : patientInfo.medicines,
+            })
+
+            .then((result) => {
+                
+                console.log(`${result.id} patient succesfully EDITED !`)
+                resolve(result);
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('patient could not be EDITED: ', errorCode);
+               // var errorMessage = error.message;
+                
+            })
+            
+        });
+    }
     static getPatientToJoin(patientCode) {  
         console.log('patientCode recibido en el join del Data =', patientCode);
         return new Promise((resolve, reject) => {
@@ -114,29 +173,7 @@ export default class DataService {
             
         });
     };
-    static getUserPatients(userId){
-        return new Promise((resolve, reject) => {
-            console.log('el userID en getpatients = ', userId)
-            firebase.firestore().collection('patients').where(``,`==`, userId).get()
-            .then((result) => {
-            
-                let jms=[];
-                result.docs.forEach((d) => {
-                    let j = d.data();
-                    j.id=d.id;
-                    jms.push(j);
-                })
-                resolve(jms);  
-            })
 
-            .catch((error) => {
-               console.log('error: ', error)
-                // reject('Usuario no existe', error)
-
-            })
-            
-        });
-    };
     static addPatientToUser(userID, newpatient){
         return new Promise((resolve, reject) => {
             console.log('inputs en el dataservice ', userID, newpatient);

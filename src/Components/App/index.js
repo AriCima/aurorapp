@@ -17,6 +17,7 @@ import Landing from '../A-Landing';
 
 import Patient from '../Patient';
 import PatientInput from '../PatientInput';
+import PatientOverview from '../PatientOverview';
 
 import EventsOverview from '../EventsOverview';
 import SingleEvent from '../EventSingle';
@@ -50,7 +51,9 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      user  : null,
+      user    : null,
+      userId  : '',
+      userName: '',
     }
   }
 
@@ -61,10 +64,14 @@ class App extends Component {
         console.log()
         DataService.getUserInfo(user.uid)
         .then(result => {
+
+          console.log('result en APP = ', result)
           result.id = user.uid;
           
           this.setState({
-            user: result
+            user      : result,
+            userId    : result.id,
+            userName  : result.name,
           });
         })
         .catch(function (error) {    
@@ -80,8 +87,7 @@ class App extends Component {
   }
 
   render() {
-    const { user } = this.state;
-
+    // const { user } = this.state;
     return (
       <div>
 
@@ -92,9 +98,12 @@ class App extends Component {
             <div className="app-header">
             
               <Switch>
-                <Route path="/landing"  render = {() => { return  <HeaderLanding />}}/>
-                <Route path="/home/:user"  render = {(props) => { return  <Header user={user} />}}/>
+
+                <Route path="/landing"  exact render = {() => { return  <HeaderLanding/>}}/>
+                <Route path="/home/:userId"  render = {(props) => { return  <Header userID={props.match.params.userId} uName={this.state.userName}/>}}/>
+      
                 <Route path="/patient/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId}/>}}/>
+                <Route path="/single-patient-overview/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId}/>}}/>
 
                 <Route path="/events-overview/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId}/>}}/>
                 <Route path="/first-event/:patientId" exact render = {(props) => { return <HeaderEventFirst propsFn={props.history} patID={props.match.params.patientId}/>}}/>
@@ -105,9 +114,8 @@ class App extends Component {
                 <Route path="/patient_new_medicine/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId} />}}/> */}
                 <Route path="/medicine_overview/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId} />}}/> */}
 
-                
-
               </Switch>
+
             </div>
         
             <div className="app-body">
@@ -118,6 +126,7 @@ class App extends Component {
                 <Route path="/register" render = {(props) => {return <Register propsFn={props.history}/>}}/> 
 
                 <Route path="/home/:user" render = {(props) => { return <Home userID={props.match.params.user}/>}}/>
+                <Route path="/single-patient-overview/:patientId" exact render = {(props) => { return <PatientOverview propsFn={props.history} patID={props.match.params.patientId}/>}}/>
                 <Route path="/add_patient/:user" exact render = {(props) => { return <PatientInput propsFn={props.history} userID={props.match.params.user}/>}}/>
 
                 <Route path="/first-event/:patientId" exact render = {(props) => { return <FirstEvent propsFn={props.history} patID={props.match.params.patientId}/>}}/>

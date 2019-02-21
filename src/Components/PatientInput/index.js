@@ -60,6 +60,7 @@ class PatientInput extends React.Component {
         super(props);
         this.state = { 
             adminId             : this.props.userID,
+            patientId           : '',
             userPatients        : [],
             patientName         : '',
             patientSurname      : '',
@@ -103,7 +104,6 @@ class PatientInput extends React.Component {
 
         let transWeights = [];
         transWeights.push(newWeight);
-        console.log('transWeights = ', transWeights)
 
         let newState = {
             adminId                : this.state.adminId,
@@ -115,40 +115,40 @@ class PatientInput extends React.Component {
             patientsMedicines      : this.state.patientsMedicines,
         };
        
-        console.log('new state = ', newState)
         DataService.newPatient(newState)
         //console.log('userPatients al crear newPatient', this.state.userPatients)
         .then((result)=>{
-           
-            let newPatient = {
-                patientId           : result.id,
-                patientName         : this.state.patientName,
-                patientSurname      : this.state.patientSurname,
-                admin               : true,
-                moderator           : true,
-            }
-            console.log('userPatients luego de crear newPatient', this.state.userPatients);
-            let transPatient = this.state.userPatients;
+           console.log('el result.id', result.id)
+            let patID = result.id;
+        //         patientName         : this.state.patientName,
+        //         patientSurname      : this.state.patientSurname,
+        //         admin               : true,
+        //         moderator           : true,
+        //     }
+        //     console.log('userPatients luego de crear newPatient', this.state.userPatients);
+        //     let transPatient = this.state.userPatients;
 
-            if(transPatient.length === 0){
-                transPatient[0] = newPatient;
-            } else {
-                transPatient.push(newPatient);
-            }
+        //     if(transPatient.length === 0){
+        //         transPatient[0] = newPatient;
+        //     } else {
+        //         transPatient.push(newPatient);
+        //     }
             
         
             this.setState({
-                userPatients : transPatient,
+                patientId : patID,
             })
-            console.log('this.state.adminId, this.state.userPatients', this.state.adminId, ' / ', this.state.userPatients)
-            DataService.addPatientToUser(this.state.adminId, this.state.userPatients)  
-            this.props.propsFn.push(`/first-event/${newPatient.patientId}`);
-
+        //     console.log('this.state.adminId, this.state.userPatients', this.state.adminId, ' / ', this.state.userPatients)
+        //     // DataService.addPatientToUser(this.state.adminId, this.state.userPatients)  
+        //     this.props.propsFn.push(`/first-event/${newPatient.patientId}`);
+            this.props.propsFn.push(`/first-event/${this.state.patientId}`);
         })
         .catch(function (error) {    
             console.log(error);
         })
-            
+
+       
+
     };
 
   

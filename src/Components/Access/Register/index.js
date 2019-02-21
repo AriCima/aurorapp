@@ -64,7 +64,6 @@ export default class Register extends Component {
           let userToRegister = {
             name          : this.state.name,
             email         : this.state.email, 
-            userPatients  : [],
           }
 
           DataService.saveUserInfoInFirestore(result.user.uid, userToRegister)

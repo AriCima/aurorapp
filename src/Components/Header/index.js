@@ -9,7 +9,7 @@ class Header extends Component {
     super(props);
 
     this.state = {
-        user : this.props.user,
+        userId : this.props.userID,
     }
 
     this.signOut = this.signOut.bind(this);
@@ -27,21 +27,21 @@ class Header extends Component {
     }
 
     render() {
-        console.log('el user en el Header', this.props.user)
+        console.log('el user en el Header', this.props.userID)
         return (
 
             <div className="header">
 
                 <div className="header-left">
-                    <div className="nav-block">
-                        <Link to={`/home/${this.state.user.id}`}><p>{this.props.user.name}</p></Link>
+                    <div className="nav-block-left">
+                       <p>Hola {this.props.uName}  !</p>
                     </div>
                 </div>
 
                 <div className="header-mid">
 
                     <div className="nav-block">
-                        <p>AurorApp</p>
+                        <p className="header-texts">AurorApp</p>
                     </div>
 
                     
@@ -51,7 +51,7 @@ class Header extends Component {
 
                     <div className="nav-block">
                         {this.props.user ? 
-                            <span onClick={this.signOut}><Link to="/login"><p>Sign-out</p></Link></span>
+                            <span onClick={this.signOut}><Link to="/login"><p className="header-texts">Sign-out</p></Link></span>
                             :
                             <Link to="/login"><p>Sign-in</p></Link>}
                     </div>
