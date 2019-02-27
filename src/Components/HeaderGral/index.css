@@ -1,3 +1,6 @@
+/* https://stackoverflow.com/questions/4502633/how-to-affect-other-elements-when-a-div-is-hovered
+#container:hover > #cube { background-color: yellow; } */
+
 .header{
     top: 0px;
     height: 40px;

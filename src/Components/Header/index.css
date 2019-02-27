@@ -1,3 +1,6 @@
+/* https://stackoverflow.com/questions/4502633/how-to-affect-other-elements-when-a-div-is-hovered
+#container:hover > #cube { background-color: yellow; } */
+
 .header{
     top: 0px;
     height: 60px;
@@ -60,10 +63,6 @@
 .nav-block:hover > p{
     color: rgba(0, 187, 150, 0.5)
 }
-
-
-/* https://stackoverflow.com/questions/4502633/how-to-affect-other-elements-when-a-div-is-hovered
-#container:hover > #cube { background-color: yellow; } */
 
 .nav-block:hover .headet-texts{
     color: rgba(0, 187, 150, 1);

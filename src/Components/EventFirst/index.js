@@ -80,8 +80,8 @@ class FirstEvent extends React.Component {
           const pat = res;
          // console.log("Res del patientInfo: ", res)
           this.setState({ 
-            patientsEvents   : pat.patientsEvents,     
-            patientName      : pat.patientName,   
+            patientsEvents  : pat.patientsEvents,     
+            patientName     : pat.patientName,   
           });
         })
         .catch(function (error) {    
