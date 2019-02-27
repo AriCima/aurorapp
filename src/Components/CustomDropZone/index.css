@@ -1,0 +1,10 @@
+.dropzone{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropzone:hover{
+    background-color: rgba(0, 187, 150, 0.1);
+}

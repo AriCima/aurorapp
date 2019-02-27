@@ -198,6 +198,7 @@ export default class EventInput extends React.Component {
                                 acceptedFiles="image/jpeg, image/png, video/mp4, video/mpeg"
                                 uploadFolder={`patientID:${this.state.patientId}/${this.state.eventCode}`}
                                 name="Imágenes / Videos"
+                                background="white"
                                 text="Arrastra tus archivos hasta aquí"
                             />  
 

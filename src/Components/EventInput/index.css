@@ -30,7 +30,7 @@
   align-items: center;
 }
 #nev-input-area{
-  background-color: rgba(248, 248, 248, 1);
+  background-color: rgba(0, 187, 150, 0.09);
   height: 100%;
   width: 85%;
   margin: 0px 0px 10px 0px;
@@ -49,6 +49,12 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+}
+
+input:hover, textarea:hover, input:focus, input:active, textarea:focus, textarea:active {
+  border: 2px solid rgba(0, 187, 150, 1);
+  outline: 0;
+  box-shadow: none;
 }
 .label-date{
   width: 220px;
@@ -74,11 +80,6 @@ label p{
   color: rgb(134, 134, 134);
   text-align: center;
 }
-.input-date:focus, .input-short:focus{
-  border: 2px solid rgba(0, 187, 150, 1);
-  box-shadow: none;
-
-}
 
 .input-short{
   height: 40px;
@@ -94,6 +95,7 @@ label p{
 
 .nev-textarea-row{
   margin-top: 20px;
+  margin-bottom: 20px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;

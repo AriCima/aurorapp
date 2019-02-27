@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Dropzone from 'react-dropzone';
 
+// CSS
+import './index.css'; 
+
 import UploadService from '../services/UploadService'
 
 export default class CustomDropZone extends React.Component {
@@ -78,7 +81,7 @@ export default class CustomDropZone extends React.Component {
                 {this.loading ? 
                     <p>Loading: {uploadProgress}%</p>
                     :
-                    error ? <p>{error}</p> : <p><br/><br/><br/><br/>{this.props.text}</p>}
+                    error ? <p>{error}</p> : <p>{this.props.text}</p>}
                 </Dropzone>
             </div>
         );
