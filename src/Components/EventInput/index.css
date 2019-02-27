@@ -1,58 +1,136 @@
-
-.form-container{
+.nev-form-container{
   width: 100%;
   margin-top: 80px;
+  margin-bottom: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.form-title{
-  width: 80%;
+.nev-form-title{
+  width: 85%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 }
 
-.form-title h4{
-  color: rgba(0, 144, 248, 1);
+.nev-form-title h2{
+  color:  rgba(0, 198, 220, 1);
   font-weight: 700;
   font-size: 22px;
 }
 
-#form-format{
+#nev-form-format{
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 }
-#input-area{
-  background-color: rgba(0, 144, 248, 0.2);
-  width: 80%;
+#nev-input-area{
+  background-color: rgba(248, 248, 248, 1);
+  height: 100%;
+  width: 85%;
   margin: 0px 0px 10px 0px;
+  border-radius: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
-#input-fields{
-  margin: 10px 10px;
-  color: white;
+.nev-input-row{
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.label-date{
+  width: 220px;
+  margin: 5px 15px;
 }
 
-#input-fields-select{
-  margin: 26px 10px;
+.label-short{
+  width: 170px;
+  margin: 5px 25px;
 }
 
-.button-area{
-  margin-left: 0px;
+label p{
+  color: rgb(134, 134, 134);
+}
+
+.input-date{
+  height: 40px;
+  margin-top: 5px;
+  width: 100%;
+  border: 1px solid rgb(152, 152, 152);
+  border-radius: 5px;
+  font-size: 16px;
+  color: rgb(134, 134, 134);
+  text-align: center;
+}
+.input-date:focus, .input-short:focus{
+  border: 2px solid rgba(0, 187, 150, 1);
+  box-shadow: none;
+
+}
+
+.input-short{
+  height: 40px;
+  margin-top: 5px;
+  width: 100%;
+  background-color: white;
+  border: 1px solid rgb(152, 152, 152);
+  border-radius: 5px;
+  font-size: 16px;
+  color: rgb(134, 134, 134);
+  text-align: center;
+}
+
+.nev-textarea-row{
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.nev-textarea-label{
+  width: 45%;
+  height: 100%;
+}
+
+.nev-textarea{
+  margin-top: 5px;
+  width: 100%;
+  height: 200px;
+  background-color: white;
+  border: 1px solid rgb(152, 152, 152);
+  border-radius: 5px;
+  font-size: 16px;
+  color: rgb(134, 134, 134);
+  text-align: left;
+}
+.nev-docs-row{
+  height: 100%;
+  width: 45%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nev-button-area{
+  margin: 20px 0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  width: 80%;
-
+  width: 85%;
 }
 
 

@@ -70,7 +70,6 @@
     height: 100%;
     border: 2px solid rgba(152, 152, 152, 0.1);
     border-radius: 10px;
-   
     margin: 5px;
     margin-bottom: 5px;
     display: flex;
@@ -145,9 +144,6 @@
 
 /* EVENTS LISTINGS */
 
-/* Header */
-
-/* _render  */
 
 .lower-area{
     width: 100%;

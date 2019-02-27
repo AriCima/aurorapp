@@ -146,7 +146,7 @@ class FirstEvent extends React.Component {
         <div className="form-container">
 
             <div className="form-title">
-                <h4>Por favor ingresa la información que dispongas del primer evento de {this.state.patientName}</h4>
+                <h2>Por favor ingresa la información que dispongas del primer evento de {this.state.patientName}</h2>
             </div>
 
             <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewEvent}>

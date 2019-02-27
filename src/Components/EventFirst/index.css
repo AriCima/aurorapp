@@ -15,8 +15,8 @@
   justify-content: flex-start;
 }
 
-.form-title h4{
-  color: rgba(0, 144, 248, 1);
+.form-title h2{
+  color: rgb(152, 152, 152);
   font-weight: 700;
   font-size: 22px;
 }

@@ -26,8 +26,8 @@ const styles = theme => ({
     alignItems: 'center',
     boxShadow: 'none',
     '&:hover': {
-      backgroundColor: 'white',
-      color: 'rgb(0, 187, 150)',
+      backgroundColor: 'rgba(0, 187, 150, 0.5)',
+      color: 'white',
     },
   },
   extendedIcon: {

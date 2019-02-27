@@ -4,55 +4,17 @@ import React from 'react';
 import DataService from '../services/DataService';
 import Calculations from '../services/Calculations';
 import CustomDropZone from '../CustomDropZone';
-import DropzoneWithPreview from '../CustomDropWithPrev';
 
-// MATERIAL-UI
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Button from '@material-ui/core/Button';
+//ACCESORIES
+import SubmitButton from '../Accessories/SubmitButton';
+import DropzoneWithPreview from '../CustomDropWithPrev';
 
 // CSS
 import './index.css'; 
 
 
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  menu: {
-    width: 200,
-  },
-  button: {
-    margin: theme.spacing.unit,
-    background: 'rgb(0, 144, 248);',
-  },
-  input: {
-    display: 'none',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
-});
-
-
-class EventInput extends React.Component {
+export default class EventInput extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
@@ -139,164 +101,118 @@ class EventInput extends React.Component {
 
   
   render() {
-    const { classes } = this.props;
 
     return (
 
-        <div className="form-container">
+        <div className="nev-form-container">
 
-            <div className="form-title">
-                <h4>ADD NEW Event</h4>
+            <div className="nev-form-title">
+                <h2>Nuevo Evento</h2>
             </div>
 
-            <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewEvent}>
+            <form  id="nev-form-format" onSubmit={this.onNewEvent}>
             
-                <div id="input-area">
+                <div id="nev-input-area">
 
-                    <div id="input-fields-select">
-                        <TextField
-                            id="date"
-                            label="Fecha"
-                            type="date"
-                            defaultValue="dd/mm/yyyy"
-                            className={classes.textField}
-                            value={this.state.eventDate}
-                            onChange={(e)=>{this.onChangeState('eventDate', e.target.value)}}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                    <div className="nev-input-row">
+                    
+                        <label className="label-date">
+                            <p>Fecha</p>
+                            <input className="input-date"
+                                size="150"
+                                type="date"
+                                value={this.state.date}
+                                onChange={(e)=>{this.onChangeState('date', e.target.value)}}
+                            /> 
+                        </label>
+
+                        <label className="label-short">
+                            <p>Comienzo [Hr:mm]</p>
+                            <input className="input-short" type="text" name="Comienzo"
+                                size="150" 
+                                value={this.state.startTime}
+                                onChange={(e)=>{this.onChangeState('startTime', e.target.value)}}
+                            /> 
+                        </label>
+
+                        <label className="label-short">
+                            <p>Duración [min]</p>
+                            <input className="input-short" type="text" name="Duración"
+                                value={this.state.duration}
+                                onChange={(e)=>{this.onChangeState('duration', e.target.value)}}
+                            /> 
+                        </label>
+
+                        <label className="label-short">
+                            <p>Saturación mínima [%]</p>
+                            <input className="input-short" type="text" name="Saturaciín Mínima"
+                                value={this.state.minSaturation}
+                                onChange={(e)=>{this.onChangeState('minSaturation', e.target.value)}}
+                            /> 
+                        </label>
+
+
+                        <label className="label-short">
+                            <p>Fiebre [ºC]</p>
+                            <input className="input-short" type="text" name="Fiebre"
+                                value={this.state.fever}
+                                onChange={(e)=>{this.onChangeState('fever', e.target.value)}}
+                            /> 
+                        </label>
+
                     </div>
 
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Comienzo"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.startTime}
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start">Hr:min</InputAdornment>,
-                              }}
-                            onChange={(e)=>{this.onChangeState('startTime', e.target.value)}}
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Duración"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.duration}
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start">Mins</InputAdornment>,
-                              }}
-                            onChange={(e)=>{this.onChangeState('duration', e.target.value)}}
+                    <div className="nev-textarea-row">
 
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Saturación mínima"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.minSaturation}
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start"> % </InputAdornment>,
-                              }}
-                            onChange={(e)=>{this.onChangeState('minSaturation', e.target.value)}}
+                        <label className="nev-textarea-label">
+                            <p>Detonante</p>
+                            <textarea className="nev-textarea"
+                                name="Detonante"
+                                value={this.state.detonation}
+                                onChange={(e)=>{this.onChangeState('detonation', e.target.value)}}
+                            /> 
+                        </label>
+                    
+                        <label className="nev-textarea-label">
+                            <p>Observación Clínica</p>
+                            <textarea className="nev-textarea"
+                                name="Observación"
+                                value={this.state.clinicObservation}
+                                onChange={(e)=>{this.onChangeState('clinicObservation', e.target.value)}}
+                            /> 
+                        </label>
 
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="with-placeholder"
-                            label="Fiebre"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.fever}
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start"> ºC</InputAdornment>,
-                              }}
-                            onChange={(e)=>{this.onChangeState('fever', e.target.value)}}
+                        <label className="nev-textarea-label">
+                            <p>Acción</p>
+                            <textarea className="nev-textarea"
+                                name="Acción"
+                                value={this.state.action}
+                                onChange={(e)=>{this.onChangeState('action', e.target.value)}}
+                            /> 
+                        </label>
 
-                        />
+                        <div className="nev-docs-row">
+
+                            <CustomDropZone 
+                                onFileUpload={(fileUrl)=>{this.onChangeState('eventPics', fileUrl)}}
+                                acceptedFiles="image/jpeg, image/png, video/mp4, video/mpeg"
+                                uploadFolder={`patientID:${this.state.patientId}/${this.state.eventCode}`}
+                                name="Imágenes / Videos"
+                                text="Arrastra tus archivos hasta aquí"
+                            />  
+
+                            </div>
                     </div>
 
-                    <div id="input-fields">
-                        <TextField
-                            id="standard-multiline-flexible"
-                            label="Observación clínica"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.clinicObservation}
-                            onChange={(e)=>{this.onChangeState('clinicObservation', e.target.value)}}
-
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="standard-multiline-flexible"
-                            label="Acción"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.action}
-                            onChange={(e)=>{this.onChangeState('action', e.target.value)}}
-
-                        />
-                    </div>
-                    <div id="input-fields">
-                        <TextField
-                            id="standard-multiline-flexible"
-                            label="Detonante"
-                            className={classes.textField}
-                            margin="normal"
-                            value={this.state.detonation}
-                            //onChange={this.onChangeEventRooms}
-                            onChange={(e)=>{this.onChangeState('detonation', e.target.value)}}
-
-                        />
-                    </div>
-
-                    <div id="input-field">
-                        <CustomDropZone 
-                            onFileUpload={(fileUrl)=>{this.onChangeState('eventPics', fileUrl)}}
-                            acceptedFiles="image/jpeg, image/png, video/mp4, video/mpeg"
-                            uploadFolder={`patientID:${this.state.patientId}/${this.state.eventCode}`}
-                            name="Imágenes / Videos"
-                            text="Arrastra tus archivos hasta aquí"
-                        />  
-                    </div>
-
-                    {/* <div id="input-field">
-                        <DropzoneWithPreview 
-                            onFileUpload={(fileUrl)=>{this.onChangeState('eventPics', fileUrl)}}
-                            acceptedFiles="image/jpeg, image/png, video/mp4, video/mpeg"
-                            uploadFolder={`events-files/${this.state.patientId}/${this.state.eventCode}`}
-                            name="Img / Vid"
-                            text="Arrastra tus archivos hasta aquí"
-                        />  
-                    </div> */}
-                   
-  
                 </div>
 
-                <div className="button-area">
-                    
-                        <Button variant="contained" color="primary" className={classes.button} type="submit">
-                            Enviar
-                        </Button>
-                    
+                <div className="nev-button-area">
+                   <SubmitButton text={'GUARDAR'}/>
                 </div>
+           
             </form>
         </div>
     );
   }
 }
 
-EventInput.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(EventInput);
