@@ -105,6 +105,7 @@ label p{
 .nev-textarea-label{
   width: 45%;
   height: 100%;
+  margin: 0px 30px 0 20px;;
 }
 
 .nev-textarea{
@@ -121,7 +122,7 @@ label p{
 .nev-docs-row{
   height: 100%;
   width: 45%;
-  margin: 0;
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;

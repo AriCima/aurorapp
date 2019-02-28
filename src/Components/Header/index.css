@@ -30,7 +30,7 @@
     justify-content: flex-start;
     align-content: center;
 }
-.header-mid .nav-block, .header-left .nav-block{
+.header-mid .nav-block, .header-left .nav-block, .header-right .nav-block{
     width: 90px;
     margin-left: 20px;
     display: flex;
@@ -45,6 +45,10 @@
 }
 
 .nav-block:hover > a > p, .nav-block:focus > a > p, .nav-block:active > a > p{
+    color: rgba(0, 144, 248, 1);
+}
+
+.nav-block:hover > p, .nav-block:focus > p, .nav-block:active > p{
     color: rgba(0, 144, 248, 1);
 }
 
@@ -85,9 +89,13 @@
     width: 20%;
     display: flex;
     justify-content: flex-end;
-    align-content: center;
+    align-items: center;
 }
 
 .header-right .nav-block{
     margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }

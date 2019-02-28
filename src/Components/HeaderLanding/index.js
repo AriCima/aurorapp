@@ -22,15 +22,15 @@ class HeaderLanding extends Component {
                 <div className="header-mid">
 
                     <div className="nav-block">
-                        <Link to="/href">La App</Link>
+                        <Link to="/href"><p>La App</p></Link>
                     </div>
 
                     <div className="nav-block">
-                        <Link to="/href">Nosotros</Link>
+                        <Link to="/href"><p>Nosotros</p></Link>
                     </div>
 
                     <div className="nav-block">
-                        <Link to="/href">Contacto</Link>
+                        <Link to="/href"><p>Contacto</p></Link>
                     </div>
 
                 </div>
@@ -38,11 +38,11 @@ class HeaderLanding extends Component {
                 <div className="header-right">
 
                         <div className="nav-block">
-                            <Link to="/login">Log-In</Link>
+                            <Link to="/login"><p>Log-in</p></Link>
                         </div>
 
                         <div className="nav-block">
-                            <Link to="/register">Sign-up</Link>
+                            <Link to="/register"><p>Sign-up</p></Link>
                         </div>
                     </div>
 

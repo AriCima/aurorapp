@@ -181,6 +181,9 @@ export default class EventInput extends React.Component {
                                 onChange={(e)=>{this.onChangeState('clinicObservation', e.target.value)}}
                             /> 
                         </label>
+                    </div>
+                    
+                    <div className="nev-textarea-row">
 
                         <label className="nev-textarea-label">
                             <p>Acción</p>
@@ -203,6 +206,8 @@ export default class EventInput extends React.Component {
                             />  
 
                             </div>
+                    
+                    
                     </div>
 
                 </div>

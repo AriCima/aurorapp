@@ -36,7 +36,7 @@ a{
     align-content: center;
 }
 
-.header-mid .nav-block, .header-left .nav-block{
+.header-mid .nav-block, .header-left .nav-block, .header-right .nav-block{
     width: 90px;
     margin-left: 20px;
     display: flex;
@@ -55,6 +55,9 @@ a{
     color: rgba(0, 144, 248, 1);
 }
 
+.nav-block:hover > p, .nav-block:focus > p, .nav-block:active > p{
+    color: rgba(0, 144, 248, 1);
+}
 .nav-block p{
     font-size: 18px;
     color: rgb(125, 125, 125);
@@ -67,9 +70,14 @@ a{
     width: 20%;
     display: flex;
     justify-content: flex-end;
-    align-content: center;
+    align-items: center;
 }
 
-.header-right .nav-block{
+/* .header-right .nav-block{
     margin-right: 20px;
-}
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    width: 90px
+} */

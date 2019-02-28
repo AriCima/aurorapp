@@ -107,7 +107,7 @@ export default class Patient extends React.Component {
                     
                   <div className="chart-add-button">
                     <div>
-                        <Link to={`/medicine_overview/${this.state.patientId}`}><MyButtonPlain text={'Nuevo Medicamento'}/></Link>
+                        <Link to={`/patient_new_medicine/${this.state.patientId}`}><MyButtonPlain text={'Nuevo Medicamento'}/></Link>
                     </div>
                   </div>
                 </div>
