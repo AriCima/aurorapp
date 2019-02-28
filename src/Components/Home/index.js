@@ -82,7 +82,7 @@ export default class Home extends React.Component {
           </div>
 
           <div className="home-title">
-            <h3>Listado de pacientes</h3>
+            <h2>Listado de pacientes</h2>
           </div>
 
           

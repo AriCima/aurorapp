@@ -4,59 +4,12 @@ import React from 'react';
 import DataService from '../services/DataService';
 import Calculations from '../services/Calculations';
 
-// MATERIAL-UI
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+// ACCESORIES
 import SubmitButton from '../Accessories/MyButtonPlain';
 
 import './index.css'; 
 
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  menu: {
-    width: 200,
-  },
-  button: {
-    margin: theme.spacing.unit,
-    background: 'rgb(0, 144, 248);',
-  },
-  input: {
-    display: 'none',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
-});
-
-const units = [
-    {
-      value: 'mg',
-      label: 'mg',
-    },
-    {
-      value: 'ml',
-      label: 'ml',
-    },
-];
-
-class MedicineInput extends React.Component {
+export default class MedicineInput extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
@@ -207,25 +160,24 @@ class MedicineInput extends React.Component {
 
   
   render() {
-    const { classes } = this.props;
 
     return (
 
-        <div className="form-container">
+        <div className="med-form-container">
 
-            <div className="form-title">
-                <h2>Registrar una medicación</h2>
+            <div className="med-form-title">
+                <h2>Nuevo medicamento</h2>
             </div>
 
-            <form  id="form-format" className={classes.container} noValidate autoComplete="off" onSubmit={this.onNewMedicine}>
+            <form  id="med-form-format" onSubmit={this.onNewMedicine}>
             
-                <div id="input-dose-area">
+                <div id="med-input-area">
 
                     <div className="med-input-row">
 
-                        <label>
+                        <label className="med-label-date">
                             <p>Fecha</p>
-                            <input id="input-date"
+                            <input id="med-input"
                                 size="150"
                                 type="date"
                                 value={this.state.date}
@@ -233,8 +185,8 @@ class MedicineInput extends React.Component {
                             /> 
                         </label>
 
-                        <label>
-                            <p>Nombre</p>
+                        <label className="med-label-info">
+                            <p>Nombre de la droga</p>
                             <input id="med-input"
                                 size="150"
                                 type="text"
@@ -244,17 +196,7 @@ class MedicineInput extends React.Component {
                         </label>
 
 
-                        <label>
-                            <p>Unidades [mg / ml]</p>
-                            <select id="select-input" 
-                                value={this.state.doseUnits} 
-                                onChange={(e)=>{this.onChangeState('doseUnits', e.target.value)}}>
-                                <option selected value="mg">mg</option>
-                                <option value="ml">ml</option>
-                            </select>
-                        </label>
-
-                        <label>
+                        <label className="med-label-info">
                             <p>Dosis</p>
                             <input id="med-input"
                                 size="150"
@@ -263,15 +205,31 @@ class MedicineInput extends React.Component {
                                 onChange={(e)=>{this.onChangeState('drugDose', e.target.value)}}
                             /> 
                         </label>
+                   
+
+                        <label className="med-label-short">
+                            <p>Unidades</p>
+                            <select id="med-select-input" 
+                                value={this.state.doseUnits} 
+                                onChange={(e)=>{this.onChangeState('doseUnits', e.target.value)}}>
+                                <option selected value="mg">mg</option>
+                                <option value="ml">ml</option>
+                            </select>
+                        </label>
+
                     </div>
-                    <div className="doses-input">
+
+                    <div className="med-input-row">
+
+                        <div className="doses-input">
 
                         <div className="med-list-title">
-                            <h4>Dosis horaria del medicamento</h4>
+                            <h2>Detalle a continuación la dosis horaria del medicamento</h2>
                         </div>
 
-                        <div className="ul-equivalent">
-                                    <div id="single-day"><p>0</p></div>
+                        <div className="hs-inputs">
+                            <div className="ul-equivalent">
+                                    <div id="single-day">0</div>
                                     <div id="single-day">1</div>
                                     <div id="single-day">2</div>
                                     <div id="single-day">3</div>
@@ -297,11 +255,11 @@ class MedicineInput extends React.Component {
                                     <div id="single-day">23</div>
                                 </div>
 
-                        <div className="dose-inputs">
+                            <div className="dose-inputs">
                            
                            <div className="hourly-input">
                                 <input  id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose0} 
                                     onChange={(e)=>{this.onChangeState('dailyDose0', e.target.value)}}
@@ -309,7 +267,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose1} 
                                     onChange={(e)=>{this.onChangeState('dailyDose1', e.target.value)}}
@@ -317,7 +275,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3" 
                                     value={this.state.dailyDose2} 
                                     onChange={(e)=>{this.onChangeState('dailyDose2', e.target.value)}}
@@ -325,7 +283,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose3} 
                                     onChange={(e)=>{this.onChangeState('dailyDose3', e.target.value)}}
@@ -333,7 +291,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3" 
                                     value={this.state.dailyDose4} 
                                     onChange={(e)=>{this.onChangeState('dailyDose4', e.target.value)}}
@@ -341,7 +299,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3" 
                                     value={this.state.dailyDose5} 
                                     onChange={(e)=>{this.onChangeState('dailyDose5', e.target.value)}}
@@ -349,7 +307,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose6} 
                                     onChange={(e)=>{this.onChangeState('dailyDose6', e.target.value)}}
@@ -357,7 +315,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose7} 
                                     onChange={(e)=>{this.onChangeState('dailyDose7', e.target.value)}}
@@ -365,7 +323,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose8} 
                                     onChange={(e)=>{this.onChangeState('dailyDose8', e.target.value)}}
@@ -373,7 +331,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose9} 
                                     onChange={(e)=>{this.onChangeState('dailyDose9', e.target.value)}}
@@ -381,7 +339,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3" 
                                     value={this.state.dailyDose10} 
                                     onChange={(e)=>{this.onChangeState('dailyDose10', e.target.value)}}
@@ -389,7 +347,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose11} 
                                     onChange={(e)=>{this.onChangeState('dailyDose11', e.target.value)}}
@@ -397,7 +355,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose12} 
                                     onChange={(e)=>{this.onChangeState('dailyDose12', e.target.value)}}
@@ -405,7 +363,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose013} 
                                     onChange={(e)=>{this.onChangeState('dailyDose13', e.target.value)}}
@@ -413,7 +371,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose14} 
                                     onChange={(e)=>{this.onChangeState('dailyDose14', e.target.value)}}
@@ -421,7 +379,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose15} 
                                     onChange={(e)=>{this.onChangeState('dailyDose15', e.target.value)}}
@@ -429,7 +387,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose16} 
                                     onChange={(e)=>{this.onChangeState('dailyDose16', e.target.value)}}
@@ -437,7 +395,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose17} 
                                     onChange={(e)=>{this.onChangeState('dailyDose17', e.target.value)}}
@@ -445,7 +403,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose18} 
                                     onChange={(e)=>{this.onChangeState('dailyDose18', e.target.value)}}
@@ -453,7 +411,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose19} 
                                     onChange={(e)=>{this.onChangeState('dailyDose19', e.target.value)}}
@@ -461,7 +419,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose20} 
                                     onChange={(e)=>{this.onChangeState('dailyDose20', e.target.value)}}
@@ -469,7 +427,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose21} 
                                     onChange={(e)=>{this.onChangeState('dailyDose21', e.target.value)}}
@@ -477,7 +435,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose22} 
                                     onChange={(e)=>{this.onChangeState('dailyDose22', e.target.value)}}
@@ -485,7 +443,7 @@ class MedicineInput extends React.Component {
                             </div>
                             <div className="hourly-input">
                                 <input id="input-dosis"
-                                    type="number" 
+                                    type="text" 
                                     size="3"
                                     value={this.state.dailyDose23} 
                                     onChange={(e)=>{this.onChangeState('dailyDose23', e.target.value)}}
@@ -494,16 +452,16 @@ class MedicineInput extends React.Component {
 
                     
                         </div>
+                        
+                        </div>
                     </div>
-
-                    <div className="button-area">
-                    
-                        <SubmitButton text={'GUARDAR'} fn={this.onNewMedicine}/>
-                
                     </div>
                    
                 </div>
 
+                <div className="med-button-area"> 
+                    <SubmitButton text={'GUARDAR'} fn={this.onNewMedicine}/>
+                </div>
               
             </form>
 
@@ -511,9 +469,3 @@ class MedicineInput extends React.Component {
     );
   }
 }
-
-MedicineInput.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(MedicineInput);

@@ -18,39 +18,6 @@ import Button from '@material-ui/core/Button';
 import './index.css'; 
 
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  menu: {
-    width: 200,
-  },
-  button: {
-    margin: theme.spacing.unit,
-    background: 'rgb(0, 144, 248);',
-  },
-  input: {
-    display: 'none',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
-});
-
 const units = [
     {
       value: 'mg',
@@ -62,7 +29,7 @@ const units = [
     },
 ];
 
-class EventsOverview extends React.Component {
+export default class EventsOverview extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
@@ -133,7 +100,7 @@ class EventsOverview extends React.Component {
                 
                 <div className="med-add-button">
                     <div>
-                        <Link to={`/patient_new_medicine/${this.state.patientId}`}><AddButtonCool text={'Nuevo Evento'}/></Link>
+                        <Link to={`/new_event_register/${this.state.patientId}`}><AddButtonCool text={'Nuevo Evento'}/></Link>
                     </div>
                 </div>
             </div>
@@ -162,9 +129,3 @@ class EventsOverview extends React.Component {
     );
   }
 }
-
-EventsOverview.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(EventsOverview);

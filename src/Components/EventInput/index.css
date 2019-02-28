@@ -16,9 +16,9 @@
 }
 
 .nev-form-title h2{
-  color:  rgba(0, 198, 220, 1);
+  color:  rgb(0, 144, 248);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 28px;
 }
 
 #nev-form-format{
@@ -30,7 +30,7 @@
   align-items: center;
 }
 #nev-input-area{
-  background-color: rgba(0, 187, 150, 0.09);
+  background-color: rgba(0, 144, 248, 0.09);
   height: 100%;
   width: 85%;
   margin: 0px 0px 10px 0px;
@@ -52,7 +52,7 @@
 }
 
 input:hover, textarea:hover, input:focus, input:active, textarea:focus, textarea:active {
-  border: 2px solid rgba(0, 187, 150, 1);
+  border: 2px solid rgba(0, 144, 248, 1);
   outline: 0;
   box-shadow: none;
 }

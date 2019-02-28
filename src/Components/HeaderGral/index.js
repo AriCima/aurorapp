@@ -67,7 +67,7 @@ class HeaderGral extends Component {
             <div className="header-mid">
 
                 <div className="nav-block">
-                    <Link to={`medicine_overview/${this.state.patientId}`}><p className="header-texts">Medicación</p></Link>
+                    <Link to={`/medicine_overview/${this.state.patientId}`}><p className="header-texts">Medicación</p></Link>
                 </div>
 
                 <div className="nav-block">
