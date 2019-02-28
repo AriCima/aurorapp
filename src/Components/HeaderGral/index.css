@@ -3,7 +3,7 @@
 
 .header{
     top: 0px;
-    height: 40px;
+    height: 60px;
     width: 100%;
     margin-top: 0px;
     position: fixed;
@@ -26,7 +26,7 @@ a{
     width: 40%;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-content: center;
 }
 
 .header-mid{
@@ -36,7 +36,7 @@ a{
     align-content: center;
 }
 
-.nav-block{
+.header-mid .nav-block, .header-left .nav-block{
     width: 90px;
     margin-left: 20px;
     display: flex;
@@ -44,22 +44,19 @@ a{
     align-items: center;
 }
 
-.nav-block:hover{
-    border-bottom: 2px solid rgba(0, 187, 150, 0.5);
+
+.nav-block:hover, .nav-block:focus, .nav-block:active{
+    border-bottom: 2px solid rgba(0, 144, 248, 1);
+    outline: 0;
+    box-shadow: none;
 }
 
-.nav-block:hover > a > p{
-    color: rgba(0, 187, 150, 0.5)
+.nav-block:hover > a > p, .nav-block:focus > a > p, .nav-block:active > a > p{
+    color: rgba(0, 144, 248, 1);
 }
-
-
-.nav-block:hover .headet-texts{
-    color: rgba(0, 187, 150, 1);
-}
-
 
 .nav-block p{
-    font-size: 14px;
+    font-size: 18px;
     color: rgb(125, 125, 125);
     padding: 0;
     margin: 0;

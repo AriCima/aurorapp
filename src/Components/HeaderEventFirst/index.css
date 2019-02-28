@@ -23,46 +23,45 @@ a{
 }
 
 .header-left{
-    width: 20%;
+    width: 40%;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
-}
-
-.header-mid{
-    width: 60%;
-    display: flex;
-    justify-content: space-between;
     align-content: center;
 }
 
-.nav-block{
-    width: 30%;
+.header-mid{
+    width: 40%;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.header-mid .nav-block, .header-left .nav-block{
+    width: 90px;
     margin-left: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+
+.nav-block:hover, .nav-block:focus, .nav-block:active{
+    border-bottom: 2px solid rgba(0, 144, 248, 1);
+    outline: 0;
+    box-shadow: none;
+}
+
+.nav-block:hover > a > p, .nav-block:focus > a > p, .nav-block:active > a > p{
+    color: rgba(0, 144, 248, 1);
+}
+
 .nav-block p{
-    font-size: 14px;
+    font-size: 18px;
     color: rgb(125, 125, 125);
     padding: 0;
     margin: 0;
 }
 
-.nav-block:hover{
-    border-bottom: 2px solid rgba(0, 187, 150, 0.5);
-}
-
-.nav-block:hover > p{
-    color: rgba(0, 187, 150, 0.5)
-}
-
-
-.nav-block:hover .headet-texts{
-    color: rgba(0, 187, 150, 1);
-}
 
 
 .header-right{

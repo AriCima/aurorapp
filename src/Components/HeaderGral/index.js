@@ -59,7 +59,11 @@ class HeaderGral extends Component {
             <div className="header-left">
 
                 <div className="nav-block">
-                    <Link to={`/home/${this.state.userId}`}><p className="header-texts">{this.state.patientName}</p></Link>
+                    <Link to={`/home/${this.state.userId}`}><p className="header-texts">Inicio</p></Link>
+                </div>
+
+                <div className="nav-block">
+                    <Link to={`/patient/${this.state.patientId}`}><p className="header-texts">{this.state.patientName}</p></Link>
                 </div>
 
             </div>
