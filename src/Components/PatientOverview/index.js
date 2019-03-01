@@ -17,7 +17,7 @@ export default class PatientOverview extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
-            adminId         : '',
+            adminId         : this.props.userID,
             patientId       : this.props.patID,
             patientName     : '',
             patientSurname  : '',
@@ -25,19 +25,15 @@ export default class PatientOverview extends React.Component {
             birthWeight     : '',
             pregIssues      : '',
             birthIssues     : '',
-            // patientsEvents      : [], 
-            // patientsMedicines   : [],
-            // patientsWeights     : [], 
-            // cWeight             : '',
-        };
 
-        // this.onEditPatient = this.onEditPatient.bind(this);
+        };
+        this.onEditPatient = this.onEditPatient.bind(this)
     }
 
     componentDidMount(){ 
         DataService.getPatientInfo(this.state.patientId)
         .then(res => {
-            console.log('el res = ', res)
+
             let admin   = res.adminId;
             let name    = res.patientName;
             let surname = res.patientSurname;
@@ -66,8 +62,17 @@ export default class PatientOverview extends React.Component {
                 // patientsWeights     : weight,
                 // cWeight             : lastWeight,
             });
+
         })
+
     }
+
+    // componentDidUpdate(prevProps){
+    //     if (this.props.userID !== prevProps.userID) {
+    //         this.setState({
+    //             adminId : prevProps.userID})
+    //     }
+    // }
 
     onChangeState(field, value){
         let patientInfo = this.state;
@@ -77,9 +82,7 @@ export default class PatientOverview extends React.Component {
 
     onEditPatient(e){
         e.preventDefault(); 
-        console.log('SUBMIT WORKS FINE');
-        // let today = moment(new Date()).format('DD-MMM-YYYY');
-        // let rCode = Calculations.generateCode();
+        console.log('SUBMIT WORKS FINE', this.state.patientName);
 
         let editedPatient = {
             adminId   : this.state.adminId,
@@ -94,12 +97,8 @@ export default class PatientOverview extends React.Component {
             // medicines : this.state.patientsMedicines,
         };
        
-        console.log('editedPatient = ', editedPatient)
-
         let patID = this.state.patientId;
-
-        console.log('patID enviado', patID)
-        
+          
         DataService.editPatient(patID, editedPatient);
         // .then((result)=>{
            
@@ -129,12 +128,12 @@ export default class PatientOverview extends React.Component {
 
   
     render() {
-
+        console.log(this.props.userID)
         return (
     
             <div className="pat-in-form-container">
     
-                <form  id="pat-in-form-format" onSubmit={this.onNewPatient}>
+                <form  id="pat-in-form-format" onSubmit={this.onEditPatient}>
                 
                     <div className="pat-in-form-title">
                         <h2>Modificar datos del paciente</h2>

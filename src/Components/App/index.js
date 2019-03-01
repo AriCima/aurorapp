@@ -67,7 +67,7 @@ class App extends Component {
 
           console.log('result en APP = ', result)
           result.id = user.uid;
-          
+          console.log('result.id', result.id)
           this.setState({
             user      : result,
             userId    : result.id,
@@ -127,7 +127,7 @@ class App extends Component {
                 <Route path="/register" render = {(props) => {return <Register propsFn={props.history}/>}}/> 
 
                 <Route path="/home/:user" render = {(props) => { return <Home userID={props.match.params.user}/>}}/>
-                <Route path="/single-patient-overview/:patientId" exact render = {(props) => { return <PatientOverview propsFn={props.history} patID={props.match.params.patientId}/>}}/>
+                <Route path="/single-patient-overview/:patientId" exact render = {(props) => { return <PatientOverview propsFn={props.history} userID={this.state.userId} patID={props.match.params.patientId}/>}}/>
                 <Route path="/add_patient/:user" exact render = {(props) => { return <PatientInput propsFn={props.history} userID={props.match.params.user}/>}}/>
 
                 <Route path="/first-event/:patientId" exact render = {(props) => { return <FirstEvent propsFn={props.history} patID={props.match.params.patientId}/>}}/>

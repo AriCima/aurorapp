@@ -106,9 +106,9 @@ export default class DataService {
                 birthWeight         : patientInfo.weight,
                 pregIssues          : patientInfo.pIssues,
                 birthIssues         : patientInfo.bIssues,
-                patientsEvents      : patientInfo.events, 
-                patientsWeights     : patientInfo.weights,  
-                patientsMedicines   : patientInfo.medicines,
+                // patientsEvents      : patientInfo.events, 
+                // patientsWeights     : patientInfo.weights,  
+                // patientsMedicines   : patientInfo.medicines,
             })
 
             .then((result) => {
@@ -196,7 +196,7 @@ export default class DataService {
     }
 
     // EVENT
-    static addNewEvent(stateInfo) {  
+    static newEvent(stateInfo) {  
         console.log('info del estado a guardar = ', stateInfo )
     return new Promise((resolve, reject) => {
 
@@ -238,6 +238,23 @@ export default class DataService {
         
     });
     };
+
+    static getEventsInfo(patID){
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('events').where("patientId", "==", patID).get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+                });
+            })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
+        })
+    }
+    
+
     static getEventInfo(eventID) {  
 
         return new Promise((resolve, reject) => {

@@ -18,7 +18,7 @@ export default class EventInput extends React.Component {
         super(props);
         this.state = { 
             patientId           : this.props.patID,
-            eventDate           : '',
+            date                : '',
             startTime           : '',
             duration            : '',
             minSaturation       : '',
@@ -65,7 +65,7 @@ export default class EventInput extends React.Component {
 
         let newEvent = {
             patientId           : this.props.patID,
-            date                : this.state.eventDate,
+            date                : this.state.date,
             startTime           : this.state.startTime,
             duration            : this.state.duration,
             minSaturation       : this.state.minSaturation,
@@ -75,7 +75,8 @@ export default class EventInput extends React.Component {
             detonation          : this.state.detonation,
         }
 
-        DataService.addNewEvent(newEvent)
+        console.log('newEvent = ', newEvent);
+        DataService.newEvent(newEvent)
         .then((result) => {
 
             newEvent.eventId = result.id;

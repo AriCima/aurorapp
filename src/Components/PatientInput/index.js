@@ -31,7 +31,6 @@ export default class PatientInput extends React.Component {
             patientsMedicines   : [],
 
         };
-        this.onNewPatient             = this.onNewPatient.bind(this);
     }
 
     componentDidMount(){ // Obtengo todos los Patients del user para agregarle el nuevo
