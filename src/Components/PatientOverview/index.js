@@ -17,44 +17,54 @@ export default class PatientOverview extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
-            adminId             : '',
-            patientId           : this.props.patID,
-            patientName         : '',
-            patientSurname      : '',
-            bornDate            : '',
-            patientsEvents      : [], 
-            patientsMedicines   : [],
-            patientsWeights     : [], 
-            cWeight             : '',
+            adminId         : '',
+            patientId       : this.props.patID,
+            patientName     : '',
+            patientSurname  : '',
+            birthDate       : '',
+            birthWeight     : '',
+            pregIssues      : '',
+            birthIssues     : '',
+            // patientsEvents      : [], 
+            // patientsMedicines   : [],
+            // patientsWeights     : [], 
+            // cWeight             : '',
         };
 
-        this.onEditPatient = this.onEditPatient.bind(this);
+        // this.onEditPatient = this.onEditPatient.bind(this);
     }
 
     componentDidMount(){ 
         DataService.getPatientInfo(this.state.patientId)
         .then(res => {
+            console.log('el res = ', res)
             let admin   = res.adminId;
             let name    = res.patientName;
             let surname = res.patientSurname;
-            let born    = res.bornDate;
-            let events  = res.patientsEvents; 
-            let med     = res.patientsMedicines;
-            let weight  = res.patientsWeights;
+            let born    = res.birthDate;
+            let weight  = res.birthWeight;
+            let bIssues = res.birthIssues;
+            let pIssues = res.pregIssues;
+            // let events  = res.patientsEvents; 
+            // let med     = res.patientsMedicines;
+            // let weight  = res.patientsWeights;
 
-            let sortedWeights = Calculations.sortByDateAsc(weight);
-            let long          = sortedWeights.length;
-            let lastWeight    = sortedWeights[long-1].weight;
+            // let sortedWeights = Calculations.sortByDateAsc(weight);
+            // let long          = sortedWeights.length;
+            // let lastWeight    = sortedWeights[long-1].weight;
 
             this.setState({
-                adminId             : admin,
-                patientName         : name,
-                patientSurname      : surname,
-                bornDate            : born,
-                patientsEvents      : events,
-                patientsMedicines   : med,
-                patientsWeights     : weight,
-                cWeight             : lastWeight,
+                adminId        : admin,
+                patientName    : name,
+                patientSurname : surname,
+                birthDate      : born,
+                birthWeight    : weight,
+                pregIssues     : bIssues,
+                birthIssues    : pIssues,
+                // patientsEvents      : events,
+                // patientsMedicines   : med,
+                // patientsWeights     : weight,
+                // cWeight             : lastWeight,
             });
         })
     }
@@ -75,10 +85,13 @@ export default class PatientOverview extends React.Component {
             adminId   : this.state.adminId,
             name      : this.state.patientName, 
             surname   : this.state.patientSurname, 
-            born      : moment(this.state.bornDate).format('DD-MMM-YYYY'),
-            events    : this.state.patientsEvents,
-            weights   : this.state.patientsWeights,
-            medicines : this.state.patientsMedicines,
+            born      : moment(this.state.birthDate).format('DD-MMM-YYYY'),
+            weight    : this.state.birthWeight,
+            pIssues   : this.state.pregIssues,
+            bIssues   : this.state.birthIssues,
+            // events    : this.state.patientsEvents,
+            // weights   : this.state.patientsWeights,
+            // medicines : this.state.patientsMedicines,
         };
        
         console.log('editedPatient = ', editedPatient)
@@ -115,81 +128,98 @@ export default class PatientOverview extends React.Component {
     };
 
   
-  render() {
+    render() {
 
-    return (
-
-        <div className="form-container">
-
-
-            <form  id="form-format" noValidate autoComplete="off" onSubmit={this.onEditPatient}>
-            
-
-                <div className="form-title">
-                    <h1>Información de <span>{this.state.patientName} {this.state.patientSurname}</span></h1>
-                </div>
-
-
-                <div id="input-area">
-
-                    <div className="med-input-row">
-
-                        <label>
-                            <p>Nombre</p>
-                            <input id="input-date"
-                                size="150"
-                                type="text"
-                                value={this.state.patientName}
-                                onChange={(e)=>{this.onChangeState('patientName', e.target.value)}}
-                            /> 
-                        </label>
-
-                        <label>
-                            <p>Apellido</p>
-                            <input id="input-date"
-                                size="150"
-                                type="text"
-                                value={this.state.patientSurname}
-                                onChange={(e)=>{this.onChangeState('patientSurname', e.target.value)}}
-                            /> 
-                        </label>
-
-                        <label>
-                            <p>Fecha de nacimiento</p>
-                            <input id="input-date"
-                                size="150"
-                                type="text"
-                                value={this.state.bornDate}
-                                onChange={(e)=>{this.onChangeState('bornDate', e.target.value)}}
-                            /> 
-                        </label>
-
-                        <label>
-                            <p>Peso actual</p>
-                            <input id="input-date"
-                                size="150"
-                                type="text"
-                                value={this.state.cWeight}
-                                // onChange={(e)=>{this.onChangeState('cWeight', e.target.value)}}
-                            /> 
-                        </label>
-
+        return (
+    
+            <div className="pat-in-form-container">
+    
+                <form  id="pat-in-form-format" onSubmit={this.onNewPatient}>
+                
+                    <div className="pat-in-form-title">
+                        <h2>Modificar datos del paciente</h2>
                     </div>
-
-                    <div className="button-area">
-
-                        <SubmitButton 
-                            type="submit" 
-                            fn={this.onEditPatient} 
-                            text={'GUARDAR'}>
-                        </SubmitButton>
+    
+                    <div id="pat-in-input-area">
+    
+                        <div className="nev-input-row">
+                            
+                            <label className="pat-in-label-info">
+                                <p>Nombre</p>
+                                <input className="pat-in-input-info"
+                                    size="1"
+                                    type="text"
+                                    value={this.state.patientName}
+                                    onChange={(e)=>{this.onChangeState('patientName', e.target.value)}}
+                                /> 
+                            </label>
+    
+                            <label className="pat-in-label-info">
+                                <p>Apellido</p>
+                                <input className="pat-in-input-info"
+                                    size="1"
+                                    type="text"
+                                    value={this.state.patientSurname}
+                                    onChange={(e)=>{this.onChangeState('patientSurname', e.target.value)}}
+                                /> 
+                            </label>
+    
+                            <label className="pat-in-label-info">
+                                <p>Fecha de nacimiento</p>
+                                <input className="pat-in-input-date"
+                                    type="text"
+                                    value={this.state.birthDate}
+                                    onChange={(e)=>{this.onChangeState('birthDate', e.target.value)}}
+                                /> 
+                            </label>
+    
+                            <label className="pat-in-label-short">
+                                <p>Peso al nacer [kg]</p>
+                                <input className="input-date"
+                                    size="3"
+                                    type="text"
+                                    value={this.state.birthWeight}
+                                    onChange={(e)=>{this.onChangeState('birthWeight', e.target.value)}}
+                                /> 
+                            </label>
                         
+                        </div>
+    
+    
+                        <div className="pat-in-textarea-row">
+    
+                            <label className="pat-in-textarea-label">
+                                <p>Complicaciones durante el embarazo (si las hubo)</p>
+                                <textarea className="pat-in-textarea"
+                                    name="Acción"
+                                    value={this.state.pregIssues}
+                                    onChange={(e)=>{this.onChangeState('pregIssues', e.target.value)}}
+                                /> 
+                            </label>
+    
+    
+                            <label className="pat-in-textarea-label">
+                                <p>Complicaciones en el parto (si las hubo)</p>
+                                <textarea className="pat-in-textarea"
+                                    name="Acción"
+                                    value={this.state.birthIssues}
+                                    onChange={(e)=>{this.onChangeState('birthIssues', e.target.value)}}
+                                /> 
+                            </label>
+    
+                           
+                        
+                        </div>
+    
+    
+    
                     </div>
-                </div>
-
-            </form>
-        </div>
-    );
-  }
-}
-
+    
+                    <div className="pat-in-button-area">
+                       <SubmitButton text={'GUARDAR'}/>
+                    </div>
+                </form>
+            </div>
+        );
+      }
+    }

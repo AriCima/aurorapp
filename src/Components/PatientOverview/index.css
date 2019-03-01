@@ -1,57 +1,120 @@
 
-.form-container{
+.pat-in-form-container{
   width: 100%;
   margin-top: 80px;
+  margin-bottom: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.form-title{
-  width: 80%;
+.pat-in-form-title{
+  width: 85%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 }
 
-.form-title h4{
-  color: rgba(0, 144, 248, 1);
+.pat-in-form-title h2{
+  color:  rgb(0, 144, 248);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 28px;
 }
 
-#form-format{
+#pat-in-form-format{
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 }
-#input-area{
-  width: 80%;
+#pat-in-input-area{
+  background-color: rgba(0, 144, 248, 0.09);
+  height: 100%;
+  width: 85%;
   margin: 0px 0px 10px 0px;
+  border-radius: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
-#input-fields{
-  margin: 10px 10px;
-  color: white;
+.pat-in-input-row{
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-#input-fields-select{
-  margin: 26px 10px;
+input:hover, textarea:hover, input:focus, input:active, textarea:focus, textarea:active {
+  border: 2px solid rgba(0, 144, 248, 1);
+  outline: 0;
+  box-shadow: none;
 }
 
-.button-area{
-  margin-left: 0px;
+.pat-in-label-info{
+  width: 220px;
+  margin: 5px 15px;
+}
+
+.pat-in-label-short{
+  width: 170px;
+  margin: 5px 25px;
+}
+
+label p{
+  color: rgb(134, 134, 134);
+}
+.pat-in-input-date{
+  height: 40px;
+  margin-top: 5px;
+  width: 100%;
+  border: 1px solid rgb(152, 152, 152);
+  border-radius: 5px;
+  font-size: 16px;
+  color: rgb(134, 134, 134);
+  text-align: center;
+}
+
+.pat-in-textarea-row{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.pat-in-textarea-label{
+  width: 45%;
+  height: 100%;
+  margin: 0px 30px 0 20px;;
+}
+
+.pat-in-textarea{
+  margin-top: 5px;
+  width: 100%;
+  height: 200px;
+  background-color: white;
+  border: 1px solid rgb(152, 152, 152);
+  border-radius: 5px;
+  font-size: 16px;
+  color: rgb(134, 134, 134);
+  text-align: left;
+}
+
+.pat-in-button-area{
+  margin: 20px 0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  width: 80%;
-
+  width: 85%;
 }
 
 

@@ -20,12 +20,11 @@ export default class Patient extends React.Component {
       patientId         : this.props.patID,
       patientName       : '',
       patientSurname    : '',
-      bornDate          : '',
-
-      patientsEvents    : [],
+      birthDate         : '',
+      birthWeight       : '',
       firstEventDate    : '',
-
-      currentWeight     : '',
+      // currentWeight     : '',
+      // patientsEvents    : [],
     }
 
   }
@@ -36,24 +35,26 @@ export default class Patient extends React.Component {
     .then(res => {
         let name            = res.patientName;
         let surname         = res.patientSurname;
-        let born            = res.bornDate
+        let born            = res.birthDate;
+        let bweight         = res.birthWeight;
 
         let eventsCopy      = [...res.patientsEvents];
         let eventsSorted    = Calculations.sortByEventDate(eventsCopy);   // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
         let firstEvent      = eventsSorted[0].date;
 
-        let weightsCopy     = [...res.patientsWeights];
-        let weightsSorted   = Calculations.sortByEventDate(weightsCopy);
-        let wL              = weightsSorted.length;
-        let cWeight         = weightsSorted[wL-1].weight;
+        // let weightsCopy     = [...res.patientsWeights];
+        // let weightsSorted   = Calculations.sortByEventDate(weightsCopy);
+        // let wL              = weightsSorted.length;
+        // let cWeight         = weightsSorted[wL-1].weight;
 
         this.setState({ 
             patientName       : name,
             patientSurname    : surname,
-            bornDate          : born, 
-            patientsEvents    : eventsSorted,   
+            birthDate         : born, 
+            birthWeight       : bweight,
+            // patientsEvents    : eventsSorted,   
             firstEventDate    : moment(firstEvent).format('DD-MMM-YYYY'),
-            currentWeight     : cWeight,
+            // currentWeight     : cWeight,
         });
     })
     .catch(function (error) {    
@@ -61,13 +62,13 @@ export default class Patient extends React.Component {
     })    
   }
 
-  componentDidUpdate(prevProps){
-    if (this.props.cWeight !== prevProps.cWeight) {
-        this.setState({
-            currentWeight: this.props.cWeight}
-        );
-    }
-  }
+  // componentDidUpdate(prevProps){
+  //   if (this.props.cWeight !== prevProps.cWeight) {
+  //       this.setState({
+  //           currentWeight: this.props.cWeight}
+  //       );
+  //   }
+  // }
 
   render() { 
       return (
@@ -85,7 +86,7 @@ export default class Patient extends React.Component {
                 <p>Fecha de nacimiento: </p>
                 </div>
                 <div className="patInfo-Info">
-                <h4>{this.state.bornDate}</h4>
+                <h4>{this.state.birthDate}</h4>
                 </div>
             </div>
             <div className="patient-info-block">
@@ -93,7 +94,7 @@ export default class Patient extends React.Component {
                 <p>Peso actual: </p>
                 </div>
                 <div className="patInfo-Info">
-                <h4>{this.state.currentWeight} Kg</h4>
+                <h4>{this.state.birthWeight} Kg</h4>
                 </div>
             </div>
             <div className="patient-info-block">

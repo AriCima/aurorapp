@@ -7,7 +7,6 @@ import CustomDropZone from '../CustomDropZone';
 
 //ACCESORIES
 import SubmitButton from '../Accessories/SubmitButton';
-import DropzoneWithPreview from '../CustomDropWithPrev';
 
 // CSS
 import './index.css'; 
