@@ -8,6 +8,7 @@ import Calculations from '../../services/Calculations';
 
 // CSS
 import './index.css';
+import { normalize } from 'path';
 
 export default class CurrentMed extends React.Component {
   constructor(props){
@@ -17,9 +18,8 @@ export default class CurrentMed extends React.Component {
       user              : this.props.userID,
       patientId         : this.props.patID,
 
-      medArray          : [],
-      medsTableInfo     : [],
-      currentMedicines  : [],
+      medsInfo          : [],
+      medNames          : [],
 
       patientsWeights   : [],
       currentWeight     : '',
@@ -27,82 +27,95 @@ export default class CurrentMed extends React.Component {
   }
  
   componentDidMount(){
-    DataService.getPatientInfo(this.state.patientId)
+
+    DataService.getPatientsMeds(this.props.patID)
     .then(res => {
+     
+      let meds = res;
+      let mL= meds.length;
+      let medNames = [];
 
-      let meds = [...res.patientsMedicines];
-      let weightsCopy     = [...res.patientsWeights];
-      let weightsSorted   = Calculations.sortByEventDate(weightsCopy);
-      let wL              = weightsSorted.length;
-      let cWeight         = weightsSorted[wL-1].weight;
+      for( let i = 0; i < mL; i++){
+        let newMed = meds[i].drugName;
 
-     // estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},
-      let medsTable = []; 
-      let currentMeds = [];
-
-  
-      for (let k = 0; k < meds.length; k++){ // --> iteración medicinas
-
-        let dName   = meds[k].drugName;
-        let dunits  = meds[k].drugUnits;
-        let index   = meds[k].dose.length; 
-        let dDose   = meds[k].dose[index-1].dailyDose;
-        let hDose   = meds[k].dose[index-1].hourlyDose;
-
-        // medsTable recoge toda la info para mostrarla en el cuadro de registro de medicamentos
-        medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose, drugDose: dDose};
-
-        let doseSorted = Calculations.sortMedicinesDate(meds[k].dose);
-        let dL = doseSorted.length;
-        let cDose = doseSorted[dL-1].dailyDose;
-
-
-        if(cDose === 0){
-          continue
-        } else {
-          currentMeds.push({medName: dName, medCDose: cDose, medUnit: dunits})
-        }
-
+        medNames.indexOf(newMed) < 0 && medNames.push(newMed);
+        
       }
 
-      this.setState({      // med oredered alpahbetically for listing purposes
-        medsTableInfo     : medsTable,
-        currentMedicines  : currentMeds,
-        currentWeight     : cWeight,
-      });
+      let mNL = medNames.length;
+      let medsChart = [];
+
+      for (let j = 0; j < mNL; j++){
+        let name = medNames[j];
+        let date = new Date(0);
+        let unit = 'mg';
+        let xDose = 0;
+
+        for (let k = 0; k < mL; k++){
+          if (name === meds[k].drugName && new Date(meds[k].date) > date){
+            if (meds[k].dailyDose === 0){
+              continue
+            } else {
+              xDose   = meds[k].dailyDose;
+              date    = meds[k].date;
+              unit    = meds[k].drugUnits;
+            }
+          }
+        }
+
+        let medToAdd = {drugName: name, dailyDose : xDose, drugUnits: unit};
+        medsChart.push(medToAdd);
+      }
+
+      this.setState({
+        medsInfo  : medsChart,
+        medArray  : meds,
+        medNames  : medNames
+      })
 
     })
     .catch(function (error) {    
       console.log(error);
-    })    
-  }
+    });
 
-  componentDidUpdate(prevProps){
-    if (this.props.cWeight !== prevProps.cWeight) {
+    DataService.getPatientsWeights(this.props.patID)
+    .then(weights => {
+
+      let wSorted = Calculations.sortByDateAsc(weights);
+      let wL = wSorted.length;
+
+      let cWeight = wSorted[wL-1].weight;
+
       this.setState({
-        currentWeight: this.props.cWeight
-      });
-    }
-  }
+        currentWeight : cWeight
+      })
+
+    })
+    .catch(function (error) {    
+      console.log(error);
+    });
+  };
+    
 
   _renderMedicineCurrentDose(){
     
-    return this.state.currentMedicines.map((meds,j) => {
-      console.log('medicines = ',this.state.currentMedicines )
+    console.log('this.state.currentWeight',this.state.currentWeight )
+    return this.state.medsInfo.map((meds,j) => {
+      // console.log('medicines = ',this.state.currentMedicines )
       return (
         
         <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.medName}`}> 
         
           <div className="med-info-block">
-            <p>{meds.medName}</p>
+            <p>{meds.drugName}</p>
           </div>
 
           <div className="med-info-block">
-            <p>{meds.medCDose} <span>[{meds.medUnit}]</span></p> 
+            <p>{meds.dailyDose} <span>[{meds.drugUnits}]</span></p> 
           </div>
 
           <div className="med-info-block">
-            <p>{Number.parseFloat((Number(meds.medCDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{meds.medUnit}/Kg]</span></p> 
+            <p>{Number.parseFloat((Number(meds.dailyDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{meds.drugUnits}/Kg]</span></p> 
           </div>
         </Link>
       )
@@ -128,7 +141,7 @@ export default class CurrentMed extends React.Component {
 
             </div>
             <div className="medicine-render">
-              {this.state.patientName === '' ? <p>LOADING !</p> :
+              {this.state.medsInfo === undefined ? <p>LOADING !</p> :
             
                 this._renderMedicineCurrentDose()
               }

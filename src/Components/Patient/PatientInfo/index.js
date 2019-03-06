@@ -23,7 +23,7 @@ export default class Patient extends React.Component {
       birthDate         : '',
       birthWeight       : '',
       firstEventDate    : '',
-      // currentWeight     : '',
+      currentWeight     : '',
       // patientsEvents    : [],
     }
 
@@ -36,7 +36,7 @@ export default class Patient extends React.Component {
         let name            = res.patientName;
         let surname         = res.patientSurname;
         let born            = res.birthDate;
-        let bweight         = res.birthWeight;
+        // let bweight         = res.birthWeight;
 
         let eventsCopy      = [...res.patientsEvents];
         let eventsSorted    = Calculations.sortByEventDate(eventsCopy);   // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
@@ -51,7 +51,7 @@ export default class Patient extends React.Component {
             patientName       : name,
             patientSurname    : surname,
             birthDate         : born, 
-            birthWeight       : bweight,
+            // birthWeight       : bweight,
             // patientsEvents    : eventsSorted,   
             firstEventDate    : moment(firstEvent).format('DD-MMM-YYYY'),
             // currentWeight     : cWeight,
@@ -59,7 +59,25 @@ export default class Patient extends React.Component {
     })
     .catch(function (error) {    
     console.log(error);
-    })    
+    })   
+
+    DataService.getPatientsWeights(this.props.patID)
+    .then(weights => {
+
+      let wSorted = Calculations.sortByDateAsc(weights);
+      console.log('wSorted', wSorted);
+      let wL = wSorted.length;
+
+      let cWeight = wSorted[wL-1].weight;
+
+      this.setState({
+        currentWeight : cWeight
+      })
+
+    })
+    .catch(function (error) {    
+      console.log(error);
+    }); 
   }
 
   // componentDidUpdate(prevProps){
@@ -94,7 +112,7 @@ export default class Patient extends React.Component {
                 <p>Peso actual: </p>
                 </div>
                 <div className="patInfo-Info">
-                <h4>{this.state.birthWeight} Kg</h4>
+                <h4>{this.state.currentWeight} Kg</h4>
                 </div>
             </div>
             <div className="patient-info-block">

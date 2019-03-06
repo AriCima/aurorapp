@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createFactory } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // AUX COMP
@@ -8,8 +8,9 @@ import moment from 'moment';
 import DataService from '../../services/DataService';
 import Calculations from '../../services/Calculations';
 
-// Components
+// ECHARTS LINES  --> https://ecomfe.github.io/echarts-examples/public/editor.html?c=line-simple
 import EChart from '../Cahrts/ECharts';
+
 
 // CSS
 import './index.css';
@@ -21,26 +22,48 @@ export default class MedWeightGraphic extends React.Component {
     this.state = {
       patientId         : this.props.patID,
       patientsMedicines : [],
+      medicinesNames    : [],
       weightsSorted     : [],
-      timeLineDays      :10,
+      timeLineDays      : 90,
     }
 
    
   }
 
   componentDidMount(){
-    DataService.getPatientInfo(this.state.patientId)
-    .then(res => {
 
-      let meds            = [...res.patientsMedicines];
-      let weightsCopy     = [...res.patientsWeights];
-      let wSorted         = Calculations.sortByDateAsc(weightsCopy);
-      let wL              = wSorted.length;
+    DataService.getPatientsMeds(this.props.patID)
+    .then(res => {
+      console.log('res en medicines = ', res)
+      let meds = res.meds;
+      let mL= meds.length;
+      let medNames = [];
+
+      for( let i = 0; i < mL; i++){
+        let newMed = meds[i].drugName;
+        medNames.indexOf(newMed) < 0 && medNames.push(newMed);
+      }
 
       this.setState({      
         patientsMedicines : meds,
+        medicinesNames    : medNames,
+      });
+
+    })
+    .catch(function (error) {    
+      console.log(error);
+    });
+    
+    DataService.getPatientsWeights(this.state.patientId)
+    .then(res => {
+
+      let weight          = res.weight;
+      let wSorted         = Calculations.sortByDateAsc(weight);
+
+      this.setState({      
         weightsSorted     : wSorted,
-       });
+      });
+
     })
     .catch(function (error) {    
       console.log(error);
@@ -50,6 +73,7 @@ export default class MedWeightGraphic extends React.Component {
 
   _medWeightGraphicData(){
 
+    // console.log('this.state = ', this.state)
     let chartInfo = [];
     let meds      = this.state.patientsMedicines;
     let mL        = meds.length;
@@ -195,3 +219,44 @@ export default class MedWeightGraphic extends React.Component {
   };
 };
 
+  /// EXAMPLE
+
+//   option = {
+//     title: {
+//        text: 'Smooth Line'
+//    },
+//    tooltip: {
+//        trigger: 'axis'
+//    },
+//    legend: {
+//        data:['Step Start', 'Step Middle', 'Step End']
+//    },
+//    grid: {
+//        left: '3%',
+//        right: '4%',
+//        bottom: '3%',
+//        containLabel: true
+//    },
+//    toolbox: {
+//        feature: {
+//            saveAsImage: {}
+//        }
+//    },
+//    xAxis: {
+//        type: 'category',
+//        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+//    },
+//    yAxis: {
+//        type: 'value'
+//    },
+//    series: [{
+//        data: [820, 932, 901, 934, 1290, 1330, 1320],
+//        type: 'line',
+//        smooth: true
+//    },
+//    {
+//        data: [920, 1932, 801, 834, 1290, 1330, 1620],
+//        type: 'line',
+//        smooth: true
+//    }]
+// };

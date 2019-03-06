@@ -16,11 +16,13 @@ export default class WeightInput extends React.Component {
     super(props);
     this.state = { 
       patientId       : this.props.patID,
-      patientsWeights : [],
-      date      : '',
+      // patientsWeights : [],
+      date            : '',
       weight          : null,
     };
 
+    this.onNewWeight = this.onNewWeight.bind(this);
+    this.onChangeState = this.onChangeState.bind(this);
   }
 
   componentDidMount(){
@@ -39,11 +41,13 @@ export default class WeightInput extends React.Component {
     })    
   }
 
+
   onChangeState(field, value){
-    let readingInfo = this.state;
-    readingInfo[field] = value;
-    this.setState(readingInfo)
-  };
+    let wInfo = this.state;
+    wInfo[field] = value;
+    console.log('wInfo', wInfo)
+    this.setState(wInfo)
+};
 
   onNewWeight(e){
       e.preventDefault();       
@@ -51,34 +55,52 @@ export default class WeightInput extends React.Component {
       let rCode = Calculations.generateCode();
       let noCommas = this.state.weight.replace(",", ".");
 
-      console.log('weight date ?', this.state.date)
+      // console.log('weight date ?', this.state.date)
 
-      let newWeight = {
-          readingCode : rCode,
-          date        : this.state.weightDate,
-          weight      : noCommas,
+      // let newWeight = {
+      //     readingCode : rCode,
+      //     date        : this.state.weightDate,
+      //     weight      : noCommas,
+      // };
+
+      // console.log('newWeight / state.weights = ', newWeight, ' / ', this.state.patientsWeights)
+
+      // let transWeights = this.state.patientsWeights;
+      // transWeights.push(newWeight);
+
+
+      // this.setState({
+      //   patientsWeights : transWeights,
+      // })
+
+
+      let weightInfo = {
+        patientId   : this.state.patientId,
+        date        : this.state.date,
+        weight      : noCommas,
       };
 
-      console.log('newWeight / state.weights = ', newWeight, ' / ', this.state.patientsWeights)
-
-      let transWeights = this.state.patientsWeights;
-      transWeights.push(newWeight);
-
-
-      this.setState({
-        patientsWeights : transWeights,
-      })
-
-      DataService.addNewWeight(this.props.patID, transWeights)
+      DataService.addNewWeight(weightInfo)
       .then((result) => {
 
-          console.log('new Weight succesfully registered');
-          this.props.propsFn.push(`/patient/${this.props.patID}`)
+        console.log('new Weight succesfully registered');
+        this.props.propsFn.push(`/patient/${this.props.patID}`)
 
       })
       .catch(function (error) {    
-          console.log(error);
+        console.log(error);
       })
+
+      // DataService.addNewWeight2(this.props.patID, transWeights)
+      // .then((result) => {
+
+      //     console.log('new Weight succesfully registered');
+      //     this.props.propsFn.push(`/patient/${this.props.patID}`)
+
+      // })
+      // .catch(function (error) {    
+      //     console.log(error);
+      // })
     
       
   };
@@ -100,21 +122,23 @@ export default class WeightInput extends React.Component {
                   <label className="w-label-date">
                     <p>Fecha</p>
                     <input className="w-input-date"
-                        size="150"
-                        type="date"
-                        value={this.state.date}
-                        onChange={(e)=>{this.onChangeState('date', e.target.value)}}
+                      size="150"
+                      type="date"
+                      value={this.state.date}
+                      onChange={(e)=>{this.onChangeState('date', e.target.value)}}
                     /> 
                   </label>
 
                   <label className="w-label-short">
                     <p>Peso [Kg]</p>
-                    <input className="w-input-short" type="text" name="Comienzo"
-                        size="150" 
-                        value={this.state.startTime}
-                        onChange={(e)=>{this.onChangeState('startTime', e.target.value)}}
+                    <input className="w-input-short" 
+                      type="text"
+                      size="150" 
+                      value={this.state.weight}
+                      onChange={(e)=>{this.onChangeState('weight', e.target.value)}}
                     /> 
                   </label>
+
                 </div>
 
                 <div className="w-button-area">

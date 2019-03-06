@@ -162,7 +162,7 @@ export default class MedicineInput extends React.Component {
 
 
         
-        let newMedInfo = {drugName: newDrugName.toUpperCase(), date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose, drugUnits: units}
+        let newMedInfo = {patientId: this.state.patientId, drugName: newDrugName.toUpperCase(), date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose, drugUnits: units}
        
         DataService.newMedicine(newMedInfo);
         DataService.newMedicineRegister(this.state.patientId, currentMed);

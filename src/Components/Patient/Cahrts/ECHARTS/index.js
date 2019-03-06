@@ -10,7 +10,7 @@ import 'echarts/lib/chart/line';
 
 
 
-export default class EChart extends React.Component {
+export default class EChartLine extends React.Component {
     constructor(props){
       super(props);
   
@@ -79,11 +79,11 @@ export default class EChart extends React.Component {
             bottom: '15px',
             containLabel: true
         },
-        // toolbox: {
-        //     feature: {
-        //         saveAsImage: {}
-        //     }
-        // },
+        toolbox: {
+           feature: {
+            saveAsImage: {}
+           }
+        },
         xAxis: {
             type: 'category',
             data: this.state.xData,
@@ -142,3 +142,45 @@ export default class EChart extends React.Component {
   };
   
   
+
+  /// EXAMPLE
+
+//   option = {
+//     title: {
+//        text: 'Smooth Line'
+//    },
+//    tooltip: {
+//        trigger: 'axis'
+//    },
+//    legend: {
+//        data:['Step Start', 'Step Middle', 'Step End']
+//    },
+//    grid: {
+//        left: '3%',
+//        right: '4%',
+//        bottom: '3%',
+//        containLabel: true
+//    },
+//    toolbox: {
+//        feature: {
+//            saveAsImage: {}
+//        }
+//    },
+//    xAxis: {
+//        type: 'category',
+//        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+//    },
+//    yAxis: {
+//        type: 'value'
+//    },
+//    series: [{
+//        data: [820, 932, 901, 934, 1290, 1330, 1320],
+//        type: 'line',
+//        smooth: true
+//    },
+//    {
+//        data: [920, 1932, 801, 834, 1290, 1330, 1620],
+//        type: 'line',
+//        smooth: true
+//    }]
+// };

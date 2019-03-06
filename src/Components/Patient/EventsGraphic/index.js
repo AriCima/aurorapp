@@ -33,27 +33,7 @@ export default class EventsGraphic extends React.Component {
   }
 
   componentDidMount(){
-
-    // DataService.getPatientInfo(this.state.patientId)
-    // .then(res => {
-    //   const pat = res;
-
-    //   let eventsCopy     = [...pat.patientsEvents];
-    //   // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-    //   let eSorted  = Calculations.sortByEventDate(eventsCopy);
-
-    //  // - - - - - - - Sorting end 
-
-
-    //   this.setState({ 
-    //     eventsSorted : eSorted,
-    //   });
-
-    // })
-    // .catch(function (error) {    
-    //   console.log(error);
-    // })    
-
+ 
     DataService.getPatientsEvents(this.state.patientId)
     .then(res => {
       const evts = res;

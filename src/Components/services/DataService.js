@@ -158,7 +158,6 @@ export default class DataService {
         });
     };
     static getPatientInfo(patientId) {  
-        
 
         return new Promise((resolve, reject) => {
             firebase.firestore().collection('patients').doc(patientId).get()
@@ -318,33 +317,34 @@ export default class DataService {
             
         });
     };
-
     static newMedicine(medInfo) {  
-    
-    return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
-        firebase.firestore().collection('medicines').add(medInfo)
+            firebase.firestore().collection('medicines').add(medInfo)
 
-        .then((result) => {
+            .then((result) => {
+                
+                console.log(`${result.id} Med succesfully registered !`)
+                resolve(result);
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('patient could not be added: ', errorCode);
+            // var errorMessage = error.message;
+                
+            })
             
-            console.log(`${result.id} Med succesfully registered !`)
-            resolve(result);
-        })
-
-        .catch((error) => {
-            var errorCode = error.code;
-            console.log('patient could not be added: ', errorCode);
-           // var errorMessage = error.message;
-            
-        })
-        
-    });
+        });
     };
 
     static getPatientsMeds(patID){
+        // console.log('getPatMeds laucnhed with ', patID)
         return new Promise((resolve, reject) => {
+            
             firebase.firestore().collection('medicines').where("patientId", "==", patID).get()
             .then((result) => {
+                // console.log('result en el medicines', result.docs)
                 let meds=[];
                 result.docs.forEach((d) => {
                     let j = d.data();
@@ -360,9 +360,31 @@ export default class DataService {
         })
     }
 
-    // WEIGHT
+    static getSingleMedHistory(patID, medName){
+        return new Promise((resolve, reject) => {
+            
+            let dName = medName.toUpperCase();
+            firebase.firestore().collection('medicines').where("patientId", "==", patID).where("drugName", "==", dName).get()
+            .then((result) => {
+                // console.log('result en el medicines', result.docs)
+                let meds=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    meds.push(j);
+                })
+                resolve(meds);  
+            })
+            .catch((error) => {
+               console.log('error: ', error);
+                // reject('Usuario no existe', error)
+            })
+        })
+    }
 
-    static addNewWeight(patId, weightArray) {  
+    // WEIGHTS
+
+    static addNewWeight2(patId, weightArray) {  
     return new Promise((resolve, reject) => {
 
         firebase.firestore().collection('patients').doc(patId).update({
@@ -383,5 +405,43 @@ export default class DataService {
         
     });
     };
+    static addNewWeight(weightInfo) {  
+        return new Promise((resolve, reject) => {
+    
+            firebase.firestore().collection('weight').add(weightInfo)
+
+            .then((result) => {
+                console.log(`${result.id} Weight succesfully registered !`)
+                resolve(result);
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('patient could not be added: ', errorCode);
+            // var errorMessage = error.message;
+                
+            })
+            
+        });
+    };
+
+    static getPatientsWeights(patID){
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('weight').where("patientId", "==", patID).get()
+            .then((result) => {
+                let weights=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    weights.push(j);
+                })
+                resolve(weights);  
+            })
+            .catch((error) => {
+               console.log('error: ', error);
+                // reject('Usuario no existe', error)
+            })
+        })
+    }
 
 }
