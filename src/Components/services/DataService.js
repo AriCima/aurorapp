@@ -323,7 +323,7 @@ export default class DataService {
     
     return new Promise((resolve, reject) => {
 
-        firebase.firestore().collection('medication').add(medInfo)
+        firebase.firestore().collection('medicines').add(medInfo)
 
         .then((result) => {
             
@@ -341,6 +341,24 @@ export default class DataService {
     });
     };
 
+    static getPatientsMeds(patID){
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('medicines').where("patientId", "==", patID).get()
+            .then((result) => {
+                let meds=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    meds.push(j);
+                })
+                resolve(meds);  
+            })
+            .catch((error) => {
+               console.log('error: ', error);
+                // reject('Usuario no existe', error)
+            })
+        })
+    }
 
     // WEIGHT
 

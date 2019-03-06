@@ -114,7 +114,7 @@ export default class MedWeightGraphic extends React.Component {
 
       }
 
-      console.log('seriesDosis = ', seriesDosis);
+      // console.log('seriesDosis = ', seriesDosis);
     }
 
     let singleMedDosis = [];

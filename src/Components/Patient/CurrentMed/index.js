@@ -44,7 +44,7 @@ export default class CurrentMed extends React.Component {
       for (let k = 0; k < meds.length; k++){ // --> iteración medicinas
 
         let dName   = meds[k].drugName;
-        let dunits  = meds[k].doseUnits;
+        let dunits  = meds[k].drugUnits;
         let index   = meds[k].dose.length; 
         let dDose   = meds[k].dose[index-1].dailyDose;
         let hDose   = meds[k].dose[index-1].hourlyDose;
@@ -98,11 +98,11 @@ export default class CurrentMed extends React.Component {
           </div>
 
           <div className="med-info-block">
-            <p>{meds.medCDose} [{meds.medUnit}]</p> 
+            <p>{meds.medCDose} <span>[{meds.medUnit}]</span></p> 
           </div>
 
           <div className="med-info-block">
-            <p>{Number.parseFloat((Number(meds.medCDose)/ Number(this.state.currentWeight))).toFixed(1)} [{meds.medUnit}/Kg]</p> 
+            <p>{Number.parseFloat((Number(meds.medCDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{meds.medUnit}/Kg]</span></p> 
           </div>
         </Link>
       )

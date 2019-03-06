@@ -54,6 +54,11 @@
 
 .med-info-block p{
     margin-left: 20px;
+    text-transform: capitalize;
+}
+
+.med-info-block p span{
+   font-size: 12px;
 }
 .med-title-box #p-med{
     margin-left: 20px;

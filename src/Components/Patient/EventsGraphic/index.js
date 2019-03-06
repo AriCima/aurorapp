@@ -58,12 +58,7 @@ export default class EventsGraphic extends React.Component {
     .then(res => {
       const evts = res;
 
-      console.log('el evts es =', evts)
-
-
       let eSorted = Calculations.sortByDateAsc(evts);
-
-      console.log('evtsSorted', eSorted)
 
       this.setState({ 
         eventsSorted : eSorted,

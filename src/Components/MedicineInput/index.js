@@ -17,7 +17,7 @@ export default class MedicineInput extends React.Component {
             medicineName        : '',
             drugName            : '',
             drugDose            : '',
-            doseUnits           : '',
+            doseUnits           : 'mg',
             date                : '',
             patientsMedicines   : [],
             medNamesArray       : [],    // --> array con solo los nombres para usar en "select"
@@ -49,11 +49,13 @@ export default class MedicineInput extends React.Component {
             totalDailyDose      : '',
         };
 
-        this.onNewMedicine = this.onNewMedicine.bind(this);
-    }
+        this.onNewMedicine      = this.onNewMedicine.bind(this);
+        this.handleChangeSelect = this.handleChangeSelect.bind(this)
+;    }
 
     componentDidMount(){
     
+        DataService.getPatientsMeds(this.state.patientId)
         DataService.getPatientInfo(this.state.patientId)
         .then(res => {
 
@@ -61,7 +63,7 @@ export default class MedicineInput extends React.Component {
             // let loadedMed = res.medArray;
 
             let medNames = [];
-            for(let i=0; i<medicines.length; i++){
+            for(let i=0; i < medicines.length; i++){
                 medNames[i] = medicines[i].drugName;
             }
 
@@ -71,7 +73,6 @@ export default class MedicineInput extends React.Component {
                 medNamesArray   : medNames,
             });
 
-
         })
         .catch(function (error) {    
         console.log(error);
@@ -79,10 +80,16 @@ export default class MedicineInput extends React.Component {
     }
 
     onChangeState(field, value){
-        let aptInfo = this.state;
-        aptInfo[field] = value;
-        this.setState(aptInfo)
+        let medInfo = this.state;
+        medInfo[field] = value;
+        this.setState(medInfo)
     };
+
+    handleChangeSelect(event) {
+        console.log('handle change launched')
+        console.log('event', event.target.value)
+        this.setState({doseUnits: event.target.value});
+    }
 
     onNewMedicine(e){
 
@@ -128,7 +135,7 @@ export default class MedicineInput extends React.Component {
         let units           = this.state.doseUnits;
         let dCode           = Calculations.generateCode();
 
-        
+
 
         console.log('drugUnits = ', this.state.doseUnits);
         console.log('newDate = ', newDate);
@@ -152,8 +159,12 @@ export default class MedicineInput extends React.Component {
             currentMed[index].dose.push(newDose); 
             console.log('El current med es: ', currentMed)
         };
+
+
+        
+        let newMedInfo = {drugName: newDrugName.toUpperCase(), date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose, drugUnits: units}
        
-        DataService.newMedicine(this.state.patientId, currentMed);
+        DataService.newMedicine(newMedInfo);
         DataService.newMedicineRegister(this.state.patientId, currentMed);
         
         this.props.propsFn.push(`/patient/${this.state.patientId}`)
@@ -213,8 +224,8 @@ export default class MedicineInput extends React.Component {
                             <p>Unidades</p>
                             <select id="med-select-input" 
                                 value={this.state.doseUnits} 
-                                onChange={(e)=>{this.onChangeState('doseUnits', e.target.value)}}>
-                                <option selected value="mg">mg</option>
+                                onChange={this.handleChangeSelect}>
+                                <option value="mg">mg</option>
                                 <option value="ml">ml</option>
                             </select>
                         </label>
