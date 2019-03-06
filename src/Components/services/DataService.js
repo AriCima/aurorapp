@@ -217,6 +217,7 @@ export default class DataService {
         
     });
     };
+
     static addNewEventToPatient(patId, newStateInfo) {  
     return new Promise((resolve, reject) => {
 
@@ -239,18 +240,22 @@ export default class DataService {
     });
     };
 
-    static getEventsInfo(patID){
+    static getPatientsEvents(patID){
         return new Promise((resolve, reject) => {
             firebase.firestore().collection('events').where("patientId", "==", patID).get()
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-                });
+            .then((result) => {
+                let events=[];
+                result.docs.forEach((d) => {
+                    let j = d.data();
+                    j.id=d.id;
+                    events.push(j);
+                })
+                resolve(events);  
             })
-            .catch(function(error) {
-                console.log("Error getting documents: ", error);
-            });
+            .catch((error) => {
+               console.log('error: ', error);
+                // reject('Usuario no existe', error)
+            })
         })
     }
     
@@ -313,6 +318,29 @@ export default class DataService {
             
         });
     };
+
+    static newMedicine(medInfo) {  
+    
+    return new Promise((resolve, reject) => {
+
+        firebase.firestore().collection('medication').add(medInfo)
+
+        .then((result) => {
+            
+            console.log(`${result.id} Med succesfully registered !`)
+            resolve(result);
+        })
+
+        .catch((error) => {
+            var errorCode = error.code;
+            console.log('patient could not be added: ', errorCode);
+           // var errorMessage = error.message;
+            
+        })
+        
+    });
+    };
+
 
     // WEIGHT
 

@@ -60,13 +60,13 @@ export default class Calculations {
     static sortByDateAsc(x){
 
         function compare(a,b){
-            const drugA = a.date;
-            const drugB = b.date;
+            const varA = a.date;
+            const varB = b.date;
         
             let comparison = 0;
-            if (drugA < drugB) {
+            if (varA < varB) {
             comparison = -1;
-            } else if (drugA > drugB) {
+            } else if (varA > varB) {
             comparison = 1;
             }
             return comparison;
@@ -74,6 +74,26 @@ export default class Calculations {
 
         return x.sort(compare)
     };
+
+    static sortByDateDesc(x){
+
+        function compare(a,b){
+            const varA = a.date;
+            const varB = b.date;
+        
+            let comparison = 0;
+            if (varA > varB) {
+            comparison = -1;
+            } else if (varA < varB) {
+            comparison = 1;
+            }
+            return comparison;
+        }
+
+        return x.sort(compare)
+    };
+
+
     static sortByEventDate(x){
 
         function compare(a,b){

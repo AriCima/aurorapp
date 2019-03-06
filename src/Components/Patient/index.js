@@ -87,7 +87,7 @@ export default class Patient extends React.Component {
 
                 <div className="events-chart">
                     {this.state.patientName === '' ? <p>LOADING !</p> :
-                      <EventsGraphic patID={this.props.patID} tLine={this.state.timeLineDays} events={JSON.stringify(this.state.patientsEvents)}/>
+                      <EventsGraphic patID={this.props.patID} tLine={this.state.timeLineDays}/>
                     }
                 </div>
                 </div>

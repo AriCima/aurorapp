@@ -128,6 +128,8 @@ export default class MedicineInput extends React.Component {
         let units           = this.state.doseUnits;
         let dCode           = Calculations.generateCode();
 
+        
+
         console.log('drugUnits = ', this.state.doseUnits);
         console.log('newDate = ', newDate);
 
@@ -151,7 +153,7 @@ export default class MedicineInput extends React.Component {
             console.log('El current med es: ', currentMed)
         };
        
-
+        DataService.newMedicine(this.state.patientId, currentMed);
         DataService.newMedicineRegister(this.state.patientId, currentMed);
         
         this.props.propsFn.push(`/patient/${this.state.patientId}`)
