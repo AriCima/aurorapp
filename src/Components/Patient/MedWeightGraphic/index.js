@@ -20,11 +20,12 @@ export default class MedWeightGraphic extends React.Component {
     super(props);
 
     this.state = {
-      patientId         : this.props.patID,
-      patientsMedicines : [],
-      medicinesNames    : [],
-      weightsSorted     : [],
-      timeLineDays      : 90,
+      patientId       : this.props.patID,
+      patMedicines    : [],
+      medNames        : [],
+      singleMeds      : [],
+      weightsSorted   : [],
+      timeLineDays    : 90,
     }
 
    
@@ -34,8 +35,8 @@ export default class MedWeightGraphic extends React.Component {
 
     DataService.getPatientsMeds(this.props.patID)
     .then(res => {
-      console.log('res en medicines = ', res)
-      let meds = res.meds;
+      
+      let meds = res;
       let mL= meds.length;
       let medNames = [];
 
@@ -44,114 +45,184 @@ export default class MedWeightGraphic extends React.Component {
         medNames.indexOf(newMed) < 0 && medNames.push(newMed);
       }
 
-      this.setState({      
-        patientsMedicines : meds,
-        medicinesNames    : medNames,
-      });
+      let mNL = medNames.length;
+      let singleMeds = [];
 
+      for (let j = 0; j < mNL; j++){
+        let name = medNames[j];
+        let dosis = [];
+        for (let k = 0; k < mL; k++){
+          if (name === meds[k].drugName){
+            dosis.push({date:meds[k].date, dailyDose: meds[k].dailyDose })
+          }
+        };
+        let dosisSorted = Calculations.sortByDateAsc(dosis);
+        singleMeds[j] = {drugName: name, dosis: dosisSorted};
+      };
+
+      this.setState({
+        singleMeds    : singleMeds,
+        patMedicines  : meds,
+        medNames      : medNames
+      })
+
+      console.log('meds / single en el state: ', this.state.patMedicines, ' / ', this.state.singleMeds)
     })
     .catch(function (error) {    
       console.log(error);
     });
-    
-    DataService.getPatientsWeights(this.state.patientId)
-    .then(res => {
 
-      let weight          = res.weight;
-      let wSorted         = Calculations.sortByDateAsc(weight);
 
-      this.setState({      
-        weightsSorted     : wSorted,
-      });
+    DataService.getPatientsWeights(this.props.patID)
+    .then(weights => {
 
+      let wSorted = Calculations.sortByDateAsc(weights);
+      let wL = wSorted.length;
+
+      let cWeight = wSorted[wL-1].weight;
+
+      this.setState({
+        currentWeight : cWeight
+      })
+      console.log('weights en el state: ', this.state.weightsSorted)
     })
     .catch(function (error) {    
       console.log(error);
-    })    
+    }); 
+    
   }
 
+  _critiamFunction(){
+    var meds = [
+      {dosis: 400, date:"2019-01-01"},
+      {dosis: 600, date:"2019-01-21"},
+      {dosis: 300, date:"2019-02-11"},
+      {dosis: 450, date:"2019-03-02"}
+    ]
+
+    var resultsDosis = [];
+
+    var index = 90;
+    var currentMedsIndex = meds.length-1;
+
+    var currentDate = new Date();
+
+    while (index > 0) {
+        var currentDosisDate = new Date(meds[currentMedsIndex].date)
+        var currentDosisQty = meds[currentMedsIndex].dosis;
+    
+        if(currentMedsIndex == 0){
+          if(+currentDosisDate > +currentDate){
+            resultsDosis.unshift({dosis: 0, date: currentDate.toLocaleString()});   
+          } else {
+            resultsDosis.unshift({dosis: currentDosisQty, date: currentDate.toLocaleString()});   
+          }
+
+        } else {
+          if(+currentDosisDate > +currentDate){
+            currentMedsIndex--;
+            var currentDosisDate = new Date(meds[currentMedsIndex].date)
+            var currentDosisQty = meds[currentMedsIndex].dosis;
+            resultsDosis.unshift({dosis: currentDosisQty, date: currentDate.toLocaleString()});   
+          } else {
+            resultsDosis.unshift({dosis: currentDosisQty, date: currentDate.toLocaleString()});   
+          }
+        }
+
+        currentDate.setDate(currentDate.getDate()-1);
+        index--;
+    }
+
+    console.log(resultsDosis)
+  }
 
   _medWeightGraphicData(){
 
-    // console.log('this.state = ', this.state)
-    let chartInfo = [];
-    let meds      = this.state.patientsMedicines;
-    let mL        = meds.length;
-    let weights   = this.state.weightsSorted;
-    let wL        = this.state.weightsSorted.length;
-    let daysBack  = this.state.timeLineDays;
+    let chartInfo  = [];
+    let singleMeds = this.state.singleMeds;
+    let meds       = this.state.patMedicines;
+    let mNL        = this.state.medNames.length;
+    let weights    = this.state.weightsSorted;
+    let wL         = this.state.weightsSorted.length;
+    let daysBack   = this.state.timeLineDays;
 
-    //Cálculo de la fecha inicial
-    let today = new Date();
-    // let startDay = moment(today).subtract(daysBack, 'days').format('DD-MMM-YYYY');
-    // let monthsBack = Number(daysBack)/30;
-
-    let xData = [];
     let weightsData = [];
     let seriesTitle = [];   // --> [ ['name', 'unit'] ]
-    let seriesData = []; //[{date, dose},  . . . . , {date, dose}], [ . . ], ];
+    let basicData = []; //[{date, dose},  . . . . , {date, dose}], [ . . ], ];
 
     // GENERO DATOS EJE X
+    let xData = [];
+    let today = new Date();
+
     for(let d = 0; d <= daysBack; d++){     // itero días  (d)
       let dayToAdd = moment(today).subtract(daysBack-d, 'd').format('DD-MMM-YYYY');
       xData[d] = dayToAdd;
     };
     
     // ARRAYS DE MEDS NAMES Y DATES/DOSIS
-    for (let s = 0; s<mL; s++){   //itero medicinas (series)
+    for (let s = 0; s<mNL; s++){   //itero medicinas (series)
       seriesTitle[s] = [meds[s].drugName, meds[s].drugUnits];   // --> GENERO ARRAY DE [SERIES] --> [name, Units] 
       let arrOfDates = [];
+
       for (let d = 0; d <= daysBack; d++){  // itero días
         let rest = daysBack-d;
         let dayToAdd = moment(today).subtract(rest, 'd').format('DD-MMM-YYYY');
         let dosis = 0;
-        arrOfDates.push({date: dayToAdd, dose: dosis});
+        arrOfDates.push({drugName: meds[s].drugName, drugUnits: meds[s].drugUnits, date: dayToAdd, dose: dosis});
       };
-      seriesData.push(arrOfDates);   // CREO ARRAY DE FECHAS Y DOSIS [ {date: ' ', dose: ' '} , . . . , {date: ' ', dose: ' '}];
+
+      basicData.push(arrOfDates);   // CREO ARRAY DE FECHAS Y DOSIS [ {date: ' ', dose: ' '} , . . . , {date: ' ', dose: ' '}];
     };
 
-    // console.log('seriesData = ', seriesData)
+    console.log('basicData = ', basicData)
 
-    // REEMPLAZO DOSIS COMPARANDO FECHAS DE seriesData y meds.dose.date
+    // REEMPLAZO DOSIS COMPARANDO FECHAS DE basicData y meds.dose.date
    
     let seriesDosis =  [];
-    let sdL         = seriesData.length;
+    let bdL         = basicData.length;
+    let sML         = singleMeds.length;
+    
 
-    for (let s = 0; s<sdL; s++){   // itero series
-      let dL = meds[s].dose.length;
+    
+
+    // for (let s = 0; s<bdL; s++){   // itero array de info básica de cada medicina
       
-      for (let d = 0; d <= daysBack; d++){   // itero días  
-       
-        // Fecha en el Array seriesData
+    //   for (let d = 0; d <= daysBack; d++){   // itero días dentro de cada medicina
         
-        let dataDate = seriesData[s][d].date;
+    //     let sMDL        = singleMeds.dosis.length
+    //     for ( let r = 0; r < sMDL; r++){     // itero en el array de singleMedicines
+    //       let firstDate = singleMeds[r].dosis[0].date;
+    //     }
+        
+    //     // Fecha en el Array basicData
+        
+    //     let dataDate = basicData[s][d].date;
 
-        for (let r = 0; r < dL; r++){        // itero dosis de cada med
-          let doseDate = moment(meds[s].dose[r].date).format('DD-MMM-YYYY');
-          let defDose = meds[s].dose[r].dailyDose;
+    //     let doseDate = moment(meds[s].dose[r].date).format('DD-MMM-YYYY');
+    //     let defDose = meds[s].dose[r].dailyDose;
 
-          if (doseDate === dataDate){
-            seriesData[s][d].dose = defDose // --> array de objs con dosis nulls salvo fechas iguales al meds.dose.date
-          } 
+    //     if (doseDate === dataDate){
+    //       basicData[s][d].dose = defDose // --> array de objs con dosis nulls salvo fechas iguales al meds.dose.date
+    //     } 
           
-        }
+        
 
-      }
+    //   }
 
-      // console.log('seriesDosis = ', seriesDosis);
-    }
+    //   // console.log('seriesDosis = ', seriesDosis);
+    // }
 
     let singleMedDosis = [];
     let defMedDosis = [];
 
     // for (let s = 0; s<mL; s++){ // itero series
-    //   singleMedDosis[s][0] = seriesData[s][0].dose
+    //   singleMedDosis[s][0] = basicData[s][0].dose
 
     //   for (let d = 1; d < daysBack; d++){  // itero días 
-    //     let cDose = seriesData[s][d].dose;
+    //     let cDose = basicData[s][d].dose;
 
-    //     let prevDose  = seriesData[s][d-1].dose;
-    //     let nextDose  = seriesData[s][d+1].dose;
+    //     let prevDose  = basicData[s][d-1].dose;
+    //     let nextDose  = basicData[s][d+1].dose;
 
     //     if ( cDose === 0 && nextDose === 0){
     //       let x = 0;
@@ -162,7 +233,7 @@ export default class MedWeightGraphic extends React.Component {
     //     }
         
         
-    //       let y = seriesData[s][d].dose;
+    //       let y = basicData[s][d].dose;
     //       singleMedDosis[d] = y
     //     }
 
@@ -189,9 +260,9 @@ export default class MedWeightGraphic extends React.Component {
       }
     };
 
-    // seriesData.push(weightsData)
+    // basicData.push(weightsData)
 
-    chartInfo = [xData, seriesData]
+    chartInfo = [xData, basicData]
 
 
     return chartInfo
@@ -206,7 +277,7 @@ export default class MedWeightGraphic extends React.Component {
     
       <div className="events-chart">
 
-        {this.state.patientName === '' ? <p>LOADING !</p> : <div>
+        {this.state.patMedicines === '' ? <p>LOADING !</p> : <div>
 
           <EChart xData={xD} sData={sD}/>
           </div>

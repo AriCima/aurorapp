@@ -36,25 +36,16 @@ export default class Patient extends React.Component {
         let name            = res.patientName;
         let surname         = res.patientSurname;
         let born            = res.birthDate;
-        // let bweight         = res.birthWeight;
 
         let eventsCopy      = [...res.patientsEvents];
         let eventsSorted    = Calculations.sortByEventDate(eventsCopy);   // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
         let firstEvent      = eventsSorted[0].date;
 
-        // let weightsCopy     = [...res.patientsWeights];
-        // let weightsSorted   = Calculations.sortByEventDate(weightsCopy);
-        // let wL              = weightsSorted.length;
-        // let cWeight         = weightsSorted[wL-1].weight;
-
         this.setState({ 
             patientName       : name,
             patientSurname    : surname,
             birthDate         : born, 
-            // birthWeight       : bweight,
-            // patientsEvents    : eventsSorted,   
             firstEventDate    : moment(firstEvent).format('DD-MMM-YYYY'),
-            // currentWeight     : cWeight,
         });
     })
     .catch(function (error) {    

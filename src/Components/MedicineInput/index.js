@@ -22,6 +22,7 @@ export default class MedicineInput extends React.Component {
             patientsMedicines   : [],
             medNamesArray       : [],    // --> array con solo los nombres para usar en "select"
             medArray            : [],    // --> array con todo el registro completo de los medicamentos, fechas de cambio y dosis
+            dailyDoses          : Array(24).fill(""),
             dailyDose0          : '',
             dailyDose1          : '',
             dailyDose2          : '',
@@ -270,7 +271,26 @@ export default class MedicineInput extends React.Component {
 
                             <div className="dose-inputs">
                            
-                           <div className="hourly-input">
+                           {this.state.dailyDoses.map((dose, i)=> {
+                               return(
+                                   
+                                <div key={i}className="hourly-input">
+                                    <input id="input-dosis"
+                                        type="text" 
+                                        size="3"
+                                        value={this.state.dailyDoses[i]} 
+                                        onChange={(e)=>{
+                                            const newDoses = [...this.state.dailyDoses];
+                                            newDoses[i] = e.target.value
+                                            this.setState({dailyDoses: newDoses}) 
+                                        }}
+                                    />
+                                </div>
+                               )
+                           })
+
+                           }
+                           {/* <div className="hourly-input">
                                 <input  id="input-dosis"
                                     type="text" 
                                     size="3"
@@ -282,8 +302,12 @@ export default class MedicineInput extends React.Component {
                                 <input id="input-dosis"
                                     type="text" 
                                     size="3"
-                                    value={this.state.dailyDose1} 
-                                    onChange={(e)=>{this.onChangeState('dailyDose1', e.target.value)}}
+                                    value={this.state.dailyDose[i]} 
+                                    onChange={(e)=>{
+                                        const newDoses = [...this.state.dailyDoses];
+                                        newDoses[i] = e.target.value
+                                        this.setState({dailyDoses: newDoses}) 
+                                    }}
                                 />
                             </div>
                             <div className="hourly-input">
@@ -461,7 +485,7 @@ export default class MedicineInput extends React.Component {
                                     value={this.state.dailyDose23} 
                                     onChange={(e)=>{this.onChangeState('dailyDose23', e.target.value)}}
                                 />
-                            </div>
+                            </div> */}
 
                     
                         </div>

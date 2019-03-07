@@ -1,14 +1,11 @@
 
 ### PREGUNTAS CRIS
 
-   ## Landing Page
-    - Cómo montar para que al cargar la url vaya directo a www.aurorapp/landing ???
-
-
-   ## Cómo cargar las dosis horarias (medinput)
 
    ## Grafico de barras
-    - es correcto cómo se llama en el Patient ?
+    - es correcto cómo lo llamo en el Patient ?
+
+   ## firebase deploy error --> ver screenshot
 
 
 ## SingleEvent

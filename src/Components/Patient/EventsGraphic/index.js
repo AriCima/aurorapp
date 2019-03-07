@@ -90,8 +90,9 @@ export default class EventsGraphic extends React.Component {
   
   render() {
 
-    let xD = this._eventsGraphicData()[0];
+    let xD = this._eventsGraphicData()[0];  // cargarlos en el state para no hacer todos los cálculos con cada render
     let sD = this._eventsGraphicData()[1];
+
     return (
 
     

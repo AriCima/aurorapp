@@ -99,7 +99,7 @@ class App extends Component {
             
               <Switch>
 
-                <Route path="/landing"  exact render = {() => { return  <HeaderLanding/>}}/>
+                <Route path="/"  exact render = {() => { return  <HeaderLanding/>}}/>
                 <Route path="/home/:userId"  render = {(props) => { return  <Header userID={props.match.params.userId} uName={this.state.userName}/>}}/>
       
                 <Route path="/patient/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId}/>}}/>
@@ -122,7 +122,7 @@ class App extends Component {
             <div className="app-body">
 
               <Switch>
-                <Route path="/landing" exact render = {() => {return <Landing/>}}/>
+                <Route path="/" exact render = {() => {return <Landing/>}}/>
                 <Route path="/login" exact render = {(props) => {return <Login propsFn={props.history}/>}}/>
                 <Route path="/register" render = {(props) => {return <Register propsFn={props.history}/>}}/> 
 
