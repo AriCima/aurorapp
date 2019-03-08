@@ -56,7 +56,7 @@ export default class Patient extends React.Component {
     .then(weights => {
 
       let wSorted = Calculations.sortByDateAsc(weights);
-      console.log('wSorted', wSorted);
+      // console.log('wSorted', wSorted);
       let wL = wSorted.length;
 
       let cWeight = wSorted[wL-1].weight;

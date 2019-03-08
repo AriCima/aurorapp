@@ -65,9 +65,9 @@ class App extends Component {
         DataService.getUserInfo(user.uid)
         .then(result => {
 
-          console.log('result en APP = ', result)
+          // console.log('result en APP = ', result)
           result.id = user.uid;
-          console.log('result.id', result.id)
+          // console.log('result.id', result.id)
           this.setState({
             user      : result,
             userId    : result.id,

@@ -99,7 +99,7 @@ export default class CurrentMed extends React.Component {
 
   _renderMedicineCurrentDose(){
     
-    console.log('this.state.currentWeight',this.state.currentWeight )
+    // console.log('this.state.currentWeight',this.state.currentWeight )
     return this.state.medsInfo.map((meds,j) => {
       // console.log('medicines = ',this.state.currentMedicines )
       return (
