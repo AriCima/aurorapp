@@ -9,7 +9,7 @@ import DataService from '../../services/DataService';
 import Calculations from '../../services/Calculations';
 
 // ECHARTS LINES  --> https://ecomfe.github.io/echarts-examples/public/editor.html?c=line-simple
-import EChart from '../Cahrts/ECharts';
+import EChartsLines from '../Cahrts/EChartsLines';
 
 
 // CSS
@@ -63,7 +63,10 @@ export default class MedWeightGraphic extends React.Component {
         singleMeds    : singleMeds,
         patMedicines  : meds,
         medNames      : medNames
-      })  
+      }); 
+
+      this._dataGenerator();
+
     })
     .catch(function (error) {    
       console.log(error);
@@ -85,10 +88,10 @@ export default class MedWeightGraphic extends React.Component {
     .catch(function (error) {    
       console.log(error);
     }); 
-    
-    
+
 
   };
+
   _dataGenerator(){
     console.log('_dataGenerator LAUNCHED')
     let meds    = this.state.singleMeds;
@@ -133,7 +136,10 @@ export default class MedWeightGraphic extends React.Component {
       xD : series
     })
     // console.log('seires pal gráfico: ', series);
-  }
+  
+  
+  };
+ 
   _cristiamFn(meds){
     // input meds = [
     //   {dosis: 400, date:"2019-01-01"},
@@ -181,6 +187,7 @@ export default class MedWeightGraphic extends React.Component {
 
     return (resultsDosis)
   };
+  
   _xAxisData(index){
 
     let resultDates = []; 
@@ -201,25 +208,21 @@ export default class MedWeightGraphic extends React.Component {
   
   
   render() {
-
     return (
-
       <div className="events-chart">
-
         {this.state.sD === [] ? <p>LOADING !</p> : 
           <div> 
-            <EChart xData={this.state.xD} sData={this.state.sD}/>
+            <EChartsLines xData={this.state.xD} sData={this.state.sD}/>
           </div>
         }
-
       </div>
-         
-
     );
   };
 };
 
-  /// EXAMPLE
+
+
+/// EXAMPLE
 
 
   // _cristiamFnORIGINAL(meds){

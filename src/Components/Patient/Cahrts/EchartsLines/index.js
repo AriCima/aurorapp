@@ -15,13 +15,13 @@ export default class EChartsLines extends React.Component {
     }
 
     getOption(){
-      option = {
+      let option = {
         xAxis: {
-            type: 'category',
-            data: this.state.xData, //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          type: 'category',
+          data: this.state.xData, //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         },
         yAxis: {
-            type: 'value'
+          type: 'value'
         },
         series: this.state.seriesData
         // [{
@@ -29,22 +29,26 @@ export default class EChartsLines extends React.Component {
         //     type: 'line',
         //     smooth: true
         // }]
-    };
+      };
+
+      return option
 
     }
 
     render() {
+
+      console.log('props = ', this.props.xData, ' / ', this.props.seriesData);
   
-        return (
-            <ReactEcharts
-            option={this.getOption()}
-            notMerge={true}
-            lazyUpdate={true}
-            theme={"theme_name"}
-            onChartReady={this.onChartReadyCallback}
-            onEvents={EventsDict}
-            opts={} 
-            />
-        )
+      return (
+          <ReactEcharts
+          option={this.getOption()}
+          notMerge={true}
+          lazyUpdate={true}
+          // theme={"theme_name"}
+          // onChartReady={this.onChartReadyCallback}
+          // onEvents={EventsDict}
+          // opts={} 
+          />
+      )
     }
 }
