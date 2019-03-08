@@ -26,16 +26,12 @@ export default class MedWeightGraphic extends React.Component {
       singleMeds      : [],
       weightsSorted   : [],
       timeLineDays    : 90,
-
       xD              : [],
       sD              : [],
     }
-
-   
   }
 
   componentDidMount(){
-
     DataService.getPatientsMeds(this.props.patID)
     .then(res => {
       
@@ -67,15 +63,11 @@ export default class MedWeightGraphic extends React.Component {
         singleMeds    : singleMeds,
         patMedicines  : meds,
         medNames      : medNames
-      })
-
-      console.log('patMeds / singleMeds en el state: ', this.state.patMedicines, ' / ', this.state.singleMeds)
-  
+      })  
     })
     .catch(function (error) {    
       console.log(error);
     });
-
 
     DataService.getPatientsWeights(this.props.patID)
     .then(weights => {
@@ -97,13 +89,10 @@ export default class MedWeightGraphic extends React.Component {
     
 
   };
-
-  
-  
   _dataGenerator(){
+    console.log('_dataGenerator LAUNCHED')
     let meds    = this.state.singleMeds;
     let index   = meds.length;
-    let name    = '';
     let yValues = [];
     let series  = [];
     let type    = 'line';
@@ -125,64 +114,64 @@ export default class MedWeightGraphic extends React.Component {
       
       yValues[j] = this._cristiamFn(meds[j].dosis);
       
-      console.log('yValues[j]', yValues[j])
+      // console.log('yValues[j]', yValues[j])
       
-      let dayDosis = yValues[j].dosis;
+      let dayDosis = [...yValues[j]];
 
-      series.push({
+      series[j]={
         data    : dayDosis,
         type    : type,
         smooth  : smooth,
-      })
+      };
+
+      console.log('series', series)
 
     }
 
 
+    this.setState({
+      xD : series
+    })
     // console.log('seires pal gráfico: ', series);
-    return series
   }
-
   _cristiamFn(meds){
-    // var meds = [
+    // input meds = [
     //   {dosis: 400, date:"2019-01-01"},
     //   {dosis: 600, date:"2019-01-21"},
     //   {dosis: 300, date:"2019-02-11"},
     //   {dosis: 450, date:"2019-03-02"}
     // ]
 
-    console.log('meds en cristiam', meds)
-    var resultsDosis = [];
-    var index = 90;
-    var medsIndex = meds.length-1;
+    let resultsDosis = [];
+    let resultDates = [];
+    let index = 90;
+    let medsIndex = meds.length-1;
 
-    var currentDate = new Date();
+    let currentDate = new Date();
 
     while (index > 0) {
-      var medDate = new Date(meds[medsIndex].date)
-      var medQty = meds[medsIndex].dailyDose;
+      let medDate = new Date(meds[medsIndex].date)
+      let medQty = meds[medsIndex].dailyDose;
     
       if(medsIndex == 0){
         if(+medDate > +currentDate){
-          resultsDosis.unshift(0); //, date: currentDate.toLocaleString()});
-          // resultsDosis.unshift({dosis: 0}); //, date: currentDate.toLocaleString()});
+          resultsDosis.unshift(0);
+          resultDates.unshift(currentDate.toLocaleString())
         } else {
-          resultsDosis.unshift(medQty); //, date: currentDate.toLocaleString()});
-
-          // resultsDosis.unshift({dosis: medQty}); //, date: currentDate.toLocaleString()});
+          resultsDosis.unshift(medQty);
+          resultDates.unshift(currentDate.toLocaleString())
         }
 
       } else {
         if(+medDate >= +currentDate){
           medsIndex--;
-          var medDate = new Date(meds[medsIndex].date)
-          var medQty = meds[medsIndex].dailyDose;
-          resultsDosis.unshift(medQty); //, date: currentDate.toLocaleString()});   
-
-          // resultsDosis.unshift({dosis: medQty}); //, date: currentDate.toLocaleString()});   
+          let medDate = new Date(meds[medsIndex].date)
+          let medQty = meds[medsIndex].dailyDose;
+          resultsDosis.unshift(medQty);   
+          resultDates.unshift(currentDate.toLocaleString())
         } else {
-          resultsDosis.unshift(medQty); //, date: currentDate.toLocaleString()});   
-
-          // resultsDosis.unshift({dosis: medQty}); //, date: currentDate.toLocaleString()});   
+          resultsDosis.unshift(medQty);  
+          resultDates.unshift(currentDate.toLocaleString())
         }
       }
 
@@ -190,24 +179,36 @@ export default class MedWeightGraphic extends React.Component {
       index--;
     }
 
-    console.log('resultDosis de Cris =', resultsDosis)
-    return resultsDosis
+    return (resultsDosis)
   };
+  _xAxisData(index){
 
+    let resultDates = []; 
+    let currentDate = new Date();
+
+    while (index > 0) {
+      
+      resultDates.unshift(currentDate.toLocaleString())
+      currentDate.setDate(currentDate.getDate()-1);
+      index--;
+    }
+
+    this.setState({
+      xD : resultDates
+    })
+    
+  };
   
   
   render() {
-    // let y = this._cristiamFn();
-    // let xD = this._medWeightGraphicData()[0];
-    // let sD = this._medWeightGraphicData()[1];
+
     return (
 
-    
       <div className="events-chart">
 
-        {this.state.patMedicines === [] ? <p>LOADING !</p> : <div>
-            <p>{this._dataGenerator()}</p>
-          {/* <EChart xData={this._dataGenerator()} sData={this.state.sD}/> */}
+        {this.state.sD === [] ? <p>LOADING !</p> : 
+          <div> 
+            <EChart xData={this.state.xD} sData={this.state.sD}/>
           </div>
         }
 
@@ -219,6 +220,54 @@ export default class MedWeightGraphic extends React.Component {
 };
 
   /// EXAMPLE
+
+
+  // _cristiamFnORIGINAL(meds){
+  //   // input meds = [
+  //   //   {dosis: 400, date:"2019-01-01"},
+  //   //   {dosis: 600, date:"2019-01-21"},
+  //   //   {dosis: 300, date:"2019-02-11"},
+  //   //   {dosis: 450, date:"2019-03-02"}
+  //   // ]
+
+  //   console.log('meds en cristiam', meds)
+  //   var resultsDosis = [];
+  //   var index = 90;
+  //   var medsIndex = meds.length-1;
+
+  //   var currentDate = new Date();
+
+  //   while (index > 0) {
+  //     var medDate = new Date(meds[medsIndex].date)
+  //     var medQty = meds[medsIndex].dailyDose;
+    
+  //     if(medsIndex == 0){
+  //       if(+medDate > +currentDate){
+  //         resultsDosis.unshift({dosis: 0, date: currentDate.toLocaleString()});
+  //       } else {
+  //         resultsDosis.unshift({dosis: medQty, date: currentDate.toLocaleString()});
+  //       }
+
+  //     } else {
+  //       if(+medDate >= +currentDate){
+  //         medsIndex--;
+  //         var medDate = new Date(meds[medsIndex].date)
+  //         var medQty = meds[medsIndex].dailyDose;
+
+  //         resultsDosis.unshift({dosis: medQty, date: currentDate.toLocaleString()});   
+  //       } else {
+  //         resultsDosis.unshift({dosis: medQty, date: currentDate.toLocaleString()});   
+  //       }
+  //     }
+
+  //     currentDate.setDate(currentDate.getDate()-1);
+  //     index--;
+  //   }
+
+  //   console.log('resultDosis de Cris =', resultsDosis)
+  //   return resultsDosis
+  // };
+
 
 //   option = {
 //     title: {

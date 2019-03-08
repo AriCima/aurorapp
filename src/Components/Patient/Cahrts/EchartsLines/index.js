@@ -8,8 +8,8 @@ export default class EChartsLines extends React.Component {
       super(props);
   
       this.state = {
-        xData   : this.props.xData,
-        seriesData : this.props.sData,
+        xData       : this.props.xData,
+        seriesData  : this.props.sData,
         
       }
     }
@@ -18,16 +18,17 @@ export default class EChartsLines extends React.Component {
       option = {
         xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: this.state.xData, //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         },
         yAxis: {
             type: 'value'
         },
-        series: [{
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
-            type: 'line',
-            smooth: true
-        }]
+        series: this.state.seriesData
+        // [{
+        //     data: [820, 932, 901, 934, 1290, 1330, 1320],
+        //     type: 'line',
+        //     smooth: true
+        // }]
     };
 
     }
