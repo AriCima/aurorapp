@@ -66,7 +66,7 @@ export default class MedWeightGraphic extends React.Component {
       }); 
 
       this._dataGenerator();
-
+      this._xAxisData(this.state.timeLineDays);
     })
     .catch(function (error) {    
       console.log(error);
@@ -93,13 +93,13 @@ export default class MedWeightGraphic extends React.Component {
   };
 
   _dataGenerator(){
-    console.log('_dataGenerator LAUNCHED')
+    // console.log('_dataGenerator LAUNCHED')
     let meds    = this.state.singleMeds;
     let index   = meds.length;
     let yValues = [];
     let series  = [];
     let type    = 'line';
-    let smooth  = true;
+    let smooth  = false;
 
  
    //    series: [{
@@ -127,15 +127,15 @@ export default class MedWeightGraphic extends React.Component {
         smooth  : smooth,
       };
 
-      console.log('series', series)
+      // console.log('series', series)
 
     }
-
+    console.log('series source', series)
 
     this.setState({
-      xD : series
+      sD : series
     })
-    // console.log('seires pal gráfico: ', series);
+    
   
   
   };
@@ -189,13 +189,14 @@ export default class MedWeightGraphic extends React.Component {
   };
   
   _xAxisData(index){
-
+    console.log('xAXIS LAUNCHED');
     let resultDates = []; 
     let currentDate = new Date();
 
     while (index > 0) {
       
-      resultDates.unshift(currentDate.toLocaleString())
+      let formatedDate = moment(currentDate).format('DD-MMM-YYYY');
+      resultDates.unshift(formatedDate);
       currentDate.setDate(currentDate.getDate()-1);
       index--;
     }
@@ -204,12 +205,13 @@ export default class MedWeightGraphic extends React.Component {
       xD : resultDates
     })
     
+    // console.log('xD = ', this.state.xD)
   };
   
   
   render() {
     return (
-      <div className="events-chart">
+      <div className="med-weight-chart">
         {this.state.sD === [] ? <p>LOADING !</p> : 
           <div> 
             <EChartsLines xData={this.state.xD} sData={this.state.sD}/>

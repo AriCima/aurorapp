@@ -15,8 +15,8 @@ export default class EChartsBars extends React.Component {
       super(props);
   
       this.state = {
-        xData   : this.props.xData,
-        seriesData : this.props.sData,
+        xData       : this.props.xData,
+        seriesData  : this.props.sData,
         
       }
     }

@@ -4,51 +4,81 @@ import 'echarts/lib/chart/line';
 
 
 export default class EChartsLines extends React.Component {
-    constructor(props){
-      super(props);
+  constructor(props){
+    super(props);
+
+    this.state = {
+      xData       : this.props.xData,
+      seriesData  : this.props.sData,
+      
+    }
+  }
+
+
+  getOption(){
   
-      this.state = {
-        xData       : this.props.xData,
-        seriesData  : this.props.sData,
-        
+    let dd = this.state.xData;
+    console.log('dd = ', dd)
+
+    let option = {
+      color: ['#3398DB'],
+      tooltip : {
+          trigger: 'axis',
+          axisPointer : {            
+              type : 'shadow'        // ：'line' | 'shadow'
+          }
+      },
+      grid: {
+          left: '0',
+          top: '3%',
+          right: '2%',
+          bottom: '3%',
+          containLabel: true
+      },
+
+      xAxis: {
+        type: 'category',
+        data: this.props.xData,
+        axisTick: {
+          alignWithLabel: true
       }
-    }
+      },
+      yAxis: {
+        type: 'value'
+      },
 
-    getOption(){
-      let option = {
-        xAxis: {
-          type: 'category',
-          data: this.state.xData, //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: this.state.seriesData
-        // [{
-        //     data: [820, 932, 901, 934, 1290, 1330, 1320],
-        //     type: 'line',
-        //     smooth: true
-        // }]
-      };
+      series: this.props.sData,
+       color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
+      // [{
+      //     data: [820, 932, 901, 934, 1290],
+      //     type: 'line',
+      //     smooth: true
+      // }]
+    };
 
-      return option
+    return option
 
-    }
+  }
 
-    render() {
+  render() {
 
-      console.log('props = ', this.props.xData, ' / ', this.props.seriesData);
-  
-      return (
-          <ReactEcharts
-          option={this.getOption()}
-          notMerge={true}
-          lazyUpdate={true}
-          // theme={"theme_name"}
-          // onChartReady={this.onChartReadyCallback}
-          // onEvents={EventsDict}
-          // opts={} 
-          />
-      )
-    }
+    console.log('xData / series = ', this.props.xData, ' / ', this.props.sData);
+
+    return (
+
+      <div>   
+        {(this.state.xD === '')}     
+        <ReactEcharts
+        option={this.getOption()}
+        style={{height: '200px', width: '400px'}}
+        notMerge={true}
+        lazyUpdate={true}
+        theme={"theme_name"}
+
+        />
+      </div>
+
+
+    )
+  }
 }
