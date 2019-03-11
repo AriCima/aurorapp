@@ -72,6 +72,7 @@ class MedicineOverview extends React.Component {
             patientMedicines  : [],	
             currentMedicines  : [],
             currentWeight     : '',
+            timeline          : '',
         };
 
         this.onEditDose = this.onEditDose.bind(this);
@@ -138,6 +139,11 @@ class MedicineOverview extends React.Component {
         aptInfo[field] = value;
         this.setState(aptInfo)
     };
+
+    handleChangeSelect(event) {
+        console.log('event', event.target.value)
+        this.setState({timeLine: event.target.value});
+    }
 
     _renderMedicinesInfo(){ 	
 
@@ -242,6 +248,25 @@ class MedicineOverview extends React.Component {
 
 
         <div className="medicines-area">
+
+
+            <div className="regisro-med-weight">
+
+                <form className="select-timeline">
+                    <p>Seleccione horizonte de tiempo</p>
+                    <select className="select-box"
+                        value={this.state.timeLine} 
+                        onChange={this.handleChangeSelect}>
+                        <option value="30">30 días</option>
+                        <option value="60">60 días</option>
+                        <option value="90">90 días</option>
+                        <option value="365">1 año</option>
+                        <option value="all">Historial completo</option>
+                    </select>
+                </form>
+
+            </div>
+
 
           
           <div className="upper">
