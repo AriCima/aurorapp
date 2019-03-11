@@ -122,7 +122,7 @@ export default class Patient extends React.Component {
 
                 <div className="chart-upper">
                   <Link className="chartBox-Title" to={`/medicine_overview/${this.state.patientId}`}>
-                    <h2>Registro de Peso</h2>
+                    <h2>Dosis por Kg</h2>
                   </Link>
                     
                   <div className="chart-add-button">

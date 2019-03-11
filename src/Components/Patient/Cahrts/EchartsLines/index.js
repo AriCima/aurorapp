@@ -17,23 +17,32 @@ export default class EChartsLines extends React.Component {
 
   getOption(){
   
-    let dd = this.state.xData;
-    console.log('dd = ', dd)
-
     let option = {
-      color: ['#3398DB'],
+
+      // title: {
+      //   text: 'Evolución de la medicina'
+      // },
+
+      // legend: {
+      //   data: ['ari1','ari5','ari4','ari3','ari2' ],
+      //   zlevel: 5,
+      // },
+
       tooltip : {
-          trigger: 'axis',
-          axisPointer : {            
-              type : 'shadow'        // ：'line' | 'shadow'
-          }
+        trigger: 'axis',
+        label: {
+          show: 'false',
+        },
+        axisPointer : {            
+          type : 'shadow'        // ：'line' | 'shadow'
+        }
       },
       grid: {
-          left: '0',
-          top: '3%',
-          right: '2%',
-          bottom: '3%',
-          containLabel: true
+        left: '0',
+        top: '3%',
+        right: '2%',
+        bottom: '3%',
+        containLabel: true
       },
 
       xAxis: {
@@ -41,19 +50,19 @@ export default class EChartsLines extends React.Component {
         data: this.props.xData,
         axisTick: {
           alignWithLabel: true
-      }
+        }
       },
+
       yAxis: {
-        type: 'value'
+        type: 'value',
+        // name: 'Dosis por kg',
+        // nameLocation: 'center',
+        // nameGap: 30,
       },
 
       series: this.props.sData,
-       color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
-      // [{
-      //     data: [820, 932, 901, 934, 1290],
-      //     type: 'line',
-      //     smooth: true
-      // }]
+      color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
+
     };
 
     return option
