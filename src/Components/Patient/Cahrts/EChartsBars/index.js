@@ -19,6 +19,9 @@ export default class EChartsBars extends React.Component {
         seriesData  : this.props.sData,
         
       }
+
+      console.log('props del bars = ', this.props.xData, ' / ', this.props.sData)
+
     }
    
 

@@ -24,6 +24,7 @@ export default class EventsGraphic extends React.Component {
       patientsEvents    : [],
       eventsSorted      : [],
       firstEventDate    : '',
+      lastEventDate     : '',
       timeLineDays      : 120,
       xData             : [],
     }
@@ -36,12 +37,15 @@ export default class EventsGraphic extends React.Component {
       const evts = res;
 
       let eSorted     = Calculations.sortByDateAsc(evts);
+      let evLe        = eSorted.length;
       let fEventDate  = new Date(eSorted[0].date);
+      let lEventDate  = new Date(eSorted[evLe-1].date);
       let today       = new Date();
-      let time        = ((((today - fEventDate)/1000)/60)/60)/24;
+      let time        = ((((lEventDate - fEventDate)/1000)/60)/60)/24;
 
       this.setState({ 
         eventsSorted  : eSorted,
+        lastEventDate : lEventDate,
         timeLineDays  : time,
       });
       console.log('timeLineDays', this.state.timeLineDays)
@@ -60,22 +64,23 @@ export default class EventsGraphic extends React.Component {
     let resultDates = [];
     let index = this.state.timeLineDays;   // FALTA PARA EL CASO QUE SE QUIERA VER HISTORIAL COMPLETO
 
-    let currentDate = new Date();
+    let currentDate = new Date(this.state.lastEventDate);
 
     while (index > 0) {
       
       let evQty = 0;
-      let formatedDate = moment(currentDate).format('DD-MMM-YYYY');
+      let formatedCurrent = moment(currentDate).format('DD-MMM-YYYY');
       
       for (let j = 0; j < events.length; j++){
-        let eventDate = new Date(events[j].date)
-        
-        if( eventDate === currentDate ){
-          evQty = evQty ++;
+        let formatedEvent = moment(new Date(events[j].date)).format('DD-MMM-YYYY')
+
+        if(formatedEvent === formatedCurrent ){
+          console.log('se cumple el if :', formatedEvent , ' / ',  formatedCurrent )
+          evQty = evQty+1;
         } 
       }
 
-      resultDates.unshift(formatedDate);
+      resultDates.unshift(formatedCurrent);
       resultEvents.unshift(evQty);
       
       currentDate.setDate(currentDate.getDate()-1);
@@ -86,6 +91,8 @@ export default class EventsGraphic extends React.Component {
       xD : resultDates,
       sD : resultEvents,
     });
+
+    // console.log('xd / xs = ',this.state.xD, ' / ',  this.state.sD)
 
   };
   
@@ -131,16 +138,15 @@ export default class EventsGraphic extends React.Component {
     // let xD = this._eventsGraphicData()[0];  // cargarlos en el state para no hacer todos los cálculos con cada render
     // let sD = this._eventsGraphicData()[1];
 
-    console.log('xd / xs = ',this.state.xD, ' / ',  this.state.sD)
-
     return (
 
     
       <div className="events-chart" to={`/events-overview/${this.state.patientId}`}>
 
-        {this.state.patientId === '' ? <p>LOADING !</p> : <div>
-         
-          <EChartBars patID={this.props.patID} xData={this.state.xD} sData={this.state.sD}/>
+        {this.state.patientId === '' ? <p>LOADING !</p> : 
+        
+          <div>
+            <EChartBars patID={this.props.patID} xData={this.state.xD} sData={this.state.sD}/>
           </div>
         }
 
