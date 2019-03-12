@@ -16,29 +16,12 @@ export default class WeightInput extends React.Component {
     super(props);
     this.state = { 
       patientId       : this.props.patID,
-      // patientsWeights : [],
       date            : '',
       weight          : null,
     };
 
     this.onNewWeight = this.onNewWeight.bind(this);
     this.onChangeState = this.onChangeState.bind(this);
-  }
-
-  componentDidMount(){
-    DataService.getPatientInfo(this.state.patientId)
-    .then(res => {
-      console.log('res  = ', res);
-
-      this.setState({ 
-          patientsWeights  : res.patientsWeights,
-          
-      });
-
-    })
-    .catch(function (error) {    
-    console.log(error);
-    })    
   }
 
 
@@ -52,27 +35,7 @@ export default class WeightInput extends React.Component {
   onNewWeight(e){
       e.preventDefault();       
 
-      let rCode = Calculations.generateCode();
       let noCommas = this.state.weight.replace(",", ".");
-
-      // console.log('weight date ?', this.state.date)
-
-      // let newWeight = {
-      //     readingCode : rCode,
-      //     date        : this.state.weightDate,
-      //     weight      : noCommas,
-      // };
-
-      // console.log('newWeight / state.weights = ', newWeight, ' / ', this.state.patientsWeights)
-
-      // let transWeights = this.state.patientsWeights;
-      // transWeights.push(newWeight);
-
-
-      // this.setState({
-      //   patientsWeights : transWeights,
-      // })
-
 
       let weightInfo = {
         patientId   : this.state.patientId,
@@ -80,10 +43,10 @@ export default class WeightInput extends React.Component {
         weight      : noCommas,
       };
 
-      DataService.addNewWeight(weightInfo)
+      DataService.newWeight(weightInfo)
       .then((result) => {
 
-        console.log('new Weight succesfully registered');
+        console.log(result.id, ' => new Weight succesfully registered ! ! !');
         this.props.propsFn.push(`/patient/${this.props.patID}`)
 
       })
@@ -91,18 +54,6 @@ export default class WeightInput extends React.Component {
         console.log(error);
       })
 
-      // DataService.addNewWeight2(this.props.patID, transWeights)
-      // .then((result) => {
-
-      //     console.log('new Weight succesfully registered');
-      //     this.props.propsFn.push(`/patient/${this.props.patID}`)
-
-      // })
-      // .catch(function (error) {    
-      //     console.log(error);
-      // })
-    
-      
   };
 
   

@@ -272,29 +272,7 @@ export default class DataService {
     };
     
     // * * * * * * * * * MEDICINES * * * * * * 
-    
-    // static newMedicineRegister(patId, newMedicine) {  
-    //     return new Promise((resolve, reject) => {
-    
-    //         console.log('add medicine launched con', patId, ' y ', newMedicine)
-    //         firebase.firestore().collection('patients').doc(patId).update({
-    //             patientsMedicines : newMedicine})
-    
-    //         .then((result) => {
-                
-    //             console.log(`new MEDICINE succesfully added !`)
-    //             resolve(result);
-    //         })
-    
-    //         .catch((error) => {
-    //             var errorCode = error.code;
-    //             console.log('New MEDICINE could not be added to the patient: ', error);
-    //            // var errorMessage = error.message;
-                
-    //         })
-            
-    //     });
-    // };
+
     static newMedicine(medInfo) {  
         return new Promise((resolve, reject) => {
 
