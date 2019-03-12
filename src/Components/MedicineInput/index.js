@@ -2,7 +2,6 @@ import React from 'react';
 
 // SERVICE API
 import DataService from '../services/DataService';
-import Calculations from '../services/Calculations';
 
 // ACCESORIES
 import SubmitButton from '../Accessories/MyButtonPlain';
@@ -14,71 +13,68 @@ export default class MedicineInput extends React.Component {
         super(props);
         this.state = { 
             patientId           : this.props.patID,
-            medicineName        : '',
             drugName            : '',
             drugDose            : '',
             doseUnits           : 'mg',
             date                : '',
-            patientsMedicines   : [],
-            medNamesArray       : [],    // --> array con solo los nombres para usar en "select"
-            medArray            : [],    // --> array con todo el registro completo de los medicamentos, fechas de cambio y dosis
             dailyDoses          : Array(24).fill(""),
-            dailyDose0          : '',
-            dailyDose1          : '',
-            dailyDose2          : '',
-            dailyDose3          : '',
-            dailyDose4          : '',
-            dailyDose5          : '',
-            dailyDose6          : '',
-            dailyDose7          : '',
-            dailyDose8          : '',
-            dailyDose9          : '',
-            dailyDose10         : '',
-            dailyDose11         : '',
-            dailyDose12         : '',
-            dailyDose13         : '',
-            dailyDose14         : '',
-            dailyDose15         : '',
-            dailyDose16         : '',
-            dailyDose17         : '',
-            dailyDose18         : '',
-            dailyDose19         : '',
-            dailyDose20         : '',
-            dailyDose21         : '',
-            dailyDose22         : '',
-            dailyDose23         : '',
+            // dailyDose0          : '',
+            // dailyDose1          : '',
+            // dailyDose2          : '',
+            // dailyDose3          : '',
+            // dailyDose4          : '',
+            // dailyDose5          : '',
+            // dailyDose6          : '',
+            // dailyDose7          : '',
+            // dailyDose8          : '',
+            // dailyDose9          : '',
+            // dailyDose10         : '',
+            // dailyDose11         : '',
+            // dailyDose12         : '',
+            // dailyDose13         : '',
+            // dailyDose14         : '',
+            // dailyDose15         : '',
+            // dailyDose16         : '',
+            // dailyDose17         : '',
+            // dailyDose18         : '',
+            // dailyDose19         : '',
+            // dailyDose20         : '',
+            // dailyDose21         : '',
+            // dailyDose22         : '',
+            // dailyDose23         : '',
             totalDailyDose      : '',
         };
 
         this.onNewMedicine      = this.onNewMedicine.bind(this);
-        this.handleChangeSelect = this.handleChangeSelect.bind(this)
-;    }
-
-    componentDidMount(){
-    
-        DataService.getPatientsMeds(this.state.patientId)
-        DataService.getPatientInfo(this.state.patientId)
-        .then(res => {
-
-            let medicines = res.patientsMedicines;
-            // let loadedMed = res.medArray;
-
-            let medNames = [];
-            for(let i=0; i < medicines.length; i++){
-                medNames[i] = medicines[i].drugName;
-            }
-
-            this.setState({ 
-                patientsMedicines   : medicines,
-                // medArray            : loadedMed,
-                medNamesArray   : medNames,
-            });
-
-        })
-        .catch(function (error) {    
-        console.log(error);
-        })    
+        this.onChangeState      = this.onChangeState.bind(this);
+        this.handleChangeSelect = this.handleChangeSelect.bind(this);
     }
+
+    // componentDidMount(){
+    
+
+    //     DataService.getPatientInfo(this.state.patientId)
+    //     .then(res => {
+
+    //         let medicines = res.patientsMedicines;
+    //         // let loadedMed = res.medArray;
+
+    //         let medNames = [];
+    //         for(let i=0; i < medicines.length; i++){
+    //             medNames[i] = medicines[i].drugName;
+    //         }
+
+    //         this.setState({ 
+    //             patientsMedicines   : medicines,
+    //             // medArray            : loadedMed,
+    //             medNamesArray   : medNames,
+    //         });
+
+    //     })
+    //     .catch(function (error) {    
+    //     console.log(error);
+    //     })    
+    // }
 
     onChangeState(field, value){
         let medInfo = this.state;
@@ -94,82 +90,88 @@ export default class MedicineInput extends React.Component {
 
     onNewMedicine(e){
 
-        console.log('submitbutton WORKS');
-
-         // NUEVO PLANTEAMINETO:
-         //   armar un array de medicamentos por cada paciente con la siguiente estructura:
-         //  patientsMedicines = [ [{drugName: name, drugUnits: units, dose:[{1},{2}, . .  .{n}] }]    
-         //  más específicamente:
-         //  patientsMedicines = [ [{nombre: xxx, dosis: [{fecha: xx, dosisHoraria :[x,..,x], dosisDiaria: xx}, {fecha: jj, dosisHoraria :[j,..,j], dosisDiaria: jj} ] }],
-         //              [{nombre: yyy, dosis: [{fecha: yy, dosisHoraria :[y,..,y], dosisDiaria: yy}]}]
+        // VIEJO PLANTEAMINETO:
+        //   armar un array de medicamentos por cada paciente con la siguiente estructura:
+        //  patientsMedicines = [ [{drugName: name, drugUnits: units, dose:[{1},{2}, . .  .{n}] }]    
+        //  más específicamente:
+        //  patientsMedicines = [ [{nombre: xxx, dosis: [{fecha: xx, dosisHoraria :[x,..,x], dosisDiaria: xx}, {fecha: jj, dosisHoraria :[j,..,j], dosisDiaria: jj} ] }],
+        //              [{nombre: yyy, dosis: [{fecha: yy, dosisHoraria :[y,..,y], dosisDiaria: yy}]}]
 
         e.preventDefault();       
-        let names           = [...this.state.medNamesArray]
-        let currentMed      = [...this.state.patientsMedicines];
-        let newDrugName     = this.state.drugName;
-        let newDate         = this.state.date      ;
-        let newHourlyDose   = [
-            this.state.dailyDose0, 
-            this.state.dailyDose1, 
-            this.state.dailyDose2, 
-            this.state.dailyDose3, 
-            this.state.dailyDose4, 
-            this.state.dailyDose5, 
-            this.state.dailyDose6, 
-            this.state.dailyDose7, 
-            this.state.dailyDose8, 
-            this.state.dailyDose9, 
-            this.state.dailyDose10,
-            this.state.dailyDose11,
-            this.state.dailyDose12,
-            this.state.dailyDose13,
-            this.state.dailyDose14,
-            this.state.dailyDose15,
-            this.state.dailyDose16,
-            this.state.dailyDose17,
-            this.state.dailyDose18,
-            this.state.dailyDose19,
-            this.state.dailyDose20,
-            this.state.dailyDose21,
-            this.state.dailyDose22,
-            this.state.dailyDose23]
-        let units           = this.state.doseUnits;
-        let dCode           = Calculations.generateCode();
+        let newDrugName   = this.state.drugName;
+        let newDate       = this.state.date;
+        let units         = this.state.doseUnits;
+        let newHourlyDose = [...this.state.dailyDoses];
+
+        // let newHourlyDose   = [
+        //     this.state.dailyDose0, 
+        //     this.state.dailyDose1, 
+        //     this.state.dailyDose2, 
+        //     this.state.dailyDose3, 
+        //     this.state.dailyDose4, 
+        //     this.state.dailyDose5, 
+        //     this.state.dailyDose6, 
+        //     this.state.dailyDose7, 
+        //     this.state.dailyDose8, 
+        //     this.state.dailyDose9, 
+        //     this.state.dailyDose10,
+        //     this.state.dailyDose11,
+        //     this.state.dailyDose12,
+        //     this.state.dailyDose13,
+        //     this.state.dailyDose14,
+        //     this.state.dailyDose15,
+        //     this.state.dailyDose16,
+        //     this.state.dailyDose17,
+        //     this.state.dailyDose18,
+        //     this.state.dailyDose19,
+        //     this.state.dailyDose20,
+        //     this.state.dailyDose21,
+        //     this.state.dailyDose22,
+        //     this.state.dailyDose23]
+        
+
+        // console.log('drugUnits = ', this.state.doseUnits);
+        // console.log('newDate = ', newDate);
+
+        // let totalDayDose = Number(this.state.dailyDose0) + Number(this.state.dailyDose1) + Number(this.state.dailyDose2) + Number(this.state.dailyDose3) + Number(this.state.dailyDose4) + Number(this.state.dailyDose5) + Number(this.state.dailyDose6) + Number(this.state.dailyDose7) + Number(this.state.dailyDose8) +
+        // Number(this.state.dailyDose9) + Number(this.state.dailyDose10) + Number(this.state.dailyDose11) + Number(this.state.dailyDose12) + Number(this.state.dailyDose13) + Number(this.state.dailyDose14) + Number(this.state.dailyDose15) + Number(this.state.dailyDose16) + Number(this.state.dailyDose17) + Number(this.state.dailyDose18) + Number(this.state.dailyDose19) +
+        // Number(this.state.dailyDose20) + Number(this.state.dailyDose21) + Number(this.state.dailyDose22) + Number(this.state.dailyDose23);
 
 
+        let totalDayDose = 0;
 
-        console.log('drugUnits = ', this.state.doseUnits);
-        console.log('newDate = ', newDate);
-
-        let totalDayDose = Number(this.state.dailyDose0) + Number(this.state.dailyDose1) + Number(this.state.dailyDose2) + Number(this.state.dailyDose3) + Number(this.state.dailyDose4) + Number(this.state.dailyDose5) + Number(this.state.dailyDose6) + Number(this.state.dailyDose7) + Number(this.state.dailyDose8) +
-        Number(this.state.dailyDose9) + Number(this.state.dailyDose10) + Number(this.state.dailyDose11) + Number(this.state.dailyDose12) + Number(this.state.dailyDose13) + Number(this.state.dailyDose14) + Number(this.state.dailyDose15) + Number(this.state.dailyDose16) + Number(this.state.dailyDose17) + Number(this.state.dailyDose18) + Number(this.state.dailyDose19) +
-        Number(this.state.dailyDose20) + Number(this.state.dailyDose21) + Number(this.state.dailyDose22) + Number(this.state.dailyDose23);
-
-
-        let newDose = {date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose, drugUnits: units};
-        let dosis = [];
-        dosis.push(newDose);
-
-        let index = names.indexOf(newDrugName.toUpperCase());
-
-        if(index < 0){   // --> si el medicamento no lo tomaba, se agrgan todos los datos.
-            let newDrug = {drugName: newDrugName.toUpperCase(), drugUnits: units, dose: dosis};
-            currentMed.push(newDrug);
-        } else {        // --> si el medicamento YA lo tomaba, solo se agrega la nueva dosis.
-            console.log('EL MEDICAMENTO YA LO TOMA')
-            currentMed[index].dose.push(newDose); 
-            console.log('El current med es: ', currentMed)
+        for (let i = 0; i <= 23; i++){
+          totalDayDose = totalDayDose + +newHourlyDose[i];
         };
+
+        // let newDose = {date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose, drugUnits: units};
+        // let dosis = [];
+        // dosis.push(newDose);
+
+        // let index = names.indexOf(newDrugName.toUpperCase());
+
+        // if(index < 0){   // --> si el medicamento no lo tomaba, se agrgan todos los datos.
+        //     let newDrug = {drugName: newDrugName.toUpperCase(), drugUnits: units, dose: dosis};
+        //     currentMed.push(newDrug);
+        // } else {        // --> si el medicamento YA lo tomaba, solo se agrega la nueva dosis.
+        //     console.log('EL MEDICAMENTO YA LO TOMA')
+        //     currentMed[index].dose.push(newDose); 
+        //     console.log('El current med es: ', currentMed)
+        // };
 
 
         
         let newMedInfo = {patientId: this.state.patientId, drugName: newDrugName.toUpperCase(), date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose, drugUnits: units}
        
-        DataService.newMedicine(newMedInfo);
-        DataService.newMedicineRegister(this.state.patientId, currentMed);
-        
-        this.props.propsFn.push(`/patient/${this.state.patientId}`)
-        
+        DataService.newMedicine(newMedInfo)
+        .then(res =>{
+            console.log(res.id, ' medicine succesfully registered ! ! !');
+            this.props.propsFn.push(`/patient/${this.state.patientId}`)
+        })
+        .catch(function (error) {    
+            console.log(error);
+        }) ;
+        // DataService.newMedicineRegister(this.state.patientId, currentMed);
     };
 
   

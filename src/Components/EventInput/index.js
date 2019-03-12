@@ -58,10 +58,7 @@ export default class EventInput extends React.Component {
     };
 
     onNewEvent(e){
-        e.preventDefault();       
-
-        //console.log('El estado del events al lanzar onNewEvent = ', this.state.patientsEvents)
-        
+        e.preventDefault();    
 
         let newEvent = {
             patientId           : this.props.patID,
@@ -75,23 +72,9 @@ export default class EventInput extends React.Component {
             detonation          : this.state.detonation,
         }
 
-        console.log('newEvent = ', newEvent);
         DataService.newEvent(newEvent)
         .then((result) => {
-
-            newEvent.eventId = result.id;
-            //console.log('NewEvent = ', newEvent);
-
-            let eventsArray = this.state.patientsEvents;
-
-           // console.log('El estado dentro del addNewEvent = ', this.state.patientsEvents);
-            eventsArray.push(newEvent);
-
-            this.setState({
-                patientsEvents : eventsArray,
-            })
-
-            DataService.addNewEventToPatient(this.state.patientId, this.state.patientsEvents);
+            console.log(result.id, ' event succesfully registered !!!')
             this.props.propsFn.push(`/patient/${this.state.patientId}`)
         })
         .catch(function (error) {    

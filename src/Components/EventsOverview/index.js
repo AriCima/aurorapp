@@ -31,28 +31,31 @@ const units = [
 
 export default class EventsOverview extends React.Component {
     constructor(props){
-        super(props);
-        this.state = { 
-            patientId           : this.props.patID,
-            patientsEvents      : [],
-        };
+      super(props);
+      this.state = { 
+        patientId           : this.props.patID,
+        patientsEvents      : [],
+      };
+      this._renderEventsInfo = this._renderEventsInfo.bind(this);
     }
 
     componentDidMount(){	
 
-        DataService.getPatientInfo(this.state.patientId)	
-       .then(res => {
+      DataService.getPatientsEvents(this.state.patientId)	
+      .then(res => {
+        
+        let events = Calculations.sortByDateDesc(res);
+        console.log('events', events);
 
-        let events = res.patientsEvents
-    
+
         this.setState({ 	
-        patientsEvents : events
+          patientsEvents : events
         });	
-
-        })	
-       .catch(function (error) {    	
-         console.log(error);	
-       })    	
+        console.log('patientsEvents', this.state.patientsEvents)
+      })	
+      .catch(function (error) {    	
+        console.log(error);	
+      })    	
     }
 
 
@@ -115,7 +118,7 @@ export default class EventsOverview extends React.Component {
             </ul>
           </div>
           
-            {this.state.patientName === '' ? <p>LOADING !</p> :
+            {this.state.patientsEvents === [] ? <p>LOADING !</p> :
               this._renderEventsInfo()
             }   
          
