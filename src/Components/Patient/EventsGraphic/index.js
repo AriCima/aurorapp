@@ -24,8 +24,9 @@ export default class EventsGraphic extends React.Component {
       eventsSorted      : [],
       firstEventDate    : '',
       lastEventDate     : '',
-      timeLineDays      : 120,
+      timeLineDays      : '',
       xData             : [],
+
     }
   }
 
@@ -33,8 +34,7 @@ export default class EventsGraphic extends React.Component {
 
     DataService.getPatientsEvents(this.state.patientId)
     .then(res => {
-      const evts = res;
-
+      const evts      = res;
       let eSorted     = Calculations.sortByDateAsc(evts);
       let evLe        = eSorted.length;
       let fEventDate  = new Date(eSorted[0].date);
@@ -42,11 +42,19 @@ export default class EventsGraphic extends React.Component {
       // let today       = new Date();
       let time        = ((((lEventDate - fEventDate)/1000)/60)/60)/24;
 
-      this.setState({ 
-        eventsSorted  : eSorted,
-        lastEventDate : lEventDate,
-        timeLineDays  : time,
-      });
+      if ( time > 240) {
+        this.setState({
+          eventsSorted  : eSorted,
+          lastEventDate : lEventDate,
+          timeLineDays  : 240,
+        })
+      } else {
+        this.setState({ 
+          eventsSorted  : eSorted,
+          lastEventDate : lEventDate,
+          timeLineDays  : time,
+        });
+      }
 
       this._cristiamFn(eSorted);
     })

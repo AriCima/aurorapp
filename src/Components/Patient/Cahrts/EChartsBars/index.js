@@ -65,6 +65,7 @@ export default class EChartsBars extends React.Component {
             {
               type: 'slider',
               show: true,
+              height: 20,
               backgroundColor: 'rgba(47,69,84,0)',
               dataBackground: {
                 lineStyle: {
@@ -120,7 +121,7 @@ export default class EChartsBars extends React.Component {
                 fontSize: 12,
                 lineHeight: 12,
                 //width: ...,
-                //height: ...,
+                height: 5,
                 textBorderColor: 'transparent',
                 textBorderWidth: 0,
                 textShadowColor: 'transparent',
@@ -153,7 +154,30 @@ export default class EChartsBars extends React.Component {
               bottom: 'auto',
             }
           ],
-          
+        //dataZoom: [
+        //     {
+        //     type: 'slider',
+        //     filterMode: 'weakFilter',
+        //     showDataShadow: false,
+        //     top: 400,
+        //     height: 5,
+        //     borderColor: 'transparent',
+        //     backgroundColor: '#e2e2e2',
+        //     handleIcon: 'M10.7,11.9H9.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4h1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7v-1.2h6.6z M13.3,22H6.7v-1.2h6.6z M13.3,19.6H6.7v-1.2h6.6z', // jshint ignore:line
+        //     handleSize: 10,
+        //     handleStyle: {
+        //         shadowBlur: 6,
+        //         shadowOffsetX: 1,
+        //         shadowOffsetY: 2,
+        //         shadowColor: '#aaa'
+        //     },
+        //     labelFormatter: ''
+        //     },
+        //     {
+        //     type: 'inside',
+        //     filterMode: 'weakFilter'
+        //     }
+        // ],  
         grid: {
             left: '0',
             top: '3%',
@@ -167,15 +191,39 @@ export default class EChartsBars extends React.Component {
                 data : this.props.xData,
                 axisTick: {
                     alignWithLabel: true
+                },
+                axisLabel: {
+                    interval: 100,
+                    rotate: -25,
                 }
             }
         ],
         yAxis :{
+                position        : 'right',
+                offset          : 10,
                 type            : 'value',
-                name            : 'Eventos',
-                nameLocation    : 'center',
-                nameGap         : '15px',
+                // name            : 'Eventos',
+                // nameLocation    : 'center',
+                // nameGap         : '15px',
             },
+        // brush: {
+        //     toolbox:  ['rect', 'clear'], 
+        //     brushLink: null,
+        //     seriesIndex: 'all',
+        //     geoIndex: null,
+        //     xAxisIndex: null,
+        //     yAxisIndex: null,
+        //     brushType: 'rect',
+        //     brushMode: 'single',
+        //     transformable: true,
+        //     // brushStyle: {...},
+        //     throttleType: 'fixRate',
+        //     throttleDelay: 0,
+        //     removeOnClick: true,
+        //     // inBrush: {...},
+        //     // outOfBrush: {...},
+        //     z: 10000,
+        // },
         series  : [
             {
                 name:'Eventos',
