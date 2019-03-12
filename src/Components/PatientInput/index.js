@@ -19,29 +19,15 @@ export default class PatientInput extends React.Component {
         this.state = { 
             adminId             : this.props.userID,
             patientId           : '',
-            userPatients        : [],
             patientName         : '',
             patientSurname      : '',
             birthDate           : '',
             birthWeight         : '',
             pregIssues          : '',
             birthIssues         : '',
-            patientsEvents      : [],
-            patientsWeights     : [],
-            patientsMedicines   : [],
-
         };
 
         this.onNewPatient = this.onNewPatient.bind(this);
-    }
-
-    componentDidMount(){ // Obtengo todos los Patients del user para agregarle el nuevo
-        DataService.getUserInfo(this.state.adminId)
-        .then(res => {
-            console.log('el res recibido = ', res)
-            let patients = res.userPatients;
-            this.setState({userPatients : patients});
-        })
     }
 
     onChangeState(field, value){

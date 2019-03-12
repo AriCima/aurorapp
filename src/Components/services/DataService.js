@@ -2,7 +2,8 @@ import firebase from 'firebase';
 
 export default class DataService {
 
-    // USERS 
+    // * * * * * * * * * USERS * * * * * * * * *
+    
     static saveUserInfoInFirestore(userId, userToSave){
         //registro en Firebase
         // console.log("el user recibido en el registro firestore es:", userId)
@@ -41,7 +42,6 @@ export default class DataService {
             
         });
     };
-    
     static getUserPatients(userId){
 
         return new Promise((resolve, reject) => {
@@ -71,7 +71,8 @@ export default class DataService {
         });
     };
 
-    // PATIENT
+    // * * * * * * * * * PATIENT * * * * * * * * *
+    
     static newPatient(patientInfo) {  
         return new Promise((resolve, reject) => {
 
@@ -92,7 +93,6 @@ export default class DataService {
             
         });
     };
-
     static editPatient(patID, patientInfo) {
         return new Promise((resolve, reject) => {
 
@@ -126,37 +126,6 @@ export default class DataService {
             
         });
     }
-    static getPatientToJoin(patientCode) {  
-        console.log('patientCode recibido en el join del Data =', patientCode);
-        return new Promise((resolve, reject) => {
-
-            firebase.firestore().collection('patients').where('patientCode', '==', patientCode).get()
-
-            // .then((result) => {
-            //     console.log('el result del join = ', result);
-            //     resolve(result.data());
-            // })
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-
-                    let reply = doc.data();
-                    reply.patientId = doc.id;
-
-                    resolve(reply)
-                });
-                
-            })
-
-            .catch((error) => {
-                var errorCode = error.code;
-                console.log('patient NOT joined: ', errorCode);
-             //   var errorMessage = error.message;
-                
-            })
-            
-        });
-    };
     static getPatientInfo(patientId) {  
 
         return new Promise((resolve, reject) => {
@@ -175,7 +144,6 @@ export default class DataService {
             
         });
     };
-
     static addPatientToUser(userID, newpatient){
         return new Promise((resolve, reject) => {
             console.log('inputs en el dataservice ', userID, newpatient);
@@ -194,7 +162,8 @@ export default class DataService {
         });
     }
 
-    // EVENTS
+    //  * * * * * * * * * EVENTS * * * * * * 
+
     static newEvent(stateInfo) {  
         console.log('info del estado a guardar = ', stateInfo )
     return new Promise((resolve, reject) => {
@@ -216,7 +185,6 @@ export default class DataService {
         
     });
     };
-
     static getPatientsEvents(patID){
         return new Promise((resolve, reject) => {
             firebase.firestore().collection('events').where("patientId", "==", patID).get()
@@ -235,7 +203,6 @@ export default class DataService {
             })
         })
     }
-    
     static getEventInfo(eventID) {  
 
         return new Promise((resolve, reject) => {
@@ -293,7 +260,6 @@ export default class DataService {
             
         });
     };
-
     static getPatientsMeds(patID){
         // console.log('getPatMeds laucnhed with ', patID)
         return new Promise((resolve, reject) => {
@@ -314,8 +280,7 @@ export default class DataService {
                 // reject('Usuario no existe', error)
             })
         })
-    }
-
+    };
     static getSingleMedHistory(patID, medName){
         return new Promise((resolve, reject) => {
             
@@ -336,9 +301,9 @@ export default class DataService {
                 // reject('Usuario no existe', error)
             })
         })
-    }
+    };
 
-    // WEIGHTS
+    // * * * * * * * * * WEIGHTS * * * * * * * 
     
     static newWeight(weightInfo) {  
         return new Promise((resolve, reject) => {
@@ -359,7 +324,6 @@ export default class DataService {
             
         });
     };
-
     static getPatientsWeights(patID){
         return new Promise((resolve, reject) => {
             firebase.firestore().collection('weight').where("patientId", "==", patID).get()
@@ -377,6 +341,6 @@ export default class DataService {
                 // reject('Usuario no existe', error)
             })
         })
-    }
+    };
 
 }
