@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // AUX COMP
-import Moment from 'react-moment'; // --> https://momentjs.com/
 import moment from 'moment';
 
 // SERVICE API
@@ -40,7 +39,7 @@ export default class EventsGraphic extends React.Component {
       let evLe        = eSorted.length;
       let fEventDate  = new Date(eSorted[0].date);
       let lEventDate  = new Date(eSorted[evLe-1].date);
-      let today       = new Date();
+      // let today       = new Date();
       let time        = ((((lEventDate - fEventDate)/1000)/60)/60)/24;
 
       this.setState({ 
@@ -48,7 +47,7 @@ export default class EventsGraphic extends React.Component {
         lastEventDate : lEventDate,
         timeLineDays  : time,
       });
-      console.log('timeLineDays', this.state.timeLineDays)
+
       this._cristiamFn(eSorted);
     })
     .catch(function (error) {    
@@ -60,9 +59,11 @@ export default class EventsGraphic extends React.Component {
   
   _cristiamFn(events){
 
+    // SE GRAFICAN LOS EVENTOS ENTRE LA FECHA DEL PRIMERO Y DEL ÚLTIMO.
+
     let resultEvents = [];
     let resultDates = [];
-    let index = this.state.timeLineDays;   // FALTA PARA EL CASO QUE SE QUIERA VER HISTORIAL COMPLETO
+    let index = this.state.timeLineDays;
 
     let currentDate = new Date(this.state.lastEventDate);
 
@@ -92,58 +93,18 @@ export default class EventsGraphic extends React.Component {
       sD : resultEvents,
     });
 
-    // console.log('xd / xs = ',this.state.xD, ' / ',  this.state.sD)
+    console.log('xd / xs = ',this.state.xD, ' / ',  this.state.sD)
 
   };
   
-
-  // _eventsGraphicData(){
-
-  //   let chartInfo = [];
-  //   let pEvts = this.state.eventsSorted;
-  //   let daysBack = this.state.timeLineDays;
-
-  //   //Cálculo de la fecha inicial
-  //   let today = new Date();
-
-  //   let monthsBack = Number(daysBack)/30;
-
-  //   let xData = [];
-  //   let eL = pEvts.length;
-  //   let serieData = [];
-
-  //   for(let j = 0; j <= monthsBack; j++){
-  //     // GENERAMOS ARRAYS DE MESES FROMATEADOS
-  //     let monthToAdd = moment(today).subtract(monthsBack-j, 'M').format('MMM-YYYY');
-  //     xData[j] = monthToAdd;
-  //     serieData[j] = 0;
-
-  //     // VERIFICAMOS SI LA FECHA DEL EVENTO FORMATEADA === MES FORMATEADO
-  //     for (let k = 0; k < eL; k++){
-  //       let eventDate = moment(new Date(pEvts[k].date)).format('MMM-YYYY');
-  //       if ( xData[j] === eventDate){
-  //         serieData[j] = serieData[j]+1;
-  //       }
-  //     }
-  //   };
-
-  //   chartInfo = [xData, serieData]
-
-  //   return chartInfo
-
-  // }
   
   render() {
 
-    // let xD = this._eventsGraphicData()[0];  // cargarlos en el state para no hacer todos los cálculos con cada render
-    // let sD = this._eventsGraphicData()[1];
-
     return (
-
     
       <div className="events-chart" to={`/events-overview/${this.state.patientId}`}>
 
-        {this.state.patientId === '' ? <p>LOADING !</p> : 
+        {this.state.xData === [] ? <p>LOADING !</p> : 
         
           <div>
             <EChartBars patID={this.props.patID} xData={this.state.xD} sData={this.state.sD}/>
