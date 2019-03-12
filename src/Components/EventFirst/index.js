@@ -31,9 +31,8 @@ export default class FirstEvent extends React.Component {
             patientsEvents      : [],
         };
 
-        this.onNewEvent             = this.onNewEvent.bind(this);
-
-        this.state.eventCode = Calculations.generateCode();
+        this.onNewEvent         = this.onNewEvent.bind(this);
+        this.state.eventCode    = Calculations.generateCode();
         //console.log('el code en el state = ', this.state.eventCode)
 
     }
@@ -65,7 +64,6 @@ export default class FirstEvent extends React.Component {
         e.preventDefault();       
 
         //console.log('El estado del events al lanzar onNewEvent = ', this.state.patientsEvents)
-        
 
         let newEvent = {
             patientId           : this.props.patID,
@@ -79,22 +77,22 @@ export default class FirstEvent extends React.Component {
             detonation          : this.state.detonation,
         };
 
-        DataService.addNewEvent(newEvent)
+        DataService.newEvent(newEvent)
         .then((result) => {
 
-            newEvent.eventId = result.id;
+            // newEvent.eventId = result.id;
             //console.log('NewEvent = ', newEvent);
 
-            let eventsArray = this.state.patientsEvents;
+        //     let eventsArray = this.state.patientsEvents;
 
-           // console.log('El estado dentro del addNewEvent = ', this.state.patientsEvents);
-            eventsArray.push(newEvent);
+        //    // console.log('El estado dentro del addNewEvent = ', this.state.patientsEvents);
+        //     eventsArray.push(newEvent);
 
-            this.setState({
-                patientsEvents : eventsArray,
-            })
+        //     this.setState({
+        //         patientsEvents : eventsArray,
+        //     })
 
-            DataService.addNewEventToPatient(this.state.patientId, this.state.patientsEvents);
+        //     DataService.addNewEventToPatient(this.state.patientId, this.state.patientsEvents);
             this.props.propsFn.push(`/patient/${this.state.patientId}`)
         })
         .catch(function (error) {    
@@ -108,10 +106,10 @@ export default class FirstEvent extends React.Component {
 
     return (
 
-        <div className="form-container">
+        <div className="nev-form-container">
 
-            <div className="form-title">
-                <h2>Por favor ingresa la información que dispongas del primer evento de {this.state.patientName}</h2>
+            <div className="nev-form-title">
+                <h2>Ingresa la información que dispongas del primer evento de {this.state.patientName}</h2>
             </div>
 
             <form  id="nev-form-format" onSubmit={this.onNewEvent}>

@@ -194,7 +194,7 @@ export default class DataService {
         });
     }
 
-    // EVENT
+    // EVENTS
     static newEvent(stateInfo) {  
         console.log('info del estado a guardar = ', stateInfo )
     return new Promise((resolve, reject) => {
@@ -210,28 +210,6 @@ export default class DataService {
         .catch((error) => {
             var errorCode = error.code;
             console.log('patient could not be added: ', errorCode);
-           // var errorMessage = error.message;
-            
-        })
-        
-    });
-    };
-
-    static addNewEventToPatient(patId, newStateInfo) {  
-    return new Promise((resolve, reject) => {
-
-        firebase.firestore().collection('patients').doc(patId).update({
-            patientsEvents : newStateInfo})
-
-        .then((result) => {
-            
-            console.log(`${result.id} State succesfully added !`)
-            resolve(result);
-        })
-
-        .catch((error) => {
-            var errorCode = error.code;
-            console.log('EVENT could not be added to the patient: ', errorCode);
            // var errorMessage = error.message;
             
         })
@@ -258,7 +236,6 @@ export default class DataService {
         })
     }
     
-
     static getEventInfo(eventID) {  
 
         return new Promise((resolve, reject) => {
@@ -383,29 +360,8 @@ export default class DataService {
     }
 
     // WEIGHTS
-
-    static addNewWeight2(patId, weightArray) {  
-    return new Promise((resolve, reject) => {
-
-        firebase.firestore().collection('patients').doc(patId).update({
-            patientsWeights : weightArray})
-
-        .then((result) => {
-            
-            console.log(`new Weight reading State succesfully added !`)
-            resolve(result);
-        })
-
-        .catch((error) => {
-            var errorCode = error.code;
-            console.log('EVENT could not be added to the patient: ', errorCode);
-           // var errorMessage = error.message;
-            
-        })
-        
-    });
-    };
-    static addNewWeight(weightInfo) {  
+    
+    static newWeight(weightInfo) {  
         return new Promise((resolve, reject) => {
     
             firebase.firestore().collection('weight').add(weightInfo)

@@ -33,24 +33,33 @@ export default class Patient extends React.Component {
 
     DataService.getPatientInfo(this.state.patientId)
     .then(res => {
-        let name            = res.patientName;
-        let surname         = res.patientSurname;
-        let born            = res.birthDate;
-
-        let eventsCopy      = [...res.patientsEvents];
-        let eventsSorted    = Calculations.sortByEventDate(eventsCopy);   // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-        let firstEvent      = eventsSorted[0].date;
-
+        let name         = res.patientName;
+        let surname      = res.patientSurname;
+        let born         = res.birthDate;
+                      
         this.setState({ 
-            patientName       : name,
-            patientSurname    : surname,
-            birthDate         : born, 
-            firstEventDate    : moment(firstEvent).format('DD-MMM-YYYY'),
+          patientName       : name,
+          patientSurname    : surname,
+          birthDate         : born, 
         });
     })
     .catch(function (error) {    
     console.log(error);
     })   
+
+    DataService.getPatientsEvents(this.props.patID)
+    .then(events =>{
+      let eSorted = Calculations.sortByDateAsc(events);
+      let fEvent = eSorted[0].date;
+
+      this.setState({
+        firstEventDate : moment(fEvent).format('DD-MMM-YYYY'),
+      })
+
+    })
+    .catch(function (error) {    
+      console.log(error);
+    }); 
 
     DataService.getPatientsWeights(this.props.patID)
     .then(weights => {
@@ -71,13 +80,6 @@ export default class Patient extends React.Component {
     }); 
   }
 
-  // componentDidUpdate(prevProps){
-  //   if (this.props.cWeight !== prevProps.cWeight) {
-  //       this.setState({
-  //           currentWeight: this.props.cWeight}
-  //       );
-  //   }
-  // }
 
   render() { 
       return (

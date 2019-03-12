@@ -31,6 +31,8 @@ export default class PatientInput extends React.Component {
             patientsMedicines   : [],
 
         };
+
+        this.onNewPatient = this.onNewPatient.bind(this);
     }
 
     componentDidMount(){ // Obtengo todos los Patients del user para agregarle el nuevo
@@ -50,70 +52,40 @@ export default class PatientInput extends React.Component {
 
     onNewPatient(e){
         e.preventDefault(); 
-        
-        let rCode = Calculations.generateCode();
+
         let noCommas = this.state.birthWeight.replace(",", ".");
-
-        let newWeight = {
-            readingCode     : rCode,
-            date            : this.state.birthDate,
-            weight          : noCommas,
-        };
-
-
-
-        let transWeights = [];
-        transWeights.push(newWeight);
 
         let newState = {
             adminId                : this.state.adminId,
             patientName            : this.state.patientName, 
             patientSurname         : this.state.patientSurname, 
-            birthDate               : moment(this.state.birthDate).format('DD-MMM-YYYY'),
+            birthDate              : moment(this.state.birthDate).format('DD-MMM-YYYY'),
             pregIssues             : this.state.pregIssues,
             birthIssues            : this.state.birthIssues,
-            birthWeight             : this.state.birthWeight,
-            patientsEvents         : this.state.patientsEvents,
-            patientsWeights        : transWeights,
-            patientsMedicines      : this.state.patientsMedicines,
+            birthWeight            : this.state.birthWeight,
         };
        
         DataService.newPatient(newState)
-        //console.log('userPatients al crear newPatient', this.state.userPatients)
         .then((result)=>{
-           console.log('el result.id', result.id)
             let patID = result.id;
-        //         patientName         : this.state.patientName,
-        //         patientSurname      : this.state.patientSurname,
-        //         admin               : true,
-        //         moderator           : true,
-        //     }
-        //     console.log('userPatients luego de crear newPatient', this.state.userPatients);
-        //     let transPatient = this.state.userPatients;
-
-        //     if(transPatient.length === 0){
-        //         transPatient[0] = newPatient;
-        //     } else {
-        //         transPatient.push(newPatient);
-        //     }
-            
         
             this.setState({
                 patientId : patID,
             })
            
-            // let newWeightBis = {
-            //     patientId       : this.state.patientId,
-            //     date            : this.state.bornDate,
-            //     weight          : noCommas,
-            // };
+            let newWeight = {
+                patientId       : this.state.patientId,
+                date            : this.state.birthDate,
+                weight          : noCommas,
+            };
 
-            // DataService.newWeight(newWeightBis).then((result) => {
-            //     console.log('Nuevo Peso registrado con el código: ', result.id);
-            // })
-            // .catch(function (error) {    
-            //     console.log(error);
-            // })
+            DataService.newWeight(newWeight)
+            .then((result) => {
+                console.log('Nuevo Peso registrado con el código: ', result.id);
+            })
+            .catch(function (error) {    
+                console.log(error);
+            })
 
             this.props.propsFn.push(`/first-event/${this.state.patientId}`);
         })
@@ -121,7 +93,6 @@ export default class PatientInput extends React.Component {
             console.log(error);
         })
 
-       
 
     };
 
