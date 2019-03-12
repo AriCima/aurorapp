@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
-// ECHARTS
-import EChart from './Cahrts/ECharts';
-import EChartBars from './Cahrts/EChartsBars';
-
 
 // MATERIAL UI
-import AddButtonPlain from '../Accessories/AddButtonCool';
-
 import MyButtonPlain from '../Accessories/MyButtonPlain';
 
-// SERVICE API
-import DataService from '../services/DataService';
-import Calculations from '../services/Calculations';
 
 // Components
 import PatientInfo from './PatientInfo';
@@ -122,7 +113,7 @@ export default class Patient extends React.Component {
 
                 <div className="chart-upper">
                   <Link className="chartBox-Title" to={`/medicine_overview/${this.state.patientId}`}>
-                    <h2>Dosis por Kg</h2>
+                    <h2>Dosis por Kg <span>(últimos 30 días)</span></h2>
                   </Link>
                     
                   <div className="chart-add-button">
@@ -134,7 +125,18 @@ export default class Patient extends React.Component {
 
                 <div className="chartBox-info">
                   {this.state.patientName === '' ? <p>LOADING !</p> :
-                    <MedWeightGraphic patID={this.props.patID} tLine={this.state.timeLineDays}/>
+                    <MedWeightGraphic 
+                      patID={this.props.patID} 
+                      tLine={'30'} 
+                      w={'400px'} 
+                      h={'200px'}
+                      yName={''}
+                      nameGap={'0px'}
+                      left = {'0'}
+                      top = {'40px'}
+                      right= {'0px'}
+                      bottom= {'0px'}
+                    />
                   }
                 </div>
               </div>

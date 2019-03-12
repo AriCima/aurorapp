@@ -25,13 +25,22 @@ export default class MedWeightGraphic extends React.Component {
       medNames        : [],
       singleMeds      : [],
       weightsSorted   : [],
-      timeLineDays    : 90,
+      timeLineDays    : this.props.tLine,
       xD              : [],
       sD              : [],
+      width           : this.props.w,
+      hegith          : this.props.h,   
+      yName           : this.props.yName,
+      nameGap         : this.props.nameGap,
+      left            : this.props.left,
+      top             : this.props.top,
+      right           : this.props.right,
+      bottom          : this.props.bottom ,
     }
   }
 
   componentDidMount(){
+    console.log('props received', this.props.tLine)
     DataService.getPatientsMeds(this.props.patID)
     .then(res => {
       
@@ -92,8 +101,24 @@ export default class MedWeightGraphic extends React.Component {
 
   };
 
+  componentDidUpdate(prevProps, prevState){
+    if(prevProps.tLine !== this.props.tLine){
+      console.log('se cumple el if', this.props.tLine)
+
+      this.setState({
+        timeLineDays : this.props.tLine
+      })
+
+
+    this._dataGenerator(this.props.tLine);
+    this._xAxisData(this.props.tLine);
+    }
+
+  }
+
   _dataGenerator(){
-    // console.log('_dataGenerator LAUNCHED')
+    console.log('_dataGenerator LAUNCHED')
+
     let meds    = this.state.singleMeds;
     let index   = meds.length;
     let yValues = [];
@@ -130,14 +155,12 @@ export default class MedWeightGraphic extends React.Component {
       // console.log('series', series)
 
     }
-    console.log('series source', series)
+    // console.log('series source', series)
 
     this.setState({
       sD : series
     })
-    
-  
-  
+
   };
  
   _cristiamFn(meds){
@@ -150,7 +173,7 @@ export default class MedWeightGraphic extends React.Component {
 
     let resultsDosis = [];
     let resultDates = [];
-    let index = 90;
+    let index = this.state.timeLineDays;   // FALTA PARA EL CASO QUE SE QUIERA VER HISTORIAL COMPLETO
     let medsIndex = meds.length-1;
 
     let currentDate = new Date();
@@ -204,17 +227,29 @@ export default class MedWeightGraphic extends React.Component {
     this.setState({
       xD : resultDates
     })
-    
+
     // console.log('xD = ', this.state.xD)
   };
   
   
   render() {
+   
     return (
       <div className="med-weight-chart">
         {this.state.sD === [] ? <p>LOADING !</p> : 
           <div> 
-            <EChartsLines xData={this.state.xD} sData={this.state.sD}/>
+            <EChartsLines 
+              xData   = {this.state.xD} 
+              sData   = {this.state.sD} 
+              h       = {this.props.h} 
+              w       = {this.props.w}
+              yName   = {this.state.yName}
+              nameGap = {this.state.nameGap}
+              left    = {this.state.left}
+              top     = {this.state.top}
+              right   = {this.state.right}
+              bottom  = {this.state.bottom}
+            />
           </div>
         }
       </div>
