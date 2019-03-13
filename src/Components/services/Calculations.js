@@ -195,20 +195,17 @@ export default class Calculations {
     // * * * * * * * * MEDICINES * * * * * * * * 
 
     static  getSortedMedicines (medNames, meds){
-        // medNames = {drugName: meds[i].drugName, allDoses: []}
+        // medNames = {drugName: name, allDoses: []}
         let mNL       = medNames.length;
         let mL        = meds.length;
            
-        
         for (let j = 0; j < mNL; j++){  // itero entre medNames
             let name   = medNames[j].drugName;
             let xDose  = '';
             let hDose  = [];
             let date   = '';
             let unit   = 'mg';
-  
             for (let k = 0; k < mL; k++){  // itero entre el meds 
-    
                 if (name === meds[k].drugName){
                     xDose   = meds[k].dailyDose;
                     hDose   = meds[k].hourlyDose;
@@ -225,7 +222,7 @@ export default class Calculations {
             
         }
 
-        console.log('medNames', medNames)
+        console.log('medNames CALCULATIONS', medNames)
         
         return medNames
     }
