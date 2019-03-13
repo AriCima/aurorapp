@@ -95,7 +95,7 @@ export default class CurrentMed extends React.Component {
           </div>
 
           <div className="med-info-block">
-            <p>{Number.parseFloat((Number(meds.dailyDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{meds.drugUnits}/Kg]</span></p> 
+            <p>{Number.parseFloat((Number(meds.allDoses[0].dailyDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{meds.drugUnits}/Kg]</span></p> 
           </div>
         </Link>
       )
