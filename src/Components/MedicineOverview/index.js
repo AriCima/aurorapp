@@ -19,72 +19,90 @@ export default class MedicineOverview extends React.Component {
         super(props);
         this.state = { 
             patientId         : this.props.patID,
-            drugName          : this.props.dName,
-            medsTableInfo     : [],
-            patientMedicines  : [],	
-            currentMedicines  : [],
+            
+            medsInfo          : [],
+            medNames          : [],
+            currentMeds       : [],
+
+            patientsWeights   : [],
             currentWeight     : '',
-            timeLine          : '30',
+            timeLine          : '',
         };
 
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount(){	
 
-        DataService.getPatientInfo(this.state.patientId)	
-       .then(res => {	
-            let meds =  [...res.patientsMedicines];	
-            let weightsCopy     = [...res.patientsWeights];
-            let weightsSorted   = Calculations.sortByEventDate(weightsCopy);
-            let wL              = weightsSorted.length;
-            let cWeight         = weightsSorted[wL-1].weight;
-    
-    
-            // console.log('pat.patientsEvents / pat.patientsWeights = ' ,pat.patientsEvents, ' / ', pat.patientsWeights )	
-            // Sorting Events https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/	
+  componentDidMount(){
+
+    DataService.getPatientsMeds(this.props.patID)
+    .then(res => {
+     
+      let meds = res;
+      let mL= meds.length;
+      let medNames = [];
+
+      for( let i = 0; i < mL; i++){
+        let newMed = meds[i].drugName;
+
+        medNames.indexOf(newMed) < 0 && medNames.push(newMed);
         
-            //estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},	
-            let medsTable = []; 	
-            let currentMeds = [];	
-            for (let k = 0; k < meds.length; k++){ // --> iteración medicinas	
-                let dName   = meds[k].drugName;	
-                let dunits  = meds[k].drugUnits;	
-                let index   = meds[k].dose.length;	
-                let dDose   = meds[k].dose[index-1].dailyDose;	
-                let hDose   = meds[k].dose[index-1].hourlyDose;
-                let ratio   = Number.parseFloat((Number(dDose)/ Number(cWeight))).toFixed(1);
+      }
 
-                // medsTable recoge toda la info para mostrarla en el cuadro de registro de medicamentos	
-                medsTable[k] = {drugName: dName, dailyDose: dDose, hourlyDose: hDose, drugDose: dDose, drugUnit: dunits, drugRatio: ratio};	        
-                let doseSorted = Calculations.sortMedicinesDate(meds[k].dose);	
-                let dL = doseSorted.length;	
-                let cDose = doseSorted[dL-1].dailyDose;	
+      let mNL = medNames.length;
+      let medsChart = [];
+
+      for (let j = 0; j < mNL; j++){
+        let name = medNames[j];
+        let date = new Date(0);
+        let unit = 'mg';
+        let xDose = 0;
+
+        for (let k = 0; k < mL; k++){
+          if (name === meds[k].drugName && new Date(meds[k].date) > date){
+            if (meds[k].dailyDose === 0){
+              continue
+            } else {
+              xDose   = meds[k].dailyDose;
+              date    = meds[k].date;
+              unit    = meds[k].drugUnits;
+            }
+          }
+        }
+
+        let medToAdd = {drugName: name, dailyDose : xDose, drugUnits: unit};
+        medsChart.push(medToAdd);
+      }
+
+      this.setState({
+        medsInfo  : medsChart,
+        medArray  : meds,
+        medNames  : medNames
+      })
+
+    })
+    .catch(function (error) {    
+      console.log(error);
+    });
+
+    DataService.getPatientsWeights(this.props.patID)
+    .then(weights => {
+
+      let wSorted = Calculations.sortByDateAsc(weights);
+      let wL = wSorted.length;
+
+      let cWeight = wSorted[wL-1].weight;
+
+      this.setState({
+        currentWeight : cWeight
+      })
+
+    })
+    .catch(function (error) {    
+      console.log(error);
+    });
+  };
     
-    
-                if(cDose === 0){	
-                    continue	
-                } else {	
-                    currentMeds.push({medName: dName, medCDose: cDose, medUnit: dunits, drugRatio: ratio})	
-                }	
-    
-            }	
-   
-          // console.log('el currentMeds = ', currentMeds)	
-   
-          this.setState({ 	
-            patientMedicines  : res.patientMedicines,      // med oredered alpahbetically for listing purposes	
-            medsTableInfo     : medsTable,	
-            currentMedicines  : currentMeds,	
-            currentWeight     : cWeight,
-   
-          });	
-          console.log('medicineTable = ', medsTable)
-        })	
-       .catch(function (error) {    	
-         console.log(error);	
-       })    	
-    }
 
     handleChange(event) {
 

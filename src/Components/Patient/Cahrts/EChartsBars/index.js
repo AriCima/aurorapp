@@ -5,6 +5,9 @@ import DataService from '../../../services/DataService';
 import Calculations from '../../../services/Calculations';
 
 // ECharts --> http://recharts.org/en-US/examples/SimpleLineChart
+
+// VER https://ecomfe.github.io/echarts-examples/public/editor.html?c=line-gradient
+
 import ReactEcharts from 'echarts-for-react';
 import 'echarts/lib/chart/bar';
 

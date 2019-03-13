@@ -56,6 +56,7 @@ export default class Calculations {
     };
 
     // - - - - - SORTING FUNCTIONS 
+
     // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
     static sortByDateAsc(x){
 
@@ -161,7 +162,7 @@ export default class Calculations {
         return x.sort(orderReadings)
     };
 
-    // - - - - CODE GENERATION 
+    // * * * * * * * * CODE GENERATION * * * * * * * *
     static generateCode(){
      // GENERATE BOOKING CODE
      const letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
@@ -190,4 +191,42 @@ export default class Calculations {
      return code
      
     };
+
+    // * * * * * * * * MEDICINES * * * * * * * * 
+
+    static  getSortedMedicines (medNames, meds){
+        // medNames = {drugName: meds[i].drugName, allDoses: []}
+        let mNL       = medNames.length;
+        let mL        = meds.length;
+           
+        
+        for (let j = 0; j < mNL; j++){  // itero entre medNames
+            let name   = medNames[j].drugName;
+            let xDose  = '';
+            let hDose  = [];
+            let date   = '';
+            let unit   = 'mg';
+  
+            for (let k = 0; k < mL; k++){  // itero entre el meds 
+    
+                if (name === meds[k].drugName){
+                    xDose   = meds[k].dailyDose;
+                    hDose   = meds[k].hourlyDose;
+                    date    = meds[k].date;
+                    unit    = meds[k].drugUnits;
+
+                    let doseToAdd = {date: date, hourlyDose: hDose, dailyDose : xDose, drugUnits: unit};
+                    medNames[j].allDoses.push(doseToAdd)
+                }
+            }
+
+            let sortedDoses = this.sortByDateDesc(medNames[j].allDoses)
+            medNames[j].allDoses = sortedDoses;
+            
+        }
+
+        console.log('medNames', medNames)
+        
+        return medNames
+    }
 }

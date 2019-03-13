@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
-// AUX COMP
+// MOMENT
 import moment from 'moment';
 
 // SERVICE API
@@ -84,7 +84,6 @@ export default class EventsGraphic extends React.Component {
         let formatedEvent = moment(new Date(events[j].date)).format('DD-MMM-YYYY')
 
         if(formatedEvent === formatedCurrent ){
-          console.log('se cumple el if :', formatedEvent , ' / ',  formatedCurrent )
           evQty = evQty+1;
         } 
       }
@@ -100,8 +99,6 @@ export default class EventsGraphic extends React.Component {
       xD : resultDates,
       sD : resultEvents,
     });
-
-    console.log('xd / xs = ',this.state.xD, ' / ',  this.state.sD)
 
   };
   
