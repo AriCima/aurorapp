@@ -96,7 +96,7 @@
     margin: 0;
   }
   
-  #ratio-field{
+  #sratio-field{
     width: 150px;
     list-style-type: none;
     display: flex;
@@ -104,12 +104,11 @@
     justify-content: center;
     align-items: center;
   }
-  .single-day{
+  .s-single-day{
     width: 4%;
     margin: 0;
     list-style-type: none;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
   }
@@ -125,22 +124,15 @@
     width: 100%;
     background-color: rgba(0, 144, 248, 0.2);
     border-radius: 10px;
-    margin: 2px 0 2px 0;
+    margin: 4px 0 0px 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     color: gray;
+
   }
-  
-  /* .medicine-row:first-child{
-    margin-top: 4px;
-  }
-  .medicine-row:hover{
-    background-color: rgba(0, 144, 248, 0.5);
-    color: white;
-    font-weight: 650;
-  } */
+
   
   .sdose-fields{
     width: 4%;
@@ -153,13 +145,13 @@
     background-color: rgba(0, 144, 248, 0.2);
   }
   
-  .dose-fields:nth-child(odd){
+  .sdose-fields:nth-child(odd){
     background-color: rgba(0, 144, 248, 0.02);
   }
-  .dose-fields:nth-child(even){
+  .sdose-fields:nth-child(even){
     background-color: rgba(0, 144, 248, 0.2);
   }
-  .dose-fields p{
+  .sdose-fields p{
     margin: 0;
   }
   

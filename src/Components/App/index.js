@@ -115,7 +115,7 @@ class App extends Component {
                 <Route path="/patient_new_weight/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId} />}}/> */}
                 <Route path="/patient_new_medicine/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId} />}}/> */}
                 <Route path="/medicine_overview/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId} />}}/> */}
-                <Route path="/single_medicine_overview/:patientId/:drugName" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId} />}}/>
+                <Route path="/single_medicine_overview/:patientId/:drugName/:dUnit/:dDose" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId} />}}/>
 
               </Switch>
 
@@ -141,7 +141,7 @@ class App extends Component {
                 <Route path="/patient_new_weight/:patientId" exact render = {(props) => { return <WeightInput propsFn={props.history} patID={props.match.params.patientId} />}}/>
                 <Route path="/patient_new_medicine/:patientId" exact render = {(props) => { return <MedicineInput propsFn={props.history} patID={props.match.params.patientId} />}}/>
                 <Route path="/medicine_overview/:patientId" exact render = {(props) => { return <MedicineOverview propsFn={props.history} patID={props.match.params.patientId} />}}/>
-                <Route path="/single_medicine_overview/:patientId/:drugName" exact render = {(props) => { return <SingleMedOverview propsFn={props.history} patID={props.match.params.patientId} dName={props.match.params.drugName} />}}/>
+                <Route path="/single_medicine_overview/:patientId/:drugName/:dUnit/:dDose" exact render = {(props) => { return <SingleMedOverview propsFn={props.history} patID={props.match.params.patientId} dName={props.match.params.drugName} dUnits={props.match.params.dUnit} dose={props.match.params.dDose}/>}}/>
 
               </Switch>
 

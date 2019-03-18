@@ -7,27 +7,9 @@ import DataService from '../services/DataService';
 import Calculations from '../services/Calculations';
 
 // MATERIAL-UI
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import AddButtonCool from '../Accessories/AddButtonCool';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import classNames from 'classnames';
-import Button from '@material-ui/core/Button';
 
 import './index.css'; 
-
-
-const units = [
-    {
-      value: 'mg',
-      label: 'mg',
-    },
-    {
-      value: 'ml',
-      label: 'ml',
-    },
-];
 
 export default class EventsOverview extends React.Component {
     constructor(props){
@@ -65,7 +47,7 @@ export default class EventsOverview extends React.Component {
     return this.state.patientsEvents.map((evts,j) => {
       return (
         <div className="list-container">
-          <Link className="standard-list-row" key={j} to={`/single_event_overview/${this.state.patientId}/${evts.eventId}`}> 
+          <Link className="standard-list-row" key={j} to={`/single_event_overview/${this.state.patientId}/${evts.id}`}> 
           
             <div className="standard-list-info-block">
                <p>{evts.date}</p>

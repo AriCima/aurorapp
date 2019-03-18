@@ -99,10 +99,12 @@ export default class MedicineOverview extends React.Component {
     _renderMedicinesInfo(){ 	
 
        //estructura del medArray = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},	
-       return this.state.medsArray.map((meds,j) => {	
+       return this.state.medsArray.map((meds,j) => {
+           
+            let x = Number(meds.allDoses[0].dailyDose);
             return (	
                 <div className="medicines-container" key={j}>	
-                    <Link className="medicine-row"  to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 	
+                    <Link className="medicine-row"  to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}/${meds.allDoses[0].drugUnits}/${meds.allDoses[0].dailyDose}`}> 	
                     
                         <div id="drug-field">	
                             <h4>{meds.drugName}</h4>	
@@ -111,7 +113,7 @@ export default class MedicineOverview extends React.Component {
                         {this._renderMedicineDose(meds.allDoses[0].hourlyDose)}	
 
                         <div id="ratio-field">	
-                            <p>{Number.parseFloat((Number(meds.allDoses[0].dailyDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{meds.drugUnits}/Kg]</span></p>
+                            <p>{Number.parseFloat((Number(meds.allDoses[0].dailyDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{meds.allDoses[0].drugUnits}/Kg]</span></p>
                         </div>	
 
                     </Link>	

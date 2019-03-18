@@ -43,13 +43,14 @@
 }
 
 .nev-input-row{
-  margin-top: 20px;
+  margin-top: 0px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
 }
+
 
 input:hover, textarea:hover, input:focus, input:active, textarea:focus, textarea:active {
   border: 2px solid rgba(0, 144, 248, 1);
@@ -92,6 +93,7 @@ label p{
   color: rgb(134, 134, 134);
   text-align: center;
 }
+
 
 .nev-textarea-row{
   margin-top: 20px;
@@ -137,4 +139,77 @@ label p{
 }
 
 
+/* * * * * * *  SELECTOR AREA * * * * * * */
 
+.nev-input-select-row{
+  margin-top: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.nev-input-select-row-bis{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.nev-half-input-row{
+  margin-top: 0px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+}
+
+.select-row-title{
+  width: 100%;
+}
+
+.select-row-title p{
+  margin-left: 20px;
+  color: rgb(134, 134, 134);
+  font-weight: 550;
+}
+.selectors-field{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.selector-wrapper{
+  width: 150px;
+  margin-right: 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.selector-text{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 0px;
+}
+
+.selector-text p{
+  color: rgb(134, 134, 134);
+}
+
+#back-light{
+  background-color: rgba(0, 144, 248, 0.03);
+}
+
+#back-dark{
+  background-color: rgba(0, 144, 248, 0.1);
+}
+
+#back-light2{
+  background-color: rgba(0, 144, 248, 0.08);
+}

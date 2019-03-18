@@ -84,7 +84,7 @@ export default class CurrentMed extends React.Component {
       // console.log('medicines = ',this.state.currentMedicines )
       return (
         
-        <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.medName}`}> 
+        <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
         
           <div className="med-info-block">
             <p>{meds.drugName}</p>

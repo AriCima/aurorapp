@@ -172,7 +172,7 @@ export default class DataService {
 
         .then((result) => {
             
-            console.log(`${result.id} State succesfully added !`)
+            // console.log(`${result.id} Event succesfully added !`)
             resolve(result);
         })
 
@@ -184,6 +184,45 @@ export default class DataService {
         })
         
     });
+    };
+    static newEventType(newType) {  
+    return new Promise((resolve, reject) => {
+
+        firebase.firestore().collection('ownEventTypes').add(newType)
+
+        .then((result) => {
+            
+            console.log(`${result.id} New Event Type succesfully added !`)
+            resolve(result);
+        })
+
+        .catch((error) => {
+            var errorCode = error.code;
+            console.log('New-Event-Type could not be added: ', errorCode);
+           // var errorMessage = error.message;
+            
+        })
+        
+    });
+    };
+    static newDetonation(newType) {  
+        return new Promise((resolve, reject) => {
+    
+            firebase.firestore().collection('ownDetonations').add(newType)
+    
+            .then((result) => {
+                
+                console.log(`${result.id} New Detonation succesfully added !`)
+                resolve(result);
+            })
+    
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('New Detonation could not be added: ', errorCode);
+                
+            })
+            
+        });
     };
     static getPatientsEvents(patID){
         return new Promise((resolve, reject) => {

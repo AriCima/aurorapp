@@ -16,14 +16,16 @@ export default class SingleMedOverview extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
-            patientId         : this.props.patID,
-            drugName          : this.props.dName,
+            patientId       : this.props.patID,
+            drugName        : this.props.dName,
+            drugUnits       : this.props.dUnits,
+            dailyDose       : this.props.dose,
             
-            medObj : {drugName: '', allDoses: [ {hourlyDose: []} ] },
+            medObj          : {drugName: '', allDoses: [ {hourlyDose: []} ] },
 
-            patientsWeights   : [],
-            currentWeight     : '',
-            timeLine          : '',
+            patientsWeights : [],
+            currentWeight   : '',
+            timeLine        : '',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -35,9 +37,10 @@ export default class SingleMedOverview extends React.Component {
         DataService.getPatientsMeds(this.props.patID)
         .then(res => {
             
+            console.log('res'. res)
           let meds      = res;
           let mL        = meds.length;
-          let medName   = [{drugName: this.props.dName, allDoses:[]}];
+          let medName   = [{drugName: this.props.dName, drugUnits: meds.drugUnits, allDoses:[]}];
     
           let medicines = Calculations.getSortedMedicines(medName, meds);  // medicines = [drugName: name, allDoses: [{}, {} . . {}] allDoses sorted descendently (curren dose = position  0)
           
@@ -84,17 +87,19 @@ export default class SingleMedOverview extends React.Component {
 
        //estructura del medObj = [{drugName1: '', dose:[{date, dayDose},{date, dayDose},  . . . .]},	
       
+       console.log('myObj', mObj)
+
         return (	
             <div className="smedicine-container" >	
 
                 <div className="smedicine-row">
                     {this._renderMedicineDose(hDose)}	
-                </div>
-                <div id="sratio-field">	
-                    <p>{Number.parseFloat((Number(mObj.dailyDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{mObj.drugUnits}/Kg]</span></p>
-                </div>
-
                 
+                    <div id="sratio-field">	
+                        <p>{Number.parseFloat((Number(this.state.dailyDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{this.state.drugUnits}/Kg]</span></p>
+                    </div>
+
+                </div>
             </div>	
         )	
      	
@@ -131,30 +136,30 @@ export default class SingleMedOverview extends React.Component {
                 <div className="s-drugs-list-header">
                     <ul id="days-list">
                         {/* <li id="drug-field">Droga</li> */}
-                        <li className="single-day">0</li>
-                        <li className="single-day">1</li>
-                        <li className="single-day">2</li>
-                        <li className="single-day">3</li>
-                        <li className="single-day">4</li>
-                        <li className="single-day">5</li>
-                        <li className="single-day">6</li>
-                        <li className="single-day">7</li>
-                        <li className="single-day">8</li>
-                        <li className="single-day">9</li>
-                        <li className="single-day">10</li>
-                        <li className="single-day">11</li>
-                        <li className="single-day">12</li>
-                        <li className="single-day">13</li>
-                        <li className="single-day">14</li>
-                        <li className="single-day">15</li>
-                        <li className="single-day">16</li>
-                        <li className="single-day">17</li>
-                        <li className="single-day">18</li>
-                        <li className="single-day">19</li>
-                        <li className="single-day">20</li>
-                        <li className="single-day">21</li>
-                        <li className="single-day">22</li>
-                        <li className="single-day">23</li>
+                        <li className="s-single-day">0</li>
+                        <li className="s-single-day">1</li>
+                        <li className="s-single-day">2</li>
+                        <li className="s-single-day">3</li>
+                        <li className="s-single-day">4</li>
+                        <li className="s-single-day">5</li>
+                        <li className="s-single-day">6</li>
+                        <li className="s-single-day">7</li>
+                        <li className="s-single-day">8</li>
+                        <li className="s-single-day">9</li>
+                        <li className="s-single-day">10</li>
+                        <li className="s-single-day">11</li>
+                        <li className="s-single-day">12</li>
+                        <li className="s-single-day">13</li>
+                        <li className="s-single-day">14</li>
+                        <li className="s-single-day">15</li>
+                        <li className="s-single-day">16</li>
+                        <li className="s-single-day">17</li>
+                        <li className="s-single-day">18</li>
+                        <li className="s-single-day">19</li>
+                        <li className="s-single-day">20</li>
+                        <li className="s-single-day">21</li>
+                        <li className="s-single-day">22</li>
+                        <li className="s-single-day">23</li>
                         <li id="ratio-field">Ratio</li>
                     </ul>
                 </div> 
