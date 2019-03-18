@@ -2,19 +2,16 @@ import React from 'react';
 
 // SERVICE API
 import DataService from '../services/DataService';
-import Calculations from '../services/Calculations';
+
 import CustomDropZone from '../CustomDropZone';
 
 // MATERIAL UI
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import green from '@material-ui/core/colors/green';
 import Radio from '@material-ui/core/Radio';
 
 //ACCESORIES
 import SubmitButton from '../Accessories/SubmitButton';
-import RoundButton from '../Accessories/RoundButton';
-import SelectType from './SelectType';
 
 // CSS
 import './index.css'; 
@@ -33,7 +30,7 @@ const styles = {
           color: 'rgba(0, 144, 248, 1)',
         },
     },
-  };
+};
 
 
 class EventInput extends React.Component {
@@ -128,6 +125,7 @@ class EventInput extends React.Component {
 
                 let newType = {
                     patientId   : this.props.patID,
+                    eventId     : result.id,
                     ownType     : this.state.ownType,
                 }
 
@@ -143,6 +141,7 @@ class EventInput extends React.Component {
 
                 let newDeto = {
                     patientId       : this.props.patID,
+                    eventId         : result.id,
                     ownDetonation   : this.state.ownDetonation,
                 }
                 

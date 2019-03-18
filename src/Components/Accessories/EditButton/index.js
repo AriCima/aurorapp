@@ -4,16 +4,17 @@ import React from 'react';
 import './index.css';
 
 
-export default class MyButtonPlain extends React.Component {
+export default class EditButton extends React.Component {
   constructor(props){
     super(props);
+ 
 
   };
 
   render(){
     
     return (
-      <button id="plain">
+      <button id="plain" onClick={this.props.fn}>
         {this.props.text}
       </button>
     );

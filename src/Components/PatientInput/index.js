@@ -73,7 +73,7 @@ export default class PatientInput extends React.Component {
                 console.log(error);
             })
 
-            this.props.propsFn.push(`/first-event/${this.state.patientId}`);
+            this.props.propsFn.push(`/patient/${this.state.patientId}`);
         })
         .catch(function (error) {    
             console.log(error);

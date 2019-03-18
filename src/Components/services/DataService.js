@@ -106,9 +106,6 @@ export default class DataService {
                 birthWeight         : patientInfo.weight,
                 pregIssues          : patientInfo.pIssues,
                 birthIssues         : patientInfo.bIssues,
-                // patientsEvents      : patientInfo.events, 
-                // patientsWeights     : patientInfo.weights,  
-                // patientsMedicines   : patientInfo.medicines,
             })
 
             .then((result) => {
@@ -162,7 +159,7 @@ export default class DataService {
         });
     }
 
-    //  * * * * * * * * * EVENTS * * * * * * 
+    //  * * * * * * * * * * * * * * * EVENTS * * * * * * * * * * * * * * *
 
     static newEvent(stateInfo) {  
         console.log('info del estado a guardar = ', stateInfo )
@@ -259,25 +256,71 @@ export default class DataService {
             
         });
     };
-    static updateEventInfo(eventID) {  
+    static updateEventInfo(eventID, eventInfo) {  
 
         return new Promise((resolve, reject) => {
-            firebase.firestore().collection('events').doc(eventID).get()
-
-            .then((result) => {
-                resolve(result.data());
+            firebase.firestore().collection('events').doc(eventID).update({            
+                
+                date                : eventInfo.date,
+                startTime           : eventInfo.startTime,
+                duration            : eventInfo.duration,
+                type                : eventInfo.type,
+                ownType             : eventInfo.ownType,
+                clinicObservation   : eventInfo.clinicObservation,
+                action              : eventInfo.action,
+                detonation          : eventInfo.detonation,
+                ownDetonation       : eventInfo.ownDetonation,
+                intensity           : eventInfo.intensity,
+                state               : eventInfo.state,
             })
-
+            .then((result) => {
+                console.log(`Event ${result.id} succesfully EDITED !`)
+                resolve(result);
+            })
             .catch((error) => {
                 var errorCode = error.code;
                 console.log('Error al cargar la patientInfo: ', errorCode);
-                
             })
-            
+        });
+    };
+    static editEventType(eventID, typeInfo) {  
+
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('ownEventTypes').doc(eventID).update({            
+
+                patientId   : typeInfo.patID,
+                ownType     : typeInfo.ownType,
+            })
+            .then((result) => {
+                console.log(`Type succesfully EDITED !`)
+                resolve(result);
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('Error al cargar la patientInfo: ', errorCode);
+            })
+        });
+    };
+    static editDetonation(eventID, detonationInfo) {  
+
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('ownEventTypes').doc(eventID).update({            
+
+                patientId       : detonationInfo.patID,
+                ownDetonation   : detonationInfo.ownDetonation,
+            })
+            .then((result) => {
+                console.log(`Detonation succesfully EDITED !`)
+                resolve(result);
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('Error al cargar la patientInfo: ', errorCode);
+            })
         });
     };
     
-    // * * * * * * * * * MEDICINES * * * * * * 
+    // * * * * * * * * * * * * * * * MEDICINES * * * * * * * * * * * * * * *
 
     static newMedicine(medInfo) {  
         return new Promise((resolve, reject) => {
@@ -342,7 +385,7 @@ export default class DataService {
         })
     };
 
-    // * * * * * * * * * WEIGHTS * * * * * * * 
+    // * * * * * * * * * * * * * * * WEIGHTS * * * * * * * * * * * * * * *
     
     static newWeight(weightInfo) {  
         return new Promise((resolve, reject) => {
