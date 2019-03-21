@@ -39,35 +39,19 @@ class SingleEvent extends React.Component {
         this.state = { 
             eventId             : this.props.eventID,
             patientId           : this.props.patID,
+            patientsEvents      : [],
 
             date                : '',
             startTime           : '',
             duration            : '',
-
-            prevType            : '',
             type                : '',
-            ownType             : '',
-            editType            : false,
-
+            ownType             : {},
             state               : '',
-            editState           : false,
-
-
             intensity           : '',
-            editIntensity       : false,
-
-
             detonation          : '',
-            prevDetonation      : '',
-            ownDetonation       : '',
-            editDetonation      : false,
-
-
+            ownDetonation       : {},
             clinicObservation   : '',
             action              : '',
-
-            patientsEvents      : [],
-
         };
 
         this.onUpdateEvent          = this.onUpdateEvent.bind(this);
@@ -77,15 +61,17 @@ class SingleEvent extends React.Component {
         this.handleStateChange      = this.handleStateChange.bind(this);
         this.handleIntensityChange  = this.handleIntensityChange.bind(this);
 
-        this.onEditType = this.onEditType.bind(this);
+        // this.onEditType = this.onEditType.bind(this);
 
     }
 
     componentDidMount(){
-       
-        DataService.getEventInfo(this.state.eventId)
+       console.log('comp launched')
+        let patID = this.props.patID;
+        let eventID = this.props.eventID;
+
+        DataService.getEventInfo(eventID)
         .then(res => {
-            console.log('eventID', this.props.eventID);
 
             this.setState({ 
                 date                : res.date,
@@ -99,49 +85,59 @@ class SingleEvent extends React.Component {
                 ownDetonation       : res.ownDetonation,
                 clinicObservation   : res.clinicObservation,
                 action              : res.action,
-                detonation          : res.detonation,
             });
-
-            // console.log('this.state.date', this.state.date )
+           
         })
         .catch(function (error) {    
         console.log(error);
-        })    
+        }) 
+
+        DataService.getEventOwnType(patID)
+        .then(res => {
+            console.log('event Type recieved = ', res)
+        })
+        .catch(function (error) {    
+            console.log(error);
+        }) 
+
+        DataService.getOwnDetonations(patID)
+        .then(res => {
+            console.log('Detonation recived ', res)
+        })
+        .catch(function (error) {    
+            console.log(error);
+        }) 
+  
     }
 
     onChangeState(field, value){
+        console.log('changing field ', field, ' / ', ' with value: ', value )
         let aptInfo = this.state;
         aptInfo[field] = value;
         this.setState(aptInfo)
     };
+
     handleTypeChange = event => {
+        console.log('Type change')
         this.setState({ type: event.target.value });
     };
     handleDetonationChange = event => {
+        console.log('Detonation change')
         this.setState({ detonation: event.target.value });
     };
     handleStateChange = event => {
+        console.log('State change')
         this.setState({ state: event.target.value });
     };
     handleIntensityChange = event => {
+        console.log('Intensity')
         this.setState({ intensity: event.target.value });
     };
 
-    onEditType(){
-        
-        if(this.state.editType === false){
-           
-            this.state.editType = true;
-           
-        } else {
-            this.state.editType = false;
-           
-        }
-    }
-
     onUpdateEvent(e){
         e.preventDefault();         
-
+        let eventID =this.props.eventID;
+        
         let editedEvent = {
             patientId           : this.props.patID,
             date                : this.state.date,
@@ -157,45 +153,32 @@ class SingleEvent extends React.Component {
             state               : this.state.state,
         }
 
-        DataService.updateEventInfo(this.props.eventID, editedEvent)
+        DataService.updateEventInfo(eventID, editedEvent)
         .then((result) => {
-
-            let eventId = result.id;
-
-            if (this.state.ownType.toUpperCase() !== this.state.prevType.toUpperCase()){
-
-                let newType = {
-                    patientId   : this.props.patID,
-                    ownType     : this.state.ownType,
-                }
-
-                DataService.editEventType(eventId, newType)
-                .then((result) => {
-                    console.log(result.id, ' Event Type properly edited !!!')
-                })
-                .catch(function (error) {    
-                    console.log(error);
-                })
-            }
-            if (this.state.ownDetonation.toUpperCase() !== this.state.prevDetonation.toUpperCase()){
-
-                let newDeto = {
-                    patientId       : this.props.patID,
-                    ownDetonation   : this.state.ownDetonation,
-                }
-                
-                DataService.editDetonation(newDeto)
-                .then((result) => {
-                    console.log(result.id, ' Detonation properly edited !!!')
-                })
-                .catch(function (error) {    
-                    console.log(error);
-                })
-            }
-
+           
             console.log(result.id, ' event succesfully edited !!!')
             
-            this.props.propsFn.push(`/patient/${this.state.patientId}`)
+            let patID = this.state.patientId;
+            let oType = this.state.ownType;
+            let types = [...this.state.ownTypes];
+            let oDet  = this.state.ownDetonation;
+            let detos = [...this.state.ownDetonations];
+
+            if(types.ownTypes.indexOf(oType) < 0){
+                types.ownTypes.push(oType);
+
+                DataService.updateOwnEventTypes(patID, types).then(
+                    console.log('Own Event Types updated ! ! ! ')
+                )
+            };;
+
+            if(detos.ownDetonations.indexOf(oDet) < 0){
+                detos.ownDetonations.push(oDet);
+
+                DataService.updateOwnEventDetonations(patID, detos).then(
+                    console.log('Own Detonations updated ! ! ! ')
+                )
+            }
 
         })
         .catch(function (error) {    
@@ -204,7 +187,7 @@ class SingleEvent extends React.Component {
 
 
 
-        this.props.propsFn.push(`/patient/${this.state.patientId}`)
+        this.props.propsFn.push(`/events-overview/${this.state.patientId}`)
         
     };
 
@@ -218,7 +201,7 @@ class SingleEvent extends React.Component {
                     <h2>Información del evento</h2>
                 </div>
     
-                <form  id="sev-form-format" onSubmit={this.onNewEvent}>
+                <form  id="sev-form-format" onSubmit={this.onUpdateEvent}>
                 
                     <div id="sev-input-area">
     
@@ -260,20 +243,11 @@ class SingleEvent extends React.Component {
                                     <div>
                                         <p>Tipo de crisis:</p>
                                     </div>
-                                    {/* <div className="sev-title-text">
-                                        <p>{this.state.type}</p>
-                                    </div> */}
+
                                 </div>
 
-                                {/* <div className="sev-select-row-title-right">
-                                    <div className="sev-title-button">
-                                        <EditButton text={"Edit"} fn={this.onEditType}/>
-                                    </div>
-                                </div> */}
 
                             </div>
-
-                            {/* {this.state.editType && */}
                                 <div className="selectors-field">
                                 <div className="selector-wrapper">
                                     <Radio

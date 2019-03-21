@@ -71,6 +71,28 @@ export default class PatientInput extends React.Component {
             })
             .catch(function (error) {    
                 console.log(error);
+            });
+
+
+            let newOwnType = {patientId: this.state.patientId, ownTypes: []}
+            
+            DataService.newPatientOwnType(newOwnType)
+            .then((result) => {
+                
+            })
+            .catch(function (error) {    
+                console.log(error);
+            })
+            
+
+            let newOwnDetonations = {patientId: this.state.patientId, ownDetonations: []}
+
+            DataService.newPatientDetonations(newOwnDetonations)
+            .then((result) => {
+                
+            })
+            .catch(function (error) {    
+                console.log(error);
             })
 
             this.props.propsFn.push(`/patient/${this.state.patientId}`);

@@ -34,6 +34,7 @@ export default class EventsGraphic extends React.Component {
 
     DataService.getPatientsEvents(this.state.patientId)
     .then(res => {
+      console.log('eventos del paciente: ', res)
       const evts      = res;
       let eSorted     = Calculations.sortByDateAsc(evts);
       let evLe        = eSorted.length;
@@ -75,7 +76,7 @@ export default class EventsGraphic extends React.Component {
 
     let currentDate = new Date(this.state.lastEventDate);
 
-    while (index > 0) {
+    while (index >= 0) {
       
       let evQty = 0;
       let formatedCurrent = moment(currentDate).format('DD-MMM-YYYY');

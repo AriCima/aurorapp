@@ -45,6 +45,7 @@ class EventInput extends React.Component {
 
             type                : '',
             ownType             : '',
+            ownTypes            : [],
 
             state               : '',
 
@@ -52,6 +53,7 @@ class EventInput extends React.Component {
 
             detonation          : '',
             ownDetonation       : '',
+            ownDetonations      : [],
 
             clinicObservation   : '',
             action              : '',
@@ -79,7 +81,27 @@ class EventInput extends React.Component {
         })
         .catch(function (error) {    
           console.log(error);
-        })    
+        }) 
+        
+        DataService.getEventOwnType(this.state.patientId).then(res => {
+           
+            this.setState({ 
+                ownTypes   : res 
+            });
+        }).catch(function (error) {
+            console.log(error);
+        }) 
+
+        DataService.getOwnDetonations(this.state.patientId).then(res => {
+            
+            this.setState({ 
+                ownDetonations   : res      
+            });
+        })
+        .catch(function (error) {    
+            console.log(error);
+        }) 
+
     }
    
     onChangeState(field, value){
@@ -121,7 +143,7 @@ class EventInput extends React.Component {
 
         DataService.newEvent(newEvent)
         .then((result) => {
-            if (this.state.ownType !== ''){
+            if (this.state.ownTypes !== ''){
 
                 let newType = {
                     patientId   : this.props.patID,
@@ -160,7 +182,29 @@ class EventInput extends React.Component {
             console.log(error);
         })
 
-       
+        let patID = this.state.patientId;
+        let oType = this.state.ownType;
+        let types = [...this.state.ownTypes.ownTypes];
+        let oDet  = this.state.ownDetonation;
+        let detos = [...this.state.ownDetonations.ownDetonations];
+
+        if(types.indexOf(oType) < 0){
+            types.push(oType);
+
+            DataService.updateOwnEventTypes(patID, types).then(
+                console.log('Own Event Types updated ! ! ! ')
+            )
+        };;
+
+        if(detos.indexOf(oDet) < 0){
+            detos.push(oDet);
+
+            DataService.updateOwnEventDetonations(patID, detos).then(
+                console.log('Own Detonations updated ! ! ! ')
+            )
+        }
+
+        this.props.propsFn.push(`/patient/${this.state.patientId}`)
 
     };
 

@@ -93,6 +93,46 @@ export default class DataService {
             
         });
     };
+    static newPatientOwnType(ownType) {  
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('ownEventTypes').add(ownType)
+
+            .then((result) => {
+                
+                console.log(`${result.id} OwnType succesfully added !`)
+                resolve(result);
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('patient could not be added: ', errorCode);
+               // var errorMessage = error.message;
+                
+            })
+            
+        });
+    };
+    static newPatientDetonations(detoInfo) {  
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('ownDetonations').add(detoInfo)
+
+            .then((result) => {
+                
+                console.log(`${result.id} Detonations succesfully added !`)
+                resolve(result);
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('patient could not be added: ', errorCode);
+               // var errorMessage = error.message;
+                
+            })
+            
+        });
+    };
     static editPatient(patID, patientInfo) {
         return new Promise((resolve, reject) => {
 
@@ -202,10 +242,28 @@ export default class DataService {
         
     });
     };
-    static newDetonation(newType) {  
+    static updateOwnEventTypes(patID, newType) {  
         return new Promise((resolve, reject) => {
     
-            firebase.firestore().collection('ownDetonations').add(newType)
+            firebase.firestore().collection('ownEventTypes').where('patientId' === patID).update(newType)
+            .then((result) => {
+                
+                console.log(`${result.id} New Detonation succesfully added !`)
+                resolve(result);
+            })
+    
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('New Detonation could not be added: ', errorCode);
+                
+            })
+            
+        });
+    };
+    static updateOwnEventDetonations(patID, newDet) {  
+        return new Promise((resolve, reject) => {
+    
+            firebase.firestore().collection('ownDetonations').where('patientId' === patID).update(newDet)
     
             .then((result) => {
                 
@@ -257,7 +315,6 @@ export default class DataService {
         });
     };
     static updateEventInfo(eventID, eventInfo) {  
-
         return new Promise((resolve, reject) => {
             firebase.firestore().collection('events').doc(eventID).update({            
                 
@@ -283,13 +340,14 @@ export default class DataService {
             })
         });
     };
-    static editEventType(eventID, typeInfo) {  
+    static editEventType(typeID, typeInfo) {  
 
         return new Promise((resolve, reject) => {
-            firebase.firestore().collection('ownEventTypes').doc(eventID).update({            
+            firebase.firestore().collection('ownEventTypes').doc(typeID).update({            
 
                 patientId   : typeInfo.patID,
                 ownType     : typeInfo.ownType,
+                eventId     : typeInfo.eventId,
             })
             .then((result) => {
                 console.log(`Type succesfully EDITED !`)
@@ -299,6 +357,34 @@ export default class DataService {
                 var errorCode = error.code;
                 console.log('Error al cargar la patientInfo: ', errorCode);
             })
+        });
+    };
+    static getEventOwnType(patID){
+        console.log('get own event in DATA launched con', patID)
+        return new Promise((resolve, reject) => {
+
+            firebase.firestore().collection('ownEventTypes').where(`patientId`, `==` , patID).get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    resolve(doc.data())
+                });
+            })
+            .catch((error) => {
+            })
+            
+        });
+    };
+
+    static getOwnDetonations(patID){
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('ownDetonations').where(`patientId`, `==` , patID).get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    resolve(doc.data())
+                });
+            })
+            .catch((error) => {
+            }) 
         });
     };
     static editDetonation(eventID, detonationInfo) {  
