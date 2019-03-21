@@ -44,12 +44,18 @@ class SingleEvent extends React.Component {
             date                : '',
             startTime           : '',
             duration            : '',
+
             type                : '',
-            ownType             : {},
+            ownType             : '', // en el caso que se indique otro tipo
+            ownTypes            : {}, // todos los tipos propios de evento
+
             state               : '',
             intensity           : '',
+
             detonation          : '',
-            ownDetonation       : {},
+            ownDetonation       : '',
+            ownDetonations      : {},
+
             clinicObservation   : '',
             action              : '',
         };
@@ -94,7 +100,11 @@ class SingleEvent extends React.Component {
 
         DataService.getEventOwnType(patID)
         .then(res => {
-            console.log('event Type recieved = ', res)
+            console.log('event Type recieved = ', res.ownTypes)
+
+            this.setState({
+                ownTypes : res.ownTypes,
+            })
         })
         .catch(function (error) {    
             console.log(error);
@@ -102,7 +112,10 @@ class SingleEvent extends React.Component {
 
         DataService.getOwnDetonations(patID)
         .then(res => {
-            console.log('Detonation recived ', res)
+            console.log('Detonation recived ', res.ownDetonations)
+            this.setState({
+                ownDetonations : res.ownDetonations,
+            })
         })
         .catch(function (error) {    
             console.log(error);
@@ -170,7 +183,7 @@ class SingleEvent extends React.Component {
                 DataService.updateOwnEventTypes(patID, types).then(
                     console.log('Own Event Types updated ! ! ! ')
                 )
-            };;
+            };
 
             if(detos.ownDetonations.indexOf(oDet) < 0){
                 detos.ownDetonations.push(oDet);

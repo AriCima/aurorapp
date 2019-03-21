@@ -221,8 +221,6 @@ export default class Calculations {
             medNames[j].allDoses = sortedDoses;
             
         }
-
-        console.log('medNames CALCULATIONS', medNames)
         
         return medNames
     }
