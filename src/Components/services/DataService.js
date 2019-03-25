@@ -283,26 +283,45 @@ export default class DataService {
             })
         });
     };
+    static addEventType(newType) {  
+        return new Promise((resolve, reject) => {
 
-    static newEventType(newType) {  
-    return new Promise((resolve, reject) => {
+            firebase.firestore().collection('ownEventTypes').add(newType)
+            .then((result) => {
 
-        firebase.firestore().collection('ownEventTypes').add(newType)
+                console.log(`${result.id} New Event Type succesfully created !`)
+                resolve(result);
 
-        .then((result) => {
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('New-Event-Type could not be added: ', errorCode);
+            // var errorMessage = error.message;
+                
+            })
             
-            console.log(`${result.id} New Event Type succesfully created !`)
-            resolve(result);
-        })
+        });
+    };
+    static setEventType(docID, newType) {  
+        return new Promise((resolve, reject) => {
 
-        .catch((error) => {
-            var errorCode = error.code;
-            console.log('New-Event-Type could not be added: ', errorCode);
-           // var errorMessage = error.message;
+            firebase.firestore().collection('ownEventTypes').doc(docID).set(newType)
+            .then((result) => {
+
+                console.log(`${result.id} New Event Type succesfully created !`)
+                resolve(result);
+
+            })
+
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('New-Event-Type could not be added: ', errorCode);
+            // var errorMessage = error.message;
+                
+            })
             
-        })
-        
-    });
+        });
     };
     static getEventOwnType(patID){
         return new Promise((resolve, reject) => {
@@ -310,7 +329,8 @@ export default class DataService {
             firebase.firestore().collection('ownEventTypes').where(`patientId`, `==` , patID).get()
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
-                    resolve(doc.data(), doc.id)
+                    console.log('doc.data() / doc.id', doc.data(), ' / ', doc.id )
+                    resolve({types: doc.data(), id: doc.id})
                 });
             })
             .catch((error) => {
@@ -318,29 +338,30 @@ export default class DataService {
             
         });
     };
-    static updateOwnEventTypes(typesID, types) {  
+    static addDetonation(newDeto) {  
         return new Promise((resolve, reject) => {
     
-            firebase.firestore().collection('ownEventTypes').doc(typesID).update({
-                ownTypes : types})
+            firebase.firestore().collection('ownDetonations').add(newDeto)
+    
             .then((result) => {
-                console.log(`Event Types succesfully updated ! ! !`)
-             
+                
+                console.log(`${result.id} Own Detonations succesfully created !`)
+                resolve(result);
             })
     
             .catch((error) => {
                 var errorCode = error.code;
-                console.log('Event Types could not be updated: ', errorCode);
+                console.log('New-Event-Type could not be added: ', errorCode);
+               // var errorMessage = error.message;
                 
             })
             
         });
     };
-
-    static newDetonation(newDeto) {  
+    static setDetonation(docID, newDeto) {  
         return new Promise((resolve, reject) => {
     
-            firebase.firestore().collection('ownDetonations').add(newDeto)
+            firebase.firestore().collection('ownDetonations').doc(docID).set(newDeto)
     
             .then((result) => {
                 
@@ -362,39 +383,13 @@ export default class DataService {
             firebase.firestore().collection('ownDetonations').where(`patientId`, `==` , patID).get()
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
-                    resolve(doc.data())
+                    resolve({types: doc.data(), id: doc.id})
                 });
             })
             .catch((error) => {
             }) 
         });
     };
-    static updateOwnEventDetonations(detosID, detos) {  
-        return new Promise((resolve, reject) => {
-    
-            firebase.firestore().collection('ownDetonations').doc(detosID).update({
-                ownDetonations: detos})
-    
-            .then((result) => {
-                
-                console.log(`Detonations succesfully updated ! ! !`)
-
-            })
-    
-            .catch((error) => {
-                var errorCode = error.code;
-                console.log('Detonations could not be updated', errorCode);
-                
-            })
-            
-        });
-    };
-
-
-
-
-
-
     
     // * * * * * * * * * * * * * * * MEDICINES * * * * * * * * * * * * * * *
 

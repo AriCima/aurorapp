@@ -39,7 +39,7 @@ export default class PatientInput extends React.Component {
     onNewPatient(e){
         e.preventDefault(); 
 
-        let noCommas = this.state.birthWeight.replace(",", ".");
+        let noCommas    = this.state.birthWeight.replace(",", ".");
 
         let newState = {
             adminId                : this.state.adminId,
@@ -76,8 +76,9 @@ export default class PatientInput extends React.Component {
 
             let newOwnType = {patientId: this.state.patientId, ownTypes: []}
             
-            DataService.newPatientOwnType(newOwnType)
+            DataService.addEventType(newOwnType)
             .then((result) => {
+                console.log('el result.id del add Event ', result.id)
                 
             })
             .catch(function (error) {    
@@ -87,9 +88,10 @@ export default class PatientInput extends React.Component {
 
             let newOwnDetonations = {patientId: this.state.patientId, ownDetonations: []}
 
-            DataService.newPatientDetonations(newOwnDetonations)
+            DataService.addDetonation(newOwnDetonations)
             .then((result) => {
-                
+                console.log('el result.id del add Deto ', result.id)
+
             })
             .catch(function (error) {    
                 console.log(error);
