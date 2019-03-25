@@ -42,11 +42,11 @@ export default class WeightInput extends React.Component {
         weight      : noCommas,
       };
 
-      DataService.newWeight(weightInfo)
+      DataService.addWeight(weightInfo)
       .then((result) => {
 
         console.log(result.id, ' => new Weight succesfully registered ! ! !');
-        this.props.propsFn.push(`/patient/${this.props.patID}`)
+        this.props.propsFn.push(`/weight-overview/${this.props.patID}`)
 
       })
       .catch(function (error) {    

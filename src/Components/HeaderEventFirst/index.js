@@ -77,7 +77,7 @@ class HeaderEventFirst extends Component {
             </div>
 
             <div className="nav-block">
-                <Link to={`/patient_new_reading/${this.state.patientId}`}><p className="header-texts">Peso</p></Link>
+                <Link to={`/patient_new_weight/${this.state.patientId}`}><p className="header-texts">Peso</p></Link>
             </div>
 
 

@@ -60,12 +60,12 @@ export default class PatientInput extends React.Component {
             })
            
             let newWeight = {
-                patientId       : this.state.patientId,
-                date            : this.state.birthDate,
-                weight          : noCommas,
+                patientId   : this.state.patientId,
+                date        :this.state.birthDate,
+                weight      : noCommas,
             };
 
-            DataService.newWeight(newWeight)
+            DataService.addWeight(newWeight)
             .then((result) => {
                 console.log('Nuevo Peso registrado con el código: ', result.id);
             })
@@ -78,7 +78,7 @@ export default class PatientInput extends React.Component {
             
             DataService.addEventType(newOwnType)
             .then((result) => {
-                console.log('el result.id del add Event ', result.id)
+                // console.log('el result.id del add Event ', result.id)
                 
             })
             .catch(function (error) {    
@@ -90,7 +90,7 @@ export default class PatientInput extends React.Component {
 
             DataService.addDetonation(newOwnDetonations)
             .then((result) => {
-                console.log('el result.id del add Deto ', result.id)
+                // console.log('el result.id del add Deto ', result.id)
 
             })
             .catch(function (error) {    

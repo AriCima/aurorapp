@@ -458,7 +458,7 @@ export default class DataService {
 
     // * * * * * * * * * * * * * * * WEIGHTS * * * * * * * * * * * * * * *
     
-    static newWeight(weightInfo) {  
+    static addWeight(weightInfo) {  
         return new Promise((resolve, reject) => {
     
             firebase.firestore().collection('weight').add(weightInfo)
