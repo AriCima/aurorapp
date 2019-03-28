@@ -41,6 +41,7 @@ export default class MedWeightGraphic extends React.Component {
 
   componentDidMount(){
     console.log('props received', this.props.tLine)
+
     DataService.getPatientsMeds(this.props.patID)
     .then(res => {
       
@@ -90,41 +91,28 @@ export default class MedWeightGraphic extends React.Component {
       let cWeight = wSorted[wL-1].weight;
 
       this.setState({
-        currentWeight : cWeight
+        patientWeights : wSorted,
+        currentWeight  : cWeight,
       })
       // console.log('weights en el state: ', this.state.weightsSorted)
     })
     .catch(function (error) {    
       console.log(error);
     }); 
-
-
   };
-
-  componentDidUpdate(prevProps, prevState){
-    if(prevProps.tLine !== this.props.tLine){
-      console.log('se cumple el if', this.props.tLine)
-
-      this.setState({
-        timeLineDays : this.props.tLine
-      })
-
-
-    this._dataGenerator(this.props.tLine);
-    this._xAxisData(this.props.tLine);
-    }
-
-  }
 
   _dataGenerator(){
     console.log('_dataGenerator LAUNCHED')
 
-    let meds    = this.state.singleMeds;
-    let index   = meds.length;
-    let yValues = [];
-    let series  = [];
-    let type    = 'line';
-    let smooth  = false;
+    let meds          = this.state.singleMeds;
+    let weight        = this.state.patientWeights;
+    let indexM        = meds.length;
+    let yValuesDosis  = [];
+    let yValuesWeight = [];
+    let yValues       = [];
+    let series        = [];
+    let type          = 'line';
+    let smooth        = false;
 
  
    //    series: [{
@@ -138,16 +126,18 @@ export default class MedWeightGraphic extends React.Component {
       //        smooth: true
     //    }]
 
-    for (let j = 0; j < index; j++){
+    for (let j = 0; j < indexM; j++){
       
-      yValues[j] = this._cristiamFn(meds[j].dosis);
-      
-      // console.log('yValues[j]', yValues[j])
-      
-      let dayDosis = [...yValues[j]];
+      yValuesDosis[j]  = this._crisFnMeds(meds[j].dosis);
+ 
+      console.log('yValuesDosis[',j,']', yValuesDosis[j])
+
+      yValues[j] = yValuesDosis[j] 
+
+
 
       series[j]={
-        data    : dayDosis,
+        data    : yValues[j],
         type    : type,
         smooth  : smooth,
       };
@@ -155,7 +145,7 @@ export default class MedWeightGraphic extends React.Component {
       // console.log('series', series)
 
     }
-    // console.log('series source', series)
+    console.log('series source', series)
 
     this.setState({
       sD : series
@@ -163,7 +153,7 @@ export default class MedWeightGraphic extends React.Component {
 
   };
  
-  _cristiamFn(meds){
+  _crisFnMeds(meds){
     // input meds = [
     //   {dosis: 400, date:"2019-01-01"},
     //   {dosis: 600, date:"2019-01-21"},
@@ -194,7 +184,7 @@ export default class MedWeightGraphic extends React.Component {
       } else {
         if(+medDate >= +currentDate){
           medsIndex--;
-          let medDate = new Date(meds[medsIndex].date)
+          // let medDate = new Date(meds[medsIndex].date)
           let medQty = meds[medsIndex].dailyDose;
           resultsDosis.unshift(medQty);   
           resultDates.unshift(currentDate.toLocaleString())
@@ -209,6 +199,53 @@ export default class MedWeightGraphic extends React.Component {
     }
 
     return (resultsDosis)
+  };
+  _crisFnWeights(weights){
+    // input weights = [
+    //   {weight: 400, date:"2019-01-01"},
+    //   {weight: 600, date:"2019-01-21"},
+    //   {weight: 300, date:"2019-02-11"},
+    //   {weight: 450, date:"2019-03-02"}
+    // ]
+
+    let resultsWeight = [];
+    let resultDates = [];
+    let index = this.state.timeLineDays;   // FALTA PARA EL CASO QUE SE QUIERA VER HISTORIAL COMPLETO
+    let weightsIndex = weights.length-1;
+
+    let currentDate = new Date();
+
+    while (index > 0) {
+      let weightsDate = new Date(weights[weightsIndex].date)
+      let weightsQty = weights[weightsIndex].weight;
+    
+      if(weightsIndex == 0){
+        if(+weightsDate > +currentDate){
+          resultsWeight.unshift(0);
+          resultDates.unshift(currentDate.toLocaleString())
+        } else {
+          resultsWeight.unshift(weightsQty);
+          resultDates.unshift(currentDate.toLocaleString())
+        }
+
+      } else {
+        if(+weightsDate >= +currentDate){
+          weightsIndex--;
+          // let weightsDate = new Date(weights[weightsIndex].date)
+          let weightsQty = weights[weightsIndex].weight;
+          resultsWeight.unshift(weightsQty);   
+          resultDates.unshift(currentDate.toLocaleString())
+        } else {
+          resultsWeight.unshift(weightsQty);  
+          resultDates.unshift(currentDate.toLocaleString())
+        }
+      }
+
+      currentDate.setDate(currentDate.getDate()-1);
+      index--;
+    }
+
+    return (resultsWeight)
   };
   
   _xAxisData(index){

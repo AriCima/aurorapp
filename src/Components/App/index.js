@@ -139,7 +139,7 @@ class App extends Component {
                 
                 {/* * * *  PATIENT * * * */}
                 <Route path="/home/:user" render = {(props) => { return <Home userID={props.match.params.user}/>}}/>
-                {/* <Route path="/patient/:patientId" exact render = {(props) => { return <Patient propsFn={props.history} patID={props.match.params.patientId} />}}/> */}
+                <Route path="/patient/:patientId" exact render = {(props) => { return <Patient propsFn={props.history} patID={props.match.params.patientId} />}}/>
                 <Route path="/single-patient-overview/:patientId" exact render = {(props) => { return <PatientOverview propsFn={props.history} userID={this.state.userId} patID={props.match.params.patientId}/>}}/>
                 <Route path="/add_patient/:user" exact render = {(props) => { return <PatientInput propsFn={props.history} userID={props.match.params.user}/>}}/>
                 

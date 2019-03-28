@@ -6,6 +6,9 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import DataService from '../../services/DataService';
 import Calculations from '../../services/Calculations';
 
+// ECHARTS
+import BarsH from '../Cahrts/BarsH';
+
 // MOMENT
 import moment from 'moment';
 
@@ -105,28 +108,32 @@ export default class CurrentMed extends React.Component {
   render() {
 
     return (
-        <div className="cMedicine-chart">
+      <div className="cMedicine-chart">
 
-            <div className="cMedChart-header">
+        {/* <BarsH /> */}
 
-            <div className="med-title-box">
-                <p id="p-med">Droga</p>
-            </div>
-            <div className="med-title-box">
-                <p id="p-med">Dósis diaria</p>
-            </div>
-            <div className="med-title-box">
-                <p id="p-med">Dósis / Peso</p>
-            </div>
+        <div className="cMedChart-header">
 
-            </div>
-            <div className="medicine-render">
-              {this.state.medsArray === [] ? <p>LOADING !</p> :
-            
-                this._renderMedicineCurrentDose()
-              }
-            </div>
+          <div className="med-title-box">
+              <p id="p-med">Droga</p>
+          </div>
+          <div className="med-title-box">
+              <p id="p-med">Dósis diaria</p>
+          </div>
+          <div className="med-title-box">
+              <p id="p-med">Dósis / Peso</p>
+          </div>
+
         </div>
+
+        <div className="medicine-render">
+          {this.state.medsArray === [] ? <p>LOADING !</p> :
+        
+            this._renderMedicineCurrentDose()
+          }
+        </div>
+
+      </div>
 
     );
   };
