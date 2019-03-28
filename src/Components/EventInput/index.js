@@ -43,6 +43,63 @@ const crisisTypes = [
   { label: "Atónica", value: "atonica", visible: true }
 ];
 
+const detoTypes = [
+  {
+    label: "Sueño Escaso",
+    value: "suenio_escaso",
+    visible: true
+  },
+  {
+    label: "Posible estrés",
+    value: "stres",
+    visible: true
+  },
+  {
+    label: "Cambio Temp ambiente",
+    value: "cambio_temp",
+    visible: true
+  },
+  {
+    label: "Estímulo luminoso",
+    value: "est_luminoso",
+    visible: true
+  },
+  {
+    label: "Fiebre",
+    value: "fiebre",
+    visible: true
+  }
+];
+
+const intensityTypes = [
+  {
+    label: "Leve",
+    value: "leve",
+    visible: true
+  },
+  {
+    label: "Moderado",
+    value: "moderado",
+    visible: true
+  },
+  {
+    label: "Intenso",
+    value: "intenso",
+    visible: true
+  }
+];
+const stateTypes = [
+  {
+    label: "Despierto",
+    value: "despierto",
+    visible: true
+  },
+  {
+    label: "Durmiento",
+    value: "durmiendo",
+    visible: true
+  }
+];
 class EventInput extends React.Component {
   constructor(props) {
     super(props);
@@ -75,8 +132,7 @@ class EventInput extends React.Component {
 
     this.onNewEvent = this.onNewEvent.bind(this);
     this.onChangeState = this.onChangeState.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
-    this.handleDetonationChange = this.handleDetonationChange.bind(this);
+    this.handleSelection = this.handleSelection.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleIntensityChange = this.handleIntensityChange.bind(this);
   }
@@ -125,16 +181,12 @@ class EventInput extends React.Component {
     eventInfo[field] = value;
     this.setState(eventInfo);
   }
-  handleTypeChange = ({field, value}) => {
-      console.log('launched, field value', field, value );
+  handleSelection = ({ field, value }) => {
     this.setState({
       [field]: value
     });
+  };
 
-  };
-  handleDetonationChange = event => {
-    this.setState({ detonation: event.target.value });
-  };
   handleStateChange = event => {
     this.setState({ state: event.target.value });
   };
@@ -254,19 +306,17 @@ class EventInput extends React.Component {
               </label>
             </div>
 
-            <div className="nev-input-select-row" id="back-dark">
+            <div className="nev-input-select-row" id="type">
               <div className="select-row-title">
                 <p>Tipo de crisis</p>
               </div>
-
               <div className="selectors-field">
-
                 {this.props.crisisTypes.map(crisis => (
                   <div className="selector-wrapper">
                     <Radio
                       checked={this.state.type === crisis.value}
                       onChange={e =>
-                        this.handleTypeChange({
+                        this.handleSelection({
                           field: "type",
                           value: crisis.value
                         })
@@ -288,8 +338,12 @@ class EventInput extends React.Component {
                 <div className="selector-wrapper">
                   <Radio
                     checked={this.state.type === "Otra"}
-                    onChange={this.handleTypeChange}
-                    value="Otra"
+                    onChange={e =>
+                        this.handleSelection({
+                          field: "type",
+                          value: 'Otra'
+                        })
+                      }
                     name="radio-button-demo"
                     aria-label="Otra"
                     classes={{
@@ -314,101 +368,49 @@ class EventInput extends React.Component {
                         />
                       </label>
                     )}
-                    
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="nev-input-select-row" id="back-light">
+            <div className="nev-input-select-row" id="deto">
               <div className="select-row-title">
                 <p>Detonante</p>
               </div>
               <div className="selectors-field">
-                <div className="selector-wrapper">
-                  <Radio
-                    checked={this.state.detonation === "Suenio-escaso"}
-                    onChange={this.handleDetonationChange}
-                    value="Suenio-escaso"
-                    name="radio-button-demo"
-                    aria-label="Suenio-escaso"
-                    classes={{
-                      root: classes.root,
-                      checked: classes.checked
-                    }}
-                  />
-                  <div className="selector-text">
-                    <p>Sueño escaso</p>
+                {this.props.detoTypes.map(deto => (
+                  <div className="selector-wrapper">
+                    <Radio
+                      checked={this.state.detonation === deto.value}
+                      onChange={e =>
+                        this.handleSelection({
+                          field: "detonation",
+                          value: deto.value
+                        })
+                      }
+                      value={deto.value}
+                      name="radio-button-demo"
+                      aria-label="b"
+                      classes={{
+                        root: classes.root,
+                        checked: classes.checked
+                      }}
+                    />
+                    <div className="selector-text">
+                      <p>{deto.label}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="selector-wrapper">
-                  <Radio
-                    checked={this.state.detonation === "Posible-stress"}
-                    onChange={this.handleDetonationChange}
-                    value="Posible-stress"
-                    name="radio-button-demo"
-                    aria-label="Posible-stress"
-                    classes={{
-                      root: classes.root,
-                      checked: classes.checked
-                    }}
-                  />
-                  <div className="selector-text">
-                    <p>Posible stress</p>
-                  </div>
-                </div>
-                <div className="selector-wrapper">
-                  <Radio
-                    checked={this.state.detonation === "Temp-ambiente"}
-                    onChange={this.handleDetonationChange}
-                    value="Temp-ambiente"
-                    name="radio-button-demo"
-                    aria-label="Temp-ambiente"
-                    classes={{
-                      root: classes.root,
-                      checked: classes.checked
-                    }}
-                  />
-                  <div className="selector-text">
-                    <p>Cambio temp ambiente</p>
-                  </div>
-                </div>
-                <div className="selector-wrapper">
-                  <Radio
-                    checked={this.state.detonation === "Estimulo-luminoso"}
-                    onChange={this.handleDetonationChange}
-                    value="Estimulo-luminoso"
-                    name="radio-button-demo"
-                    aria-label="Estimulo-luminoso"
-                    classes={{
-                      root: classes.root,
-                      checked: classes.checked
-                    }}
-                  />
-                  <div className="selector-text">
-                    <p>Estímulo luminoso</p>
-                  </div>
-                </div>
-                <div className="selector-wrapper">
-                  <Radio
-                    checked={this.state.detonation === "Fiebre"}
-                    onChange={this.handleDetonationChange}
-                    value="Fiebre"
-                    name="radio-button-demo"
-                    aria-label="Fiebre"
-                    classes={{
-                      root: classes.root,
-                      checked: classes.checked
-                    }}
-                  />
-                  <div className="selector-text">
-                    <p>Fiebre</p>
-                  </div>
-                </div>
+                ))}
+
                 <div className="selector-wrapper">
                   <Radio
                     checked={this.state.detonation === "Otra"}
-                    onChange={this.handleDetonationChange}
+                    onChange={e =>
+                        this.handleSelection({
+                          field: "detonation",
+                          value: 'Otra'
+                        })
+                      }
                     value="Otra"
                     name="radio-button-demo"
                     aria-label="Otra"
@@ -440,100 +442,69 @@ class EventInput extends React.Component {
             </div>
 
             <div className="nev-input-select-row-bis">
-              <div className="nev-half-input-row" id="back-dark">
+              <div className="nev-half-input-row" id="type">
                 <div className="select-row-title">
                   <p>Estado</p>
                 </div>
                 <div className="selectors-field">
-                  <div className="selector-wrapper">
-                    <Radio
-                      checked={this.state.state === "despierto"}
-                      onChange={this.handleStateChange}
-                      value="despierto"
-                      name="radio-button-demo"
-                      aria-label="despierto"
-                      classes={{
-                        root: classes.root,
-                        checked: classes.checked
-                      }}
-                    />
-                    <div className="selector-text">
-                      <p>Despierto</p>
-                    </div>
-                  </div>
-                  <div className="selector-wrapper">
-                    <Radio
-                      checked={this.state.state === "dormido"}
-                      onChange={this.handleStateChange}
-                      value="dormido"
-                      name="radio-button-demo"
-                      aria-label="dormido"
-                      classes={{
-                        root: classes.root,
-                        checked: classes.checked
-                      }}
-                    />
-                    <div className="selector-text">
-                      <p>Durmiendo</p>
-                    </div>
-                  </div>
+                
+                    {this.props.stateTypes.map(state => (
+                      <div className="selector-wrapper">
+                        <Radio
+                          checked={this.state.state === state.value}
+                          onChange={e =>
+                            this.handleSelection({
+                              field: "state",
+                              value: state.value
+                            })
+                          }
+                          value={state.value}
+                          name="radio-button-demo"
+                          aria-label="b"
+                          classes={{
+                            root: classes.root,
+                            checked: classes.checked
+                          }}
+                        />
+                        <div className="selector-text">
+                          <p>{state.label}</p>
+                        </div>
+                      </div>
+                    ))}
+                 
                 </div>
               </div>
 
-              <div className="nev-half-input-row" id="back-light2">
+              <div className="nev-half-input-row" id="intensity">
                 <div className="select-row-title">
                   <p>Intensidad</p>
                 </div>
-
                 <div className="selectors-field">
-                  <div className="selector-wrapper">
-                    <Radio
-                      checked={this.state.intensity === "leve"}
-                      onChange={this.handleIntensityChange}
-                      value="leve"
-                      name="radio-button-demo"
-                      aria-label="leve"
-                      classes={{
-                        root: classes.root,
-                        checked: classes.checked
-                      }}
-                    />
-                    <div className="selector-text">
-                      <p>Leve</p>
-                    </div>
-                  </div>
-                  <div className="selector-wrapper">
-                    <Radio
-                      checked={this.state.intensity === "moderado"}
-                      onChange={this.handleIntensityChange}
-                      value="moderado"
-                      name="radio-button-demo"
-                      aria-label="moderado"
-                      classes={{
-                        root: classes.root,
-                        checked: classes.checked
-                      }}
-                    />
-                    <div className="selector-text">
-                      <p>Moderado</p>
-                    </div>
-                  </div>
-                  <div className="selector-wrapper">
-                    <Radio
-                      checked={this.state.intensity === "intenso"}
-                      onChange={this.handleIntensityChange}
-                      value="intenso"
-                      name="radio-button-demo"
-                      aria-label="intenso"
-                      classes={{
-                        root: classes.root,
-                        checked: classes.checked
-                      }}
-                    />
-                    <div className="selector-text">
-                      <p>Intenso</p>
-                    </div>
-                  </div>
+                  
+                    {this.props.intensityTypes.map(intens => (
+                      <div className="selector-wrapper">
+                        <Radio
+                          checked={this.state.intensity === intens.value}
+                          onChange={e =>
+                            this.handleSelection({
+                              field: "intensity",
+                              value: intens.value
+                            })
+                          }
+                          value={intens.value}
+                          name="radio-button-demo"
+                          aria-label="b"
+                          classes={{
+                            root: classes.root,
+                            checked: classes.checked
+                          }}
+                        />
+                        <div className="selector-text">
+                          <p>{intens.label}</p>
+                        </div>
+                      </div>
+                    ))}
+                  
                 </div>
               </div>
             </div>
@@ -589,7 +560,12 @@ class EventInput extends React.Component {
   }
 }
 
-EventInput.defaultProps = { crisisTypes }; // añade a las props de EventInput los tipos de crisis (lo hace más dinámico)
+EventInput.defaultProps = {
+  crisisTypes,
+  detoTypes,
+  stateTypes,
+  intensityTypes
+}; // añade a las props de EventInput los tipos de crisis (lo hace más dinámico)
 
 EventInput.propTypes = {
   classes: PropTypes.object.isRequired

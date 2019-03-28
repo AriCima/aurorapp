@@ -202,14 +202,14 @@ label p{
   color: rgb(134, 134, 134);
 }
 
-#back-light{
+#deto{
   background-color: rgba(0, 144, 248, 0.03);
 }
 
-#back-dark{
+#type{
   background-color: rgba(0, 144, 248, 0.1);
 }
 
-#back-light2{
+#intensity{
   background-color: rgba(0, 144, 248, 0.08);
 }
