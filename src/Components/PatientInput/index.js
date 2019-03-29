@@ -49,6 +49,9 @@ export default class PatientInput extends React.Component {
             pregIssues             : this.state.pregIssues,
             birthIssues            : this.state.birthIssues,
             birthWeight            : this.state.birthWeight,
+            ownEventTypes          : [],
+            ownDetonations         : [],
+            ownMeds                : [],
         };
        
         DataService.newPatient(newState)
@@ -61,7 +64,7 @@ export default class PatientInput extends React.Component {
            
             let newWeight = {
                 patientId   : this.state.patientId,
-                date        :this.state.birthDate,
+                date        : this.state.birthDate,
                 weight      : noCommas,
             };
 
@@ -74,28 +77,29 @@ export default class PatientInput extends React.Component {
             });
 
 
-            let newOwnType = {patientId: this.state.patientId, ownTypes: []}
             
-            DataService.addEventType(newOwnType)
-            .then((result) => {
-                // console.log('el result.id del add Event ', result.id)
+            let newOwnType = [{patientId: this.state.patientId, ownTypes: []}]
+            
+            // DataService.addEventType(newOwnType)
+            // .then((result) => {
+            //     // console.log('el result.id del add Event ', result.id)
                 
-            })
-            .catch(function (error) {    
-                console.log(error);
-            })
+            // })
+            // .catch(function (error) {    
+            //     console.log(error);
+            // })
             
 
-            let newOwnDetonations = {patientId: this.state.patientId, ownDetonations: []}
+            // let newOwnDetonations = {patientId: this.state.patientId, ownDetonations: []}
 
-            DataService.addDetonation(newOwnDetonations)
-            .then((result) => {
-                // console.log('el result.id del add Deto ', result.id)
+            // DataService.addDetonation(newOwnDetonations)
+            // .then((result) => {
+            //     // console.log('el result.id del add Deto ', result.id)
 
-            })
-            .catch(function (error) {    
-                console.log(error);
-            })
+            // })
+            // .catch(function (error) {    
+            //     console.log(error);
+            // })
 
             this.props.propsFn.push(`/patient/${this.state.patientId}`);
         })

@@ -42,7 +42,6 @@ const crisisTypes = [
   { label: "Tónica-clónica", value: "t_clonica", visible: true },
   { label: "Atónica", value: "atonica", visible: true }
 ];
-
 const detoTypes = [
   {
     label: "Sueño Escaso",
@@ -70,7 +69,6 @@ const detoTypes = [
     visible: true
   }
 ];
-
 const intensityTypes = [
   {
     label: "Leve",
@@ -100,6 +98,7 @@ const stateTypes = [
     visible: true
   }
 ];
+
 class EventInput extends React.Component {
   constructor(props) {
     super(props);
@@ -110,19 +109,20 @@ class EventInput extends React.Component {
       startTime: "",
       duration: "",
 
-      type: "",
-      ownType: "",
-      ownTypes: [],
-      typesId: "",
+      inputType: "",
+      inputOwnType: "",
+      typesValues: [],
+      allTypes: [],
+      // typesId: "",
 
       state: "",
-
       intensity: "",
 
-      detonation: "",
-      ownDetonation: "",
-      ownDetonations: [],
-      detosId: "",
+      inputDetonation: "",
+      inputOwnDetonation: "",
+      detosValues: [],
+      allDetos: [],
+      // detosId: "",
 
       clinicObservation: "",
       action: "",
@@ -142,38 +142,99 @@ class EventInput extends React.Component {
       .then(res => {
         const pat = res;
 
+        // Get the own Types in an Array
+        let currentTypes = res.ownEventTypes;
+        let typesValues = [];
+        let indexT = currentTypes.length;
+
+        if (currentTypes !== []) {
+          for (let i = 0; i < indexT; i++) {
+            typesValues.push(currentTypes[i].value);
+          }
+        } else {
+          typesValues = currentTypes;
+        }
+
+        // Get the own Detos in an Array
+        let currentDetos = res.ownDetonations;
+        let indexD = currentDetos.length;
+        let detosValues = [];
+        if (currentDetos !== []) {
+          for (let i = 0; i < indexD; i++) {
+            detosValues.push(currentDetos[i].value);
+          }
+        } else {
+          detosValues = currentDetos;
+        }
+
         this.setState({
-          patientsEvents: pat.patientsEvents
+          patientsEvents: pat.patientsEvents,
+          allTypes: pat.ownEventTypes,
+          typesValues: typesValues,
+          detosValues: detosValues,
+          allDetos: pat.ownDetonations
         });
       })
+
       .catch(function(error) {
         console.log(error);
       });
 
-    DataService.getEventOwnType(this.state.patientId)
-      .then(res => {
-        console.log("res del getEvent", res);
-        this.setState({
-          ownTypes: res.types,
-          typesId: res.id
-        });
-        console.log("this.state.ownTypes", this.state.ownTypes);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    // DataService.getEventOwnType(this.state.patientId)
+    // .then(res => {
+    //   console.log("res del getEvent", res);
 
-    DataService.getOwnDetonations(this.state.patientId)
-      .then(res => {
-        this.setState({
-          ownDetonations: res.types,
-          detosId: res.id
-        });
-        console.log("this.state.ownDetos", this.state.ownDetonations);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    //   let currentTypes = res.types
+    //   let typesValues = [];
+    //   let index = currentTypes.length;
+    //   if(currentTypes !== []){
+
+    //     for (let i = 0; i < index; i++){
+    //       typesValues.push(currentTypes[i]);
+    //     }
+
+    //   } else {
+    //     typesValues = currentTypes;
+    //   }
+
+    //   this.setState({
+    //     ownTypes: typesValues,
+    //     typesId: res.id
+    //   });
+
+    //   console.log("this.state.ownTypes", this.state.ownTypes);
+    // })
+    // .catch(function(error) {
+    //   console.log(error);
+    // });
+
+    // DataService.getOwnDetonations(this.state.patientId)
+    // .then(res => {
+    //   console.log("res del getDetos", res);
+
+    //   let currentDetos = res.types;
+    //   let index = currentDetos.length;
+    //   let detosValues = [];
+    //   if(currentDetos !== []){
+
+    //     for (let i = 0; i < index; i++){
+    //       detosValues.push(currentDetos[i]);
+    //     }
+    //   } else {
+    //     detosValues = currentDetos
+    //   }
+
+    //   this.setState({
+    //     ownDetonations: detosValues,
+    //     detosId: res.id
+    //   });
+
+    //   console.log("this.state.ownDetos", this.state.ownDetonations);
+
+    // })
+    // .catch(function(error) {
+    //   console.log(error);
+    // });
   }
 
   onChangeState(field, value) {
@@ -203,14 +264,17 @@ class EventInput extends React.Component {
       date: this.state.date,
       startTime: this.state.startTime,
       duration: this.state.duration,
-      type: this.state.type,
-      ownType: this.state.ownType,
+
+      type: this.state.inputType,
+      ownType: this.state.inputOwnType,
       clinicObservation: this.state.clinicObservation,
-      action: this.state.action,
-      detonation: this.state.detonation,
-      ownDetonation: this.state.ownDetonation,
+
+      detonation: this.state.inputDetonation,
+      ownDetonation: this.state.inputOwnDetonation,
+
       intensity: this.state.intensity,
-      state: this.state.state
+      state: this.state.state,
+      action: this.state.action
     };
 
     DataService.newEvent(newEvent)
@@ -222,33 +286,55 @@ class EventInput extends React.Component {
         console.log(error);
       });
 
-    let oType = this.state.ownType;
-    let types = this.state.ownTypes.ownTypes;
-    let tID = this.state.typesId;
-    let oDet = this.state.ownDetonation;
-    let detos = this.state.ownDetonations.ownDetonations;
-    let dID = this.state.detosId;
+    // EN CASO QUE EL TIPO DE EVENTO SEA "Otra"
+    if (this.state.inputType === "Otra") {
+      let oType = this.state.inputOwnType;
+      let allTypes= this.state.allTypes;
+      let types = this.state.typesValues;
 
-    if (types.indexOf(oType) < 0) {
-      types.push(oType);
-      console.log("types to update", types);
-      let uType = { patientId: this.state.patientId, ownTypes: types };
-      DataService.setEventType(tID, uType)
-        .then()
-        .catch(function(error) {
-          console.log(error);
-        });
+      if (types.indexOf(oType) < 0) {
+
+        if (allTypes.length === []) {
+          allTypes[0] = { value: oType, label: oType };
+        } else {
+          allTypes.push({ value: oType, label: oType });
+          console.log("allTypes / oType / patID", allTypes," / ",oType," / ",patID
+          );
+        };
+
+        DataService.updateEventTypes(patID, allTypes)
+          .then(result => {
+            console.log(" event succesfully updated !!!");
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     }
 
-    if (detos.indexOf(oDet) < 0) {
-      detos.push(oDet);
-      console.log("detos to update", detos);
-      let uDet = { patientId: this.state.patientId, ownDetonations: detos };
-      DataService.setDetonation(dID, uDet)
-        .then()
+    // EN CASO QUE EL TIPO DE DETONANTE SEA "Otra"
+    if (this.state.inputDetonation === "Otra") {
+      let oDet = this.state.inputOwnDetonation;
+      let allDetos= this.state.allDetos;
+      let detos = this.state.detosValues;
+
+      if (detos.indexOf(oDet) < 0) {
+
+        if (allDetos.lenght === []) {
+          allDetos[0] = { value: oDet, label: oDet };
+
+        } else {
+          allDetos.push({ value: oDet, label: oDet });
+        }
+
+        DataService.updateEventDetonations(patID, allDetos)
+        .then(result => {
+          console.log(" detonation succesfully updated !!!");
+        })
         .catch(function(error) {
           console.log(error);
         });
+      }
     }
 
     this.props.propsFn.push(`/patient/${this.state.patientId}`);
@@ -314,10 +400,10 @@ class EventInput extends React.Component {
                 {this.props.crisisTypes.map(crisis => (
                   <div className="selector-wrapper">
                     <Radio
-                      checked={this.state.type === crisis.value}
+                      checked={this.state.inputType === crisis.value}
                       onChange={e =>
                         this.handleSelection({
-                          field: "type",
+                          field: "inputType",
                           value: crisis.value
                         })
                       }
@@ -337,13 +423,13 @@ class EventInput extends React.Component {
 
                 <div className="selector-wrapper">
                   <Radio
-                    checked={this.state.type === "Otra"}
+                    checked={this.state.inputType === "Otra"}
                     onChange={e =>
-                        this.handleSelection({
-                          field: "type",
-                          value: 'Otra'
-                        })
-                      }
+                      this.handleSelection({
+                        field: "inputType",
+                        value: "Otra"
+                      })
+                    }
                     name="radio-button-demo"
                     aria-label="Otra"
                     classes={{
@@ -355,15 +441,15 @@ class EventInput extends React.Component {
                     <p>Otra</p>
                   </div>
                   <div className="selector-wrapper">
-                    {this.state.type === "Otra" && (
+                    {this.state.inputType === "Otra" && (
                       <label className="label-short">
                         <input
                           className="input-short"
                           type="text"
-                          name="ownType"
-                          value={this.state.newType}
+                          name="inputOwnType"
+                          value={this.state.inputOwnType}
                           onChange={e => {
-                            this.onChangeState("ownType", e.target.value);
+                            this.onChangeState("inputOwnType", e.target.value);
                           }}
                         />
                       </label>
@@ -381,10 +467,10 @@ class EventInput extends React.Component {
                 {this.props.detoTypes.map(deto => (
                   <div className="selector-wrapper">
                     <Radio
-                      checked={this.state.detonation === deto.value}
+                      checked={this.state.inputDetonation === deto.value}
                       onChange={e =>
                         this.handleSelection({
-                          field: "detonation",
+                          field: "inputDetonation",
                           value: deto.value
                         })
                       }
@@ -404,13 +490,13 @@ class EventInput extends React.Component {
 
                 <div className="selector-wrapper">
                   <Radio
-                    checked={this.state.detonation === "Otra"}
+                    checked={this.state.inputDetonation === "Otra"}
                     onChange={e =>
-                        this.handleSelection({
-                          field: "detonation",
-                          value: 'Otra'
-                        })
-                      }
+                      this.handleSelection({
+                        field: "inputDetonation",
+                        value: "Otra"
+                      })
+                    }
                     value="Otra"
                     name="radio-button-demo"
                     aria-label="Otra"
@@ -423,15 +509,18 @@ class EventInput extends React.Component {
                     <p>Otra</p>
                   </div>
                   <div className="selector-wrapper">
-                    {this.state.detonation === "Otra" && (
+                    {this.state.inputDetonation === "Otra" && (
                       <label className="label-short">
                         <input
                           className="input-short"
                           type="text"
-                          name="ownDetonation"
-                          value={this.state.ownDetonation}
+                          name="inputOwnDetonation"
+                          value={this.state.inputOwnDetonation}
                           onChange={e => {
-                            this.onChangeState("ownDetonation", e.target.value);
+                            this.onChangeState(
+                              "inputOwnDetonation",
+                              e.target.value
+                            );
                           }}
                         />
                       </label>
@@ -447,31 +536,29 @@ class EventInput extends React.Component {
                   <p>Estado</p>
                 </div>
                 <div className="selectors-field">
-                
-                    {this.props.stateTypes.map(state => (
-                      <div className="selector-wrapper">
-                        <Radio
-                          checked={this.state.state === state.value}
-                          onChange={e =>
-                            this.handleSelection({
-                              field: "state",
-                              value: state.value
-                            })
-                          }
-                          value={state.value}
-                          name="radio-button-demo"
-                          aria-label="b"
-                          classes={{
-                            root: classes.root,
-                            checked: classes.checked
-                          }}
-                        />
-                        <div className="selector-text">
-                          <p>{state.label}</p>
-                        </div>
+                  {this.props.stateTypes.map(state => (
+                    <div className="selector-wrapper">
+                      <Radio
+                        checked={this.state.state === state.value}
+                        onChange={e =>
+                          this.handleSelection({
+                            field: "state",
+                            value: state.value
+                          })
+                        }
+                        value={state.value}
+                        name="radio-button-demo"
+                        aria-label="b"
+                        classes={{
+                          root: classes.root,
+                          checked: classes.checked
+                        }}
+                      />
+                      <div className="selector-text">
+                        <p>{state.label}</p>
                       </div>
-                    ))}
-                 
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -480,31 +567,29 @@ class EventInput extends React.Component {
                   <p>Intensidad</p>
                 </div>
                 <div className="selectors-field">
-                  
-                    {this.props.intensityTypes.map(intens => (
-                      <div className="selector-wrapper">
-                        <Radio
-                          checked={this.state.intensity === intens.value}
-                          onChange={e =>
-                            this.handleSelection({
-                              field: "intensity",
-                              value: intens.value
-                            })
-                          }
-                          value={intens.value}
-                          name="radio-button-demo"
-                          aria-label="b"
-                          classes={{
-                            root: classes.root,
-                            checked: classes.checked
-                          }}
-                        />
-                        <div className="selector-text">
-                          <p>{intens.label}</p>
-                        </div>
+                  {this.props.intensityTypes.map(intens => (
+                    <div className="selector-wrapper">
+                      <Radio
+                        checked={this.state.intensity === intens.value}
+                        onChange={e =>
+                          this.handleSelection({
+                            field: "intensity",
+                            value: intens.value
+                          })
+                        }
+                        value={intens.value}
+                        name="radio-button-demo"
+                        aria-label="b"
+                        classes={{
+                          root: classes.root,
+                          checked: classes.checked
+                        }}
+                      />
+                      <div className="selector-text">
+                        <p>{intens.label}</p>
                       </div>
-                    ))}
-                  
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

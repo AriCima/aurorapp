@@ -283,7 +283,23 @@ export default class DataService {
             })
         });
     };
+    static updateEventTypes(patID, typeArray) {  
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('patients').doc(patID).update({            
+                ownEventTypes : typeArray,
+            })
+            .then((result) => {
+                console.log(`Type succesfully UPDATED !`)
+                resolve(result);
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('Error al cargar la patientInfo: ', errorCode);
+            })
+        });
+    };
     static addEventType(newType) {  
+        console.log('add eventType launched');
         return new Promise((resolve, reject) => {
 
             firebase.firestore().collection('ownEventTypes').add(newType)
@@ -330,7 +346,7 @@ export default class DataService {
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     console.log('doc.data() / doc.id', doc.data(), ' / ', doc.id )
-                    resolve({types: doc.data(), id: doc.id})
+                    resolve({types: doc.data().ownTypes, id: doc.id})
                 });
             })
             .catch((error) => {
@@ -378,12 +394,27 @@ export default class DataService {
             
         });
     };
+    static updateEventDetonations(patID, detoArray) {  
+        return new Promise((resolve, reject) => {
+            firebase.firestore().collection('patients').doc(patID).update({            
+                ownDetonations : detoArray,
+            })
+            .then((result) => {
+                console.log(`Detonation succesfully UPDATED !`)
+                resolve(result);
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                console.log('Error al cargar la patientInfo: ', errorCode);
+            })
+        });
+    };
     static getOwnDetonations(patID){
         return new Promise((resolve, reject) => {
             firebase.firestore().collection('ownDetonations').where(`patientId`, `==` , patID).get()
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
-                    resolve({types: doc.data(), id: doc.id})
+                    resolve({types: doc.data().ownDetonations, id: doc.id})
                 });
             })
             .catch((error) => {
