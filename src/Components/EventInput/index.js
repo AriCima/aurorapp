@@ -12,7 +12,7 @@ import Radio from "@material-ui/core/Radio";
 
 //ACCESORIES
 import SubmitButton from "../Accessories/SubmitButton";
-import SelectBar from '../Accessories/SelectBar';
+import SelectCreate from '../Accessories/SelectCreate';
 
 // CSS
 import "./index.css";
@@ -131,9 +131,10 @@ class EventInput extends React.Component {
       patientsEvents: []
     };
 
-    this.onNewEvent = this.onNewEvent.bind(this);
-    this.onChangeState = this.onChangeState.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
+    this.onNewEvent = this.onNewEvent.bind(this);
+
+    this.onChangeState = this.onChangeState.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleIntensityChange = this.handleIntensityChange.bind(this);
   }
@@ -193,17 +194,20 @@ class EventInput extends React.Component {
 
   }
 
-  onChangeState(field, value) {
-    let eventInfo = this.state;
-    eventInfo[field] = value;
-    this.setState(eventInfo);
-  }
+
   handleSelection = ({ field, value }) => {
+    console.log('handle launched field = ', field, ' value = ', value)
     this.setState({
       [field]: value
     });
   };
 
+  onChangeState(field, value) {
+    
+    let eventInfo = this.state;
+    eventInfo[field] = value;
+    this.setState(eventInfo);
+  }
   handleStateChange = event => {
     this.setState({ state: event.target.value });
   };
@@ -399,22 +403,8 @@ class EventInput extends React.Component {
 
                 <div className="selector-wrapper-bar">
                   {this.state.inputType === "Otra" && 
-                  (<SelectBar types={this.state.allTypes} />)
-                  
-                  // (
-                  //   <label className="label-short">
-                  //     <input
-                  //       className="input-short"
-                  //       type="text"
-                  //       name="inputOwnType"
-                  //       value={this.state.inputOwnType}
-                  //       onChange={e => {
-                  //         this.onChangeState("inputOwnType", e.target.value);
-                  //       }}
-                  //     />
-                  //   </label>
-                  // )
-                }
+                    (<SelectCreate types={this.state.allTypes} fn={this.handleSelection}/>)
+                  }
                 </div>
                 
               </div>

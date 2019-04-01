@@ -9,6 +9,16 @@ let styles = { width: '100%'}
 export default class SelectBar extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selection : '',
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    this.props.fn(this.state.selection)
   }
 
   render() {
