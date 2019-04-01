@@ -12,6 +12,7 @@ import Radio from "@material-ui/core/Radio";
 
 //ACCESORIES
 import SubmitButton from "../Accessories/SubmitButton";
+import SelectBar from '../Accessories/SelectBar';
 
 // CSS
 import "./index.css";
@@ -139,102 +140,57 @@ class EventInput extends React.Component {
 
   componentDidMount() {
     DataService.getPatientInfo(this.state.patientId)
-      .then(res => {
-        const pat = res;
+    .then(res => {
+      const pat = res;
 
-        // Get the own Types in an Array
-        let currentTypes = res.ownEventTypes;
-        let typesValues = [];
-        let indexT = currentTypes.length;
+      // Props structure for the SelectBAr
+      // const options = [
+      //   { value: 'chocolate', label: 'Chocolate' },
+      //   { value: 'strawberry', label: 'Strawberry' },
+      //   { value: 'vanilla', label: 'Vanilla' }
+      // ];
 
-        if (currentTypes !== []) {
-          for (let i = 0; i < indexT; i++) {
-            typesValues.push(currentTypes[i].value);
-          }
-        } else {
-          typesValues = currentTypes;
+      // Get the own Types in an Array
+      let currentTypes = res.ownEventTypes;
+      let typesValues = [];
+      let indexT = currentTypes.length;
+
+      if (currentTypes !== []) {
+        for (let i = 0; i < indexT; i++) {
+          typesValues.push(currentTypes[i].value);
         }
+      } else {
+        typesValues = currentTypes;
+      }
 
-        // Get the own Detos in an Array
-        let currentDetos = res.ownDetonations;
-        let indexD = currentDetos.length;
-        let detosValues = [];
-        if (currentDetos !== []) {
-          for (let i = 0; i < indexD; i++) {
-            detosValues.push(currentDetos[i].value);
-          }
-        } else {
-          detosValues = currentDetos;
+      
+      // Get the own Detos in an Array
+      let currentDetos = res.ownDetonations;
+      let indexD = currentDetos.length;
+      let detosValues = [];
+      if (currentDetos !== []) {
+        for (let i = 0; i < indexD; i++) {
+          detosValues.push(currentDetos[i].value);
         }
+      } else {
+        detosValues = currentDetos;
+      }
 
-        this.setState({
-          patientsEvents: pat.patientsEvents,
-          allTypes: pat.ownEventTypes,
-          typesValues: typesValues,
-          detosValues: detosValues,
-          allDetos: pat.ownDetonations
-        });
-      })
-
-      .catch(function(error) {
-        console.log(error);
+      this.setState({
+        patientsEvents: pat.patientsEvents,
+        allTypes: pat.ownEventTypes,
+        typesValues: typesValues,
+        detosValues: detosValues,
+        allDetos: pat.ownDetonations
       });
 
-    // DataService.getEventOwnType(this.state.patientId)
-    // .then(res => {
-    //   console.log("res del getEvent", res);
+      console.log('typesValues = ', this.state.allTypes)
+    })
 
-    //   let currentTypes = res.types
-    //   let typesValues = [];
-    //   let index = currentTypes.length;
-    //   if(currentTypes !== []){
+    .catch(function(error) {
+      console.log(error);
+    });
 
-    //     for (let i = 0; i < index; i++){
-    //       typesValues.push(currentTypes[i]);
-    //     }
-
-    //   } else {
-    //     typesValues = currentTypes;
-    //   }
-
-    //   this.setState({
-    //     ownTypes: typesValues,
-    //     typesId: res.id
-    //   });
-
-    //   console.log("this.state.ownTypes", this.state.ownTypes);
-    // })
-    // .catch(function(error) {
-    //   console.log(error);
-    // });
-
-    // DataService.getOwnDetonations(this.state.patientId)
-    // .then(res => {
-    //   console.log("res del getDetos", res);
-
-    //   let currentDetos = res.types;
-    //   let index = currentDetos.length;
-    //   let detosValues = [];
-    //   if(currentDetos !== []){
-
-    //     for (let i = 0; i < index; i++){
-    //       detosValues.push(currentDetos[i]);
-    //     }
-    //   } else {
-    //     detosValues = currentDetos
-    //   }
-
-    //   this.setState({
-    //     ownDetonations: detosValues,
-    //     detosId: res.id
-    //   });
-
-    //   console.log("this.state.ownDetos", this.state.ownDetonations);
-
-    // })
-    // .catch(function(error) {
-    //   console.log(error);
-    // });
   }
 
   onChangeState(field, value) {
@@ -266,11 +222,11 @@ class EventInput extends React.Component {
       duration: this.state.duration,
 
       type: this.state.inputType,
-      ownType: this.state.inputOwnType,
+      ownType: this.state.inputOwnType.toUpperCase(),
       clinicObservation: this.state.clinicObservation,
 
       detonation: this.state.inputDetonation,
-      ownDetonation: this.state.inputOwnDetonation,
+      ownDetonation: this.state.inputOwnDetonation.toUpperCase(),
 
       intensity: this.state.intensity,
       state: this.state.state,
@@ -278,26 +234,26 @@ class EventInput extends React.Component {
     };
 
     DataService.newEvent(newEvent)
-      .then(result => {
-        console.log(result.id, " event succesfully registered !!!");
-        this.props.propsFn.push(`/patient/${this.state.patientId}`);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    .then(result => {
+      console.log(result.id, " event succesfully registered !!!");
+      this.props.propsFn.push(`/patient/${this.state.patientId}`);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 
     // EN CASO QUE EL TIPO DE EVENTO SEA "Otra"
     if (this.state.inputType === "Otra") {
-      let oType = this.state.inputOwnType;
+      let oType = this.state.inputOwnType.toUpperCase();
       let allTypes= this.state.allTypes;
       let types = this.state.typesValues;
 
       if (types.indexOf(oType) < 0) {
 
         if (allTypes.length === []) {
-          allTypes[0] = { value: oType, label: oType };
+          allTypes[0] = { value: oType, label: oType};   // this is the structure needed for the SelecBar props
         } else {
-          allTypes.push({ value: oType, label: oType });
+          allTypes.push({ value: oType, label: oType});
           console.log("allTypes / oType / patID", allTypes," / ",oType," / ",patID
           );
         };
@@ -314,17 +270,15 @@ class EventInput extends React.Component {
 
     // EN CASO QUE EL TIPO DE DETONANTE SEA "Otra"
     if (this.state.inputDetonation === "Otra") {
-      let oDet = this.state.inputOwnDetonation;
+      let oDet = this.state.inputOwnDetonation.toUpperCase();
       let allDetos= this.state.allDetos;
       let detos = this.state.detosValues;
 
       if (detos.indexOf(oDet) < 0) {
-
         if (allDetos.lenght === []) {
-          allDetos[0] = { value: oDet, label: oDet };
-
+          allDetos[0] = { value: oDet, label: oDet};  // this is the structure needed for the SelecBar props
         } else {
-          allDetos.push({ value: oDet, label: oDet });
+          allDetos.push({ value: oDet, label: oDet});
         }
 
         DataService.updateEventDetonations(patID, allDetos)
@@ -397,6 +351,7 @@ class EventInput extends React.Component {
                 <p>Tipo de crisis</p>
               </div>
               <div className="selectors-field">
+                
                 {this.props.crisisTypes.map(crisis => (
                   <div className="selector-wrapper">
                     <Radio
@@ -440,22 +395,28 @@ class EventInput extends React.Component {
                   <div className="selector-text">
                     <p>Otra</p>
                   </div>
-                  <div className="selector-wrapper">
-                    {this.state.inputType === "Otra" && (
-                      <label className="label-short">
-                        <input
-                          className="input-short"
-                          type="text"
-                          name="inputOwnType"
-                          value={this.state.inputOwnType}
-                          onChange={e => {
-                            this.onChangeState("inputOwnType", e.target.value);
-                          }}
-                        />
-                      </label>
-                    )}
-                  </div>
                 </div>
+
+                <div className="selector-wrapper-bar">
+                  {this.state.inputType === "Otra" && 
+                  (<SelectBar types={this.state.allTypes} />)
+                  
+                  // (
+                  //   <label className="label-short">
+                  //     <input
+                  //       className="input-short"
+                  //       type="text"
+                  //       name="inputOwnType"
+                  //       value={this.state.inputOwnType}
+                  //       onChange={e => {
+                  //         this.onChangeState("inputOwnType", e.target.value);
+                  //       }}
+                  //     />
+                  //   </label>
+                  // )
+                }
+                </div>
+                
               </div>
             </div>
 

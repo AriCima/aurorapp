@@ -191,6 +191,16 @@ label p{
   align-items: center;
 }
 
+.selector-wrapper-bar{
+  width: 200px;
+  margin-right: 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.css-10nd86i{
+  width: 100%;
+}
 .selector-text{
   display: flex;
   justify-content: flex-start;
