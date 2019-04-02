@@ -2,7 +2,6 @@ import React from "react";
 
 // SERVICE API
 import DataService from "../services/DataService";
-
 import CustomDropZone from "../CustomDropZone";
 
 // MATERIAL UI
@@ -105,7 +104,6 @@ class EventInput extends React.Component {
     super(props);
     this.state = {
       patientId: this.props.patID,
-
       date: "",
       startTime: "",
       duration: "",
@@ -114,20 +112,18 @@ class EventInput extends React.Component {
       inputOwnType: "",
       typesValues: [],
       allTypes: [],
-      // typesId: "",
-
-      state: "",
-      intensity: "",
+      typeLabels: [],
 
       inputDetonation: "",
       inputOwnDetonation: "",
       detosValues: [],
       allDetos: [],
-      // detosId: "",
+      detosLablels: [],
 
+      state: "",
+      intensity: "",
       clinicObservation: "",
       action: "",
-
       patientsEvents: []
     };
 
@@ -135,8 +131,9 @@ class EventInput extends React.Component {
     this.onNewEvent = this.onNewEvent.bind(this);
 
     this.onChangeState = this.onChangeState.bind(this);
-    this.handleStateChange = this.handleStateChange.bind(this);
-    this.handleIntensityChange = this.handleIntensityChange.bind(this);
+
+    // this.handleStateChange = this.handleStateChange.bind(this);
+    // this.handleIntensityChange = this.handleIntensityChange.bind(this);
   }
 
   componentDidMount() {
@@ -144,48 +141,27 @@ class EventInput extends React.Component {
     .then(res => {
       const pat = res;
 
-      // Props structure for the SelectBAr
-      // const options = [
-      //   { value: 'chocolate', label: 'Chocolate' },
-      //   { value: 'strawberry', label: 'Strawberry' },
-      //   { value: 'vanilla', label: 'Vanilla' }
-      // ];
+      let tLabels = [];
+      let indexT = tLabels.length;
+      let dLabels = [];
+      let indexD = dLabels.length;
 
-      // Get the own Types in an Array
-      let currentTypes = res.ownEventTypes;
-      let typesValues = [];
-      let indexT = currentTypes.length;
-
-      if (currentTypes !== []) {
-        for (let i = 0; i < indexT; i++) {
-          typesValues.push(currentTypes[i].value);
-        }
-      } else {
-        typesValues = currentTypes;
+      for (let j = 0; j < indexT; j++){
+        tLabels.push(pat.ownEventTypes[j].toUpperCase())
       }
 
-      
-      // Get the own Detos in an Array
-      let currentDetos = res.ownDetonations;
-      let indexD = currentDetos.length;
-      let detosValues = [];
-      if (currentDetos !== []) {
-        for (let i = 0; i < indexD; i++) {
-          detosValues.push(currentDetos[i].value);
-        }
-      } else {
-        detosValues = currentDetos;
+      for (let j = 0; j < indexD; j++){
+        dLabels.push(pat.ownDetonations[j].toUpperCase())
       }
 
       this.setState({
-        patientsEvents: pat.patientsEvents,
-        allTypes: pat.ownEventTypes,
-        typesValues: typesValues,
-        detosValues: detosValues,
-        allDetos: pat.ownDetonations
+        patientsEvents  : pat.patientsEvents,
+        typesLabels     : tLabels,  
+        detosLabels     : dLabels,
+        allTypes        : pat.ownEventTypes,
+        allDetos        : pat.ownDetonations
       });
 
-      console.log('typesValues = ', this.state.allTypes)
     })
 
     .catch(function(error) {
@@ -196,70 +172,41 @@ class EventInput extends React.Component {
 
 
   handleSelection = ({ field, value }) => {
-    console.log('handle launched field = ', field, ' value = ', value)
     this.setState({
       [field]: value
     });
   };
-
   onChangeState(field, value) {
     
     let eventInfo = this.state;
     eventInfo[field] = value;
     this.setState(eventInfo);
   }
-  handleStateChange = event => {
-    this.setState({ state: event.target.value });
-  };
-  handleIntensityChange = event => {
-    this.setState({ intensity: event.target.value });
-  };
+  // handleStateChange = event => {
+  //   this.setState({ state: event.target.value });
+  // };
+  // handleIntensityChange = event => {
+  //   this.setState({ intensity: event.target.value });
+  // };
 
   onNewEvent(e) {
     e.preventDefault();
     let patID = this.props.patID;
-
-    let newEvent = {
-      patientId: patID,
-      date: this.state.date,
-      startTime: this.state.startTime,
-      duration: this.state.duration,
-
-      type: this.state.inputType,
-      ownType: this.state.inputOwnType.toUpperCase(),
-      clinicObservation: this.state.clinicObservation,
-
-      detonation: this.state.inputDetonation,
-      ownDetonation: this.state.inputOwnDetonation.toUpperCase(),
-
-      intensity: this.state.intensity,
-      state: this.state.state,
-      action: this.state.action
-    };
-
-    DataService.newEvent(newEvent)
-    .then(result => {
-      console.log(result.id, " event succesfully registered !!!");
-      this.props.propsFn.push(`/patient/${this.state.patientId}`);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+    let eventType = '';
+    let eventDeto = '';
 
     // EN CASO QUE EL TIPO DE EVENTO SEA "Otra"
-    if (this.state.inputType === "Otra") {
-      let oType = this.state.inputOwnType.toUpperCase();
-      let allTypes= this.state.allTypes;
-      let types = this.state.typesValues;
+    if(this.state.inputType === "Otra" ){
+      let oType     = this.state.inputOwnType.toUpperCase();
+      let allTypes  = this.state.allTypes;
+      let types     = this.state.typesLabels;
 
+      // SI ES NUEVO => ACTUALIZO BASE DE DATOS
       if (types.indexOf(oType) < 0) {
-
         if (allTypes.length === []) {
-          allTypes[0] = { value: oType, label: oType};   // this is the structure needed for the SelecBar props
+          allTypes[0] = { label: oType, value: oType};   // this is the structure needed for the SelecBar props
         } else {
-          allTypes.push({ value: oType, label: oType});
-          console.log("allTypes / oType / patID", allTypes," / ",oType," / ",patID
-          );
+          allTypes.push({label: oType, value: oType});
         };
 
         DataService.updateEventTypes(patID, allTypes)
@@ -270,19 +217,26 @@ class EventInput extends React.Component {
             console.log(error);
           });
       }
-    }
 
-    // EN CASO QUE EL TIPO DE DETONANTE SEA "Otra"
-    if (this.state.inputDetonation === "Otra") {
+      // GUARDO EVENTO CON EL OWN TYPE
+      eventType = this.state.inputOwnType.toUpperCase();
+    } else {
+      // GUARDO EVENTO CON EL TIPO STANDARD
+      eventType = this.state.inputType;
+    };
+    
+    // EN CASO QUE EL TIPO DE DETONACION SEA "Otra"
+    if(this.state.inputDetonation === "Otra"){
       let oDet = this.state.inputOwnDetonation.toUpperCase();
       let allDetos= this.state.allDetos;
-      let detos = this.state.detosValues;
+      let detos = this.state.detosLabels;
 
+      // SI ES NUEVO => ACTUALIZO BASE DE DATOS
       if (detos.indexOf(oDet) < 0) {
         if (allDetos.lenght === []) {
-          allDetos[0] = { value: oDet, label: oDet};  // this is the structure needed for the SelecBar props
+          allDetos[0] = {label: oDet, value: oDet};  // this is the structure needed for the SelecBar props
         } else {
-          allDetos.push({ value: oDet, label: oDet});
+          allDetos.push({ label: oDet, value: oDet });
         }
 
         DataService.updateEventDetonations(patID, allDetos)
@@ -293,7 +247,34 @@ class EventInput extends React.Component {
           console.log(error);
         });
       }
-    }
+
+      // GUARDO EVENTO CON EL OWN DETONATION
+      eventDeto = this.state.inputOwnDetonation.toUpperCase();
+    } else {
+      eventDeto = this.state.inputDetonation;
+    };
+
+    let newEvent = {
+      patientId         : patID,
+      date              : this.state.date,
+      startTime         : this.state.startTime,
+      duration          : this.state.duration,
+      type              : eventType,
+      clinicObservation : this.state.clinicObservation,
+      detonation        : eventDeto,
+      intensity         : this.state.intensity,
+      state             : this.state.state,
+      action            : this.state.action
+    };
+    
+    DataService.newEvent(newEvent)
+    .then(result => {
+      console.log(result.id, " event succesfully registered !!!");
+      this.props.propsFn.push(`/patient/${this.state.patientId}`);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 
     this.props.propsFn.push(`/patient/${this.state.patientId}`);
   }
@@ -403,7 +384,7 @@ class EventInput extends React.Component {
 
                 <div className="selector-wrapper-bar">
                   {this.state.inputType === "Otra" && 
-                    (<SelectCreate types={this.state.allTypes} fn={this.handleSelection}/>)
+                    (<SelectCreate options={this.state.allTypes} field={'inputOwnType'}fn={this.handleSelection}/>)
                   }
                 </div>
                 
@@ -465,7 +446,7 @@ class EventInput extends React.Component {
                 </div>
                 <div className="selector-wrapper-bar">
                   {this.state.inputDetonation === "Otra" && 
-                    (<SelectCreate types={this.state.allDetos} fn={this.handleSelection}/>)
+                    (<SelectCreate options={this.state.allDetos} field={'inputOwnDetonation'}fn={this.handleSelection}/>)
                   }
                 </div>
                 
@@ -579,7 +560,7 @@ class EventInput extends React.Component {
           </div>
 
           <div className="nev-button-area">
-            <SubmitButton text={"GUARDAR"} />
+            <SubmitButton text={"GUARDAR"} fn={this.onNewEvent}/>
           </div>
         </form>
       </div>

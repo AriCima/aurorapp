@@ -11,15 +11,18 @@ export default class SelectCreate extends React.Component {
     super(props);
     this.state = {
       selectedOption : '',
+      field: this.props.field,
     }
 
     this.handleChange = this.handleChange.bind(this);
   }
 
+
   handleChange = (selectedOption) => {
     this.setState({ selectedOption: selectedOption.value });
+    console.log('el field recibido es = ', this.state.field)
     this.props.fn({
-      field: 'inputOwnType', 
+      field: this.state.field, 
       value: selectedOption.value
     })
   }
@@ -33,11 +36,18 @@ export default class SelectCreate extends React.Component {
   // }
 
   render() {
+    // Props structure for the SelectBAr
+    // const options = [
+    //   { value: 'chocolate', label: 'Chocolate' },
+    //   { value: 'strawberry', label: 'Strawberry' },
+    //   { value: 'vanilla', label: 'Vanilla' }
+    // ];
+
     const { selectedOption } = this.state;
     return (
 
       <Creatable 
-        options={this.props.types} 
+        options={this.props.options} 
         value={selectedOption.value}
         onChange={this.handleChange}
         // onChange={e =>

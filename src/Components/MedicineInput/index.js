@@ -5,15 +5,53 @@ import DataService from '../services/DataService';
 
 // ACCESORIES
 import SubmitButton from '../Accessories/MyButtonPlain';
+import SelectCreate from '../Accessories/SelectCreate';
 
+// CSS
 import './index.css'; 
+
+const genericMeds = [{label:'Neurofarman', value:'neurofarm'}, 
+{label: 'Carbamacepina, CBZ (Tegretol)', value:'carbamacepina'} , 
+{label: 'Oxcarbazepina, OXC (Trileptal, Epilexter)', value:'oxcarbazepina'}, 
+{label:'Etosuximida, ESM', value:'etosuximida'},
+{label: 'Fenitoína, PHT (Epanutin, Neosidantoina, Sinergina)', value: 'fenitoína'},
+{label: 'Gabapentina GBP (Neurontin)', value: 'gabapentina'}, 
+{label: 'Lacosamida (Vimpar)', value: 'Lacosamida'},
+{label: 'Lamotrigin, LTG (Crisomet, Labileno, Lamictal)', value: 'lamotrigin'}, 
+{lebel: 'Levetiracetam, LEV (Keppra)', value:'levetiracetam'},
+{label: 'Retigabina (Trobalt)', value:'retigabina'},
+{label: 'Rufinamida, DCI (Inovelon)', value: 'rufinamida'},
+{label: 'Tiagabina, TGB (Gabitril)', value:'tiagabina' },
+{label: 'Topiramato, TPM (Topamax)', value: 'topiramato'},
+{label: 'Valproato, VPA (Depakine)', value: 'valproato'}, 
+{label: 'Vigabatrina, VGB (Sabrilex)', value:'vigabatrina'}, 
+{label: 'Zonisamida, ZNS (Zonegran)', value: 'zonisamida' },
+{label: 'Acetazolamida (Edemox)', value: 'acetazolamida'},
+{label: 'Acetato Eslicarbazepina, ESL 800 (Zebinix – 800)', value: 'acetato_eslicarbazepina'},
+{label: 'Estiripentol, STP (Diacomit)', value: 'estiripentol'},
+{label: 'Felbamato FBM, (Taloxa)', value: 'felbamato'},
+{label: 'Fosfenitoina Sódica', value:'fosfenitoina_sodica'}, 
+{label: 'Pregabalina, PGB (Lyrica)', value: 'pregabalina'}, 
+{label: 'Safinamida', value: 'safinamida'}, 
+{label: 'Talampanel', value: 'talampanel'},
+{label: 'Valrocemida', value: 'valrocemida'},
+{label: 'Corticoides (ACTH), Inmunoglobulinas u otros Inmunomoduladores', value:'corticoides'}];
+
+const units = [
+    {lebel: 'mg', value: 'mg'},
+    {label:'ml', value: 'ml'}
+];
 
 export default class MedicineInput extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
             patientId           : this.props.patID,
+            ownMeds             : [],
+            medsValues          : [],
+            allMeds             : [],
             drugName            : '',
+            ownDrugName         : '',
             drugDose            : '',
             doseUnits           : 'mg',
             date                : '',
@@ -42,13 +80,51 @@ export default class MedicineInput extends React.Component {
             // dailyDose21         : '',
             // dailyDose22         : '',
             // dailyDose23         : '',
-            totalDailyDose      : '',
+            totalDailyDose          : '',
+            medsLabels              : [],
         };
 
         this.onNewMedicine      = this.onNewMedicine.bind(this);
         this.onChangeState      = this.onChangeState.bind(this);
         this.handleChangeSelect = this.handleChangeSelect.bind(this);
     }
+
+
+    componentDidMount() {
+        DataService.getPatientInfo(this.state.patientId)
+        .then(res => {
+        const pat = res;
+
+        let ownMeds = pat.ownMeds;
+        let allMeds = genericMeds.concat(ownMeds);
+        let indexM  = allMeds.length;
+
+        let medsLabels = [];  // array witn only meds labels to verify if the input med already exists
+
+        for (let i = 0; i < indexM; i++){
+            indexM.push((allMeds[i].label).toUpperCase());
+        };
+
+        this.setState({
+            ownMeds     : pat.ownMEds,
+            allMeds     : allMeds,
+            medsLabels  : medsLabels,
+            // medsValues: medsValues,
+        });
+
+        })
+
+        .catch(function(error) {
+        console.log(error);
+        });
+
+    }
+
+    handleSelection = ({ field, value }) => {
+        this.setState({
+          [field]: value
+        });
+    };
 
     onChangeState(field, value){
         let medInfo = this.state;
@@ -63,6 +139,8 @@ export default class MedicineInput extends React.Component {
     }
 
     onNewMedicine(e){
+
+        let drugExists = this.state.medsLabels.indexOf(this.state.drugName);
 
         e.preventDefault();       
         let newDrugName   = this.state.drugName;
@@ -111,18 +189,25 @@ export default class MedicineInput extends React.Component {
                                 size="150"
                                 type="date"
                                 value={this.state.date}
-                                onChange={(e)=>{this.onChangeState('date', e.target.value)}}
+                                // onChange={(e)=>{this.onChangeState('date', e.target.value)}}
+                                onChange={e =>
+                                    this.handleSelection({
+                                      field: "date",
+                                      value: this.state.date
+                                    })
+                                }
                             /> 
                         </label>
 
                         <label className="med-label-info">
                             <p>Nombre de la droga</p>
-                            <input id="med-input"
+                                <SelectCreate options={this.state.allMeds} field={'ownDrugName'} fn={this.handleSelection}/>
+                            {/* <input id="med-input"
                                 size="150"
                                 type="text"
                                 value={this.state.drugName}
                                 onChange={(e)=>{this.onChangeState('drugName', e.target.value)}}
-                            /> 
+                            />  */}
                         </label>
 
 
@@ -132,13 +217,22 @@ export default class MedicineInput extends React.Component {
                                 size="150"
                                 type="text"
                                 value={this.state.drugDose}
-                                onChange={(e)=>{this.onChangeState('drugDose', e.target.value)}}
+                                // onChange={(e)=>{this.onChangeState('drugDose', e.target.value)}}
+                                onChange={e =>
+                                    this.handleSelection({
+                                      field: "drugDose",
+                                      value: this.state.drugDose
+                                    })
+                                }
                             /> 
                         </label>
                    
 
                         <label className="med-label-short">
                             <p>Unidades</p>
+
+                            <SelectCreate types={units} fn={this.handleSelection}/>
+
                             <select id="med-select-input" 
                                 value={this.state.doseUnits} 
                                 onChange={this.handleChangeSelect}>
