@@ -411,10 +411,13 @@ class EventInput extends React.Component {
             </div>
 
             <div className="nev-input-select-row" id="deto">
+
               <div className="select-row-title">
                 <p>Detonante</p>
               </div>
+
               <div className="selectors-field">
+
                 {this.props.detoTypes.map(deto => (
                   <div className="selector-wrapper">
                     <Radio
@@ -459,25 +462,13 @@ class EventInput extends React.Component {
                   <div className="selector-text">
                     <p>Otra</p>
                   </div>
-                  <div className="selector-wrapper">
-                    {this.state.inputDetonation === "Otra" && (
-                      <label className="label-short">
-                        <input
-                          className="input-short"
-                          type="text"
-                          name="inputOwnDetonation"
-                          value={this.state.inputOwnDetonation}
-                          onChange={e => {
-                            this.onChangeState(
-                              "inputOwnDetonation",
-                              e.target.value
-                            );
-                          }}
-                        />
-                      </label>
-                    )}
-                  </div>
                 </div>
+                <div className="selector-wrapper-bar">
+                  {this.state.inputDetonation === "Otra" && 
+                    (<SelectCreate types={this.state.allDetos} fn={this.handleSelection}/>)
+                  }
+                </div>
+                
               </div>
             </div>
 
