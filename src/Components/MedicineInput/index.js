@@ -10,36 +10,38 @@ import SelectCreate from '../Accessories/SelectCreate';
 // CSS
 import './index.css'; 
 
-const genericMeds = [{label:'Neurofarman', value:'neurofarm'}, 
-{label: 'Carbamacepina, CBZ (Tegretol)', value:'carbamacepina'} , 
-{label: 'Oxcarbazepina, OXC (Trileptal, Epilexter)', value:'oxcarbazepina'}, 
-{label:'Etosuximida, ESM', value:'etosuximida'},
-{label: 'Fenitoína, PHT (Epanutin, Neosidantoina, Sinergina)', value: 'fenitoína'},
-{label: 'Gabapentina GBP (Neurontin)', value: 'gabapentina'}, 
-{label: 'Lacosamida (Vimpar)', value: 'Lacosamida'},
-{label: 'Lamotrigin, LTG (Crisomet, Labileno, Lamictal)', value: 'lamotrigin'}, 
-{lebel: 'Levetiracetam, LEV (Keppra)', value:'levetiracetam'},
-{label: 'Retigabina (Trobalt)', value:'retigabina'},
-{label: 'Rufinamida, DCI (Inovelon)', value: 'rufinamida'},
-{label: 'Tiagabina, TGB (Gabitril)', value:'tiagabina' },
-{label: 'Topiramato, TPM (Topamax)', value: 'topiramato'},
-{label: 'Valproato, VPA (Depakine)', value: 'valproato'}, 
-{label: 'Vigabatrina, VGB (Sabrilex)', value:'vigabatrina'}, 
-{label: 'Zonisamida, ZNS (Zonegran)', value: 'zonisamida' },
-{label: 'Acetazolamida (Edemox)', value: 'acetazolamida'},
-{label: 'Acetato Eslicarbazepina, ESL 800 (Zebinix – 800)', value: 'acetato_eslicarbazepina'},
-{label: 'Estiripentol, STP (Diacomit)', value: 'estiripentol'},
-{label: 'Felbamato FBM, (Taloxa)', value: 'felbamato'},
-{label: 'Fosfenitoina Sódica', value:'fosfenitoina_sodica'}, 
-{label: 'Pregabalina, PGB (Lyrica)', value: 'pregabalina'}, 
-{label: 'Safinamida', value: 'safinamida'}, 
-{label: 'Talampanel', value: 'talampanel'},
-{label: 'Valrocemida', value: 'valrocemida'},
-{label: 'Corticoides (ACTH), Inmunoglobulinas u otros Inmunomoduladores', value:'corticoides'}];
+const genericMeds = [
+    {label: 'Neurofarman', value:'neurofarm'}, 
+    {label: 'Carbamacepina, CBZ (Tegretol)', value:'carbamacepina'} , 
+    {label: 'Oxcarbazepina, OXC (Trileptal, Epilexter)', value:'oxcarbazepina'}, 
+    {label: 'Etosuximida, ESM', value:'etosuximida'},
+    {label: 'Fenitoína, PHT (Epanutin, Neosidantoina, Sinergina)', value: 'fenitoína'},
+    {label: 'Gabapentina GBP (Neurontin)', value: 'gabapentina'}, 
+    {label: 'Lacosamida (Vimpar)', value: 'Lacosamida'},
+    {label: 'Lamotrigin, LTG (Crisomet, Labileno, Lamictal)', value: 'lamotrigin'}, 
+    {label: 'Levetiracetam, LEV (Keppra)', value:'levetiracetam'},
+    {label: 'Retigabina (Trobalt)', value:'retigabina'},
+    {label: 'Rufinamida, DCI (Inovelon)', value: 'rufinamida'},
+    {label: 'Tiagabina, TGB (Gabitril)', value:'tiagabina' },
+    {label: 'Topiramato, TPM (Topamax)', value: 'topiramato'},
+    {label: 'Valproato, VPA (Depakine)', value: 'valproato'}, 
+    {label: 'Vigabatrina, VGB (Sabrilex)', value:'vigabatrina'}, 
+    {label: 'Zonisamida, ZNS (Zonegran)', value: 'zonisamida' },
+    {label: 'Acetazolamida (Edemox)', value: 'acetazolamida'},
+    {label: 'Acetato Eslicarbazepina, ESL 800 (Zebinix – 800)', value: 'acetato_eslicarbazepina'},
+    {label: 'Estiripentol, STP (Diacomit)', value: 'estiripentol'},
+    {label: 'Felbamato FBM, (Taloxa)', value: 'felbamato'},
+    {label: 'Fosfenitoina Sódica', value:'fosfenitoina_sodica'}, 
+    {label: 'Pregabalina, PGB (Lyrica)', value: 'pregabalina'}, 
+    {label: 'Safinamida', value: 'safinamida'}, 
+    {label: 'Talampanel', value: 'talampanel'},
+    {label: 'Valrocemida', value: 'valrocemida'},
+    {label: 'Corticoides (ACTH), Inmunoglobulinas u otros Inmunomoduladores', value:'corticoides'}
+];
 
 const units = [
-    {lebel: 'mg', value: 'mg'},
-    {label:'ml', value: 'ml'}
+    {label: 'mg', value: 'mg'},
+    {label: 'ml', value: 'ml'}
 ];
 
 export default class MedicineInput extends React.Component {
@@ -93,27 +95,27 @@ export default class MedicineInput extends React.Component {
     componentDidMount() {
         DataService.getPatientInfo(this.state.patientId)
         .then(res => {
-        const pat = res;
+            const pat = res;
 
-        let ownMeds = pat.ownMeds;
-        let allMeds = genericMeds.concat(ownMeds);
-        let indexM  = allMeds.length;
+            let ownMeds = pat.ownMeds;
+            let allMeds = genericMeds.concat(ownMeds);
 
-        let medsLabels = [];  // array witn only meds labels to verify if the input med already exists
+            let indexM  = allMeds.length;
 
-        for (let i = 0; i < indexM; i++){
-            indexM.push((allMeds[i].label).toUpperCase());
-        };
+            let medsLabels = [];  // array witn only meds labels to verify if the input med already exists
 
-        this.setState({
-            ownMeds     : pat.ownMEds,
-            allMeds     : allMeds,
-            medsLabels  : medsLabels,
-            // medsValues: medsValues,
-        });
+            for (let i = 0; i < indexM; i++){
+                console.log('allMeds[',i,'].label', allMeds[i].label)
+                medsLabels.push((allMeds[i].label).toUpperCase());
+            };
+            this.setState({
+                ownMeds     : pat.ownMEds,
+                allMeds     : allMeds,
+                medsLabels  : medsLabels,
+                // medsValues: medsValues,
+            });
 
         })
-
         .catch(function(error) {
         console.log(error);
         });
@@ -231,14 +233,14 @@ export default class MedicineInput extends React.Component {
                         <label className="med-label-short">
                             <p>Unidades</p>
 
-                            <SelectCreate types={units} fn={this.handleSelection}/>
+                            <SelectCreate options={units} fn={this.handleSelection}/>
 
-                            <select id="med-select-input" 
+                            {/* <select id="med-select-input" 
                                 value={this.state.doseUnits} 
                                 onChange={this.handleChangeSelect}>
                                 <option value="mg">mg</option>
                                 <option value="ml">ml</option>
-                            </select>
+                            </select> */}
                         </label>
 
                     </div>

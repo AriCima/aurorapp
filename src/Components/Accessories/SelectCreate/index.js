@@ -10,13 +10,12 @@ export default class SelectCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption : '',
-      field: this.props.field,
+      selectedOption  : '',
+      field           : this.props.field,
     }
 
     this.handleChange = this.handleChange.bind(this);
   }
-
 
   handleChange = (selectedOption) => {
     this.setState({ selectedOption: selectedOption.value });
@@ -26,14 +25,7 @@ export default class SelectCreate extends React.Component {
       value: selectedOption.value
     })
   }
-  // handleChange = ({field, value} ) => {
-  //   console.log('selection =', value)
-  //   this.setState({ 
-  //     [field]: value
-  //   });
-  //   this.props.fn({field, value})
-  //   console.log('handle launched ', this.state.selection)
-  // }
+
 
   render() {
     // Props structure for the SelectBAr
@@ -50,13 +42,32 @@ export default class SelectCreate extends React.Component {
         options={this.props.options} 
         value={selectedOption.value}
         onChange={this.handleChange}
-        // onChange={e =>
-        //   this.handleChange({
-        //     field: 'inputOwnType',
-        //     value: selection,
-        //   })}
         styles={styles} 
       />
     )
   }
 }
+
+
+
+  // handleChange = ({field, value} ) => {
+  //   console.log('selection =', value)
+  //   this.setState({ 
+  //     [field]: value
+  //   });
+  //   this.props.fn({field, value})
+  //   console.log('handle launched ', this.state.selection)
+  // }
+
+
+  // <Creatable 
+  //       options={this.props.options} 
+  //       value={selectedOption.value}
+  //       onChange={this.handleChange}
+  //       // onChange={e =>
+  //       //   this.handleChange({
+  //       //     field: 'inputOwnType',
+  //       //     value: selection,
+  //       //   })}
+  //       styles={styles} 
+  //     />
