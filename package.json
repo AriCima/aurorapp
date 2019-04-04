@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.6.1",
     "@material-ui/icons": "^3.0.1",
+    "canvasjs": "^1.8.1",
     "chartkick": "^3.0.1",
     "chokidar": "^2.0.4",
     "echarts": "^4.2.0-rc.2",
@@ -18,7 +19,7 @@
     "react-google-charts": "^3.0.10",
     "react-moment": "^0.8.4",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
+    "react-scripts": "^2.1.8",
     "react-select": "^2.4.2",
     "recharts": "^1.4.2"
   },

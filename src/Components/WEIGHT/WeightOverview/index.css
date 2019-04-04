@@ -1,5 +1,5 @@
 
-.events-area{
+.weights-area{
   width: 100%;
   margin-top: 80px;
   display: flex;
@@ -9,28 +9,56 @@
 
 }
 
-.events-upper{
+.weights-upper{
   margin: 20px 0;
   width: 80%;
   display: flex;
-  justify-items: flex-start;
+  flex-direction: column;
+  justify-items: center;
   align-items: center;
 }
-
-.events-list-title{
+.title-row{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.weights-list-title{
   width: 50%;
   display: flex;
   justify-items: flex-start;
-  align-items: center;
+  align-items: flex-start;
 
 }
 
-.events-list-title h2{
+.weights-list-title h2{
   font-size: 28px;
   font-weight: 700;
   color: rgb(0, 144, 248);
   margin: 5px;
 }
+
+.weight-chart-wrapper{
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+.weight-chart{
+  width: 50%;
+  height: 100%;
+}
+.wt-add-button{
+  width: 50%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
 .standard-list-header{
   margin-top: 5px;
   border-radius: 10px;
@@ -60,3 +88,5 @@
 #double-line{
   text-align: center;
 }
+
+

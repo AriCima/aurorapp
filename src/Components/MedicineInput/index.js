@@ -203,7 +203,11 @@ export default class MedicineInput extends React.Component {
 
                         <label className="med-label-info">
                             <p>Nombre de la droga</p>
-                                <SelectCreate options={this.state.allMeds} field={'ownDrugName'} fn={this.handleSelection}/>
+                                <SelectCreate 
+                                    options={this.state.allMeds} 
+                                    field={'ownDrugName'} 
+                                    fn={this.handleSelection}
+                                />
                             {/* <input id="med-input"
                                 size="150"
                                 type="text"

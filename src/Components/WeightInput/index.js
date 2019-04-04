@@ -46,7 +46,7 @@ export default class WeightInput extends React.Component {
       .then((result) => {
 
         console.log(result.id, ' => new Weight succesfully registered ! ! !');
-        this.props.propsFn.push(`/weight-overview/${this.props.patID}`)
+        this.props.propsFn.push(`/weight_overview/${this.props.patID}`)
 
       })
       .catch(function (error) {    

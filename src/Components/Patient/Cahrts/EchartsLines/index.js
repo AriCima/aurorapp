@@ -21,15 +21,7 @@ export default class EChartsLines extends React.Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState){
-  //   if(prevProps.sData !== this.props.sData){
-  //     console.log('se cumple) el if del gráfico')
-  //     this.setState({
-  //       seriesData  : this.props.sData,
-  //       xData       : this.props.xData
-  //     })
-  //   }
-  // }
+
 
   getOption(){
   

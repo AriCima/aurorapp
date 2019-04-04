@@ -1,0 +1,38 @@
+.patient-info{
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.patient-info-block{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+
+.patient-info-block .patInfo-sbtitle{
+    width: 50%;
+
+}
+
+.patient-info-block .patInfo-Info{
+    width: 50%;
+}
+
+.patient-info-block p{
+    margin: 10px 0 0 20px;
+    font-size: 18px;
+    font-weight: 550;
+    color: gray;
+}
+.patient-info-block h4{
+    margin: 10px 0 0 20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(0, 194, 216);
+}

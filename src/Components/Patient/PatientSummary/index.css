@@ -1,0 +1,206 @@
+.overview{
+    margin-top: 60px;
+    margin-bottom: 60px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.upper-area{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+
+.add-buttons-area{
+    margin-top: 20px;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.standard-add-button{
+    width: 80%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+#button-info p{
+    margin: 5px 0 0 0;
+    font-size: 16px;
+    font-weight: 550;
+    color: gray;
+    display: block;
+    text-align: center;
+}
+
+.middle-area{
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.middle-area .square-chart{
+    width: 100%;
+    height: 630px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.middle-area .square-chart .sq-line{
+    width: 100%;
+    height: 300px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.middle-area .square-chart .sq-line .chart-box{
+    width: 45%;
+    height: 100%;
+    border: 2px solid rgba(152, 152, 152, 0.1);
+    border-radius: 10px;
+    margin: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.chart-box:hover{
+    box-shadow: 0px 0px 15px rgba(0, 144, 248, 0.5);
+
+}
+
+.chart-box:hover .chartBox-Title h2{
+    color: rgb(0, 144, 248);
+}
+.chart-box-right{
+    margin-left: 5px;
+}
+
+.middle-area .square-chart .sq-line .chart-box .chart-upper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.chart-box .chartBox-Title{
+    width: 70%;
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+.chartBox-Title h2{
+    margin: 0 0 10px 20px;
+    color: rgb(152, 152, 152);
+}
+
+.chartBox-Title h2:hover{
+    color: rgba(0, 187, 150, 1);
+}
+
+
+.chart-add-button{
+    width: 30%;
+    margin-right: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.chartBox-info{
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.lower-area{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* EVENTS LISTINGS */
+
+
+.lower-area{
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.list-title{
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.list-title h2{
+    font-size: 28px;
+    font-weight: 700;
+    color: rgb(0, 144, 248);
+}
+
+.list-container{
+    display: flex;
+    border-radius: 10px;
+    width: 80%;
+}
+.standard-list-row{
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 2px 0px;
+    padding: 0;
+    border-bottom: 1px solid lightgray;
+}
+.standard-list-row:nth-child(even){
+    background-color: rgba(0, 144, 248, 0.05);
+}
+.standard-list-row:nth-child(odd){
+    background-color: rgba(0, 144, 248, 0.1);
+}
+/* .standard-list-row:nth-child(even):hover{
+    background-color: rgba(0, 144, 248, 0.2);
+} */
+.standard-list-row:nth-child(odd):hover{
+    background-color: rgba(0, 144, 248, 0.4);
+}
+.standard-list-info-block{
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1.5% 0px 3.5%;
+}
+.standard-list-info-block p{
+    font-family: helvetica;
+    font-size: 18px;
+    padding: 0;
+    margin-left: 0;
+    color: gray;
+}
+
