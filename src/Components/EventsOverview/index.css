@@ -60,3 +60,39 @@
 #double-line{
   text-align: center;
 }
+.event-standard-list-row{
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 2px 0px;
+  padding: 0;
+  border-bottom: 1px solid lightgray;
+}
+.event-standard-list-row:nth-child(even){
+  background-color: rgba(0, 144, 248, 0.05);
+}
+.event-standard-list-row:nth-child(odd){
+  background-color: rgba(0, 144, 248, 0.1);
+}
+.event-standard-list-row:nth-child(even):hover{
+  background-color: rgba(0, 144, 248, 0.2);
+}
+.event-standard-list-row:nth-child(odd):hover{
+  background-color: rgba(0, 144, 248, 0.4);
+}
+.event-standard-list-info-block{
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1.5% 0px 3.5%;
+}
+.event-standard-list-info-block p{
+  font-family: helvetica;
+  font-size: 18px;
+  padding: 0;
+  margin-left: 0;
+  color: gray;
+}

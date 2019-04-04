@@ -47,21 +47,21 @@ export default class EventsOverview extends React.Component {
     return this.state.patientsEvents.map((evts,j) => {
       return (
         <div className="list-container">
-          <Link className="standard-list-row" key={j} to={`/single_event_overview/${this.state.patientId}/${evts.id}`}> 
+          <Link className="event-standard-list-row" key={j} to={`/single_event_overview/${this.state.patientId}/${evts.id}`}> 
           
-            <div className="standard-list-info-block">
+            <div className="event-standard-list-info-block">
                <p>{evts.date}</p>
             </div>
-            <div className="standard-list-info-block">
+            <div className="event-standard-list-info-block">
                 <p>{evts.startTime}</p>
             </div>
-            <div className="standard-list-info-block">
+            <div className="event-standard-list-info-block">
                 <p>{evts.duration}</p>
             </div>
-            <div className="standard-list-info-block">
+            <div className="event-standard-list-info-block">
                 <p>{evts.minSaturation}</p>
             </div>
-            <div className="standard-list-info-block">
+            <div className="event-standard-list-info-block">
                 <p>{evts.fever}</p>
             </div>
           </Link>

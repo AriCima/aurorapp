@@ -53,7 +53,7 @@ export default class WeightOverview extends React.Component {
       for (let i = 0; i < indexW; i++){
         // console.log('weights[i].date =', weights[i].date)
         // console.log('Number(weights[i].weight) =', Number(weights[i].weight))
-        let nDate = weights[i].date;
+        let nDate = weights[i].date.toLocaleString('en-GB');
         let val = Number(weights[i].weight);
         datas[i] = val;
         dates[i] = nDate
@@ -78,14 +78,15 @@ export default class WeightOverview extends React.Component {
     
     return this.state.patientsWeights.map((wts,j) => {
       return (
-        <div className="list-container">
-          <Link className="standard-list-row" key={j} to={`/single_weight_overview/${this.state.patientId}/${wts.id}`}> 
+        <div className="weights-container">
+
+          <Link className="weights-list-row" key={j} to={`/single_weight_overview/${this.state.patientId}/${wts.id}`}> 
           
-            <div className="standard-list-info-block">
+            <div className="weights-info-block date">
                <p>{wts.date}</p>
             </div>
 
-            <div className="standard-list-info-block">
+            <div className="weights-info-block">
                 <p>{wts.weight}</p>
             </div>
 
@@ -95,7 +96,7 @@ export default class WeightOverview extends React.Component {
     })
   };
     
-  _chartInput(){}
+
 
   
   render() {
@@ -119,11 +120,15 @@ export default class WeightOverview extends React.Component {
                 </div>
 
               </div>
+
+              <div className="weight-overview-section">
+
                 <div className="weight-chart-wrapper">
                   <div className="weight-chart">
                     <EChartsLines 
-                      xD   = {this.state.xData} 
-                      sD   = {this.state.sData}
+                      xD      = {this.state.xData} 
+                      sD      = {this.state.sData}
+                      smooth  = {true}
                       h       = {'400px'}
                       w       = {'600px'}
                       yName   = {'[kg]'} 
@@ -132,24 +137,36 @@ export default class WeightOverview extends React.Component {
                       right   = {0}
                       bottom  = {0}
                       nameGap = {20}
+                      xPointer= {'line'}
                     />
                   </div>
                 </div>
 
-                
+                <div className="edit-weight-area">
+
+                <div className="search-weight-box">
+                  
+                  <div className="weight-search-header">
+                    <ul>
+                      <li id="fecha">Fecha</li>
+                      <li id="peso">Peso [Kg]</li>
+                    </ul>
+                  </div>
+
+                  
+                    {this.state.patientsWeights === [] ? <p>LOADING !</p> :
+                      this._renderWeightsInfo()
+                    }
+                  
+                </div>
+
+                </div>
+
+              </div>
 
             </div>
 
-          <div className="standard-list-header">
-            <ul>
-              <li id="double-line">Fecha</li>
-              <li id="double-line">Peso <br/>Kg</li>
-            </ul>
-          </div>
-          
-            {this.state.patientsWeights === [] ? <p>LOADING !</p> :
-              this._renderWeightsInfo()
-            }   
+
          
         </div>
 

@@ -10,12 +10,12 @@ export default class EChartsLines extends React.Component {
     this.state = {
       xData       : this.props.xD,
       seriesData  : this.props.sD,
-
       height      : this.props.h,
       width       : this.props.w,
       yName       : this.props.yName,
       nameGap     : this.props.nameGap,
-      
+      smooth      : this.props.smooth,
+      xPointer    : this.props.xPointer,
       left        : this.props.left,
       top         : this.props.top,
       right       : this.props.right,
@@ -28,8 +28,19 @@ export default class EChartsLines extends React.Component {
     console.log('DID UPDATE LAUNCHED')
     if(this.props.sD !== prevProps.sD ){
       this.setState({
-        xData       : this.props.xD,
-        seriesData  : this.props.sD,
+        xData       : this.props.xD,  
+        seriesData  : this.props.sD,   
+        height      : this.props.h,
+        width       : this.props.w,
+        yName       : this.props.yName,
+        nameGap     : this.props.nameGap,
+        smooth      : this.props.smooth,
+        left        : this.props.left,
+        top         : this.props.top,
+        right       : this.props.right,
+        bottom      : this.props.bottom,
+        xPointer    : this.props.xPointer,
+
       })
     }
   }
@@ -60,11 +71,12 @@ export default class EChartsLines extends React.Component {
     let option = {
       tooltip : {
         trigger: 'axis',
+        snap: false,
         label: {
-          show: 'false',
+          show: 'true',
         },
         axisPointer : {            
-          type : 'shadow'        // ：'line' | 'shadow'
+          type : this.state.xPointer       // ：'line' | 'shadow'
         }
       },
       grid: {
@@ -90,7 +102,7 @@ export default class EChartsLines extends React.Component {
         nameGap       : this.props.nameGap,
         
         nameTextStyle : {
-          color: 'rgb(0, 144, 248)',
+          color: 'gray',
           fontStyle: 'normal',
           fontWeight: 'bold',
         },
@@ -98,7 +110,7 @@ export default class EChartsLines extends React.Component {
       series: [{
         data: this.state.seriesData,
         type: 'line',
-        smooth: true
+        smooth: this.state.smooth,
       }]
 
       

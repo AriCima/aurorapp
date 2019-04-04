@@ -34,11 +34,12 @@ export default class WeightInput extends React.Component {
   onNewWeight(e){
       e.preventDefault();       
 
+      let fecha = this.state.date.toLocaleString('en-GB');
       let noCommas = this.state.weight.replace(",", ".");
 
       let weightInfo = {
         patientId   : this.state.patientId,
-        date        : this.state.date,
+        date        : fecha,
         weight      : noCommas,
       };
 
