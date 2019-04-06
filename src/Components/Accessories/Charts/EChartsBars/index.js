@@ -54,8 +54,8 @@ export default class EChartsBars extends React.Component {
             alignWithLabel: false
           },
           axisLabel: {
-              interval: 'auto',
-              rotate: 0,
+            interval: 'auto',
+            rotate: 0,
           }
         }
       ],

@@ -105,7 +105,7 @@ export default class EventsOverview extends React.Component {
   _renderEventsInfo() {
     return this.state.patientsEvents.map((evts, j) => {
       return (
-        <div className="list-container">
+        <div className="events-list-container">
           <Link
             className="event-standard-list-row"
             key={j}
@@ -121,10 +121,10 @@ export default class EventsOverview extends React.Component {
               <p>{evts.duration}</p>
             </div>
             <div className="event-standard-list-info-block">
-              <p>{evts.minSaturation}</p>
+              <p>{evts.type}</p>
             </div>
             <div className="event-standard-list-info-block">
-              <p>{evts.fever}</p>
+              <p>{evts.intensity}</p>
             </div>
           </Link>
         </div>
@@ -137,6 +137,7 @@ export default class EventsOverview extends React.Component {
       <div className="events-area">
 
         <div className="events-upper">
+
           <div className="events-list-title">
             <h2>Eventos registrados</h2>
           </div>
@@ -148,6 +149,7 @@ export default class EventsOverview extends React.Component {
               </Link>
             </div>
           </div>
+
         </div>
 
         <div className="events-graphic-wrapper">
@@ -166,35 +168,38 @@ export default class EventsOverview extends React.Component {
 
         </div>
 
-        <div className="standard-list-header">
-          <ul>
-            <li id="double-line">Fecha</li>
-            <li id="double-line">
-              Hora Inicio
-              <br />
-              hr:min
-            </li>
-            <li id="double-line">
-              Duración
-              <br />
-              mins
-            </li>
-            <li id="double-line">
-              Sat. mín. <br />%
-            </li>
-            <li id="double-line">
-              Temperatura <br />
-              ºC
-            </li>
-          </ul>
-        </div>
+        <div className="events-overview-list">
 
-        <div className="events-fn-wrapper">
-          {this.state.patientsEvents === [] ? (
-            <p>LOADING !</p>
-          ) : (
-            this._renderEventsInfo()
-          )}
+          <div className="standard-list-header">
+            <ul>
+              <li id="double-line">Fecha</li>
+              <li id="double-line">
+                Hora Inicio
+                <br />
+                hr:min
+              </li>
+              <li id="double-line">
+                Duración
+                <br />
+                mins
+              </li>
+              <li id="double-line">
+                Tipo
+              </li>
+              <li id="double-line">
+                Intensidad
+              </li>
+            </ul>
+          </div>
+
+          <div className="events-fn-wrapper">
+            {this.state.patientsEvents === [] ? (
+              <p>LOADING !</p>
+            ) : (
+              this._renderEventsInfo()
+            )}
+          </div>
+        
         </div>
       </div>
     );
