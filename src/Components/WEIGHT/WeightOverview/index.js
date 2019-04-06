@@ -10,7 +10,7 @@ import Calculations from '../../services/Calculations';
 import AddButtonCool from '../../Accessories/AddButtonCool';
 
 // CHARTS
-import Lines from '../../Accessories/Charts/Lines';
+// import Lines from '../../Accessories/Charts/Lines';
 import EChartsLines from '../../Accessories/Charts/EChartsLines';
 
 import './index.css'; 
@@ -144,21 +144,21 @@ export default class WeightOverview extends React.Component {
 
                 <div className="edit-weight-area">
 
-                <div className="search-weight-box">
-                  
-                  <div className="weight-search-header">
-                    <ul>
-                      <li id="fecha">Fecha</li>
-                      <li id="peso">Peso [Kg]</li>
-                    </ul>
-                  </div>
+                  <div className="search-weight-box">
+                    
+                    <div className="weight-search-header">
+                      <ul>
+                        <li id="fecha">Fecha</li>
+                        <li id="peso">Peso [Kg]</li>
+                      </ul>
+                    </div>
 
-                  
-                    {this.state.patientsWeights === [] ? <p>LOADING !</p> :
-                      this._renderWeightsInfo()
-                    }
-                  
-                </div>
+                    <div className="weight-fn-wrapper">
+                      {this.state.patientsWeights === [] ? <p>LOADING !</p> :
+                        this._renderWeightsInfo()
+                      }
+                    </div>
+                  </div>
 
                 </div>
 
