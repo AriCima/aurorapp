@@ -1,44 +1,115 @@
 import React from 'react';
-import ReactEcharts from 'echarts-for-react';  // or var ReactEcharts = require('echarts-for-react');
-import 'echarts/lib/chart/line';
 
 
-export default class EChartsLines extends React.Component {
+// ECharts --> http://recharts.org/en-US/examples/SimpleLineChart
+
+// VER https://ecomfe.github.io/echarts-examples/public/editor.html?c=line-gradient
+
+import ReactEcharts from 'echarts-for-react';
+import 'echarts/lib/chart/bar';
+
+
+
+export default class EChartsBars extends React.Component {
   constructor(props){
     super(props);
 
     this.state = {
       xData       : this.props.xData,
       seriesData  : this.props.sData,
+      dataZoomOn  : this.props.dZ,
+      seriesName  : this.props.sName,
       height      : this.props.h,
       width       : this.props.w,
-      yName       : this.props.yName,
-      nameGap     : this.props.nameGap,
-      left        : this.props.left,
-      top         : this.props.top,
-      right       : this.props.right,
-      bottom      : this.props.bottom,
+      toolBox     : this.props.tB,
+      barWidth    : this.props.bW,
+      zoom        : this.props.zoom
     }
+    console.log('props.xData = ', this.props.xData)
   }
 
+  _getOption(){
 
-
-  getOption(){
-  
     let option = {
-
-      // title: {
-      //   text: 'Evolución de la medicina'
-      // },
-
-      // legend: {
-      //   data: ['ari1','ari5','ari4','ari3','ari2' ],
-      //   zlevel: 5,
-      // },
-      dataZoom: [
+      color: ['#3398DB'],
+      tooltip : {
+        trigger: 'axis',
+        axisPointer : {            
+          type : 'shadow',
+        }
+      },
+      dataZoom : this._getZoom(),
+      grid: {
+        left: '3%',
+        top: '3%',
+        right: '3%',
+        bottom: '3%',
+        containLabel: true,
+      },
+      xAxis : [
         {
+          type : 'category',
+          data : this.props.xData,
+          axisTick: {
+            alignWithLabel: false
+          },
+          axisLabel: {
+              interval: 'auto',
+              rotate: 0,
+          }
+        }
+      ],
+      yAxis :{
+        position        : 'left',
+        offset          : 10,
+        type            : 'value',
+        // name            : 'Eventos',
+        // nameLocation    : 'center',
+        // nameGap         : '15px',
+      },
+      brush: {
+        toolbox:  this.state.toolBox, //['rect', 'clear'], 
+        brushLink: null,
+        seriesIndex: 'all',
+        geoIndex: null,
+        xAxisIndex: null,
+        yAxisIndex: null,
+        brushType: 'rect',
+        brushMode: 'single',
+        transformable: true,
+        // brushStyle: {...},
+        throttleType: 'fixRate',
+        throttleDelay: 0,
+        removeOnClick: true,
+        // inBrush: {...},
+        // outOfBrush: {...},
+        z: 10000,
+      },
+      series  : [
+        {
+          name: this.state.seriesName,
+          type:'bar',
+          barWidth: this.state.barWidth,
+          data: this.props.sData,
+        }
+      ]
+    };
+
+    return option
+  }
+
+  _getZoom(){
+    
+    let z = this.props.zoom;
+   
+    let zoom = [];
+    
+    if(z === false){
+      zoom = null;
+    } else {
+      zoom = [{
         type: 'inside',
-        disabled: false,
+        disabled: this.state.dataZoomOn,
         xAxisIndex: null,
         yAxisIndex: null,
         radiusAxisIndex: null,
@@ -61,9 +132,11 @@ export default class EChartsLines extends React.Component {
         moveOnMouseWheel: false,
         preventDefaultMouseMove: true,
         },
+
         {
           type: 'slider',
           show: true,
+          height: 20,
           backgroundColor: 'rgba(47,69,84,0)',
           dataBackground: {
             lineStyle: {
@@ -119,7 +192,7 @@ export default class EChartsLines extends React.Component {
             fontSize: 12,
             lineHeight: 12,
             //width: ...,
-            //height: ...,
+            height: 5,
             textBorderColor: 'transparent',
             textBorderWidth: 0,
             textShadowColor: 'transparent',
@@ -151,64 +224,35 @@ export default class EChartsLines extends React.Component {
           right: 'auto',
           bottom: 'auto',
         }
-      ],
-      tooltip : {
-        trigger: 'axis',
-        label: {
-          show: 'false',
-        },
-        axisPointer : {            
-          type : 'shadow'        // ：'line' | 'shadow'
-        }
-      },
-      grid: {
-        left          : this.state.left,
-        top           : this.state.top,
-        right         : this.state.right,
-        bottom        : this.state.bottom,
-        containLabel: true
-      },
-
-      xAxis: {
-        type: 'category',
-        data          : this.props.xData,
-        axisTick: {
-          alignWithLabel: true
-        }
-      },
-
-      yAxis: {
-        type: 'value',
-        name          : this.props.yName,
-        nameLocation: 'center',
-        nameGap       : this.props.nameGap,
-      },
-
-      series: this.props.sData,
-      color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
-
-    };
-
-    return option
-
+    ]
+    }
+    return zoom
   }
 
   render() {
+    console.log('props.xData = ', this.props.xData)
 
     return (
 
-      <div>   
-        {(this.state.xD === '')}     
-        <ReactEcharts
-          option={this.getOption()}
-          style={{height: this.props.h, width: this.props.w}}
-          notMerge={true}
-          lazyUpdate={true}
-          theme={"theme_name"}
-        />
+      <div>
+        {this.props.xData === [] ? <p>LOADING !</p> : 
+
+          <ReactEcharts
+            option={this._getOption()}
+            style={{height: this.state.height, width: this.state.width}}
+            notMerge={true}
+            lazyUpdate={true}
+            theme={"PRUEBA"}
+            // onChartReady={this.onChartReadyCallback}
+            // onEvents={EventsDict}
+            // opts={} 
+          />
+        
+        }
+
       </div>
 
-
-    )
-  }
-}
+    );
+  };
+  };
+  

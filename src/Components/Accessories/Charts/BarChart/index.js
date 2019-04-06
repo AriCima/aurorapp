@@ -7,7 +7,7 @@ import CanvasJS from 'canvasjs';  // https://canvasjs.com/react-charts/bar-chart
 
 
 
-export default class BarChart extends Component {
+export default class BarChart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

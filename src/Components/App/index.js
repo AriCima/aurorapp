@@ -19,7 +19,7 @@ import Patient from '../Patient';
 import PatientInput from '../PatientInput';
 import PatientOverview from '../PatientOverview';
 
-import EventsOverview from '../EventsOverview';
+import EventsOverview from '../EVENTS/EventsOverview';
 import SingleEvent from '../EventSingle';
 import FirstEvent from '../EventFirst';
 import EventInput from '../EventInput';

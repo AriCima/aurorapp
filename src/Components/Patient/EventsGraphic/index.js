@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // MOMENT
 import moment from 'moment';
@@ -9,12 +8,11 @@ import DataService from '../../services/DataService';
 import Calculations from '../../services/Calculations';
 
 // Components
-import EChartBars from '../Cahrts/EChartsBars';
-
+import EChartBars from '../../Accessories/Charts/EChartsBars';
 // CSS
 import './index.css';
 
-export default class EventsGraphic extends React.Component {
+export default class EventsGraphic extends Component {
   constructor(props){
     super(props);
 
@@ -89,7 +87,7 @@ export default class EventsGraphic extends React.Component {
         } 
       }
 
-      resultDates.unshift(formatedCurrent);
+      resultDates.unshift(moment(formatedCurrent).format('DD-MM'));
       resultEvents.unshift(evQty);
       
       currentDate.setDate(currentDate.getDate()-1);
@@ -113,7 +111,17 @@ export default class EventsGraphic extends React.Component {
         {this.state.xData === [] ? <p>LOADING !</p> : 
         
           <div>
-            <EChartBars patID={this.props.patID} xData={this.state.xD} sData={this.state.sD}/>
+            <EChartBars 
+              xData={this.state.xD} 
+              sData={this.state.sD}
+              dZ = {false}   // hide Zoomer
+              sName = {'Eventos'}
+              h = {'225px'}
+              w = {'450px'}
+              tB = {['none']}
+              bW = {'40%'}
+              zoom = {false}
+            />
           </div>
         }
 
