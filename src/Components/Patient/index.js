@@ -11,6 +11,7 @@ import PatientInfo from './PatientInfo';
 import CurrentMed from './CurrentMed';
 import EventsGraphic from './EventsGraphic';
 import MedWeightGraphic from './MedWeightGraphic';
+import EvStatistics from '../EVENTS/EvStatistics';
 
 // CSS
 import './index.css';
@@ -108,7 +109,7 @@ export default class Patient extends React.Component {
                 </div>
                 
               </div>
-
+{/* 
               <div className="chart-box" id="pat-weight">
 
                 <div className="chart-upper">
@@ -139,9 +140,24 @@ export default class Patient extends React.Component {
                     />
                   }
                 </div>
-              </div>
+              </div> */}
+
+              <div className="chart-box" id="pat-weight">
+
+                <div className="chart-upper">
+                  <Link className="chartBox-Title" to={`/medicine_overview/${this.state.patientId}`}>
+                    <h2>ESTADISTICAS</h2>
+                  </Link>
+                </div>
+
+                <div className="chartBox-info">
+                  <EvStatistics patID={this.state.patientId}/>
+                </div>
+                </div>
 
             </div>
+
+
 
           </div>
 

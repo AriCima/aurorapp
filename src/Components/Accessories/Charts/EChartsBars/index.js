@@ -25,7 +25,6 @@ export default class EChartsBars extends React.Component {
       barWidth    : this.props.bW,
       zoom        : this.props.zoom
     }
-    console.log('props.xData = ', this.props.xData)
   }
 
   _getOption(){
@@ -230,7 +229,6 @@ export default class EChartsBars extends React.Component {
   }
 
   render() {
-    console.log('props.xData = ', this.props.xData)
 
     return (
 

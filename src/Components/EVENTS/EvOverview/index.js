@@ -16,7 +16,7 @@ import AddButtonCool from "../../Accessories/AddButtonCool";
 
 import "./index.css";
 
-export default class EventsOverview extends React.Component {
+export default class EvOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

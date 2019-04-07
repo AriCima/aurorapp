@@ -19,7 +19,7 @@ import Patient from '../Patient';
 import PatientInput from '../PatientInput';
 import PatientOverview from '../PatientOverview';
 
-import EventsOverview from '../EVENTS/EventsOverview';
+import EvOverview from '../EVENTS/EvOverview';
 import SingleEvent from '../EventSingle';
 import FirstEvent from '../EventFirst';
 import EventInput from '../EventInput';
@@ -146,7 +146,7 @@ class App extends Component {
                 
                 {/* * * *  EVENTS * * * */}
                 <Route path="/first-event/:patientId" exact render = {(props) => { return <FirstEvent propsFn={props.history} patID={props.match.params.patientId}/>}}/>
-                <Route path="/events-overview/:patientId" exact render = {(props) => { return <EventsOverview propsFn={props.history} patID={props.match.params.patientId}/>}}/>
+                <Route path="/events-overview/:patientId" exact render = {(props) => { return <EvOverview propsFn={props.history} patID={props.match.params.patientId}/>}}/>
                 <Route path="/new_event_register/:patientId" exact render = {(props) => { return <EventInput propsFn={props.history} patID={props.match.params.patientId} userID={props.match.params.user}/>}}/>
                 <Route path="/single_event_overview/:patId/:eventId" exact render = {(props) => { return <SingleEvent propsFn={props.history} eventID={props.match.params.eventId} patID={props.match.params.patId}/>}}/>
                 
