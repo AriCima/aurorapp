@@ -40,7 +40,6 @@ export default class EvStatistics extends React.Component {
       let sStats = [];
       let types = [];
 
-
       for (let i=0; i<eLength; i++){
         // console.log('type and deto = ', evts[i].type, ' / ', evts[i].detonation, ' / ', types)
         let newT = evts[i].type;
@@ -76,6 +75,20 @@ export default class EvStatistics extends React.Component {
 
       };
       
+      let tL = tStats.length;
+      let dL = dStats.length;
+
+      for(let j = 0; j < tL; j++){
+        let q = tStats[j].qty;
+        let percent = ((q/eLength)*100).toFixed(1);
+        tStats[j].qty = percent;
+      }
+
+      for(let j = 0; j < dL; j++){
+        let q = dStats[j].qty;
+        let percent = ((q/eLength)*100).toFixed(1);
+        dStats[j].qty = percent;
+      }
 
       this.setState({
         typeStatistics: tStats,
@@ -97,7 +110,7 @@ export default class EvStatistics extends React.Component {
     return this.state.typeStatistics.map((evts, j) => {
       return (
         <div className="ev-stats-container">
-          <p>{evts.type}: {evts.value}</p>
+          <p>{evts.type}: {evts.qty}%</p>
         </div>
       );
     });
@@ -108,7 +121,7 @@ export default class EvStatistics extends React.Component {
     return this.state.detoStatistics.map((det, j) => {
       return (
         <div className="ev-stats-container">
-          <p>{det.deto}: {det.value}</p>
+          <p>{det.deto}: {det.qty}%</p>
         </div>
       );
     });
