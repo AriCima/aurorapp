@@ -82,30 +82,28 @@ export default class InfoDeployed extends Component {
 
       <div id="sliding_menu"  className={visibility} onClick={this.props.infoClick}>
 
-        <div id="sliding-info-block-name">
+        <div id="sliding-info-line">
 
-            <div id="sliding-info-value-name">
-                <p>{this.state.patientName} {this.state.patientSurname}</p>
-            </div>
-        </div>
+          <div id="sliding-info-value-name">
+            <p>{this.state.patientName} {this.state.patientSurname}</p>
+          </div>
+       
+          <div id="sliding-info-key">
+              <p>Edad: </p>
+          </div>
 
-        <div id="sliding-info-block">
+          <div id="sliding-info-value">
+              <p>{this.props.age}</p>
+          </div>
 
-            <div id="sliding-info-key">
-                <p>Edad: </p>
-            </div>
-            <div id="sliding-info-value">
-                <p>{this.props.age}</p>
-            </div>
-        </div>
+          <div id="sliding-info-key">
+            <p>Peso actual: </p>
+          </div>
 
-        <div id="sliding-info-block">
-            <div id="sliding-info-key">
-                <p>Peso actual: </p>
-            </div>
-            <div id="sliding-info-value">
-                <p>{this.state.currentWeight} Kg</p>
-            </div>
+          <div id="sliding-info-value">
+            <p>{this.state.currentWeight} Kg</p>
+          </div>
+
         </div>
       
       </div>

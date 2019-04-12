@@ -9,7 +9,7 @@ export default class InfoContainer extends Component {
         super(props, context);
         this.state = {
             patientId   : this.props.patID,
-            age: this.props.age,
+            age         : this.props.age,
             visible     : false
         };
      
@@ -24,9 +24,19 @@ export default class InfoContainer extends Component {
     }
     
     toggleMenu() {
+        console.log('toggle launched visible = ', this.state.visible)
         this.setState({
             visible: !this.state.visible
         });
+        // console.log('after set state visible = ', this.state.visible)
+        // if (this.state.visible === false){
+
+        //     setTimeout(function(){ 
+        //         this.setState({
+        //             visible: false 
+        //         })}, 5000
+        //     );
+        // }
     }
 
     
