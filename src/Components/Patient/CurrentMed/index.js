@@ -41,7 +41,7 @@ export default class CurrentMed extends React.Component {
         if (onlyNames.indexOf(meds[i].drugName) < 0){
           onlyNames.push(meds[i].drugName);
           let newMed    = {drugName: meds[i].drugName, allDoses: []};
-          console.log('newMed', newMed)
+          // console.log('newMed', newMed)
           medNames.push(newMed);
         }
       }

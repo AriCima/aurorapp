@@ -1,0 +1,88 @@
+/* https://stackoverflow.com/questions/4502633/how-to-affect-other-elements-when-a-div-is-hovered
+#container:hover > #cube { background-color: yellow; } */
+
+.header{
+    top: 0px;
+    height: 60px;
+    width: 100%;
+    margin-top: 0px;
+    position: fixed;
+    z-index: 10;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    background-color: rgba(248, 248, 248, 1); 
+    /* border: solid 1px  rgb(0, 187, 150); */
+    box-shadow: 0 4px 2px -2px rgba(0, 187, 150), 0.5;
+    z-index: 2;
+}
+
+a{
+    color: rgb(125, 125, 125);
+    text-decoration: none;
+}
+
+.header-left{
+    width: 40%;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.header-mid{
+    width: 40%;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.header-mid .nav-block, .header-left .nav-block, .header-right .nav-block{
+    width: 90px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pat-info-block-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nav-block:hover, .nav-block:focus, .nav-block:active{
+    border-bottom: 2px solid rgba(0, 144, 248, 1);
+    outline: 0;
+    box-shadow: none;
+}
+
+.nav-block:hover > a > p, .nav-block:focus > a > p, .nav-block:active > a > p{
+    color: rgba(0, 144, 248, 1);
+}
+
+.nav-block:hover > p, .nav-block:focus > p, .nav-block:active > p{
+    color: rgba(0, 144, 248, 1);
+}
+.nav-block p{
+    font-size: 18px;
+    color: rgb(125, 125, 125);
+    padding: 0;
+    margin: 0;
+}
+
+
+.header-right{
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* .header-right .nav-block{
+    margin-right: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    width: 90px
+} */

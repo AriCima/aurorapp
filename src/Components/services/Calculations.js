@@ -1,4 +1,5 @@
-
+// AUX COMPONENTS
+import moment from 'moment';
 
 export default class Calculations {
 
@@ -55,6 +56,53 @@ export default class Calculations {
         return inBetweenDays
     };
 
+    static getAge(x){
+        let born = moment(new Date(x));
+        let today = moment(new Date());
+        
+        let age = today.diff(born, "years");
+        let edad = '';
+        // console.log('age = ', age);
+
+        if(age < 1 ){
+
+            let months = today.diff(born, "months");
+
+            if(months <=1){
+                edad = months + " mes"
+            } else {
+                edad = months + " meses"
+            }
+            // console.log(' edad = ', edad );
+            
+            return edad;
+
+        } else {
+            let anios = today.diff(born, "years", true);
+            let aniosInt = today.diff(born, "years");
+            // console.log('anios = ', anios)
+
+            let years = age;
+            // console.log(' años = ', years);
+
+            let meses = Math.round((anios-aniosInt)*12);
+            // console.log('meses = ', meses)
+            
+            if(meses > 1){
+                edad = years + ' años, ' + meses + " meses";
+                // console.log('edad = ', edad);
+                return edad;
+            } else {
+                edad = years + ' años';
+                // console.log('edad = ', edad);
+                return edad;
+            }
+        }   
+         
+    };
+
+
+
     // - - - - - SORTING FUNCTIONS 
 
     // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
@@ -75,7 +123,6 @@ export default class Calculations {
 
         return x.sort(compare)
     };
-
     static sortByDateDesc(x){
 
         function compare(a,b){
@@ -93,8 +140,6 @@ export default class Calculations {
 
         return x.sort(compare)
     };
-
-
     static sortByEventDate(x){
 
         function compare(a,b){

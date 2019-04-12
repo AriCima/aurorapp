@@ -56,22 +56,24 @@ export default class EvStatistics extends React.Component {
           tStats[index].qty = transVal+1;
         };
 
-        console.log('detosIndex = ', detos.indexOf(newD))
+        // console.log('detosIndex = ', detos.indexOf(newD))
         if(detos.indexOf(newD) < 0){
           detos.push(newD);
           let newQ = 1;
           let newDStat = {deto: newD, qty: newQ};
           dStats.push(newDStat);
         } else {
-          console.log('dStats =', dStats)
-          console.log('newD', newD)
-          let index = dStats.map(function(e) { console.log('e.detonation',e.deto);return e.deto; }).indexOf(newD);
-          console.log('index = ', index)
+          // console.log('dStats =', dStats)
+          // console.log('newD', newD)
+          let index = dStats.map(function(e) { 
+            // console.log('e.detonation',e.deto);
+            return e.deto; }).indexOf(newD);
+          // console.log('index = ', index)
           let transVal = dStats[index].qty;
           dStats[index].qty = transVal+1;
         };
 
-        console.log('tStats / dStats = ', tStats , ' / ', dStats)
+        // console.log('tStats / dStats = ', tStats , ' / ', dStats)
 
       };
       
@@ -106,7 +108,7 @@ export default class EvStatistics extends React.Component {
 
 
   _renderTypeStats() {
-    console.log('typeStats = ', this.state.typeStatistics)
+    // console.log('typeStats = ', this.state.typeStatistics)
     return this.state.typeStatistics.map((evts, j) => {
       return (
         <div className="ev-stats-container">
@@ -117,7 +119,7 @@ export default class EvStatistics extends React.Component {
   };
 
   _renderDetoStats() {
-    console.log('detoStats = ', this.state.detoStatistics)
+    // console.log('detoStats = ', this.state.detoStatistics)
     return this.state.detoStatistics.map((det, j) => {
       return (
         <div className="ev-stats-container">

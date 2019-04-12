@@ -32,7 +32,6 @@ export default class EventsGraphic extends Component {
 
     DataService.getPatientsEvents(this.state.patientId)
     .then(res => {
-      console.log('eventos del paciente: ', res)
       const evts      = res;
       let eSorted     = Calculations.sortByDateAsc(evts);
       let evLe        = eSorted.length;

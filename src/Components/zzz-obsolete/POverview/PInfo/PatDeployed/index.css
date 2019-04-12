@@ -1,0 +1,81 @@
+#sliding_menu {
+    margin-top: 70px;
+    width: 100vw;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: rgba(248, 248, 248, 1);
+
+
+    background-color: RGBA(255,255,255,1);
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    transition: transform .3s
+        cubic-bezier(0, .52, 0, 1);
+    overflow: scroll;
+
+    
+}
+    
+#sliding_menu.hide {
+    transform: translateY(-100vh);
+}
+    
+#sliding_menu.show {
+    transform: translateY(-10);
+    overflow: hidden;
+}
+    
+#sliding_menu .menu_text h2{
+    margin: 40px 0;
+}
+
+
+
+.p-info-wrapper{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: rgba(248, 248, 248, 1);
+    position: absolute;
+    top: 65px;
+    left: 20px;
+}
+
+.p-info-block{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.p-info-block .half, .p-info-key, .p-info-value {
+    width: 50%;
+}
+
+.p-info-line{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.p-info-block p{
+    margin: 10px 0 0 20px;
+    font-size: 10px;
+    font-weight: 550;
+    color: gray;
+}
+.p-info-block h4{
+    margin: 10px 0 0 20px;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgb(0, 194, 216);
+}

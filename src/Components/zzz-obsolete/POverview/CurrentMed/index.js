@@ -3,11 +3,11 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 
 // SERVICE API
-import DataService from '../../services/DataService';
-import Calculations from '../../services/Calculations';
+import DataService from '../../../services/DataService';
+import Calculations from '../../../services/Calculations';
 
 // ECHARTS
-import BarsH from '../Cahrts/BarsH';
+import BarsH from '../../Cahrts/BarsH';
 
 // MOMENT
 import moment from 'moment';
