@@ -9,6 +9,7 @@ export default class PieChart extends React.Component {
     this.state = {
       title       : this.props.title,
       subText     : this.props.subText,
+      seriesName  : this.props.sName,
 
       data       : this.props.data,
        
@@ -47,7 +48,11 @@ export default class PieChart extends React.Component {
       title: {
         text: this.state.title,
         subtext: this.state.subText,
-        left: 'center'
+        left: 'center',
+        top: 0,
+        textStyle: {
+          color: '#ccc'
+        }
       },
       tooltip : {
         trigger: 'item',
@@ -56,6 +61,7 @@ export default class PieChart extends React.Component {
       
       series : [
         {
+          name:this.state.seriesName,
           type: 'pie',
           radius : '65%',
           center: ['50%', '50%'],

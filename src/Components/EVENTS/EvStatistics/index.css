@@ -1,128 +1,17 @@
 
-.events-area{
+.ev-stats{
   width: 100%;
-  margin-top: 80px;
   display: flex;
-  flex-direction: column;
   justify-items: center;
   align-items: center;
 
 }
 
-.events-upper{
-  margin: 25px 0;
-  width: 80%;
-  display: flex;
-  justify-items: flex-start;
-  align-items: center;
-}
-
-.events-list-title{
+.ev-stats-graph{
   width: 50%;
   display: flex;
-  justify-content: flex-start;
+  justify-items: center;
   align-items: center;
+  margin: 0 10px;
 
-}
-
-.evt-add-button{
-  width: 50%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.events-graphic-wrapper{
-  width: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-}
-.events-list-title h2{
-  font-size: 28px;
-  font-weight: 700;
-  color: rgb(0, 144, 248);
-  margin: 5px;
-}
-
-.events-overview-list{
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-}
-.standard-list-header{
-  margin-top: 5px;
-  border-radius: 10px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: rgb(0, 144, 248);
-}
-.standard-list-header ul{
-  width: 100%;
-  margin: 0;
-  padding: 10px 0;;
-  list-style-type: none;
-  color: white;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.standard-list-header ul li{
-  margin: 0 1.5% 0px 3.5%;
-  width: 15%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#double-line{
-  text-align: center;
-}
-.events-fn-wrapper{
-  width: 100%;
-  height: 400px;
-  overflow: scroll;
-}
-.events-list-container{
-  width: 100%;
-}
-.event-standard-list-row{
-  border-radius: 10px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 2px 0px;
-  padding: 0;
-  border-bottom: 1px solid lightgray;
-}
-.event-standard-list-row:nth-child(even){
-  background-color: rgba(0, 144, 248, 0.05);
-}
-.event-standard-list-row:nth-child(odd){
-  background-color: rgba(0, 144, 248, 0.1);
-}
-.event-standard-list-row:nth-child(even):hover{
-  background-color: rgba(0, 144, 248, 0.2);
-}
-.event-standard-list-row:nth-child(odd):hover{
-  background-color: rgba(0, 144, 248, 0.4);
-}
-.event-standard-list-info-block{
-  width: 15%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 1.5% 0px 3.5%;
-}
-.event-standard-list-info-block p{
-  font-family: helvetica;
-  font-size: 18px;
-  padding: 0;
-  margin-left: 0;
-  color: gray;
 }

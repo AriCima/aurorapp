@@ -31,96 +31,56 @@ export default class Patients1 extends React.Component {
 
     return (
 
-      <div className="overview">
+      <div className="ov-section">
 
-        <div className="middle-area">
 
-          <div className="square-chart">
 
-            <div className="sq-line" id="upper-line">
-
-              <div className="chart-box" id="pat-events-info">
-                
-                <div className="chart-upper">
-                  <Link className="chartBox-Title" to={`/events-overview/${this.state.patientId}`}>
-                    <h2>Registro de Eventos</h2>
-                  </Link>
-                  
-                  <div className="chart-add-button">
-                    <div>
-                        <Link to={`/new_event_register/${this.state.patientId}`}><MyButtonPlain text={'Nuevo Evento'}/></Link>
-                    </div>
-                  </div>
-                </div>
-                <div className="chartBox-info">
-
-                <div className="events-chart">
-                    {this.state.patientName === '' ? <p>LOADING !</p> :
-                      <EventsGraphic patID={this.props.patID} tLine={this.state.timeLineDays}/>
-                    }
-                </div>
-                </div>
-            
-              </div>
-              
-              <div className="chart-box" id="pat-events-statistics">
-                <div className="chart-upper">
-                
-                  <div className="chartBox-Title">
-                    <h2>Tipo de Eventos</h2>
-                  </div>
-                  
-                  <div className="chart-add-button">
-                    <div>
-                        <Link to={`/new_event_register/${this.state.patientId}`}><MyButtonPlain text={'Nuevo Evento'}/></Link>
-                    </div>
-                  </div>
-                </div>
-                <div className="chartBox-info">
-                  <EvStatistics patID={this.state.patientId}/>
-                </div>
-              </div>
+        <div className="section">
+    
+          <div className="ov-section-title">
+            <Link className="chartBox-Title" to={`/events-overview/${this.state.patientId}`}>
+              <h2>Registro de Eventos</h2>
+            </Link>
+            <div className="ev-add-button">
+              <Link to={`/new_event_register/${this.state.patientId}`}><MyButtonPlain text={'Nuevo Evento'}/></Link>
             </div>
-
-            <div className="sq-line" id="lower-line">
-
-              <div className="chart-box" id="current-med"> 
-
-                <div className="chart-upper">
-                  <Link className="chartBox-Title" to={`/medicine_overview/${this.state.patientId}`}>
-                    <h2>Medicación actual</h2>
-                  </Link>
-                    
-                  <div className="chart-add-button">
-                    <div>
-                        <Link to={`/patient_new_medicine/${this.state.patientId}`}><MyButtonPlain text={'Nuevo Medicamento'}/></Link>
-                    </div>
-                  </div>
-                </div>
-               
-                <div className="chartBox-info">
-                  <CurrentMed patID={this.state.patientId} />
-                </div>
-                
-              </div>
-
-
-              <div className="chart-box" id="pat-weight">
-
-                <div className="chart-upper">
-                  <Link className="chartBox-Title" to={`/medicine_overview/${this.state.patientId}`}>
-                    <h2>ESTADISTICAS</h2>
-                  </Link>
-                </div>
-
-                </div>
-
-            </div>
-
-
-
           </div>
 
+          {this.state.patientName === '' ? <p>LOADING !</p> :
+            <div className="events-info-box">
+              <div className="sub-box">
+                <EventsGraphic patID={this.props.patID} tLine={this.state.timeLineDays}/>
+              </div>
+              <div className="sub-box">
+                <EvStatistics patID={this.state.patientId}/>
+              </div>
+            </div>
+          }
+
+        </div>
+
+        <div className="section">
+           
+          <div className="ov-section-title">
+            <Link className="chartBox-Title" to={`/medicine_overview/${this.state.patientId}`}>
+              <h2>Medicación actual</h2>
+            </Link>
+            <div className="ev-add-button">
+              <Link to={`/patient_new_medicine/${this.state.patientId}`}><MyButtonPlain text={'Nuevo Medicamento'}/></Link>
+            </div>
+          </div>
+
+          {this.state.patientName === '' ? <p>LOADING !</p> :
+            <div className="events-info-box">
+              <div className="sub-box">
+                <CurrentMed patID={this.state.patientId} />
+              </div>
+              <div className="sub-box">
+
+              </div>
+            </div>
+          }
+ 
         </div>
 
       </div>

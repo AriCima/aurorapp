@@ -19,6 +19,8 @@ export default class EvStatistics extends React.Component {
       patientsEvents: [],
       typeStatistics: [],
       detoStatistics: [],
+      h:  '300px',
+      v:  '300px',
     };
   }
 
@@ -86,21 +88,6 @@ export default class EvStatistics extends React.Component {
         };
 
       };
-      
-      // let tL = tStats.length;
-      // let dL = dStats.length;
-
-      // for(let j = 0; j < tL; j++){
-      //   let q = tStats[j].qty;
-      //   let percent = ((q/eLength)*100).toFixed(1);
-      //   tStats[j].qty = percent;
-      // }
-
-      // for(let j = 0; j < dL; j++){
-      //   let q = dStats[j].qty;
-      //   let percent = ((q/eLength)*100).toFixed(1);
-      //   dStats[j].qty = percent;
-      // }
 
       console.log('tStats / dStats = ', tStats , ' / ', dStats)
 
@@ -114,87 +101,54 @@ export default class EvStatistics extends React.Component {
       console.log(error);
     })    
 
-    
-  }
-
-
-
-  _renderTypeStats() {
-    // console.log('typeStats = ', this.state.typeStatistics)
-    return this.state.typeStatistics.map((evts, j) => {
-      return (
-        <div className="ev-stats-container">
-          <p>{evts.type}: {evts.qty}%</p>
-        </div>
-      );
-    });
   };
-
-  _renderDetoStats() {
-    // console.log('detoStats = ', this.state.detoStatistics)
-    return this.state.detoStatistics.map((det, j) => {
-      return (
-        <div className="ev-stats-container">
-          <p>{det.deto}: {det.qty}%</p>
-        </div>
-      );
-    });
-  };
-
-  // _renderIntensityStats() {
-  //   return this.state.patientsIntens.map((evts, j) => {
-  //     return (
-  //       <div className="ev-stats-container">
-  //         <p>{evts.intens}: {evts.iPercent}</p>
-  //       </div>
-  //     );
-  //   });
-  // };
-
-  // _renderStateStats() {
-  //   return this.state.patientsState.map((evts, j) => {
-  //     return (
-  //       <div className="ev-stats-container">
-  //         <p>{evts.states}: {evts.sPercent}</p>
-  //       </div>
-  //     );
-  //   });
-  // };
 
   render() {
     return (
       <div className="ev-stats">
 
-        <div className="ev-stats-upper">
-          {/* <div className="ev-stats-title">
-            <h2>Tipo de Eventos</h2>
-          </div> */}
-        </div>
+        <div className="ev-stats-graph">
 
-       
-
-        <div className="ev-stats-wrapper">
-          <div className="ev-stats-fn-wrapper">
-            {this.state.patientsEvents === [] ? (
+          
+          {this.state.patientsEvents === [] ? 
+            (
               <p>LOADING !</p>
-            ) : (
-              <div>
-                <PieChart 
-                  title={''}
-                  subText={''}
-                  data={this.state.typeStatistics}
-                  h={'200px'}
-                  w={'300px'}
-                />
-              {/* <p> Type stats:</p> {this._renderTypeStats()}
-              <p> Detos stats:</p> {this._renderDetoStats()} */}
-              {/* <p> Intensity stats:</p> {this._renderIntensityStats()}
-              <p> State stats:</p> {this._renderStateStats()} */}
-              </div>
-            )}
-          </div>
-        
+            ) : 
+            (
+              
+              <PieChart 
+                title={'Tipo de Eventos'}
+                subText={'  '}
+                data={this.state.typeStatistics}
+                sName={'Tipo de Evento'}
+                h={this.state.h}
+                w={this.state.v}
+              />
+              
+            )
+          }
         </div>
+
+        <div className="ev-stats-graph">
+          
+          {this.state.patientsEvents === [] ? (
+            <p>LOADING !</p>
+            ) : (
+              
+              <PieChart 
+                title={'Detonantes'}
+                subText={'  '}
+                data={this.state.detoStatistics}
+                sName={'Tipo de Detonante'}
+                h={this.state.h}
+                w={this.state.v}
+              />
+              
+            )
+          }
+          
+        </div>
+        
       </div>
     );
   }
