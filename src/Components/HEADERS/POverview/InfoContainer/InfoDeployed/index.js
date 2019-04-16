@@ -75,12 +75,12 @@ export default class InfoDeployed extends Component {
     var visibility = "hide";
  
     if (this.props.menuVisibility) {
-      visibility = "show";
+      visibility = "show";      
     }
  
     return (
 
-      <div id="sliding_menu"  className={visibility} onClick={this.props.infoClick}>
+      <div id="sliding_menu"  className={visibility} onMouseDown={this.props.handleMouseDown}>
 
         <div id="sliding-info-line">
 

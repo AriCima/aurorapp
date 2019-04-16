@@ -7,7 +7,7 @@ import './index.css';
 export default class InfoButton extends Component {
   render() {
     return (
-      <button className="button" onMouseDown={this.props.infoClick}>
+      <button className="button" onMouseDown={this.props.onMouseDown}>
         <FontAwesomeIcon icon="info-circle" />
       </button>
     );

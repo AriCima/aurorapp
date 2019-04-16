@@ -6,6 +6,7 @@ import DataService from "../../services/DataService";
 import Calculations from "../../services/Calculations";
 
 // CHART
+import PieChart from "../../Accessories/Charts/PieChart";
 
 // CSS
 import "./index.css";
@@ -22,13 +23,23 @@ export default class EvStatistics extends React.Component {
   }
 
   componentDidMount() {
+
+    // PieChart data structure 
+    //  data:[
+    //     {value:348, name: '1'},
+    //     {value:535, name: '2'},
+    //     {value:510, name: '3'},
+    //     {value:634, name: '4'},
+    //     {value:735, name: '5'}
+    //  ],
+
     DataService.getPatientsEvents(this.state.patientId)
     .then(res => {
       const evts      = res;
       let eSorted     = Calculations.sortByDateAsc(evts);
       let eLength     = eSorted.length;
-      // let fEventDate  = new Date(eSorted[0].date);
-      // let lEventDate  = new Date(eSorted[eLength-1].date);
+
+      console.log('evts = ', evts)
 
       
       let detos = [];
@@ -45,52 +56,53 @@ export default class EvStatistics extends React.Component {
         let newT = evts[i].type;
         let newD = evts[i].detonation;
 
+        // GET ARRAY WITH EACHT TYPE AND ITS AMMOUNT
         if(types.indexOf(newT) < 0){
           types.push(newT);
           let newQ = 1;
-          let newTStat = {type: newT, qty: newQ}
+          let newTStat = {value: newQ, name: newT}
           tStats.push(newTStat);
         } else {
-          let index = tStats.map(function(e) { return e.type; }).indexOf(newT);
-          let transVal = tStats[index].qty;
-          tStats[index].qty = transVal+1;
+          let index = tStats.map(function(e) { return e.name; }).indexOf(newT);
+          let transVal = tStats[index].value;
+          tStats[index].value = transVal+1;
         };
 
-        // console.log('detosIndex = ', detos.indexOf(newD))
+        // GET ARRAY WITH EACHT DETO AND ITS AMMOUNT
         if(detos.indexOf(newD) < 0){
           detos.push(newD);
           let newQ = 1;
-          let newDStat = {deto: newD, qty: newQ};
+          let newDStat = {name: newD, value: newQ};
           dStats.push(newDStat);
         } else {
-          // console.log('dStats =', dStats)
-          // console.log('newD', newD)
+          console.log('dStats =', dStats)
+          console.log('newD', newD)
           let index = dStats.map(function(e) { 
-            // console.log('e.detonation',e.deto);
-            return e.deto; }).indexOf(newD);
-          // console.log('index = ', index)
-          let transVal = dStats[index].qty;
-          dStats[index].qty = transVal+1;
+            console.log('e ',e);
+            return e.name; }).indexOf(newD);
+          console.log('index = ', index)
+          let transVal = dStats[index].value;
+          dStats[index].value = transVal+1;
         };
-
-        // console.log('tStats / dStats = ', tStats , ' / ', dStats)
 
       };
       
-      let tL = tStats.length;
-      let dL = dStats.length;
+      // let tL = tStats.length;
+      // let dL = dStats.length;
 
-      for(let j = 0; j < tL; j++){
-        let q = tStats[j].qty;
-        let percent = ((q/eLength)*100).toFixed(1);
-        tStats[j].qty = percent;
-      }
+      // for(let j = 0; j < tL; j++){
+      //   let q = tStats[j].qty;
+      //   let percent = ((q/eLength)*100).toFixed(1);
+      //   tStats[j].qty = percent;
+      // }
 
-      for(let j = 0; j < dL; j++){
-        let q = dStats[j].qty;
-        let percent = ((q/eLength)*100).toFixed(1);
-        dStats[j].qty = percent;
-      }
+      // for(let j = 0; j < dL; j++){
+      //   let q = dStats[j].qty;
+      //   let percent = ((q/eLength)*100).toFixed(1);
+      //   dStats[j].qty = percent;
+      // }
+
+      console.log('tStats / dStats = ', tStats , ' / ', dStats)
 
       this.setState({
         typeStatistics: tStats,
@@ -154,25 +166,28 @@ export default class EvStatistics extends React.Component {
       <div className="ev-stats">
 
         <div className="ev-stats-upper">
-
-          <div className="ev-stats-title">
-            <h2>Estadísticas</h2>
-          </div>
-
-
+          {/* <div className="ev-stats-title">
+            <h2>Tipo de Eventos</h2>
+          </div> */}
         </div>
 
        
 
         <div className="ev-stats-wrapper">
-
           <div className="ev-stats-fn-wrapper">
             {this.state.patientsEvents === [] ? (
               <p>LOADING !</p>
             ) : (
               <div>
-              <p> Type stats:</p> {this._renderTypeStats()}
-              <p> Detos stats:</p> {this._renderDetoStats()}
+                <PieChart 
+                  title={''}
+                  subText={''}
+                  data={this.state.typeStatistics}
+                  h={'200px'}
+                  w={'300px'}
+                />
+              {/* <p> Type stats:</p> {this._renderTypeStats()}
+              <p> Detos stats:</p> {this._renderDetoStats()} */}
               {/* <p> Intensity stats:</p> {this._renderIntensityStats()}
               <p> State stats:</p> {this._renderStateStats()} */}
               </div>

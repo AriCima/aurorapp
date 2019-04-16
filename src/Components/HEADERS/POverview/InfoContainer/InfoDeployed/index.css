@@ -18,9 +18,9 @@
 #sliding_menu.hide {
     top: -100px;
     z-index: 0;
-    transition: top 1s ease-in;
+    /* transition: top 4s ease-in; */
     opacity: 0;
-    transition: opacity 0.5s ease-in;
+    transition: opacity 2.5s ease-in;
 }
     
 #sliding_menu.show {

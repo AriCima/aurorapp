@@ -62,7 +62,24 @@ export default class Patients1 extends React.Component {
                 </div>
             
               </div>
-
+              
+              <div className="chart-box" id="pat-events-statistics">
+                <div className="chart-upper">
+                
+                  <div className="chartBox-Title">
+                    <h2>Tipo de Eventos</h2>
+                  </div>
+                  
+                  <div className="chart-add-button">
+                    <div>
+                        <Link to={`/new_event_register/${this.state.patientId}`}><MyButtonPlain text={'Nuevo Evento'}/></Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="chartBox-info">
+                  <EvStatistics patID={this.state.patientId}/>
+                </div>
+              </div>
             </div>
 
             <div className="sq-line" id="lower-line">
@@ -86,38 +103,7 @@ export default class Patients1 extends React.Component {
                 </div>
                 
               </div>
-{/* 
-              <div className="chart-box" id="pat-weight">
 
-                <div className="chart-upper">
-                  <Link className="chartBox-Title" to={`/medicine_overview/${this.state.patientId}`}>
-                    <h2>Dosis por Kg <span>(últimos 30 días)</span></h2>
-                  </Link>
-                    
-                  <div className="chart-add-button">
-                    <div>
-                        <Link to={`/patient_new_weight/${this.state.patientId}`}><MyButtonPlain text={'Registrar Peso'}/></Link>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="chartBox-info">
-                  {this.state.patientName === '' ? <p>LOADING !</p> :
-                    <MedWeightGraphic 
-                      patID={this.props.patID} 
-                      tLine={'30'} 
-                      w={'400px'} 
-                      h={'200px'}
-                      yName={''}
-                      nameGap={'0px'}
-                      left = {'0'}
-                      top = {'40px'}
-                      right= {'0px'}
-                      bottom= {'0px'}
-                    />
-                  }
-                </div>
-              </div> */}
 
               <div className="chart-box" id="pat-weight">
 
@@ -127,9 +113,6 @@ export default class Patients1 extends React.Component {
                   </Link>
                 </div>
 
-                <div className="chartBox-info">
-                  <EvStatistics patID={this.state.patientId}/>
-                </div>
                 </div>
 
             </div>

@@ -13,45 +13,45 @@ export default class InfoContainer extends Component {
             visible     : false
         };
      
-        this.onClick = this.onClick.bind(this);
+        this.handleMouseDown = this.handleMouseDown.bind(this);
         this.toggleMenu = this.toggleMenu.bind(this);
+        this.hideInfo = this.hideInfo.bind(this);
     }
      
-    onClick(e) {
+    handleMouseDown(e) {
         this.toggleMenu();
         console.log("clicked");
         e.stopPropagation();
     }
     
     toggleMenu() {
-        console.log('toggle launched visible = ', this.state.visible)
         this.setState({
             visible: !this.state.visible
         });
-        // console.log('after set state visible = ', this.state.visible)
-        // if (this.state.visible === false){
 
-        //     setTimeout(function(){ 
-        //         this.setState({
-        //             visible: false 
-        //         })}, 5000
-        //     );
-        // }
+        // let myVar = null;
+        setTimeout(this.hideInfo, 4500)
+        
     }
 
+    hideInfo(){
+        this.setState({
+            visible     : false
+        })
+    };
     
   render() {
     return (
         <div id="menu-container">
             
             <InfoButton 
-                infoClick={this.onClick}
+                onMouseDown={this.handleMouseDown}
             />
 
             <InfoDeployed 
                 patID={this.props.patID}
                 age={this.props.age}
-                infoClick={this.onClick}
+                onMouseDown={this.handleMouseDown}
                 menuVisibility={this.state.visible}
             />
         </div>
