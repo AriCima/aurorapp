@@ -34,67 +34,67 @@ const styles = {
 const crisisTypes = [
   {
     label: "De Ausencia",
-    value: "de_ausencia",
+    value: "De Ausencia",
     visible: true
   },
-  { label: "Focal", value: "focal", visible: true },
-  { label: "Mioclónica", value: "mioclonica", visible: true },
-  { label: "Tónica-clónica", value: "t_clonica", visible: true },
-  { label: "Atónica", value: "atonica", visible: true }
+  { label: "Focal", value: "Focal", visible: true },
+  { label: "Mioclónica", value: "Mioclónica", visible: true },
+  { label: "Tónica-clónica", value: "Tónica-clónica", visible: true },
+  { label: "Atónica", value: "Tónica-clónica", visible: true }
 ];
 const detoTypes = [
   {
     label: "Sueño Escaso",
-    value: "suenio_escaso",
+    value: "Sueño escaso",
     visible: true
   },
   {
     label: "Posible estrés",
-    value: "stres",
+    value: "Posible estrés",
     visible: true
   },
   {
     label: "Cambio Temp ambiente",
-    value: "cambio_temp",
+    value: "Cambio Temp ambiente",
     visible: true
   },
   {
     label: "Estímulo luminoso",
-    value: "est_luminoso",
+    value: "Estímulo luminoso",
     visible: true
   },
   {
     label: "Fiebre",
-    value: "fiebre",
+    value: "Fiebre",
     visible: true
   }
 ];
 const intensityTypes = [
   {
     label: "Leve",
-    value: "leve",
+    value: "Leve",
     visible: true
   },
   {
     label: "Moderado",
-    value: "moderado",
+    value: "Moderado",
     visible: true
   },
   {
     label: "Intenso",
-    value: "intenso",
+    value: "Intenso",
     visible: true
   }
 ];
 const stateTypes = [
   {
     label: "Despierto",
-    value: "despierto",
+    value: "Despierta/o",
     visible: true
   },
   {
     label: "Durmiento",
-    value: "durmiendo",
+    value: "Durmiendo",
     visible: true
   }
 ];
