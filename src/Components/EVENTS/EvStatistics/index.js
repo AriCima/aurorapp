@@ -52,6 +52,7 @@ export default class EvStatistics extends React.Component {
       let iStats= [];
       let sStats = [];
       let types = [];
+      let ownTypes = [];
 
       for (let i=0; i<eLength; i++){
         // console.log('type and deto = ', evts[i].type, ' / ', evts[i].detonation, ' / ', types)
@@ -69,6 +70,20 @@ export default class EvStatistics extends React.Component {
           let transVal = tStats[index].value;
           tStats[index].value = transVal+1;
         };
+
+        // GET ARRAY WITH EACHT OWNTYPE AND ITS AMMOUNT
+        if(types.indexOf(newT) < 0){
+          types.push(newT);
+          let newQ = 1;
+          let newTStat = {value: newQ, name: newT}
+          tStats.push(newTStat);
+        } else {
+          let index = tStats.map(function(e) { return e.name; }).indexOf(newT);
+          let transVal = tStats[index].value;
+          tStats[index].value = transVal+1;
+        };
+
+
 
         // GET ARRAY WITH EACHT DETO AND ITS AMMOUNT
         if(detos.indexOf(newD) < 0){

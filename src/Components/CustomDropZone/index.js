@@ -22,10 +22,10 @@ export default class CustomDropZone extends React.Component {
             const f = files[0];
 
             UploadService.uploadFile(f, this.props.uploadFolder).then(
-                    (downloadURL)=>{
-                        this.setState({ loading: false });
-                        this.props.onFileUpload(downloadURL);
-                    },
+                (downloadURL)=>{
+                    this.setState({ loading: false });
+                    this.props.onFileUpload(downloadURL);
+                },
                     
                 (error)=>{
                     this.setState({

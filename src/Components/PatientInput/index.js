@@ -1,5 +1,9 @@
 import React from 'react';
 
+// Firebase services
+import firestore from '../../firebase';
+import firebase from 'firebase/app';
+
 // AUX COMP
 import moment from 'moment';
 
@@ -54,6 +58,7 @@ export default class PatientInput extends React.Component {
             ownMeds                : [],
         };
        
+         
         DataService.newPatient(newState)
         .then((result)=>{
             let patID = result.id;
@@ -111,98 +116,100 @@ export default class PatientInput extends React.Component {
     };
 
   
-  render() {
+   
 
-    return (
+    render() {
 
-        <div className="pat-in-form-container">
+        return (
 
-            <form  id="pat-in-form-format" onSubmit={this.onNewPatient}>
-            
-                <div className="pat-in-form-title">
-                    <h2>Datos del paciente</h2>
-                </div>
+            <div className="pat-in-form-container">
 
-                <div id="pat-in-input-area">
+                <form  id="pat-in-form-format" onSubmit={this.onNewPatient}>
+                
+                    <div className="pat-in-form-title">
+                        <h2>Datos del paciente</h2>
+                    </div>
 
-                    <div className="nev-input-row">
+                    <div id="pat-in-input-area">
+
+                        <div className="nev-input-row">
+                            
+                            <label className="pat-in-label-info">
+                                <p>Nombre</p>
+                                <input className="pat-in-input-info"
+                                    size="1"
+                                    type="text"
+                                    value={this.state.patientName}
+                                    onChange={(e)=>{this.onChangeState('patientName', e.target.value)}}
+                                /> 
+                            </label>
+
+                            <label className="pat-in-label-info">
+                                <p>Apellido</p>
+                                <input className="pat-in-input-info"
+                                    size="1"
+                                    type="text"
+                                    value={this.state.patientSurnName}
+                                    onChange={(e)=>{this.onChangeState('patientSurname', e.target.value)}}
+                                /> 
+                            </label>
+
+                            <label className="pat-in-label-info">
+                                <p>Fecha de nacimiento</p>
+                                <input className="pat-in-input-date"
+                                    type="date"
+                                    value={this.state.birthDate}
+                                    onChange={(e)=>{this.onChangeState('birthDate', e.target.value)}}
+                                /> 
+                            </label>
+
+                            <label className="pat-in-label-short">
+                                <p>Peso al nacer [kg]</p>
+                                <input className="input-date"
+                                    size="3"
+                                    type="text"
+                                    value={this.state.birthWeight}
+                                    onChange={(e)=>{this.onChangeState('birthWeight', e.target.value)}}
+                                /> 
+                            </label>
                         
-                        <label className="pat-in-label-info">
-                            <p>Nombre</p>
-                            <input className="pat-in-input-info"
-                                size="1"
-                                type="text"
-                                value={this.state.patientName}
-                                onChange={(e)=>{this.onChangeState('patientName', e.target.value)}}
-                            /> 
-                        </label>
+                        </div>
 
-                        <label className="pat-in-label-info">
-                            <p>Apellido</p>
-                            <input className="pat-in-input-info"
-                                size="1"
-                                type="text"
-                                value={this.state.patientSurnName}
-                                onChange={(e)=>{this.onChangeState('patientSurname', e.target.value)}}
-                            /> 
-                        </label>
 
-                        <label className="pat-in-label-info">
-                            <p>Fecha de nacimiento</p>
-                            <input className="pat-in-input-date"
-                                type="date"
-                                value={this.state.birthDate}
-                                onChange={(e)=>{this.onChangeState('birthDate', e.target.value)}}
-                            /> 
-                        </label>
+                        <div className="pat-in-textarea-row">
 
-                        <label className="pat-in-label-short">
-                            <p>Peso al nacer [kg]</p>
-                            <input className="input-date"
-                                size="3"
-                                type="text"
-                                value={this.state.birthWeight}
-                                onChange={(e)=>{this.onChangeState('birthWeight', e.target.value)}}
-                            /> 
-                        </label>
-                    
+                            <label className="pat-in-textarea-label">
+                                <p>Complicaciones durante el embarazo (si las hubo)</p>
+                                <textarea className="pat-in-textarea"
+                                    name="Acción"
+                                    value={this.state.pregIssues}
+                                    onChange={(e)=>{this.onChangeState('pregIssues', e.target.value)}}
+                                /> 
+                            </label>
+
+
+                            <label className="pat-in-textarea-label">
+                                <p>Complicaciones en el parto (si las hubo)</p>
+                                <textarea className="pat-in-textarea"
+                                    name="Acción"
+                                    value={this.state.birthIssues}
+                                    onChange={(e)=>{this.onChangeState('birthIssues', e.target.value)}}
+                                /> 
+                            </label>
+
+                        
+                        
+                        </div>
+
+
+
                     </div>
 
-
-                    <div className="pat-in-textarea-row">
-
-                        <label className="pat-in-textarea-label">
-                            <p>Complicaciones durante el embarazo (si las hubo)</p>
-                            <textarea className="pat-in-textarea"
-                                name="Acción"
-                                value={this.state.pregIssues}
-                                onChange={(e)=>{this.onChangeState('pregIssues', e.target.value)}}
-                            /> 
-                        </label>
-
-
-                        <label className="pat-in-textarea-label">
-                            <p>Complicaciones en el parto (si las hubo)</p>
-                            <textarea className="pat-in-textarea"
-                                name="Acción"
-                                value={this.state.birthIssues}
-                                onChange={(e)=>{this.onChangeState('birthIssues', e.target.value)}}
-                            /> 
-                        </label>
-
-                       
-                    
+                    <div className="pat-in-button-area">
+                    <SubmitButton text={'GUARDAR'}/>
                     </div>
-
-
-
-                </div>
-
-                <div className="pat-in-button-area">
-                   <SubmitButton text={'GUARDAR'}/>
-                </div>
-            </form>
-        </div>
-    );
-  }
+                </form>
+            </div>
+        );
+    }
 }

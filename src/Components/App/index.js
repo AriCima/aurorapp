@@ -47,20 +47,20 @@ import { faChevronDown, faAngleDown, faInfoCircle } from '@fortawesome/free-soli
 
 library.add(faChevronDown, faAngleDown, faInfoCircle)
 
-// Initialize Firebase
-var config = {
-  apiKey: "AIzaSyBOHIkUgOxaz1XTpwKgt1FfHg5eyOrLyps",
-  authDomain: "aurorapp-3a992.firebaseapp.com",
-  databaseURL: "https://aurorapp-3a992.firebaseio.com",
-  projectId: "aurorapp-3a992",
-  storageBucket: "gs://aurorapp-3a992.appspot.com",
-  messagingSenderId: "590608251480"
-};
-firebase.initializeApp(config);
+// // Initialize Firebase
+// var config = {
+//   apiKey: "AIzaSyBOHIkUgOxaz1XTpwKgt1FfHg5eyOrLyps",
+//   authDomain: "aurorapp-3a992.firebaseapp.com",
+//   databaseURL: "https://aurorapp-3a992.firebaseio.com",
+//   projectId: "aurorapp-3a992",
+//   storageBucket: "gs://aurorapp-3a992.appspot.com",
+//   messagingSenderId: "590608251480"
+// };
+// firebase.initializeApp(config);
 
-const firestore = firebase.firestore();
-const settings = {timestampsInSnapshots: true};
-firestore.settings(settings);
+// const firestore = firebase.firestore();
+// const settings = {timestampsInSnapshots: true};
+// firestore.settings(settings);
 
 
 class App extends Component {

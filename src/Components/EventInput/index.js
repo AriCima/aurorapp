@@ -167,15 +167,14 @@ class EventInput extends React.Component {
     .catch(function(error) {
       console.log(error);
     });
-
   }
-
 
   handleSelection = ({ field, value }) => {
     this.setState({
       [field]: value
     });
   };
+
   onChangeState(field, value) {
     
     let eventInfo = this.state;
@@ -267,7 +266,16 @@ class EventInput extends React.Component {
       action            : this.state.action
     };
     
-    DataService.newEvent(newEvent)
+    // DataService.newEvent(newEvent)
+    // .then(result => {
+    //   console.log(result.id, " event succesfully registered !!!");
+    //   this.props.propsFn.push(`/patient/${this.state.patientId}`);
+    // })
+    // .catch(function(error) {
+    //   console.log(error);
+    // });
+
+    DataService.newEventSub(newEvent, patID)
     .then(result => {
       console.log(result.id, " event succesfully registered !!!");
       this.props.propsFn.push(`/patient/${this.state.patientId}`);
@@ -384,7 +392,12 @@ class EventInput extends React.Component {
 
                 <div className="selector-wrapper-bar">
                   {this.state.inputType === "Otra" && 
-                    (<SelectCreate options={this.state.allTypes} field={'inputOwnType'}fn={this.handleSelection}/>)
+                    (<SelectCreate 
+                      options={this.state.allTypes} 
+                      field={'inputOwnType'}
+                      fn={this.handleSelection}
+                      />
+                    )
                   }
                 </div>
                 
@@ -518,6 +531,7 @@ class EventInput extends React.Component {
             </div>
 
             <div className="nev-textarea-row">
+
               <label className="nev-textarea-label">
                 <p>Observación Clínica</p>
                 <textarea
@@ -543,6 +557,7 @@ class EventInput extends React.Component {
               </label>
 
               <div className="nev-docs-row">
+
                 <CustomDropZone
                   onFileUpload={fileUrl => {
                     this.onChangeState("eventPics", fileUrl);
@@ -555,7 +570,16 @@ class EventInput extends React.Component {
                   background="white"
                   text="Arrastra tus archivos hasta aquí"
                 />
+
               </div>
+
+              <div className="nev-docs-row">
+                <input 
+                  type="file" 
+                  ref={ref => this.imageInput = ref} 
+                />
+              </div>
+
             </div>
           </div>
 
