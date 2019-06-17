@@ -18,7 +18,7 @@ import Landing from '../A-Landing';
 
 // import Patient from '../Patient';
 import PatientInput from '../PATIENTS/PatInput';
-import PatientInfo from '../PATIENTS/PatInfo';
+import PatientInfo from '../PATIENTS/PatInfoForm';
 import PatientOverview from '../PATIENTS/PatOverview';
 
 import EvOverview from '../EVENTS/EvOverview';

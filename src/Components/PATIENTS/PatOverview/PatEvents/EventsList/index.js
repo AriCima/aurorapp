@@ -2,8 +2,8 @@ import React from "react";
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // SERVICE API
-import DataService from "../../services/DataService";
-import Calculations from "../../services/Calculations";
+// import DataService from "../../services/DataService";
+// import Calculations from "../../services/Calculations";
 
 
 import "./index.css";
@@ -19,44 +19,44 @@ export default class EventsList extends React.Component {
     this._renderEventsInfo = this._renderEventsInfo.bind(this);
   }
 
-  componentDidMount() {
-    DataService.getPatientsEvents(this.state.patientId)
-    .then(res => {
-      const evts      = res;
-      let eventsDesc  = Calculations.sortByDateDesc(evts);
-      let eSorted     = Calculations.sortByDateAsc(evts);
-      let evLe        = eSorted.length;
-      let fEventDate  = new Date(eSorted[0].date);
-      let lEventDate  = new Date(eSorted[evLe-1].date);
-      let time        = ((((lEventDate - fEventDate)/1000)/60)/60)/24;
+//   componentDidMount() {
+//     DataService.getPatientsEvents(this.state.patientId)
+//     .then(res => {
+//       const evts      = res;
+//       let eventsDesc  = Calculations.sortByDateDesc(evts);
+//       let eSorted     = Calculations.sortByDateAsc(evts);
+//       let evLe        = eSorted.length;
+//       let fEventDate  = new Date(eSorted[0].date);
+//       let lEventDate  = new Date(eSorted[evLe-1].date);
+//       let time        = ((((lEventDate - fEventDate)/1000)/60)/60)/24;
       
-      if ( time > 240) {
-        this.setState({
-          eventsSorted  : eSorted,
-          lastEventDate : lEventDate,
-          timeLineDays  : 240,
-          patientsEvents: eventsDesc,
-          eventsNr      : evLe,
-        })
-      } else {
-        this.setState({ 
-          eventsSorted  : eSorted,
-          lastEventDate : lEventDate,
-          timeLineDays  : time,
-          patientsEvents: eventsDesc,
-          eventsNr      : evLe,
-        });
+//       if ( time > 240) {
+//         this.setState({
+//           eventsSorted  : eSorted,
+//           lastEventDate : lEventDate,
+//           timeLineDays  : 240,
+//           patientsEvents: eventsDesc,
+//           eventsNr      : evLe,
+//         })
+//       } else {
+//         this.setState({ 
+//           eventsSorted  : eSorted,
+//           lastEventDate : lEventDate,
+//           timeLineDays  : time,
+//           patientsEvents: eventsDesc,
+//           eventsNr      : evLe,
+//         });
 
-      }
+//       }
 
-      this._cristiamFn(eSorted);
-    })
-    .catch(function (error) {    
-      console.log(error);
-    })    
+//       this._cristiamFn(eSorted);
+//     })
+//     .catch(function (error) {    
+//       console.log(error);
+//     })    
 
     
-  }
+//   }
 
 
 //   _cristiamFn(events){
@@ -140,7 +140,7 @@ export default class EventsList extends React.Component {
           <div className="evt-add-button">
             <div>
               <Link to={`/new_event_register/${this.state.patientId}`}>
-                <AddButtonCool text={"Nuevo Evento"} />
+                {/* <AddButtonCool text={"Nuevo Evento"} /> */}
               </Link>
             </div>
           </div>
@@ -173,11 +173,11 @@ export default class EventsList extends React.Component {
           </div>
 
           <div className="events-fn-wrapper">
-            {this.state.patientsEvents === [] ? (
+            {/* {this.state.patientsEvents === [] ? (
               <p>LOADING !</p>
             ) : (
               this._renderEventsInfo()
-            )}
+            )} */}
           </div>
         
         </div>
