@@ -5,18 +5,10 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import DataService from "../../services/DataService";
 import Calculations from "../../services/Calculations";
 
-// MOMENT
-import moment from 'moment';
-
-// CHART
-import EChartBars from '../../Accessories/Charts/EChartsBars';
-
-// MATERIAL-UI
-import AddButtonCool from "../../Accessories/AddButtonCool";
 
 import "./index.css";
 
-export default class EvOverview extends React.Component {
+export default class EventsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,42 +59,42 @@ export default class EvOverview extends React.Component {
   }
 
 
-  _cristiamFn(events){
-    console.log('time =', this.state.timeLineDays)
-    // SE GRAFICAN LOS EVENTOS ENTRE LA FECHA DEL PRIMERO Y DEL ÚLTIMO.
-    let resultEvents = [];
-    let resultDates = [];
-    let index = this.state.timeLineDays;
+//   _cristiamFn(events){
+//     console.log('time =', this.state.timeLineDays)
+//     // SE GRAFICAN LOS EVENTOS ENTRE LA FECHA DEL PRIMERO Y DEL ÚLTIMO.
+//     let resultEvents = [];
+//     let resultDates = [];
+//     let index = this.state.timeLineDays;
 
-    let currentDate = new Date(this.state.lastEventDate);
+//     let currentDate = new Date(this.state.lastEventDate);
 
-    while (index >= 0) {
+//     while (index >= 0) {
       
-      let evQty = 0;
-      let formatedCurrent = moment(currentDate).format('DD-MMM-YYYY');
+//       let evQty = 0;
+//       let formatedCurrent = moment(currentDate).format('DD-MMM-YYYY');
       
-      for (let j = 0; j < events.length; j++){
-        let formatedEvent = moment(new Date(events[j].date)).format('DD-MMM-YYYY')
+//       for (let j = 0; j < events.length; j++){
+//         let formatedEvent = moment(new Date(events[j].date)).format('DD-MMM-YYYY')
 
-        if(formatedEvent === formatedCurrent ){
-          evQty = evQty+1;
-        } 
-      }
+//         if(formatedEvent === formatedCurrent ){
+//           evQty = evQty+1;
+//         } 
+//       }
 
-      resultDates.unshift(moment(formatedCurrent).format('DD-MM'));
-      resultEvents.unshift(evQty);
+//       resultDates.unshift(moment(formatedCurrent).format('DD-MM'));
+//       resultEvents.unshift(evQty);
       
-      currentDate.setDate(currentDate.getDate()-1);
-      index--;
-    }
+//       currentDate.setDate(currentDate.getDate()-1);
+//       index--;
+//     }
 
-    console.log('resultDates = ', resultDates)
-    this.setState({
-      xD : resultDates,
-      sD : resultEvents,
-    });
+//     console.log('resultDates = ', resultDates)
+//     this.setState({
+//       xD : resultDates,
+//       sD : resultEvents,
+//     });
 
-  };
+//   };
   
 
   _renderEventsInfo() {
@@ -155,27 +147,6 @@ export default class EvOverview extends React.Component {
 
         </div>
 
-        
-        
-          <div className="events-graphic-wrapper">
-          { this.state.eventsNr < 15 ? 
-            <div>
-              <EChartBars 
-                xData={this.state.xD} 
-                sData={this.state.sD}
-                dZ = {false}   // hide Zoomer
-                sName = {'Eventos'}
-                h = {'400px'}
-                w = {'800px'}
-                tB = {['none']}
-                bW = {'40%'}
-                zoom = {false}
-              /> 
-            </div> :
-            <p>Aún no contamos con datos suficientes para elaborar estadísticas</p>
-          }
-          </div> 
-        
 
         <div className="events-overview-list">
 

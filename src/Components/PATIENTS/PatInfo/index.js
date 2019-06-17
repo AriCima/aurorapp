@@ -4,16 +4,16 @@ import React from 'react';
 import moment from 'moment';
 
 // SERVICE API
-import DataService from '../services/DataService';
-import Calculations from '../services/Calculations';
+import DataService from '../../services/DataService';
+import Calculations from '../../services/Calculations';
 
 // ACCESOIRES
-import SubmitButton from '../Accessories/SubmitButton';
+import SubmitButton from '../../Accessories/SubmitButton';
 
 
 import './index.css'; 
 
-export default class PatientOverview extends React.Component {
+export default class PatientInfo extends React.Component {
     constructor(props){
         super(props);
         this.state = { 

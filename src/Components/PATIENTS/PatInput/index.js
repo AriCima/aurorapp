@@ -1,18 +1,18 @@
 import React from 'react';
 
-// Firebase services
-import firestore from '../../firebase';
-import firebase from 'firebase/app';
+// // Firebase services
+// import firestore from '../../../firebase';
+// import firebase from 'firebase/app';
 
 // AUX COMP
 import moment from 'moment';
 
 // SERVICE API
-import DataService from '../services/DataService';
-import Calculations from '../services/Calculations';
+import DataService from '../../services/DataService';
+// import Calculations from '../../services/Calculations';
 
 //ACCESORIES
-import SubmitButton from '../Accessories/SubmitButton';
+import SubmitButton from '../../Accessories/SubmitButton';
 
 
 import './index.css'; 
@@ -21,14 +21,12 @@ export default class PatientInput extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
-            adminId             : this.props.userID,
+            // adminId             : this.props.userID,
             patientId           : '',
             patientName         : '',
             patientSurname      : '',
             birthDate           : '',
             birthWeight         : '',
-            pregIssues          : '',
-            birthIssues         : '',
         };
 
         this.onNewPatient = this.onNewPatient.bind(this);
@@ -42,16 +40,17 @@ export default class PatientInput extends React.Component {
 
     onNewPatient(e){
         e.preventDefault(); 
+        let userID = this.props.userID;
 
         let noCommas    = this.state.birthWeight.replace(",", ".");
 
-        let newState = {
-            adminId                : this.state.adminId,
+
+        let newPatientInfo = {
+            // EACH PATIENT HAS AN ADMIN WHICH BY DEFAULT IS THE USER THAT CREATES THE PATIENT PROFILE
+            adminId                : userID,
             patientName            : this.state.patientName, 
             patientSurname         : this.state.patientSurname, 
             birthDate              : moment(this.state.birthDate).format('DD-MMM-YYYY'),
-            pregIssues             : this.state.pregIssues,
-            birthIssues            : this.state.birthIssues,
             birthWeight            : this.state.birthWeight,
             ownEventTypes          : [],
             ownDetonations         : [],
@@ -59,7 +58,7 @@ export default class PatientInput extends React.Component {
         };
        
          
-        DataService.newPatient(newState)
+        DataService.newPatientALT(userID, newPatientInfo)
         .then((result)=>{
             let patID = result.id;
         
@@ -73,7 +72,7 @@ export default class PatientInput extends React.Component {
                 weight      : noCommas,
             };
 
-            DataService.addWeight(newWeight)
+            DataService.newWeightALT(userID, patID, newWeight)
             .then((result) => {
                 console.log('Nuevo Peso registrado con el código: ', result.id);
             })
@@ -82,8 +81,17 @@ export default class PatientInput extends React.Component {
             });
 
 
+            // DataService.addWeight(newWeight)
+            // .then((result) => {
+            //     console.log('Nuevo Peso registrado con el código: ', result.id);
+            // })
+            // .catch(function (error) {    
+            //     console.log(error);
+            // });
+
+
             
-            let newOwnType = [{patientId: this.state.patientId, ownTypes: []}]
+            //let newOwnType = [{patientId: this.state.patientId, ownTypes: []}]
             
             // DataService.addEventType(newOwnType)
             // .then((result) => {
@@ -106,11 +114,64 @@ export default class PatientInput extends React.Component {
             //     console.log(error);
             // })
 
-            this.props.propsFn.push(`/patient/${this.state.patientId}`);
+            this.props.propsFn.push(`/patient-overview/${this.state.patientId}`);
         })
         .catch(function (error) {    
             console.log(error);
         })
+         
+        // DataService.newPatient(newState)
+        // .then((result)=>{
+        //     let patID = result.id;
+        
+        //     this.setState({
+        //         patientId : patID,
+        //     })
+           
+        //     let newWeight = {
+        //         patientId   : this.state.patientId,
+        //         date        : this.state.birthDate,
+        //         weight      : noCommas,
+        //     };
+
+        //     DataService.addWeight(newWeight)
+        //     .then((result) => {
+        //         console.log('Nuevo Peso registrado con el código: ', result.id);
+        //     })
+        //     .catch(function (error) {    
+        //         console.log(error);
+        //     });
+
+
+            
+        //     //let newOwnType = [{patientId: this.state.patientId, ownTypes: []}]
+            
+        //     // DataService.addEventType(newOwnType)
+        //     // .then((result) => {
+        //     //     // console.log('el result.id del add Event ', result.id)
+                
+        //     // })
+        //     // .catch(function (error) {    
+        //     //     console.log(error);
+        //     // })
+            
+
+        //     // let newOwnDetonations = {patientId: this.state.patientId, ownDetonations: []}
+
+        //     // DataService.addDetonation(newOwnDetonations)
+        //     // .then((result) => {
+        //     //     // console.log('el result.id del add Deto ', result.id)
+
+        //     // })
+        //     // .catch(function (error) {    
+        //     //     console.log(error);
+        //     // })
+
+        //     this.props.propsFn.push(`/patient/${this.state.patientId}`);
+        // })
+        // .catch(function (error) {    
+        //     console.log(error);
+        // })
 
 
     };
@@ -132,7 +193,7 @@ export default class PatientInput extends React.Component {
 
                     <div id="pat-in-input-area">
 
-                        <div className="nev-input-row">
+                        <div className="pat-input-row">
                             
                             <label className="pat-in-label-info">
                                 <p>Nombre</p>
@@ -174,33 +235,6 @@ export default class PatientInput extends React.Component {
                             </label>
                         
                         </div>
-
-
-                        <div className="pat-in-textarea-row">
-
-                            <label className="pat-in-textarea-label">
-                                <p>Complicaciones durante el embarazo (si las hubo)</p>
-                                <textarea className="pat-in-textarea"
-                                    name="Acción"
-                                    value={this.state.pregIssues}
-                                    onChange={(e)=>{this.onChangeState('pregIssues', e.target.value)}}
-                                /> 
-                            </label>
-
-
-                            <label className="pat-in-textarea-label">
-                                <p>Complicaciones en el parto (si las hubo)</p>
-                                <textarea className="pat-in-textarea"
-                                    name="Acción"
-                                    value={this.state.birthIssues}
-                                    onChange={(e)=>{this.onChangeState('birthIssues', e.target.value)}}
-                                /> 
-                            </label>
-
-                        
-                        
-                        </div>
-
 
 
                     </div>

@@ -39,19 +39,23 @@ export default class Register extends Component {
   register(e){
     e.preventDefault();
     let error = false;
+    let errorMessage = '';
 
     if(this.state.email === ''){
       this.setState({emailError: true});
       error = true;
+      errorMessage = 'Invalid email address';
     }
-    if(this.state.password === ''){
+    if(this.state.password.length <= 5){
       this.setState({passwordError: true});
       error = true;
+      errorMessage = 'Password must have at least 6 characters';
     }
 
     if(this.state.password !== this.state.passwordConfirm){
       this.setState({passwordError: true});
       error = true;
+      errorMessage = 'Passwords dont match!';
     }
   
     if(!error){
@@ -67,12 +71,16 @@ export default class Register extends Component {
           }
 
           DataService.saveUserInfoInFirestore(result.user.uid, userToRegister)
-          this.props.propsFn.push(`/home/${this.state.userId}`)
+          this.props.propsFn.push(`/add_patient/${this.state.userId}`)
+
       },(error)=>{
           this.setState({registerError: error});
         }
       );
-    }
+    } else {
+      console.log('errormessage = ', errorMessage);
+      alert(`Error:  ${errorMessage}`)
+    };
 
   }
 
@@ -117,7 +125,7 @@ export default class Register extends Component {
                 value={this.state.passwordConfirm} 
                 onChange={(e)=>{this.onChangeState('passwordConfirm', e.target.value)}}
               />
-              {passwordError && alert("Passwords don't match!")}
+              {/* {passwordError && alert("Passwords don't match!")} */}
 
               <div className="form-item">
                 <button type="submit">Registrar</button>

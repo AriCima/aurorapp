@@ -6,7 +6,7 @@ export default class DataService {
   static saveUserInfoInFirestore(userId, userToSave) {
     //registro en Firebase
     // console.log("el user recibido en el registro firestore es:", userId)
-    // console.log("el userToSave recibido en firestore es: ", userToSave)
+    console.log("el userToSave recibido en firestore es: ", userToSave)
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
@@ -21,10 +21,10 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("User NOT added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   }
+
   static getUserInfo(userId) {
     //console.log('el userID recibido es = ', userId);
     return new Promise((resolve, reject) => {
@@ -74,29 +74,53 @@ export default class DataService {
 
   // * * * * * * * * * PATIENT * * * * * * * * *
 
-  static newPatient(patientInfo) {
+  static newPatientALT(userID, newPatientInfo) {
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
+        .collection("users")
+        .doc(userID)
         .collection("patients")
-        .add(patientInfo)
+        .add(newPatientInfo)
+
 
         .then(result => {
           const patRef = result.get();
-          console.log(
-            `pat ID = ${
-              result.id
-            }, patRef = ${patRef} patient succesfully added !`
+          console.log(`pat ID = ${result.id}, patRef = ${patRef} patient succesfully added !`
           );
           resolve(result);
         })
         .catch(error => {
           var errorCode = error.code;
           console.log("patient could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
-  }
+  };
+
+
+  // static newPatient(patientInfo) {
+  //   return new Promise((resolve, reject) => {
+  //     firebase
+  //       .firestore()
+  //       .collection("patients")
+  //       .add(patientInfo)
+
+  //       .then(result => {
+  //         const patRef = result.get();
+  //         console.log(
+  //           `pat ID = ${
+  //             result.id
+  //           }, patRef = ${patRef} patient succesfully added !`
+  //         );
+  //         resolve(result);
+  //       })
+  //       .catch(error => {
+  //         var errorCode = error.code;
+  //         console.log("patient could not be added: ", errorCode);
+  //       });
+  //   });
+  // };
+
 
   static newPatientOwnType(ownType) {
     return new Promise((resolve, reject) => {
@@ -113,7 +137,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("patient could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   }
@@ -132,7 +155,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("patient could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   }
@@ -162,7 +184,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("patient could not be EDITED: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   }
@@ -181,7 +202,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("Error al cargar la patientInfo: ", errorCode);
-          //   var errorMessage = error.message;
         });
     });
   }
@@ -201,13 +221,15 @@ export default class DataService {
         })
 
         .catch(error => {
-          //  var errorCode = error.code;
           console.log("ERROR patient NOT added to user: ", error);
         });
     });
   }
 
   //  * * * * * * * * * * * * * * * EVENTS * * * * * * * * * * * * * * *
+
+  
+
 
   static newEvent(stateInfo) {
     console.log("info del estado a guardar = ", stateInfo);
@@ -225,7 +247,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("patient could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   };
@@ -246,7 +267,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("patient could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   };
@@ -270,7 +290,6 @@ export default class DataService {
         })
         .catch(error => {
           console.log("error: ", error);
-          // reject('Usuario no existe', error)
         });
     });
   }
@@ -355,7 +374,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("New-Event-Type could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   }
@@ -374,10 +392,10 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("New-Event-Type could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
-  }
+  };
+
   static getEventOwnType(patID) {
     return new Promise((resolve, reject) => {
       firebase
@@ -393,7 +411,8 @@ export default class DataService {
         })
         .catch(error => {});
     });
-  }
+  };
+
   static addDetonation(newDeto) {
     return new Promise((resolve, reject) => {
       firebase
@@ -409,7 +428,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("New-Event-Type could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   }
@@ -429,7 +447,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("New-Event-Type could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   }
@@ -485,7 +502,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("patient could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   }
@@ -498,7 +514,6 @@ export default class DataService {
         .where("patientId", "==", patID)
         .get()
         .then(result => {
-          // console.log('result en el medicines', result.docs)
           let meds = [];
           result.docs.forEach(d => {
             let j = d.data();
@@ -509,7 +524,6 @@ export default class DataService {
         })
         .catch(error => {
           console.log("error: ", error);
-          // reject('Usuario no existe', error)
         });
     });
   }
@@ -523,7 +537,6 @@ export default class DataService {
         .where("drugName", "==", dName)
         .get()
         .then(result => {
-          // console.log('result en el medicines', result.docs)
           let meds = [];
           result.docs.forEach(d => {
             let j = d.data();
@@ -534,12 +547,37 @@ export default class DataService {
         })
         .catch(error => {
           console.log("error: ", error);
-          // reject('Usuario no existe', error)
         });
     });
   }
 
   // * * * * * * * * * * * * * * * WEIGHTS * * * * * * * * * * * * * * *
+
+
+  static newWeightALT(userID, patID, newWeightInfo) {
+    return new Promise((resolve, reject) => {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(userID)
+        .collection("patients")
+        .doc(patID)
+        .collection("weight")
+        .add(newWeightInfo)
+
+
+        .then(result => {
+          const weightRef = result.get();
+          console.log(`Weight ID = ${result.id}, weightRef = ${weightRef} patient succesfully added !`
+          );
+          resolve(result);
+        })
+        .catch(error => {
+          var errorCode = error.code;
+          console.log("patient could not be added: ", errorCode);
+        });
+    });
+  };
 
   static addWeight(weightInfo) {
     return new Promise((resolve, reject) => {
@@ -556,7 +594,6 @@ export default class DataService {
         .catch(error => {
           var errorCode = error.code;
           console.log("patient could not be added: ", errorCode);
-          // var errorMessage = error.message;
         });
     });
   }
@@ -578,7 +615,6 @@ export default class DataService {
         })
         .catch(error => {
           console.log("error: ", error);
-          // reject('Usuario no existe', error)
         });
     });
   }

@@ -16,10 +16,10 @@ import Register from '../Access/Register';
 import Home from '../Home';
 import Landing from '../A-Landing';
 
-import Patient from '../Patient';
-import PatientInput from '../PatientInput';
-import PatientOverview from '../PatientOverview';
-import Patients1 from '../PATIENTS';
+// import Patient from '../Patient';
+import PatientInput from '../PATIENTS/PatInput';
+import PatientInfo from '../PATIENTS/PatInfo';
+import PatientOverview from '../PATIENTS/PatOverview';
 
 import EvOverview from '../EVENTS/EvOverview';
 import SingleEvent from '../EventSingle';
@@ -47,20 +47,20 @@ import { faChevronDown, faAngleDown, faInfoCircle } from '@fortawesome/free-soli
 
 library.add(faChevronDown, faAngleDown, faInfoCircle)
 
-// // Initialize Firebase
-// var config = {
-//   apiKey: "AIzaSyBOHIkUgOxaz1XTpwKgt1FfHg5eyOrLyps",
-//   authDomain: "aurorapp-3a992.firebaseapp.com",
-//   databaseURL: "https://aurorapp-3a992.firebaseio.com",
-//   projectId: "aurorapp-3a992",
-//   storageBucket: "gs://aurorapp-3a992.appspot.com",
-//   messagingSenderId: "590608251480"
-// };
-// firebase.initializeApp(config);
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyBOHIkUgOxaz1XTpwKgt1FfHg5eyOrLyps",
+  authDomain: "aurorapp-3a992.firebaseapp.com",
+  databaseURL: "https://aurorapp-3a992.firebaseio.com",
+  projectId: "aurorapp-3a992",
+  storageBucket: "gs://aurorapp-3a992.appspot.com",
+  messagingSenderId: "590608251480"
+};
+firebase.initializeApp(config);
 
-// const firestore = firebase.firestore();
-// const settings = {timestampsInSnapshots: true};
-// firestore.settings(settings);
+const firestore = firebase.firestore();
+const settings = {timestampsInSnapshots: true};
+firestore.settings(settings);
 
 
 class App extends Component {
@@ -121,7 +121,7 @@ class App extends Component {
       
                 {/* * * *  PATIENT * * * */}
                 {/* <Route path="/patient/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId}/>}}/> */}
-                <Route path="/patient/:patientId" exact render = {(props) => { return <POverview propsFn={props.history} patID={props.match.params.patientId}/>}}/>
+                <Route path="/patient-overview/:patientId" exact render = {(props) => { return <POverview propsFn={props.history} patID={props.match.params.patientId}/>}}/>
                 <Route path="/single-patient-overview/:patientId" exact render = {(props) => { return <HeaderGral propsFn={props.history} patID={props.match.params.patientId}/>}}/>
                 <Route path="/add_patient/:user" exact render = {(props) => { return <Header propsFn={props.history} uName={this.state.userName}/>}}/>
 
@@ -154,10 +154,8 @@ class App extends Component {
                 
                 {/* * * *  PATIENT * * * */}
                 <Route path="/home/:user" render = {(props) => { return <Home userID={props.match.params.user}/>}}/>
-                {/* <Route path="/patient/:patientId" exact render = {(props) => { return <Patient propsFn={props.history} patID={props.match.params.patientId} />}}/> */}
-                <Route path="/patient/:patientId" exact render = {(props) => { return <Patients1 propsFn={props.history} patID={props.match.params.patientId} />}}/>
-
-                <Route path="/single-patient-overview/:patientId" exact render = {(props) => { return <PatientOverview propsFn={props.history} userID={this.state.userId} patID={props.match.params.patientId}/>}}/>
+                <Route path="/patient-overview/:patientId" exact render = {(props) => { return <PatientOverview propsFn={props.history} patID={props.match.params.patientId} />}}/>
+                <Route path="/patient-info/:patientId" exact render = {(props) => { return <PatientInfo propsFn={props.history} userID={this.state.userId} patID={props.match.params.patientId}/>}}/>
                 <Route path="/add_patient/:user" exact render = {(props) => { return <PatientInput propsFn={props.history} userID={props.match.params.user}/>}}/>
                 
                 {/* * * *  EVENTS * * * */}
