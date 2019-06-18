@@ -25,7 +25,7 @@ import EventInput from '../EVENTS/EventInput';
 // import WeightInput from '../WeightInput';
 // import WeightOverview from '../WEIGHT/WeightOverview';
 
-import MedicineInput from '../MedicineInput';
+import MedicineInput from '../MEDICINES-1/MedicineInput';
 // import MedicineOverview from '../MedicineOverview';
 // import SingleMedOverview from '../Medicines/SingleMedOverview';
 
@@ -64,7 +64,7 @@ class App extends Component {
     super(props);
     this.state = {
       user      : null,
-      userId    : '',
+      userID    : '',
       userName  : '',
       patID     : '',
       patInfo   : null,
@@ -96,7 +96,7 @@ class App extends Component {
 
           this.setState({
             user      : result,
-            userId    : result.id,
+            userID    : result.id,
             userName  : result.name,
           });
         })
@@ -126,7 +126,7 @@ class App extends Component {
 
 
   render() {
-    const { patInfo , patID} = this.state;
+    const { patInfo , patID, userID} = this.state;
     return (
       <div>
 
@@ -157,7 +157,7 @@ class App extends Component {
               <Route path="/patient-overview/" exact render = {(props) => { return <PatientOverview propsFn={props.history}  patID={patID} patInfo={patInfo}/>}}/>
               <Route path="/event-input/" exact render = {(props) => { return <EventInput propsFn={props.history}  patInfo={patInfo}/>}}/>
 
-              <Route path="/medicine-input/:patientId" exact render = {(props) => { return <MedicineInput propsFn={props.history} patID={props.match.params.patientId}/>}}/> 
+              <Route path="/medicine-input/:patientId" exact render = {(props) => { return <MedicineInput propsFn={props.history} userID={userID} patID={props.match.params.patientId}/>}}/> 
 
 
             </Switch>

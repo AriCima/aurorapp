@@ -116,21 +116,21 @@ export default class DataService {
       })
       .catch(error => {
         var errorCode = error.code;
-        console.log("patient could not be added: ", errorCode);
+        console.log("patient could not be found: ", errorCode);
       })
     })   
 
   };
 
   // Para solicitar la info desde PatOverview
-  static getPatientInfoALT2(userID, patID) {
+  static getPatientInfoALT2(userID) {
+    console.log('user en el getP2 :', userID)
     return new Promise((resolve, reject) => {
       firebase
       .firestore()
       .collection("users")
       .doc(userID)
       .collection("patients")
-      .doc(patID)
       .get()
 
       .then(function(querySnapshot) {
@@ -142,7 +142,7 @@ export default class DataService {
       })
       .catch(error => {
         var errorCode = error.code;
-        console.log("patient could not be added: ", errorCode);
+        console.log("patient could not be found: ", error);
       })
     })   
 

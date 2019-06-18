@@ -1,11 +1,11 @@
 import React from 'react';
 
 // SERVICE API
-import DataService from '../services/DataService';
+import DataService from '../../services/DataService';
 
 // ACCESORIES
-import SubmitButton from '../Accessories/MyButtonPlain';
-import SelectCreate from '../Accessories/SelectCreate';
+import SubmitButton from '../../Accessories/MyButtonPlain';
+import SelectCreate from '../../Accessories/SelectCreate';
 
 // CSS
 import './index.css'; 
@@ -69,13 +69,22 @@ export default class MedicineInput extends React.Component {
 
 
     componentDidMount() {
-        DataService.getPatientInfoALT(this.state.patientId)
+        console.log('CDM en medInput TRIGGERED user / pat', this.props.userID, ' / ', this.props.patID )
+        DataService.getPatientInfoALT2(this.props.userID, this.props.patID)
         .then(res => {
+            console.log('res en medInput = ', res)
             const pat = res;
 
             let ownMeds = pat.ownMeds;
-            let allMeds = genericMeds.concat(ownMeds);
+            let allMeds = [];
 
+            if(ownMeds !== undefined){
+                allMeds = genericMeds.concat(ownMeds)
+            } else {
+                allMeds = [...genericMeds]
+            };
+
+            console.log('allMeds = ', allMeds)
             let indexM  = allMeds.length;
 
             let medsLabels = [];  // array witn only meds labels to verify if the input med already exists
@@ -84,6 +93,7 @@ export default class MedicineInput extends React.Component {
                 console.log('allMeds[',i,'].label', allMeds[i].label)
                 medsLabels.push((allMeds[i].label).toUpperCase());
             };
+
             this.setState({
                 ownMeds     : pat.ownMEds,
                 allMeds     : allMeds,
@@ -119,6 +129,7 @@ export default class MedicineInput extends React.Component {
     onNewMedicine(e){
 
         let drugExists = this.state.medsLabels.indexOf(this.state.drugName);
+        
         e.preventDefault();  
 
         let newDrugName   = this.state.drugName;
