@@ -25,7 +25,7 @@ import EventInput from '../EVENTS/EventInput';
 // import WeightInput from '../WeightInput';
 // import WeightOverview from '../WEIGHT/WeightOverview';
 
-// import MedicineInput from '../MedicineInput';
+import MedicineInput from '../MedicineInput';
 // import MedicineOverview from '../MedicineOverview';
 // import SingleMedOverview from '../Medicines/SingleMedOverview';
 
@@ -133,6 +133,20 @@ class App extends Component {
         <Router>
 
           <div className="app">
+          {/* <div className="app-header">  
+            
+            <Switch>
+
+              <Route path="/"  exact render = {() => { return  <HeaderLanding/>}}/>
+              <Route path="/home/:userId"  render = {(props) => { return  <HeaderGral userID={props.match.params.userId} uName={this.state.userName}/>}}/>
+              <Route path="/patient-overview/" exact render = {(props) => { return <HeaderGral propsFn={props.history}  patID={patID} patInfo={patInfo}/>}}/>
+              <Route path="/event-input/" exact render = {(props) => { return <HeaderGral propsFn={props.history}  patInfo={patInfo}/>}}/>
+              <Route path="/medicine-input/" exact render = {(props) => { return <HeaderGral propsFn={props.history}/>}}/> 
+
+
+            </Switch>
+
+          </div>  */}
             <Switch>
               <Route path="/"  exact render = {() => { return  <HeaderLanding patInfo={patInfo}/>}}/>
               <Route path="/home/:userId"  render = {(props) => { return  <HeaderGral propsFn={props.history}  patInfo={patInfo}/>}}/>
@@ -142,6 +156,10 @@ class App extends Component {
 
               <Route path="/patient-overview/" exact render = {(props) => { return <PatientOverview propsFn={props.history}  patID={patID} patInfo={patInfo}/>}}/>
               <Route path="/event-input/" exact render = {(props) => { return <EventInput propsFn={props.history}  patInfo={patInfo}/>}}/>
+
+              <Route path="/medicine-input/" exact render = {(props) => { return <MedicineInput propsFn={props.history}/>}}/> 
+
+
             </Switch>
 
             <div ref="ERASED LINES">

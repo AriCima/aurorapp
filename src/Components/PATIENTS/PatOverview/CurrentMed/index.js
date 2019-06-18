@@ -6,6 +6,10 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import DataService from '../../../services/DataService';
 import Calculations from '../../../services/Calculations';
 
+
+// ACCESORIES
+import AddButtonCool from '../../../Accessories/AddButtonCool'
+
 // ECHARTS
 // import BarsH from '../Cahrts/BarsH';
 
@@ -27,55 +31,55 @@ export default class CurrentMed extends React.Component {
     }
   }
  
-  componentDidMount(){
+  // componentDidMount(){
 
-    DataService.getPatientsMeds(this.props.patID)
-    .then(res => {
+  //   DataService.getPatientsMeds(this.props.patID)
+  //   .then(res => {
      
-      let meds      = res;
-      let mL        = meds.length;
-      let onlyNames = [];
-      let medNames  = [];
+  //     let meds      = res;
+  //     let mL        = meds.length;
+  //     let onlyNames = [];
+  //     let medNames  = [];
 
-      for( let i = 0; i < mL; i++){
-        if (onlyNames.indexOf(meds[i].drugName) < 0){
-          onlyNames.push(meds[i].drugName);
-          let newMed    = {drugName: meds[i].drugName, allDoses: []};
-          // console.log('newMed', newMed)
-          medNames.push(newMed);
-        }
-      }
+  //     for( let i = 0; i < mL; i++){
+  //       if (onlyNames.indexOf(meds[i].drugName) < 0){
+  //         onlyNames.push(meds[i].drugName);
+  //         let newMed    = {drugName: meds[i].drugName, allDoses: []};
+  //         // console.log('newMed', newMed)
+  //         medNames.push(newMed);
+  //       }
+  //     }
 
-      let medicines = Calculations.getSortedMedicines(medNames, meds);
-      // medicines = [drugName: name, allDoses: [{}, {} . . {}] allDoses sorted descendently (curren dose = position  0)
+  //     let medicines = Calculations.getSortedMedicines(medNames, meds);
+  //     // medicines = [drugName: name, allDoses: [{}, {} . . {}] allDoses sorted descendently (curren dose = position  0)
       
 
-      this.setState({
-        medsArray  : medicines,
-      })
+  //     this.setState({
+  //       medsArray  : medicines,
+  //     })
        
-    })
-    .catch(function (error) {    
-      console.log(error);
-    });
+  //   })
+  //   .catch(function (error) {    
+  //     console.log(error);
+  //   });
 
-    DataService.getPatientsWeights(this.props.patID)
-    .then(weights => {
+  //   DataService.getPatientsWeights(this.props.patID)
+  //   .then(weights => {
 
-      let wSorted = Calculations.sortByDateAsc(weights);
-      let wL = wSorted.length;
+  //     let wSorted = Calculations.sortByDateAsc(weights);
+  //     let wL = wSorted.length;
 
-      let cWeight = wSorted[wL-1].weight;
+  //     let cWeight = wSorted[wL-1].weight;
 
-      this.setState({
-        currentWeight : cWeight
-      })
+  //     this.setState({
+  //       currentWeight : cWeight
+  //     })
 
-    })
-    .catch(function (error) {    
-      console.log(error);
-    });
-  };
+  //   })
+  //   .catch(function (error) {    
+  //     console.log(error);
+  //   });
+  // };
     
 
   
@@ -107,10 +111,27 @@ export default class CurrentMed extends React.Component {
 
   render() {
 
+    const {patID} = this.props;
     return (
-      <div className="cMedicine-chart">
 
-        {/* <BarsH /> */}
+
+      <div className="cMedicine-area">
+
+        <div className="Cmedicine-upper">
+
+          <div className="medicines-list-title">
+            <h2>Medicación actual</h2>
+          </div>
+
+          <div className="med-add-button">
+            <div>
+              <Link to={`/medicine-input/${patID}`}>
+                <AddButtonCool text={"Nuevo Medicamento"} patID={patID}/>
+              </Link>
+            </div>
+          </div>
+
+        </div>
 
         <div className="cMedChart-header">
 
