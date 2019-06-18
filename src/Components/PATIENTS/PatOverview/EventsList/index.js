@@ -5,6 +5,8 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 // import DataService from "../../services/DataService";
 // import Calculations from "../../services/Calculations";
 
+// ACCESORIES
+import AddButtonCool from '../../../Accessories/AddButtonCool'
 
 import "./index.css";
 
@@ -12,7 +14,7 @@ export default class EventsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      patientId: this.props.patID,
+      patId: this.props.patID,
       patientsEvents: [],
       eventsNr: 0,
     };
@@ -128,6 +130,7 @@ export default class EventsList extends React.Component {
   }
 
   render() {
+    
     return (
       <div className="events-area">
 
@@ -139,8 +142,8 @@ export default class EventsList extends React.Component {
 
           <div className="evt-add-button">
             <div>
-              <Link to={`/new_event_register/${this.state.patientId}`}>
-                {/* <AddButtonCool text={"Nuevo Evento"} /> */}
+              <Link to={`/new_event_register/${this.props.patID}`}>
+                <AddButtonCool text={"Nuevo Evento"} />
               </Link>
             </div>
           </div>
@@ -173,6 +176,8 @@ export default class EventsList extends React.Component {
           </div>
 
           <div className="events-fn-wrapper">
+
+            
             {/* {this.state.patientsEvents === [] ? (
               <p>LOADING !</p>
             ) : (
