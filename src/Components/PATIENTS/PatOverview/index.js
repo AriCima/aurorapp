@@ -58,7 +58,7 @@ export default class PatientOverview extends Component {
       <div className="patOv-body">
 
         <div className="patOv-section">
-          <CurrentMed ppatID={patID} atInfo={patInfo}/>
+          <CurrentMed patID={patID} patInfo={patInfo}/>
         </div>
 
         <div className="patOv-section">

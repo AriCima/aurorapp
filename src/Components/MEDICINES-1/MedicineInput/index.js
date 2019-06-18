@@ -58,32 +58,8 @@ export default class MedicineInput extends React.Component {
             doseUnits           : 'mg',
             date                : '',
             dailyDoses          : Array(24).fill(""),
-            // dailyDose0          : '',
-            // dailyDose1          : '',
-            // dailyDose2          : '',
-            // dailyDose3          : '',
-            // dailyDose4          : '',
-            // dailyDose5          : '',
-            // dailyDose6          : '',
-            // dailyDose7          : '',
-            // dailyDose8          : '',
-            // dailyDose9          : '',
-            // dailyDose10         : '',
-            // dailyDose11         : '',
-            // dailyDose12         : '',
-            // dailyDose13         : '',
-            // dailyDose14         : '',
-            // dailyDose15         : '',
-            // dailyDose16         : '',
-            // dailyDose17         : '',
-            // dailyDose18         : '',
-            // dailyDose19         : '',
-            // dailyDose20         : '',
-            // dailyDose21         : '',
-            // dailyDose22         : '',
-            // dailyDose23         : '',
-            totalDailyDose          : '',
-            medsLabels              : [],
+            totalDailyDose      : '',
+            medsLabels          : [],
         };
 
         this.onNewMedicine      = this.onNewMedicine.bind(this);
@@ -93,7 +69,7 @@ export default class MedicineInput extends React.Component {
 
 
     componentDidMount() {
-        DataService.getPatientInfo(this.state.patientId)
+        DataService.getPatientInfoALT(this.state.patientId)
         .then(res => {
             const pat = res;
 
@@ -143,8 +119,8 @@ export default class MedicineInput extends React.Component {
     onNewMedicine(e){
 
         let drugExists = this.state.medsLabels.indexOf(this.state.drugName);
+        e.preventDefault();  
 
-        e.preventDefault();       
         let newDrugName   = this.state.drugName;
         let newDate       = this.state.date;
         let units         = this.state.doseUnits;
@@ -153,7 +129,7 @@ export default class MedicineInput extends React.Component {
         let totalDayDose = 0;
 
         for (let i = 0; i <= 23; i++){
-          totalDayDose = totalDayDose + +newHourlyDose[i];
+          totalDayDose = totalDayDose + +newHourlyDose[i];  // e´+ convierte a Number
         };
 
         let newMedInfo = {patientId: this.state.patientId, drugName: newDrugName.toUpperCase(), date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose, drugUnits: units}
@@ -237,7 +213,10 @@ export default class MedicineInput extends React.Component {
                         <label className="med-label-short">
                             <p>Unidades</p>
 
-                            <SelectCreate options={units} fn={this.handleSelection}/>
+                            <SelectCreate 
+                                options={units} 
+                                fn={this.handleSelection}
+                            />
 
                             {/* <select id="med-select-input" 
                                 value={this.state.doseUnits} 

@@ -157,7 +157,7 @@ class App extends Component {
               <Route path="/patient-overview/" exact render = {(props) => { return <PatientOverview propsFn={props.history}  patID={patID} patInfo={patInfo}/>}}/>
               <Route path="/event-input/" exact render = {(props) => { return <EventInput propsFn={props.history}  patInfo={patInfo}/>}}/>
 
-              <Route path="/medicine-input/" exact render = {(props) => { return <MedicineInput propsFn={props.history}/>}}/> 
+              <Route path="/medicine-input/:patientId" exact render = {(props) => { return <MedicineInput propsFn={props.history} patID={props.match.params.patientId}/>}}/> 
 
 
             </Switch>

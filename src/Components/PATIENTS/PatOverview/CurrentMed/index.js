@@ -111,6 +111,7 @@ export default class CurrentMed extends React.Component {
 
   render() {
 
+    console.log('props en el cMed = ', this.props)
     const {patID} = this.props;
     return (
 
