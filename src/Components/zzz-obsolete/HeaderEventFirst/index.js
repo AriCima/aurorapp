@@ -3,12 +3,12 @@ import {Link} from 'react-router-dom';
 import * as firebase from 'firebase';
 
 // SERVICE API
-import DataService from '../services/DataService';
+import DataService from '../../services/DataService';
 
 
 import '../HeaderGral/index.css';
 
-class HeaderGral extends Component {
+class HeaderEventFirst extends Component {
    constructor(props){
     super(props);
 
@@ -33,7 +33,8 @@ class HeaderGral extends Component {
         patientName     : res.patientName,
         patientSurname  : res.patientSurname,        
     });
-
+    
+        console.log('el patientName = ', this.state.patientName)
     })
     .catch(function (error) {    
     console.log(error);
@@ -51,36 +52,34 @@ class HeaderGral extends Component {
     }
 
     render() {
-       
+        console.log('el user en el HeaderEventInput', this.props.patID)
         return (
 
+          
             <div className="header">
 
             <div className="header-left">
 
-                <div className="nav-block">
-                    <Link to={`/home/${this.state.userId}`}><p className="header-texts">Inicio</p></Link>
-                </div>
-
-                <div className="nav-block">
-                    <Link to={`/patient/${this.state.patientId}`}><p className="header-texts">{this.state.patientName}</p></Link>
-                </div>
+            <div className="nav-block">
+                <Link to={`/home/${this.state.userId}`}><p className="header-texts">{this.state.patientName}</p></Link>
+            </div>
 
             </div>
 
             <div className="header-mid">
 
-                <div className="nav-block">
-                    <Link to={`/medicine_overview/${this.state.patientId}`}><p className="header-texts">Medicación</p></Link>
-                </div>
+            <div className="nav-block">
+                <Link to={`medicine_overview/${this.state.patientId}`}><p className="header-texts">Medicación</p></Link>
+            </div>
 
-                <div className="nav-block">
-                    <Link to={`/events-overview/${this.state.patientId}`}><p className="header-texts">Eventos</p></Link>
-                </div>
+            <div className="nav-block">
+                <Link to={`/events-overview/${this.state.patientId}`}><p className="header-texts">Eventos</p></Link>
+            </div>
 
-                <div className="nav-block">
-                    <Link to={`/weight_overview/${this.state.patientId}`}><p className="header-texts">Peso</p></Link>
-                </div>
+            <div className="nav-block">
+                <Link to={`/patient_new_weight/${this.state.patientId}`}><p className="header-texts">Peso</p></Link>
+            </div>
+
 
             </div>
 
@@ -93,9 +92,10 @@ class HeaderGral extends Component {
             </div>
 
         </div>
+                   
                             
 
         );
     }
 }
-export default HeaderGral;
+export default HeaderEventFirst;

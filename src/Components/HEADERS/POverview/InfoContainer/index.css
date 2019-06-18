@@ -1,9 +1,0 @@
-#menu-container{
-
-    background-color: rgba(248, 248, 248, 1); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    z-index: 0;
-}

@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import AuthService from '../../services/AuthService'
 
 import './index.css';
+import DataService from '../../services/DataService';
 
 class Login extends Component {
 
@@ -13,6 +14,7 @@ class Login extends Component {
 
         this.state = {
             userId      : '',
+            patInfo     : '',
             email       : '',
             password    : '',
             emailError  : false,
@@ -51,11 +53,25 @@ class Login extends Component {
 
             AuthService.login(this.state.email, this.state.password)
                 .then((result)=>{
+                    let patID = '';
                     // console.log('Result de Login', result)
                    //console.log('Result.user.uid de Login', result.user.uid)
-                   this.setState({userId : result.user.uid});
-                   console.log('this.state.userId en el Login = ', this.state.userId);
-                   this.props.propsFn.push(`/home/${this.state.userId}`) 
+                  let userID = result.user.uid;
+                  //    this.setState({userId : result.user.uid});
+                  //    console.log('this.state.userId en el Login = ', this.state.userId);
+                   DataService.getPatientInfoALT(userID)
+                   .then(result => {
+                    //    console.log('el result = ', result)
+                    patID = result.patID;
+                    // console.log('patID1 = ', patID)
+                    this.setState({patInfo: result})
+                    console.log('patInfo = ', this.state.patInfo);
+                   this.props.propsFn.push(`/patient-overview`) 
+                   })
+                   .catch(error => {
+                    var errorCode = error.code;
+                    console.log("patient could not be loaded: ", errorCode);
+                  })
                 },(error)=>{
                     this.setState({loginError: error});
                 }

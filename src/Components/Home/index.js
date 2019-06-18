@@ -65,8 +65,6 @@ export default class Home extends React.Component {
 
   render() {
 
-    
-
     if (!this.props.userID) return <p>Loading  ...</p>;
 
     return (

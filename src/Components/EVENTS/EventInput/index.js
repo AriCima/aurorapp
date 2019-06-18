@@ -1,8 +1,8 @@
 import React from "react";
 
 // SERVICE API
-import DataService from "../services/DataService";
-import CustomDropZone from "../CustomDropZone";
+import DataService from "../../services/DataService";
+import CustomDropZone from "../../CustomDropZone";
 
 // MATERIAL UI
 import PropTypes from "prop-types";
@@ -10,8 +10,8 @@ import { withStyles } from "@material-ui/core/styles";
 import Radio from "@material-ui/core/Radio";
 
 //ACCESORIES
-import SubmitButton from "../Accessories/SubmitButton";
-import SelectCreate from '../Accessories/SelectCreate';
+import SubmitButton from "../../Accessories/SubmitButton";
+import SelectCreate from '../../Accessories/SelectCreate';
 
 // CSS
 import "./index.css";

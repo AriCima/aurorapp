@@ -1,66 +1,76 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-// MATERIAL UI
-import MyButtonPlain from "../../Accessories/MyButtonPlain";
+// SERVICES
+// import DataService from '../../services/DataService';
 
 // Components
-import EventsList from './PatEvents/EventsList';
+import HeaderGral from '../../HEADERS/HeaderGral';
+import EventsList from './EventsList';
 import CurrentMed from "./CurrentMed";
-import EventsGraphic from "../../Patient/EventsGraphic";
-// import MedWeightGraphic from '../Patient/MedWeightGraphic';
-import EvStatistics from "../../EVENTS/EvStatistics";
+
 // CSS
 import "./index.css";
 
-export default class PatientOverview extends React.Component {
-  constructor(props) {
-    super(props);
+export default class PatientOverview extends Component {
+  // constructor(props) {
+  //   super(props);
 
-    this.state = {
-      user: this.props.userID,
-      patientId: this.props.patID,
-      timeLineDays: 60
-    };
-  }
+  //   this.state = {
+  //     patID: '',
+  //     patName: '',
+  //     patSurname:'',
+  //     patWeight: {},
+  //   };
+  // };
+  
+
+  // componentDidMount(){
+  //   console.log('patID / userIDen el patOVerview = ', this.props.userID, ' / ', this.props.patID)
+  //   DataService.getPatientInfoALT2(this.props.userID, this.props.patID)
+  //     .then(result => {
+
+  //       this.setState({
+  //         patID: result.id,
+  //         patName: result.patData.patientName,
+  //         patSurname: result.patData.patientSurname,
+  //       })
+  //     })
+  //     .catch(error => {
+  //     var errorCode = error.code;
+  //     console.log("patient could not be loaded: ", errorCode);
+  //   })
+  // }
 
   render() {
 
-    const {patID} = this.props;
+    // console.log('props en el PatOverview = ', this.props)
+    const {patInfo} = this.props;
 
     return (
-      <div className="pat-ov-section">
 
-        <div className="pat-ov-patInfoSection">
+    <div className="patient-overview">
 
-          <div className="pat-info-block">
-            <div className="patInfo-var">
-              <p>Nombre: </p>
-            </div>
-            <div className="patInfo-value">
-              <h4>
-                {this.state.patientName} {this.state.patientSurname}
-              </h4>
-            </div>
-          </div>
-          <div className="pat-info-block">
-            <div className="patInfo-var">
-              <p>Edad: </p>
-            </div>
-            <div className="patInfo-value">
-              <h4>{this.state.birthDate}</h4>
-            </div>
-          </div>
-          <div className="pat-info-block">
-            <div className="patInfo-var">
-              <p>Peso actual: </p>
-            </div>
-            <div className="patInfo-value">
-              <h4>{this.state.currentWeight} Kg</h4>
-            </div>
-          </div>
-         
+      <div className="patOv-header">
+        <HeaderGral patInfo={patInfo}/>
+      </div>
+
+      <div className="patOv-body">
+
+        <div className="patOv-section">
+          <CurrentMed patInfo={patInfo}/>
         </div>
+
+        <div className="patOv-section">
+          <EventsList patInfo={patInfo}/>
+        </div>
+        
+      </div>
+
+      <div className="ERASED-LINES">
+
+{/* 
+      <div className="pat-ov-section">
 
         <div className="pat-ov-eventsSection">
 
@@ -93,12 +103,12 @@ export default class PatientOverview extends React.Component {
               </div>
             </div>
           )}
-        </div> */}
+        </div> 
 
         </div>
         
         <div className="pat-ov-medicinesSection">
-          {/* <div className="ov-section-title">
+          <div className="ov-section-title">
             <Link className="chartBox-Title" to={`/medicine_overview/${patID}`}>
               <h2>Resumen Medicación</h2>
             </Link>
@@ -107,9 +117,9 @@ export default class PatientOverview extends React.Component {
                 <MyButtonPlain text={"Nuevo medicamento"} />
               </Link>
             </div>
-          </div> */}
+          </div>
 
-           {this.state.patientName === "" ? (
+          {this.state.patientName === "" ? (
             <p>LOADING !</p>
           ) : (
             <div className="events-info-box">
@@ -121,7 +131,11 @@ export default class PatientOverview extends React.Component {
           )} 
         </div>
 
+        </div>
+      */}
       </div>
+    
+    </div>
       
     );
   }

@@ -98,6 +98,60 @@ export default class DataService {
   };
 
 
+  static getPatientInfoALT(userID) {
+    return new Promise((resolve, reject) => {
+      firebase
+      .firestore()
+      .collection("users")
+      .doc(userID)
+      .collection("patients")
+      .get()
+
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          console.log(doc.id, " => ", doc.data());
+          let patInfo = {patID: doc.id, patData: doc.data()}
+          resolve(patInfo)
+        })
+      })
+      .catch(error => {
+        var errorCode = error.code;
+        console.log("patient could not be added: ", errorCode);
+      })
+    })   
+
+  };
+
+  // Para solicitar la info desde PatOverview
+  static getPatientInfoALT2(userID, patID) {
+    return new Promise((resolve, reject) => {
+      firebase
+      .firestore()
+      .collection("users")
+      .doc(userID)
+      .collection("patients")
+      .doc(patID)
+      .get()
+
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          console.log(doc.id, " => ", doc.data());
+          let patInfo = {patID: doc.id, patData: doc.data()}
+          resolve(patInfo)
+        })
+      })
+      .catch(error => {
+        var errorCode = error.code;
+        console.log("patient could not be added: ", errorCode);
+      })
+    })   
+
+  };
+
+  
+
+
+
   // static newPatient(patientInfo) {
   //   return new Promise((resolve, reject) => {
   //     firebase

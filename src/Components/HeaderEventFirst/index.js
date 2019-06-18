@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import * as firebase from 'firebase';
 
 // SERVICE API
-import DataService from '../services/DataService';
+import DataService from '../../services/DataService';
 
 
 import '../HeaderGral/index.css';
