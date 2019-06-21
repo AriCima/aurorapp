@@ -84,13 +84,12 @@ export default class MedicineInput extends React.Component {
                 allMeds = [...genericMeds]
             };
 
-            console.log('allMeds = ', allMeds)
+            // console.log('allMeds = ', allMeds)
             let indexM  = allMeds.length;
-
             let medsLabels = [];  // array witn only meds labels to verify if the input med already exists
 
             for (let i = 0; i < indexM; i++){
-                console.log('allMeds[',i,'].label', allMeds[i].label)
+                // console.log('allMeds[',i,'].label', allMeds[i].label)
                 medsLabels.push((allMeds[i].label).toUpperCase());
             };
 
@@ -124,10 +123,10 @@ export default class MedicineInput extends React.Component {
         console.log('handle change launched')
         console.log('event', event.target.value)
         this.setState({doseUnits: event.target.value});
-    }
+    };
 
     onNewMedicine(e){
-
+        const {patID, userID } = this.props;
         let drugExists = this.state.medsLabels.indexOf(this.state.drugName);
         
         e.preventDefault();  
@@ -136,23 +135,38 @@ export default class MedicineInput extends React.Component {
         let newDate       = this.state.date;
         let units         = this.state.doseUnits;
         let newHourlyDose = [...this.state.dailyDoses];
-
         let totalDayDose = 0;
 
         for (let i = 0; i <= 23; i++){
-          totalDayDose = totalDayDose + +newHourlyDose[i];  // e´+ convierte a Number
+          totalDayDose = totalDayDose + +newHourlyDose[i];  // el "+var" convierte a var en Number
         };
 
-        let newMedInfo = {patientId: this.state.patientId, drugName: newDrugName.toUpperCase(), date: newDate, hourlyDose: newHourlyDose, dailyDose: totalDayDose, drugUnits: units}
+        let newMedInfo = {
+            drugName: newDrugName.toUpperCase(), 
+            date: newDate, 
+            hourlyDose: newHourlyDose, 
+            dailyDose: totalDayDose, 
+            drugUnits: units
+        }
        
-        DataService.newMedicine(newMedInfo)
+        // DataService.newMedicine(newMedInfo)
+        // .then(res =>{
+        //     console.log(res.id, ' medicine succesfully registered ! ! !');
+        //     this.props.propsFn.push(`/patient/${this.state.patientId}`)
+        // })
+        // .catch(function (error) {    
+        //     console.log(error);
+        // });
+
+        
+        DataService.newMedicineALT(userID, patID, newMedInfo)
         .then(res =>{
             console.log(res.id, ' medicine succesfully registered ! ! !');
-            this.props.propsFn.push(`/patient/${this.state.patientId}`)
+            this.props.propsFn.push(`/patient-overview/`)
         })
         .catch(function (error) {    
             console.log(error);
-        }) ;
+        });
     };
 
   
@@ -178,13 +192,7 @@ export default class MedicineInput extends React.Component {
                                 size="150"
                                 type="date"
                                 value={this.state.date}
-                                // onChange={(e)=>{this.onChangeState('date', e.target.value)}}
-                                onChange={e =>
-                                    this.handleSelection({
-                                      field: "date",
-                                      value: this.state.date
-                                    })
-                                }
+                                onChange={(e)=>{this.onChangeState('date', e.target.value)}}
                             /> 
                         </label>
 
@@ -195,14 +203,8 @@ export default class MedicineInput extends React.Component {
                                     field={'drugName'} 
                                     fn={this.handleSelection}
                                 />
-                            {/* <input id="med-input"
-                                size="150"
-                                type="text"
-                                value={this.state.drugName}
-                                onChange={(e)=>{this.onChangeState('drugName', e.target.value)}}
-                            />  */}
-                        </label>
 
+                        </label>
 
                         <label className="med-label-info">
                             <p>Dosis</p>
@@ -211,30 +213,17 @@ export default class MedicineInput extends React.Component {
                                 type="text"
                                 value={this.state.drugDose}
                                 onChange={(e)=>{this.onChangeState('drugDose', e.target.value)}}
-                                // onChange={e =>
-                                //     this.handleSelection({
-                                //       field: "drugDose",
-                                //       value: this.state.drugDose
-                                //     })
-                                // }
                             /> 
                         </label>
                    
-
                         <label className="med-label-short">
                             <p>Unidades</p>
 
                             <SelectCreate 
                                 options={units} 
+                                field={'doseUnits'}
                                 fn={this.handleSelection}
                             />
-
-                            {/* <select id="med-select-input" 
-                                value={this.state.doseUnits} 
-                                onChange={this.handleChangeSelect}>
-                                <option value="mg">mg</option>
-                                <option value="ml">ml</option>
-                            </select> */}
                         </label>
 
                     </div>

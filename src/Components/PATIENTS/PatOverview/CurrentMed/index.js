@@ -112,7 +112,7 @@ export default class CurrentMed extends React.Component {
   render() {
 
     console.log('props en el cMed = ', this.props)
-    const {patID} = this.props;
+    const {patID, userID} = this.props;
     return (
 
 
@@ -127,7 +127,7 @@ export default class CurrentMed extends React.Component {
           <div className="med-add-button">
             <div>
               <Link to={`/medicine-input/${patID}`}>
-                <AddButtonCool text={"Nuevo Medicamento"} patID={patID}/>
+                <AddButtonCool text={"Nuevo Medicamento"} userID={userID} patID={patID}/>
               </Link>
             </div>
           </div>

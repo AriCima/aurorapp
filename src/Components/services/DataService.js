@@ -23,8 +23,7 @@ export default class DataService {
           console.log("User NOT added: ", errorCode);
         });
     });
-  }
-
+  };
   static getUserInfo(userId) {
     //console.log('el userID recibido es = ', userId);
     return new Promise((resolve, reject) => {
@@ -42,7 +41,7 @@ export default class DataService {
           reject("Usuario no existe");
         });
     });
-  }
+  };
   static getUserPatients(userId) {
     return new Promise((resolve, reject) => {
       firebase
@@ -70,10 +69,9 @@ export default class DataService {
           reject("Usuario no existe");
         });
     });
-  }
+  };
 
   // * * * * * * * * * PATIENT * * * * * * * * *
-
   static newPatientALT(userID, newPatientInfo) {
     return new Promise((resolve, reject) => {
       firebase
@@ -96,8 +94,6 @@ export default class DataService {
         });
     });
   };
-
-
   static getPatientInfoALT(userID) {
     return new Promise((resolve, reject) => {
       firebase
@@ -109,7 +105,7 @@ export default class DataService {
 
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-          console.log(doc.id, " => ", doc.data());
+          // console.log(doc.id, " => ", doc.data());
           let patInfo = {patID: doc.id, patData: doc.data()}
           resolve(patInfo)
         })
@@ -121,10 +117,9 @@ export default class DataService {
     })   
 
   };
-
   // Para solicitar la info desde PatOverview
   static getPatientInfoALT2(userID) {
-    console.log('user en el getP2 :', userID)
+    // console.log('user en el getP2 :', userID)
     return new Promise((resolve, reject) => {
       firebase
       .firestore()
@@ -135,7 +130,7 @@ export default class DataService {
 
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-          console.log(doc.id, " => ", doc.data());
+          // console.log(doc.id, " => ", doc.data());
           let patInfo = {patID: doc.id, patData: doc.data()}
           resolve(patInfo)
         })
@@ -147,10 +142,6 @@ export default class DataService {
     })   
 
   };
-
-  
-
-
 
   // static newPatient(patientInfo) {
   //   return new Promise((resolve, reject) => {
@@ -174,8 +165,6 @@ export default class DataService {
   //       });
   //   });
   // };
-
-
   static newPatientOwnType(ownType) {
     return new Promise((resolve, reject) => {
       firebase
@@ -282,8 +271,6 @@ export default class DataService {
 
   //  * * * * * * * * * * * * * * * EVENTS * * * * * * * * * * * * * * *
 
-  
-
 
   static newEvent(stateInfo) {
     console.log("info del estado a guardar = ", stateInfo);
@@ -304,7 +291,6 @@ export default class DataService {
         });
     });
   };
-
   static newEventSub(stateInfo,patID) {
     console.log("info del estado a guardar = ", stateInfo);
     return new Promise((resolve, reject) => {
@@ -324,8 +310,6 @@ export default class DataService {
         });
     });
   };
-
-
   static getPatientsEvents(patID) {
     return new Promise((resolve, reject) => {
       firebase
@@ -449,7 +433,6 @@ export default class DataService {
         });
     });
   };
-
   static getEventOwnType(patID) {
     return new Promise((resolve, reject) => {
       firebase
@@ -466,7 +449,6 @@ export default class DataService {
         .catch(error => {});
     });
   };
-
   static addDetonation(newDeto) {
     return new Promise((resolve, reject) => {
       firebase
@@ -541,11 +523,35 @@ export default class DataService {
 
   // * * * * * * * * * * * * * * * MEDICINES * * * * * * * * * * * * * * *
 
-  static newMedicine(medInfo) {
+  // static newMedicine(medInfo) {
+  //   return new Promise((resolve, reject) => {
+  //     firebase
+  //       .firestore()
+  //       .collection("medicines")
+  //       .add(medInfo)
+
+  //       .then(result => {
+  //         console.log(`${result.id} Med succesfully registered !`);
+  //         resolve(result);
+  //       })
+
+  //       .catch(error => {
+  //         var errorCode = error.code;
+  //         console.log("patient could not be added: ", errorCode);
+  //       });
+  //   });
+  // };
+
+  static newMedicineALT(userID, patID, medInfo) {
+    console.log('newMedALT launched con ', userID, patID, medInfo)
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
-        .collection("medicines")
+        .collection("users")
+        .doc(userID)
+        .collection('patients')
+        .doc(patID)
+        .collection('medicines')
         .add(medInfo)
 
         .then(result => {
@@ -558,7 +564,8 @@ export default class DataService {
           console.log("patient could not be added: ", errorCode);
         });
     });
-  }
+  };
+
   static getPatientsMeds(patID) {
     // console.log('getPatMeds laucnhed with ', patID)
     return new Promise((resolve, reject) => {
