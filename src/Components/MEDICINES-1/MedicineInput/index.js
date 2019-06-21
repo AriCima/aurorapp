@@ -149,16 +149,6 @@ export default class MedicineInput extends React.Component {
             drugUnits: units
         }
        
-        // DataService.newMedicine(newMedInfo)
-        // .then(res =>{
-        //     console.log(res.id, ' medicine succesfully registered ! ! !');
-        //     this.props.propsFn.push(`/patient/${this.state.patientId}`)
-        // })
-        // .catch(function (error) {    
-        //     console.log(error);
-        // });
-
-        
         DataService.newMedicineALT(userID, patID, newMedInfo)
         .then(res =>{
             console.log(res.id, ' medicine succesfully registered ! ! !');

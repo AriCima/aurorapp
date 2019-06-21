@@ -45,7 +45,7 @@ export default class PatientOverview extends Component {
   render() {
 
     // console.log('props en el PatOverview = ', this.props)
-    const {patInfo, patID} = this.props;
+    const {patInfo, patID, userID } = this.props;
 
     return (
 
@@ -58,7 +58,7 @@ export default class PatientOverview extends Component {
       <div className="patOv-body">
 
         <div className="patOv-section">
-          <CurrentMed patID={patID} patInfo={patInfo}/>
+          <CurrentMed userID={userID} patID={patID} patInfo={patInfo}/>
         </div>
 
         <div className="patOv-section">

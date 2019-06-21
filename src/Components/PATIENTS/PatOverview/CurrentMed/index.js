@@ -81,7 +81,14 @@ export default class CurrentMed extends React.Component {
   //   });
   // };
     
-
+ componentDidMount(){
+   const {userID, patID } = this.props;
+   console.log('current med userID, patID = ', userID, ' / ', patID)
+   DataService.getPatMeds(userID, patID)
+   .then(result => {
+    console.log('el result en CurrenMed = ', result)
+   })
+ }
   
 
   _renderMedicineCurrentDose(){

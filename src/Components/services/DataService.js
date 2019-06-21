@@ -523,25 +523,6 @@ export default class DataService {
 
   // * * * * * * * * * * * * * * * MEDICINES * * * * * * * * * * * * * * *
 
-  // static newMedicine(medInfo) {
-  //   return new Promise((resolve, reject) => {
-  //     firebase
-  //       .firestore()
-  //       .collection("medicines")
-  //       .add(medInfo)
-
-  //       .then(result => {
-  //         console.log(`${result.id} Med succesfully registered !`);
-  //         resolve(result);
-  //       })
-
-  //       .catch(error => {
-  //         var errorCode = error.code;
-  //         console.log("patient could not be added: ", errorCode);
-  //       });
-  //   });
-  // };
-
   static newMedicineALT(userID, patID, medInfo) {
     console.log('newMedALT launched con ', userID, patID, medInfo)
     return new Promise((resolve, reject) => {
@@ -612,6 +593,35 @@ export default class DataService {
     });
   }
 
+  static getPatMeds(userID, patID){
+    return new Promise((resolve, reject) => {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(userID)
+        .collection('patients')
+        .doc(patID)
+        .collection('medicines')
+        .orderBy("drugName").orderBy("date", "desc")
+        .get()
+        .then(result => {
+            let meds = [];
+            result.docs.forEach(d => {
+            let j = d.data();
+            j.id = d.id;
+            meds.push(j);
+          });
+            resolve(meds);
+        })
+        .catch(error => {
+          console.log("error: ", error);
+        });
+    });
+  };
+
+        
+
+  
   // * * * * * * * * * * * * * * * WEIGHTS * * * * * * * * * * * * * * *
 
 
