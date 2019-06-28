@@ -33,6 +33,22 @@
     align-items: center;
 }
 
+.pat-ov-upper{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.patOv-upper-section{
+    width: 50%;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .patOv-section{
     width: 100%;
     margin-top: 0px;

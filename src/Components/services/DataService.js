@@ -42,12 +42,13 @@ export default class DataService {
         });
     });
   };
-  static getUserPatients(userId) {
+  static getUserPatients(userID) {
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
-        .collection("patients")
-        .where(`adminId`, `==`, userId)
+        .collection("users")
+        .doc(userID)
+        .collection('patients')
         .get()
 
         .then(result => {
@@ -60,11 +61,7 @@ export default class DataService {
 
           resolve(pats);
         })
-        // .then((result) => {
-        //     //console.log('el result del getuser Info = ', result.data())
-        //     resolve(result.data());
-        //     console.log('result.data() en el get user patients', result.data()) // OBTENGO TODO LO QUE TENGO ALMACENADO DE ÉSTE USUARIO
-        // })
+
         .catch(error => {
           reject("Usuario no existe");
         });

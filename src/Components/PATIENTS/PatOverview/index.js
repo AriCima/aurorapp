@@ -1,51 +1,96 @@
 import React, { Component } from "react";
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 // SERVICES
-// import DataService from '../../services/DataService';
+import DataService from '../../services/DataService';
 
 // Components
 import HeaderGral from '../../HEADERS/HeaderGral';
 import EventsList from './EventsList';
-import CurrentMed from "./CurrentMed";
+import CurrentMed from './CurrentMed';
+import PatSummary from './PatSummary';
 
 // CSS
 import "./index.css";
+import Calculations from "../../services/Calculations";
 
 export default class PatientOverview extends Component {
-  // constructor(props) {
-  //   super(props);
+  constructor(props) {
+    super(props);
 
-  //   this.state = {
-  //     patID: '',
-  //     patName: '',
-  //     patSurname:'',
-  //     patWeight: {},
-  //   };
-  // };
+    this.state = {
+      patID: '',
+      name: '',
+      surname:'',
+      cWeight: null,
+      patients: []
+    };
+  };
   
 
-  // componentDidMount(){
-  //   console.log('patID / userIDen el patOVerview = ', this.props.userID, ' / ', this.props.patID)
-  //   DataService.getPatientInfoALT2(this.props.userID, this.props.patID)
-  //     .then(result => {
+  componentDidMount(){
+    DataService.getUserPatients(this.props.userID)
+    .then(result => {
+      console.log('patients recibidos en overview', result)
+      this.setState({
+        patients: result      
+      })
+    })
+    .catch(error => {
+    var errorCode = error.code;
+    console.log("patients could not be loaded: ", errorCode);
+  })
 
-  //       this.setState({
-  //         patID: result.id,
-  //         patName: result.patData.patientName,
-  //         patSurname: result.patData.patientSurname,
-  //       })
-  //     })
-  //     .catch(error => {
-  //     var errorCode = error.code;
-  //     console.log("patient could not be loaded: ", errorCode);
+    DataService.getPatientInfoALT2(this.props.userID, this.props.patID)
+      .then(result => {
+
+        this.setState({
+          patID: result.id,
+          name: result.patData.patientName,
+          surname: result.patData.patientSurname,
+        })
+      })
+      .catch(error => {
+      var errorCode = error.code;
+      console.log("patient could not be loaded: ", errorCode);
+    })
+
+    
+  //  DataService.getPatWeights(userID, patID)
+  //  .then(result => {
+  //    console.log('result del W =', result)
+  //   let currentWeight = result[0].weight;
+
+  //   this.setState({
+  //     cWeight: currentWeight
   //   })
-  // }
+  //  })
+  }
+
+  _renderPatients(){
+    let pats = this.state.patients;
+    // console.log('this.state.currentWeight',this.state.currentWeight )
+    return pats.map((p,j) => {
+      // console.log('medicines = ',this.state.currentMedicines )
+      return (
+        
+        <Link className="pat-block" key={j} to={`/patient-overview/${p.id}`}> 
+        
+          <div className="med-info-block">
+            <p>{p.patientName}</p>
+          </div>
+        </Link>
+      )
+    })
+  } 
 
   render() {
 
-    // console.log('props en el PatOverview = ', this.props)
+    // console.log('patInfo en el PatOverview = ', this.props.patInfo)
     const {patInfo, patID, userID } = this.props;
+    const { patients, name, surname, cWeight } = this.state;
+    const age = Calculations.getAge(patInfo.birthDate);
+    const patL = patients.length;
 
     return (
 
@@ -57,8 +102,23 @@ export default class PatientOverview extends Component {
 
       <div className="patOv-body">
 
-        <div className="patOv-section">
-          <CurrentMed userID={userID} patID={patID} patInfo={patInfo}/>
+        {patL > 1 &&  
+        <div className="patients-list">
+
+        </div>
+      
+        }
+
+        <div className="pat-ov-upper">
+
+        <div className="patOv-upper-section">
+            <PatSummary cWeight={cWeight} name={name} surname={surname} age={age} userID={userID} patID={patID}/>
+          </div>
+
+          <div className="patOv-upper-section">
+            <CurrentMed userID={userID} patID={patID} patInfo={patInfo}/>
+          </div>
+
         </div>
 
         <div className="patOv-section">

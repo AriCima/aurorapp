@@ -64,6 +64,7 @@ class Login extends Component {
                     //    console.log('el result = ', result)
                     patID = result.patID;
                     // console.log('patID1 = ', patID)
+                    
                     this.setState({patInfo: result})
                     // console.log('patInfo = ', this.state.patInfo);
                    this.props.propsFn.push(`/patient-overview`) 
