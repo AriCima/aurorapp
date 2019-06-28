@@ -668,25 +668,30 @@ export default class DataService {
         });
     });
   }
-  static getPatientsWeights(patID) {
+
+  static getPatWeights(userID, patID){
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
-        .collection("weight")
-        .where("patientId", "==", patID)
+        .collection("users")
+        .doc(userID)
+        .collection('patients')
+        .doc(patID)
+        .collection('weight')
+        .orderBy("date", "desc")
         .get()
         .then(result => {
-          let weights = [];
-          result.docs.forEach(d => {
+            let wts = [];
+            result.docs.forEach(d => {
             let j = d.data();
             j.id = d.id;
-            weights.push(j);
+            wts.push(j);
           });
-          resolve(weights);
+            resolve(wts);
         })
         .catch(error => {
           console.log("error: ", error);
         });
     });
-  }
-}
+  };
+};

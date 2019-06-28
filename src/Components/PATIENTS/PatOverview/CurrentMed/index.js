@@ -24,92 +24,55 @@ export default class CurrentMed extends React.Component {
     super(props);
 
     this.state = {
-      user              : this.props.userID,
-      patientId         : this.props.patID,
-      medsArray         : [],
-      currentWeight     : '',
-    }
-  }
+      user       : this.props.userID,
+      patientId  : this.props.patID,
+      cMeds      : [],
+      cWeight    : null,
+    };
+  };
  
-  // componentDidMount(){
-
-  //   DataService.getPatientsMeds(this.props.patID)
-  //   .then(res => {
-     
-  //     let meds      = res;
-  //     let mL        = meds.length;
-  //     let onlyNames = [];
-  //     let medNames  = [];
-
-  //     for( let i = 0; i < mL; i++){
-  //       if (onlyNames.indexOf(meds[i].drugName) < 0){
-  //         onlyNames.push(meds[i].drugName);
-  //         let newMed    = {drugName: meds[i].drugName, allDoses: []};
-  //         // console.log('newMed', newMed)
-  //         medNames.push(newMed);
-  //       }
-  //     }
-
-  //     let medicines = Calculations.getSortedMedicines(medNames, meds);
-  //     // medicines = [drugName: name, allDoses: [{}, {} . . {}] allDoses sorted descendently (curren dose = position  0)
-      
-
-  //     this.setState({
-  //       medsArray  : medicines,
-  //     })
-       
-  //   })
-  //   .catch(function (error) {    
-  //     console.log(error);
-  //   });
-
-  //   DataService.getPatientsWeights(this.props.patID)
-  //   .then(weights => {
-
-  //     let wSorted = Calculations.sortByDateAsc(weights);
-  //     let wL = wSorted.length;
-
-  //     let cWeight = wSorted[wL-1].weight;
-
-  //     this.setState({
-  //       currentWeight : cWeight
-  //     })
-
-  //   })
-  //   .catch(function (error) {    
-  //     console.log(error);
-  //   });
-  // };
-    
  componentDidMount(){
    const {userID, patID } = this.props;
-   console.log('current med userID, patID = ', userID, ' / ', patID)
    DataService.getPatMeds(userID, patID)
    .then(result => {
-    console.log('el result en CurrenMed = ', result)
+    let currentMeds = Calculations.getCurrentMeds(result);
+    this.setState({
+      cMeds: currentMeds
+    })
    })
- }
+   DataService.getPatWeights(userID, patID)
+   .then(result => {
+     console.log('result del W =', result)
+    let currentWeight = result[0].weight;
+
+    this.setState({
+      cWeight: currentWeight
+    })
+   })
+ };
   
 
   _renderMedicineCurrentDose(){
-    
+    let meds = this.state.cMeds;
+    let w = this.state.cWeight;
+
     // console.log('this.state.currentWeight',this.state.currentWeight )
-    return this.state.medsArray.map((meds,j) => {
+    return meds.map((m,j) => {
       // console.log('medicines = ',this.state.currentMedicines )
       return (
         
         <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
         
           <div className="med-info-block">
-            <p>{meds.drugName}</p>
+            <p>{m.drugName}</p>
           </div>
 
           <div className="med-info-block">
-            <p>{meds.allDoses[0].dailyDose} <span>[{meds.allDoses[0].drugUnits}]</span></p> 
+            <p>{m.dailyDose} <span>[{m.drugUnits}]</span></p> 
           </div>
 
           <div className="med-info-block">
-            <p>{Number.parseFloat((Number(meds.allDoses[0].dailyDose)/ Number(this.state.currentWeight))).toFixed(1)} <span>[{meds.drugUnits}/Kg]</span></p> 
+            <p>{Number.parseFloat((Number(m.dailyDose)/ Number(w))).toFixed(1)} <span>[{m.drugUnits}/Kg]</span></p> 
           </div>
         </Link>
       )
@@ -118,7 +81,6 @@ export default class CurrentMed extends React.Component {
 
   render() {
 
-    console.log('props en el cMed = ', this.props)
     const {patID, userID} = this.props;
     return (
 

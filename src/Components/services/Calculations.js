@@ -140,72 +140,6 @@ export default class Calculations {
 
         return x.sort(compare)
     };
-    static sortByEventDate(x){
-
-        function compare(a,b){
-            const drugA = a.eventDate;
-            const drugB = b.eventDate;
-        
-            let comparison = 0;
-            if (drugA < drugB) {
-            comparison = -1;
-            } else if (drugA > drugB) {
-            comparison = 1;
-            }
-            return comparison;
-        }
-
-        return x.sort(compare)
-    };
-    static sortMedicinesDate(x){
-        function orderMedicines(a, b) {
-        
-            const drugA = a.date;
-            const drugB = b.date;
-          
-            let comparison = 0;
-            if (drugA < drugB) {
-              comparison = -1;
-            } else if (drugA > drugB) {
-              comparison = 1;
-            }
-            return comparison;
-        };
-
-        return x.sort(orderMedicines)
-    };
-    static sortMedicinesAlpha(x){
-        function compareName(a, b) {
-        
-            const drugA = a.drugName;
-            const drugB = b.drugName;
-          
-            let comparison = 0;
-            if (drugA > drugB) {
-              comparison = -1;
-            } else if (drugA < drugB) {
-              comparison = 1;
-            }
-            return comparison;
-        };
-        return x.sort(compareName)
-    };
-    static sortReadingsByDate(x){
-        function orderReadings(a, b) {
-        
-            const readingA = a.readingDate;
-            const readingB = b.readingDate;
-          
-            let comparison = 0;
-            if (readingA > readingB) {
-              comparison = 1;
-            } else if (readingA < readingB) {
-              comparison = -1;
-            }
-            return comparison;
-        };
-        return x.sort(orderReadings)
-    };
 
     // * * * * * * * * CODE GENERATION * * * * * * * *
     static generateCode(){
@@ -239,34 +173,67 @@ export default class Calculations {
 
     // * * * * * * * * MEDICINES * * * * * * * * 
 
-    static  getSortedMedicines (medNames, meds){
-        // medNames = {drugName: name, allDoses: []}
-        let mNL       = medNames.length;
-        let mL        = meds.length;
+    // static  getSortedMedicines (medNames, meds){
+    //     // medNames = {drugName: name, allDoses: []}
+    //     let mNL       = medNames.length;
+    //     let mL        = meds.length;
            
-        for (let j = 0; j < mNL; j++){  // itero entre medNames
-            let name   = medNames[j].drugName;
-            let xDose  = '';
-            let hDose  = [];
-            let date   = '';
-            let unit   = 'mg';
-            for (let k = 0; k < mL; k++){  // itero entre el meds 
-                if (name === meds[k].drugName){
-                    xDose   = meds[k].dailyDose;
-                    hDose   = meds[k].hourlyDose;
-                    date    = meds[k].date;
-                    unit    = meds[k].drugUnits;
+    //     for (let j = 0; j < mNL; j++){  // itero entre medNames
+    //         let name   = medNames[j].drugName;
+    //         let xDose  = '';
+    //         let hDose  = [];
+    //         let date   = '';
+    //         let unit   = 'mg';
+    //         for (let k = 0; k < mL; k++){  // itero entre el meds 
+    //             if (name === meds[k].drugName){
+    //                 xDose   = meds[k].dailyDose;
+    //                 hDose   = meds[k].hourlyDose;
+    //                 date    = meds[k].date;
+    //                 unit    = meds[k].drugUnits;
 
-                    let doseToAdd = {date: date, hourlyDose: hDose, dailyDose : xDose, drugUnits: unit};
-                    medNames[j].allDoses.push(doseToAdd)
-                }
-            }
+    //                 let doseToAdd = {date: date, hourlyDose: hDose, dailyDose : xDose, drugUnits: unit};
+    //                 medNames[j].allDoses.push(doseToAdd)
+    //             }
+    //         }
 
-            let sortedDoses = this.sortByDateDesc(medNames[j].allDoses)
-            medNames[j].allDoses = sortedDoses;
+    //         let sortedDoses = this.sortByDateDesc(medNames[j].allDoses)
+    //         medNames[j].allDoses = sortedDoses;
             
-        }
+    //     }
         
-        return medNames
-    }
+    //     return medNames
+    // }
+
+    static getCurrentMeds(array){
+        // ARRAY IS ORDERED BY DRUGNAME (ascending)AND BY DATE (descending)
+        let aL = array.length;
+        let result = []
+        
+        result.push(array[0]);
+
+        for (let i = 1; i <aL; i++){
+            let prevDrugName = array[i-1].drugName;
+            let drugName = array[i].drugName
+            if(prevDrugName !== drugName){
+                result.push(array[i]);
+            } else {
+                continue;
+            };
+        };
+
+        return result;
+    };
+
+
+    // * * * * * * * * WEIGHT * * * * * * * * 
+
+    static getCurrentWeight(array){
+        // ARRAY IS ORDERED BY DATE (descending)
+        let result = []
+        result.push(array[0]);
+
+        return result;
+    };
+
 }
+
