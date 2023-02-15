@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 // SERVICES
@@ -14,64 +14,76 @@ import PatSummary from './PatSummary';
 import "./index.css";
 import Calculations from "../../services/Calculations";
 
-export default class PatientOverview extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      patID: '',
-      name: '',
-      surname:'',
-      cWeight: null,
-      patients: []
-    };
-  };
+const PatientOverview = (userID, patID, patInfo) => {  
+  const [patients, setPatients] = useState([]);
+  const [patientName, setPatientName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [cWeight, setCWeight] = useState('');
   
-
-  componentDidMount(){
-    DataService.getUserPatients(this.props.userID)
-    .then(result => {
-      console.log('patients recibidos en overview', result)
-      this.setState({
-        patients: result      
-      })
-    })
-    .catch(error => {
-    var errorCode = error.code;
-    console.log("patients could not be loaded: ", errorCode);
-  })
-
-    DataService.getPatientInfoALT2(this.props.userID, this.props.patID)
+  useEffect(() => {
+    if(userID){
+      DataService.getUserPatients(userID)
       .then(result => {
-
-        this.setState({
-          patID: result.id,
-          name: result.patData.patientName,
-          surname: result.patData.patientSurname,
-        })
+        console.log('patients recibidos en overview', result)
+        setPatients(result)
       })
       .catch(error => {
       var errorCode = error.code;
-      console.log("patient could not be loaded: ", errorCode);
-    })
+      console.log("patients could not be loaded: ", errorCode);
+      })
 
-    
-  //  DataService.getPatWeights(userID, patID)
-  //  .then(result => {
-  //    console.log('result del W =', result)
-  //   let currentWeight = result[0].weight;
+      if (patID) {
+        DataService.getPatientInfoALT2(userID, patID)
+        .then(result => {
+          setPatientName(result.patData.patientName)
+          setSurname(result.patData.patientSurname)
+        })
+        .catch(error => {
+        var errorCode = error.code;
+        console.log("patient could not be loaded: ", errorCode);
+        })
 
-  //   this.setState({
-  //     cWeight: currentWeight
-  //   })
-  //  })
+        DataService.getPatWeights(userID, patID)
+        .then(result => {
+          console.log('result del W =', result)
+          const cw = result[0].weight;
+          setCWeight(cw)
+        })
+    };
   }
+  },[userID, patID])
 
-  _renderPatients(){
-    let pats = this.state.patients;
-    // console.log('this.state.currentWeight',this.state.currentWeight )
-    return pats.map((p,j) => {
-      // console.log('medicines = ',this.state.currentMedicines )
+  // componentDidMount(){
+  //   console.log('userID MOUNTING: ', this.props.userID);
+  //   DataService.getUserPatients(this.props.userID)
+  //   .then(result => {
+  //     console.log('patients recibidos en overview', result)
+  //     this.setState({
+  //       patients: result      
+  //     })
+  //   })
+  //   .catch(error => {
+  //   var errorCode = error.code;
+  //   console.log("patients could not be loaded: ", errorCode);
+  // })
+
+  //   DataService.getPatientInfoALT2(this.props.userID, this.props.patID)
+  //     .then(result => {
+
+  //       this.setState({
+  //         patID: result.id,
+  //         name: result.patData.patientName,
+  //         surname: result.patData.patientSurname,
+  //       })
+  //     })
+  //     .catch(error => {
+  //     var errorCode = error.code;
+  //     console.log("patient could not be loaded: ", errorCode);
+  //   })
+  //  };
+
+  const renderPatients = () => {
+    return patients.map((p,j) => {
       return (
         
         <Link className="pat-block" key={j} to={`/patient-overview/${p.id}`}> 
@@ -84,15 +96,11 @@ export default class PatientOverview extends Component {
     })
   } 
 
-  render() {
 
-    // console.log('patInfo en el PatOverview = ', this.props.patInfo)
-    const {patInfo, patID, userID } = this.props;
-    const { patients, name, surname, cWeight } = this.state;
-    const age = Calculations.getAge(patInfo.birthDate);
-    const patL = patients.length;
+  // const age = Calculations.getAge(patInfo.birthDate);
+  const patL = patients.length;
+  return (
 
-    return (
 
     <div className="patient-overview">
 
@@ -104,7 +112,7 @@ export default class PatientOverview extends Component {
 
         {patL > 1 &&  
         <div className="patients-list">
-
+          {renderPatients()}
         </div>
       
         }
@@ -112,17 +120,23 @@ export default class PatientOverview extends Component {
         <div className="pat-ov-upper">
 
         <div className="patOv-upper-section">
-            <PatSummary cWeight={cWeight} name={name} surname={surname} age={age} userID={userID} patID={patID}/>
+          PAT PatSummary
+          {cWeight}
+          {patientName}
+          {surname}
+          {userID}
+          {patID}
+            {/* <PatSummary cWeight={cWeight} name={name} surname={surname} age={'4'} userID={userID} patID={patID}/> */}
           </div>
 
           <div className="patOv-upper-section">
-            <CurrentMed userID={userID} patID={patID} patInfo={patInfo}/>
+            {/* <CurrentMed userID={userID} patID={patID} patInfo={patInfo}/> */}
           </div>
 
         </div>
 
         <div className="patOv-section">
-          <EventsList patID={patID} patInfo={patInfo}/>
+          {/* <EventsList patID={patID} patInfo={patInfo}/> */}
         </div>
         
       </div>
@@ -198,5 +212,7 @@ export default class PatientOverview extends Component {
     </div>
       
     );
-  }
+  
 }
+
+export default PatientOverview

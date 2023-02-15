@@ -95,9 +95,8 @@ export default class DataService {
     return new Promise((resolve, reject) => {
       firebase
       .firestore()
-      .collection("users")
-      .doc(userID)
       .collection("patients")
+      .where('adminId', "==", userID)
       .get()
 
       .then(function(querySnapshot) {

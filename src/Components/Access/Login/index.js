@@ -51,18 +51,22 @@ class Login extends Component {
         if(!error){
             this.setState({loginError: ''});
 
+            console.log('this.state.email, this.state.password: ', this.state.email, this.state.password);
             AuthService.login(this.state.email, this.state.password)
                 .then((result)=>{
+    
                     let patID = '';
                     // console.log('Result de Login', result)
                    //console.log('Result.user.uid de Login', result.user.uid)
                   let userID = result.user.uid;
+                  console.log('userID: ', userID);
                   //    this.setState({userId : result.user.uid});
                   //    console.log('this.state.userId en el Login = ', this.state.userId);
                    DataService.getPatientInfoALT(userID)
                    .then(result => {
                     //    console.log('el result = ', result)
                     patID = result.patID;
+                    console.log('patID: ', patID);
                     // console.log('patID1 = ', patID)
                     
                     this.setState({patInfo: result})

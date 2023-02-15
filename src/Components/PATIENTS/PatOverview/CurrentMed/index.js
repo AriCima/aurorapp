@@ -32,7 +32,9 @@ export default class CurrentMed extends React.Component {
   };
  
  componentDidMount(){
-   const {userID, patID } = this.props;
+   const {userID, patID } = this.state;
+   console.log('patID 1: ', patID);
+   console.log('userID 1: ', userID);
    DataService.getPatMeds(userID, patID)
    .then(result => {
     let currentMeds = Calculations.getCurrentMeds(result);
@@ -40,6 +42,8 @@ export default class CurrentMed extends React.Component {
       cMeds: currentMeds
     })
    })
+   console.log('patID 2: ', patID);
+   console.log('userID 2: ', userID);
    DataService.getPatWeights(userID, patID)
    .then(result => {
      console.log('result del W =', result)
@@ -64,7 +68,7 @@ export default class CurrentMed extends React.Component {
         <Link className="medicine-row" key={j} to={`/single_medicine_overview/${this.state.patientId}/${meds.drugName}`}> 
         
           <div className="med-info-block">
-            <p>{m.drugName}</p>
+            <p>{m.drugName && m.drugName}</p>
           </div>
 
           <div className="med-info-block">

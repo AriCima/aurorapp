@@ -73,11 +73,12 @@ class App extends Component {
 
 
   componentDidMount(){
+    
     console.log('CDM triggered, patInfo = ', this.props.patInfo)
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log()
+        console.log('user en App', user.uid)
         DataService.getUserInfo(user.uid)
         .then(result => {
 
@@ -86,8 +87,11 @@ class App extends Component {
           
           DataService.getPatientInfoALT(user.uid)
           .then(patient =>{
+            console.log('patient en APP: ', patient);
             let patInfo = patient.patData;
+            console.log('patInfo: ', patInfo);
             let patID = patient.patID;
+            console.log('patID: ', patID);
             this.setState({
               patInfo   : patInfo,
               patID     : patID,
@@ -127,6 +131,10 @@ class App extends Component {
 
   render() {
     const { patInfo , patID, userID} = this.state;
+    console.log('RENDER:')
+    console.log('userID: ', userID);
+    console.log('patID: ', patID);
+    console.log('patInfo: ', patInfo);
     return (
       <div>
 

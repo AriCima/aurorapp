@@ -14,7 +14,7 @@ class HeaderGral extends Component {
 
     this.state = {
         userId          : '',
-        patientId       : this.props.patID,
+        patientId       : this.props.patInfo,
         patientName     : '',
         patientSurname  : '',
     }
